@@ -1,101 +1,180 @@
 # LLMAO - LLM as biAs Optimizer
 
-An experiment in discovering useful image representations through LLM-proposed
-hypotheses and deterministic local evaluation. The classifier and evaluator stay
-under local control. The frozen V1 experiment selects from named `BiasSpec`
-operators; the new V2 path proposes typed representation programs. Neither path
-executes generated code or gives the LLM access to fitness assignment.
+Can a language model help us discover how to represent a learning problem,
+and can we distinguish a useful representation from a convincing explanation?
 
-## Development setup
+LLMAO investigates that question through a sequence of controlled image
+classification studies. An LLM proposes hypotheses and bounded representation
+programs. A local system measures their predictive value, challenges their
+mechanisms, and tests their transfer. Each version addresses a limitation exposed
+by the previous one.
 
-Requires Python 3.14.
+## Motivation
 
-```sh
-python3.14 -m venv .venv
-source .venv/bin/activate
-python -m pip install -e '.[dev,plots]'
+Choosing a representation means choosing what a learner can easily notice:
+connectivity, where a stroke turns, how shape varies across regions, or which
+changes should preserve identity. These choices encode an inductive bias.
+
+An LLM can draw on descriptions of geometry and handwriting to suggest such
+choices. Yet selecting familiar features, composing primitives, discovering a
+transferable prior, and contributing a better search strategy are different
+achievements. A higher classification score alone cannot establish all of them.
+
+This project makes those distinctions explicit. The aim is to connect a proposed
+mechanism to a representation and an experiment that could contradict it.
+
+## Research question
+
+> Can LLM-guided program synthesis discover compact, relational, transferable
+> structural priors?
+
+Two follow-up questions sharpen the interpretation:
+
+- Under which learners, sample sizes, transformations, and domains are the
+  discovered representations useful?
+- How much value comes from LLM semantics and empirical feedback, compared with
+  other optimizers searching the same typed program space?
+
+## One research story, five stages
+
+### V1 — Can the LLM choose useful biases?
+
+The first experiment lets the LLM select and combine seven human-written feature
+operators while keeping the classifier fixed. A raw-pixel and stroke-direction
+composition improves over raw pixels, while HOG remains stronger.
+
+This establishes useful composition within a supplied menu. It also reveals the
+boundary of that approach: the LLM cannot express a representation outside the
+operators we have already designed. See the [V1 report](reports/FINAL_REPORT.md).
+
+### V2 — Can the LLM write representation programs?
+
+V2 replaces the feature menu with a typed expression language. Programs compose
+atomic operations over images, skeleton graphs, paths, sequences, and vectors.
+A discovery track excludes raw pixels; an augmentation track permits them.
+A quality-diversity archive preserves alternatives across the search space.
+
+This expands what the LLM can express, but the experiment exposes another
+limitation. The descriptor places many programs in the same `hybrid` niche,
+and successful finalists mostly summarize distributions. Sequence shuffling
+leaves their predictions unchanged. Strong Fashion-MNIST transfer also prevents
+a handwriting-specific interpretation. See the
+[V2 report](reports/V2_PROGRAM_SYNTHESIS.md).
+
+### V3 — Can the programs express useful relations?
+
+V3 describes programs along five behavioral axes: source, order, spatial scope,
+composition, and complexity. A small set of relational primitives makes spatial
+conditioning, joint distributions, and relative quantities expressible.
+Mechanism-balanced proposals help explore more than global histograms.
+
+The search finds compact spatial representations, including a program relating
+regional angle and centroid summaries. Targeted counterfactuals and spatial
+ablations support the importance of event location. The finalists still remain
+orderless, and their transfer is strongest on EMNIST Digits; KMNIST and
+Fashion-MNIST expose substantial limits. Evidence supports a useful digit-domain
+spatial prior, with the exact subtraction mechanism still unresolved. See the
+[V3 evidence report](reports/V3_EVIDENCE.md), with the
+[pilot](reports/V3_PILOT.md) and [search record](reports/V3_SEARCH.md).
+
+### V3.1 — What does a frozen bias actually contribute?
+
+V3.1 freezes the V3 finalists and evaluates them across representation, learner,
+training size, and domain. Dimension-matched HOG-PCA, learning curves,
+complementarity, nuisance controls, and robustness tests make the comparison
+more demanding.
+
+The representations beat simple zoning but trail HOG-PCA at the same width.
+They add predictive signal when combined with HOG under the fixed linear probe.
+Sensitivity to erosion and vertical translation, alongside uneven transfer,
+shows how specific their assumptions are. A bias therefore has an empirical
+profile tied to its learner and domain, rather than one universal quality score.
+See the [V3.1 evaluation report](reports/V3_1_BIAS_EVALUATION.md).
+
+### V3.2 — What did the LLM contribute to search?
+
+A useful program does not establish that an LLM was necessary to find it.
+V3.2 holds the typed program space, evaluator, shared seeds, and candidate budget
+fixed while comparing typed random search, genetic programming, one-shot LLM
+proposals, and iterative LLM search with feedback.
+
+The matched primary analysis uses two seeds per optimizer. Iterative LLM search
+finishes above one-shot proposals and slightly above genetic programming in
+those paired runs. Typed random search reaches the hard proposal cap before
+completing either run, so a full-budget random comparison is unavailable.
+A separate three-seed lexical-semantic ablation favors meaningful operator
+names over anonymized names; it isolates lexical cues only, and does not remove
+all pretrained knowledge.
+
+These observations support a bounded role for semantics and feedback in this
+search space. The small matched sample and censored runs limit broader claims
+about optimizer superiority or scientific discovery. See the
+[V3.2 optimizer study](reports/V3_2_OPTIMIZER_VALUE.md).
+
+## Conceptual architecture
+
+```mermaid
+flowchart TD
+    H[Hypothesis and mechanism] --> P[Typed representation proposal]
+    P --> V[Static validation and compilation]
+    V --> E[Local train and validation evaluator]
+    E --> A[Evidence and quality-diversity archive]
+    A --> H
+    A --> F[Freeze selected programs and provenance]
+    F --> C[Mechanism and nuisance interventions]
+    F --> T[Transfer and learner comparisons]
+    F --> B[Complementarity and robustness]
+    O[Matched optimizer alternatives] --> P
 ```
 
-Run the test suite with `python -m pytest`.
+The LLM supplies hypotheses and programs. The typed language limits execution
+to approved primitives, and the evaluator assigns every score. Invalid programs
+are rejected before evaluation. During discovery, train and validation evidence
+feeds the archive and subsequent proposals; external tests follow finalist
+freezing and do not feed back into candidate editing.
 
-## Reproduce the experiment
+V3.1 evaluates the frozen representations. V3.2 changes the proposal strategy
+under a shared search contract, then characterizes preselected winners after
+search. These boundaries keep representation quality, mechanism evidence, and
+optimizer value as separately answerable questions.
 
-The proposer uses the local Ollama model `qwen3.5:35b-mlx`. Start Ollama and
-install that model if it is not already available, then run the search and
-freeze its finalists before any test-set evaluation:
+The detailed design is in [ARCHITECTURE.md](ARCHITECTURE.md), with the original
+[V1 architecture](ARCHITECTURE_V1.md) retained. The historical
+[search plan](PLAN.md) and [V3.1 protocol](V3_1_PROTOCOL.md) document the study
+boundaries.
 
-```sh
-# If needed, install the local model first:
-ollama pull qwen3.5:35b-mlx
-export OLLAMA_MODEL=qwen3.5:35b-mlx
-python experiments/search_mnist.py --generations 10 --candidates-per-generation 8
-python experiments/select_finalists.py
-python experiments/final_evaluation.py
-python experiments/plot_results.py
-```
+## What we can reasonably conclude
 
-Final evaluation verifies that the search archive still matches the frozen
-selection checksum. Run it before extending the search. Generated JSON/JSONL,
-feature-cache, and PNG files are written under `results/` and `cache/`; Git
-ignores these local artifacts. The final analysis is in
-[`reports/FINAL_REPORT.md`](reports/FINAL_REPORT.md).
+The progression demonstrates that a bounded program language can turn LLM
+proposals into compact, inspectable representations with measurable predictive
+value. Spatial relationships matter for the selected digit tasks, and some
+representations provide signal complementary to a strong handcrafted baseline.
 
-## V2 typed program search
+The evidence also narrows the claim. Distributional summaries remain dominant;
+compactness does not imply superiority over equally compact controls; transfer
+is domain-dependent; and optimizer comparisons depend on completed budgets and
+replication. The experiments do not establish a universal handwriting prior,
+general LLM optimizer superiority, or autonomous scientific discovery.
 
-V2 adds a typed expression DSL, static validation, a raw-pixel-free discovery
-track, and a MAP-Elites archive. It keeps the V1 run as a separate baseline and
-uses the same fixed learner and train/validation split.
+The research contribution is this chain of increasingly discriminating
+questions and recorded evidence. Detailed scores, benchmark tables, protocols,
+and limitations live in the version reports.
 
-```sh
-export OLLAMA_MODEL=qwen3.5:35b-mlx
-python experiments/search_programs.py --track discovery
-python experiments/search_programs.py --track augmentation
-```
+## Preserved versions and reading guide
 
-The defaults evaluate 20 deterministic seed programs, then request 18 proposals
-for each of 10 generations, using batches of at most four ASTs and up to 36
-refill batches per generation. Discovery rejects raw pixels and caps the feature
-width at 128; augmentation allows raw pixels and uses a 1,024-feature cap. Each
-track has its own candidate and LLM-response JSONL archives. See
-[`PLAN.md`](PLAN.md) and [`ARCHITECTURE.md`](ARCHITECTURE.md) for the V2 scope
-and post-search evaluation protocol.
+`main` integrates the full sequence. Historical branches and commits retain the
+implementation at each stage; the version reports remain separate and unchanged.
 
-After both search tracks finish, freeze the raw-free discovery finalists before
-loading external test partitions. The follow-on commands evaluate transfer,
-sequence counterfactuals, LLM-proposed invariances, orbit pooling, and the
-bounded shared-subexpression cache:
+| Stage | Historical source | Report |
+|---|---|---|
+| V1: operator composition | `1037c5b` | [Final report](reports/FINAL_REPORT.md) |
+| V2: typed synthesis | `v2-program-bias-search` / `c6d3f85` (tag `v2-final`) | [Program synthesis](reports/V2_PROGRAM_SYNTHESIS.md) |
+| V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/V3_EVIDENCE.md) |
+| V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/V3_1_BIAS_EVALUATION.md) |
+| V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/V3_2_OPTIMIZER_VALUE.md) |
 
-```sh
-python experiments/freeze_transfer_candidates.py
-python experiments/evaluate_pixel_augmentations.py
-python experiments/evaluate_transfer.py
-python experiments/evaluate_counterfactuals.py
-python experiments/search_invariances.py
-python experiments/profile_subexpression_cache.py
-python experiments/summarize_v2.py
-```
-
-Transfer uses EMNIST Digits/Letters and KMNIST as handwriting domains, with
-Fashion-MNIST as a negative control. It reports the exact sampled test protocol
-and source checksums. The completed V2 run and its limits are summarized in
-[`reports/V2_PROGRAM_SYNTHESIS.md`](reports/V2_PROGRAM_SYNTHESIS.md); MAP-Elites
-left several niches empty, sequence shuffles did not change finalist predictions,
-and Fashion-MNIST transfer prevents a handwriting-specific claim.
-
-## Project layout
-
-- `src/bias_optimizer/domain/` — immutable experiment and search data models.
-- `src/bias_optimizer/dsl/` — typed V2 representation AST, validator, compiler, and seed grammar.
-- `src/bias_optimizer/novelty/` — structural novelty descriptors and MAP-Elites archive.
-- `src/bias_optimizer/features/` — approved feature operators and pipelines.
-- `src/bias_optimizer/compiler/` — compile declarative biases into pipelines.
-- `src/bias_optimizer/ml/` — fixed learner and deterministic evaluator.
-- `src/bias_optimizer/llm/` — provider-neutral proposal boundary.
-- `src/bias_optimizer/search/` — V1 controller and V2 program-search engine.
-- `src/bias_optimizer/data/` — reproducible MNIST splits and transfer loaders.
-- `src/bias_optimizer/invariance/` — bounded transformation programs and orbit pooling.
-- `src/bias_optimizer/cache/` — feature and cross-candidate subexpression caches.
-- `experiments/` — baseline, search, finalist, evaluation, and plot entry points.
-- `reports/` — tracked research conclusions.
-- `tests/` — unit and integration tests.
-- `results/`, `cache/` — local generated artifacts; contents are ignored.
+For setup and historical execution commands, see
+[Development and reproduction](docs/REPRODUCIBILITY.md). Research reports record
+which evidence is completed, validation-only, post-freeze, or censored. Generated
+artifacts are generally local; the explicitly tracked protocols and study traces
+provide the durable record included in the repository.
