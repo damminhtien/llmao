@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" role="img" aria-labelledby="title desc">
+<title id="title">A proposal has to survive an experiment</title>
+<desc id="desc">Language suggests a structural assumption. A typed program makes it inspectable. An intervention tests whether the claimed structure matters.</desc>
+<defs><marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M 0 0 L 10 5 L 0 10 z" fill="#78918b"/></marker></defs>
+<rect width="1200" height="300" rx="18" fill="#f4f2ed"/>
+<g font-family="Arial, Helvetica, sans-serif">
+<text x="44" y="43" font-size="13" letter-spacing="2" fill="#526760">LANGUAGE, MADE TESTABLE</text>
+<g fill="#fffefa" stroke="#d8ded7"><rect x="44" y="68" width="330" height="161" rx="12"/><rect x="435" y="68" width="330" height="161" rx="12"/><rect x="826" y="68" width="330" height="161" rx="12"/></g>
+<g stroke="#78918b" stroke-width="2" marker-end="url(#arrow)"><path d="M 387 147 H 422"/><path d="M 778 147 H 813"/></g>
+<g fill="#647b70" font-size="12" letter-spacing="1.5"><text x="66" y="99">01 / PROPOSE</text><text x="457" y="99">02 / EXPRESS</text><text x="848" y="99">03 / CHALLENGE</text></g>
+<g fill="#203b32" font-size="24" font-weight="600"><text x="66" y="138">Where a stroke turns</text><text x="457" y="138">A spatial representation</text><text x="848" y="138">Move the turns.</text></g>
+<g fill="#46564f" font-size="16"><text x="66" y="168">might matter to digit identity.</text><text x="66" y="196">A hypothesis in words.</text><text x="457" y="168">makes that assumption explicit.</text><text x="457" y="196">A program we can inspect.</text><text x="848" y="168">Keep their distribution.</text><text x="848" y="196">Does the prediction change?</text></g>
+<text x="44" y="269" font-size="14" fill="#526760">Illustration: putting a spatial hypothesis to the test.</text>
+</g></svg>

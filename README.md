@@ -1,43 +1,78 @@
-# LLMAO - LLM as biAs Optimizer
+# LLMAO: LLM as biAs Optimizer
 
-Can a language model help us discover how to represent a learning problem,
-and can we distinguish a useful representation from a convincing explanation?
+### What should a learner notice?
 
-LLMAO investigates that question through a sequence of controlled image
-classification studies. An LLM proposes hypotheses and bounded representation
-programs. A local system measures their predictive value, challenges their
-mechanisms, and tests their transfer. Each version addresses a limitation exposed
-by the previous one.
+Two handwritten digits can differ in thousands of pixels and still mean the
+same thing. A small change in where a curve closes can turn one digit into
+another. Learning depends, in part, on knowing which differences matter.
 
-## Motivation
+We usually put that knowledge into a model ourselves: through features,
+architecture, or augmentation. This project asks whether a language model can
+help us make those choices, and whether we can test the reasons it gives.
 
-Choosing a representation means choosing what a learner can easily notice:
-connectivity, where a stroke turns, how shape varies across regions, or which
-changes should preserve identity. These choices encode an inductive bias.
+![From a description of shape to a program and an empirical test](docs/images/research-loop.svg)
 
-An LLM can draw on descriptions of geometry and handwriting to suggest such
-choices. Yet selecting familiar features, composing primitives, discovering a
-transferable prior, and contributing a better search strategy are different
-achievements. A higher classification score alone cannot establish all of them.
+**The idea is simple:** ask the LLM to suggest what matters, turn that suggestion
+into an inspectable representation, and give the experiment a chance to prove
+it wrong.
 
-This project makes those distinctions explicit. The aim is to connect a proposed
-mechanism to a representation and an experiment that could contradict it.
+[Read the studies](#the-story-so-far) · [See the architecture](#conceptual-architecture) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
-## Research question
+## Why start with representation?
+
+A representation decides which distinctions are easy for a learner to make.
+Pixels preserve appearance. A graph exposes connectivity. A sequence preserves
+order. A histogram keeps a distribution and forgets where its events occurred.
+Each choice makes some hypotheses easier to learn and others harder.
+
+A language model has encountered descriptions of curves, symmetry, strokes,
+and shape. That gives it a vocabulary for suggesting representations. Whether
+this vocabulary helps it search is an empirical question. A plausible account
+of handwriting can still lead to an unhelpful feature.
+
+MNIST gives us a small, familiar setting in which to examine that gap. The
+interesting outcome is a program whose assumptions we can read, whose behavior
+we can challenge, and whose limits we can locate. Accuracy is one part of that
+account.
+
+## 🔎 The question underneath the experiment
+
+> Can knowledge expressed in language become a useful structural prior for a
+> learner, with evidence that explains when and why it helps?
+
+The working question is narrower:
 
 > Can LLM-guided program synthesis discover compact, relational, transferable
 > structural priors?
 
-Two follow-up questions sharpen the interpretation:
+Answering it requires more than finding a good program:
 
-- Under which learners, sample sizes, transformations, and domains are the
-  discovered representations useful?
-- How much value comes from LLM semantics and empirical feedback, compared with
-  other optimizers searching the same typed program space?
+- **Expression.** Can the LLM build a representation that was not supplied as a
+  complete feature, or does it mostly recombine familiar summaries?
+- **Mechanism.** If it says the location of a turn matters, does moving turns
+  while preserving their distribution damage the representation as predicted?
+- **Scope.** Does the benefit survive a different learner or a related dataset?
+  Which transformations expose its assumptions?
+- **Attribution.** Would another optimizer find comparable programs under the
+  same budget? What changes when feedback or meaningful operator names disappear?
 
-## One research story, five stages
+These questions distinguish a useful feature, an explanation supported by an
+intervention, and evidence that the LLM helped find it. The studies below pursue
+them separately.
 
-### V1 — Can the LLM choose useful biases?
+## The story so far
+
+```mermaid
+flowchart LR
+    V1["V1<br/>Choose features"] --> V2["V2<br/>Write programs"]
+    V2 --> V3["V3<br/>Express relations"]
+    V3 --> V31["V3.1<br/>Challenge the bias"]
+    V31 --> V32["V3.2<br/>Challenge the optimizer"]
+```
+
+Each stage begins with something the previous experiment could not tell us.
+
+### V1: Can the LLM choose useful biases?
 
 The first experiment lets the LLM select and combine seven human-written feature
 operators while keeping the classifier fixed. A raw-pixel and stroke-direction
@@ -47,7 +82,7 @@ This establishes useful composition within a supplied menu. It also reveals the
 boundary of that approach: the LLM cannot express a representation outside the
 operators we have already designed. See the [V1 report](reports/FINAL_REPORT.md).
 
-### V2 — Can the LLM write representation programs?
+### V2: Can the LLM write representation programs?
 
 V2 replaces the feature menu with a typed expression language. Programs compose
 atomic operations over images, skeleton graphs, paths, sequences, and vectors.
@@ -61,7 +96,7 @@ leaves their predictions unchanged. Strong Fashion-MNIST transfer also prevents
 a handwriting-specific interpretation. See the
 [V2 report](reports/V2_PROGRAM_SYNTHESIS.md).
 
-### V3 — Can the programs express useful relations?
+### V3: Can the programs express useful relations?
 
 V3 describes programs along five behavioral axes: source, order, spatial scope,
 composition, and complexity. A small set of relational primitives makes spatial
@@ -77,7 +112,7 @@ spatial prior, with the exact subtraction mechanism still unresolved. See the
 [V3 evidence report](reports/V3_EVIDENCE.md), with the
 [pilot](reports/V3_PILOT.md) and [search record](reports/V3_SEARCH.md).
 
-### V3.1 — What does a frozen bias actually contribute?
+### V3.1: What does a frozen bias actually contribute?
 
 V3.1 freezes the V3 finalists and evaluates them across representation, learner,
 training size, and domain. Dimension-matched HOG-PCA, learning curves,
@@ -91,7 +126,7 @@ shows how specific their assumptions are. A bias therefore has an empirical
 profile tied to its learner and domain, rather than one universal quality score.
 See the [V3.1 evaluation report](reports/V3_1_BIAS_EVALUATION.md).
 
-### V3.2 — What did the LLM contribute to search?
+### V3.2: What did the LLM contribute to search?
 
 A useful program does not establish that an LLM was necessary to find it.
 V3.2 holds the typed program space, evaluator, shared seeds, and candidate budget
@@ -143,7 +178,7 @@ The detailed design is in [ARCHITECTURE.md](ARCHITECTURE.md), with the original
 [search plan](PLAN.md) and [V3.1 protocol](V3_1_PROTOCOL.md) document the study
 boundaries.
 
-## What we can reasonably conclude
+## What the evidence leaves us with
 
 The progression demonstrates that a bounded program language can turn LLM
 proposals into compact, inspectable representations with measurable predictive
@@ -156,11 +191,50 @@ is domain-dependent; and optimizer comparisons depend on completed budgets and
 replication. The experiments do not establish a universal handwriting prior,
 general LLM optimizer superiority, or autonomous scientific discovery.
 
-The research contribution is this chain of increasingly discriminating
-questions and recorded evidence. Detailed scores, benchmark tables, protocols,
-and limitations live in the version reports.
+One lesson recurs across the studies: a representation can be useful for reasons
+that are narrower than its original explanation. Spatial summaries help on digit
+tasks, yet a broad account of handwriting does not survive every transfer test.
+A good search result still needs controls before we can credit the optimizer.
 
-## Preserved versions and reading guide
+Detailed scores, benchmark tables, protocols, and limitations live in the version
+reports.
+
+## 🧭 Where this could lead
+
+The longer-term ambition is to let a system propose both a representation and
+the experiment that would distinguish its explanation from a competing one.
+
+Suppose two programs perform equally well. One explanation says that digits
+are identified by how often a stroke turns; another says that where those turns
+occur is essential. More search for accuracy may leave them tied. An intervention
+that preserves the turn distribution while reassigning locations can tell us
+something a leaderboard cannot.
+
+```mermaid
+flowchart LR
+    Q["Two plausible explanations"] --> X["An experiment that separates them"]
+    X --> D["Observed disagreement"]
+    D --> R["Revise the representation<br/>and its explanation"]
+    R --> Q
+```
+
+That is a possible next research direction, beyond the completed studies here.
+It would need a bounded experimental language, controls for what each
+intervention changes, and a record of failed predictions. The system would also
+need to recognize when its current vocabulary cannot express the distinction it
+is trying to investigate.
+
+There is a deeper constraint: we choose the primitives. They already contain
+human assumptions about what might matter. A novel composition is therefore
+novel within that language. Discovering when the language itself is inadequate
+may be as valuable as finding its best program.
+
+The vision is a collaborator that makes its assumptions available for inspection:
+what it thinks matters, what observation would change its mind, and how far the
+evidence allows its conclusion to travel. This repository is an early experiment
+in building that discipline.
+
+## 📚 Preserved versions and reading guide
 
 `main` integrates the full sequence. Historical branches and commits retain the
 implementation at each stage; the version reports remain separate and unchanged.
