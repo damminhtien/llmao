@@ -1,51 +1,85 @@
 # LLMAO: LLM as biAs Optimizer
 
-### What should a learner notice?
+### Before a model learns, what have we already decided for it?
 
-Two handwritten digits can differ in thousands of pixels and still mean the
-same thing. A small change in where a curve closes can turn one digit into
-another. Learning depends, in part, on knowing which differences matter.
+Linear regression begins with a strong assumption: the prediction can be
+expressed as an additive, linear function of the chosen inputs. A kernel changes
+what similarity means. A decision tree organizes the problem through successive
+splits. A convolutional network reuses the same local filters across an image.
+These choices shape what can be learned, and how much evidence learning needs.
 
-We usually put that knowledge into a model ourselves: through features,
-architecture, or augmentation. This project asks whether a language model can
-help us make those choices, and whether we can test the reasons it gives.
+Every learner carries an **inductive bias**: assumptions and preferences that
+help it choose among explanations compatible with the training data. Some come
+from the model family; others come from representation, regularization, or the
+training procedure. Even a flexible neural network has them.
+
+We usually make these choices ourselves. LLMAO asks whether a language model
+can help propose them, and what an experiment would have to show before we
+could trust its proposal.
 
 ![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
 
-**The idea is simple:** ask the LLM to suggest what matters, turn that suggestion
-into an inspectable representation, and give the experiment a chance to prove
-it wrong.
-
 [Read the studies](#the-story-so-far) · [See the architecture](#conceptual-architecture) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
-## Why start with representation?
+## The assumptions we bring to learning
 
-A representation decides which distinctions are easy for a learner to make.
-Pixels preserve appearance. A graph exposes connectivity. A sequence preserves
-order. A histogram keeps a distribution and forgets where its events occurred.
-Each choice makes some hypotheses easier to learn and others harder.
+Different models make different structures easy to express. The examples below
+are useful starting points; their behavior also depends on the features,
+constraints, and training choices we give them.
+
+| Model or method | A bias it brings |
+|---|---|
+| Linear regression | Predictions are linear in the chosen features. Nonlinear structure must be expressed through those features. |
+| Kernel methods | The kernel defines similarity and a feature space; regularization favors certain functions within that space. |
+| SVM | Margin-based learning favors separating boundaries with a large margin, balanced against violations. A kernel SVM inherits the kernel's notion of similarity. |
+| Decision trees | Successive splits express conditional rules. Standard axis-aligned trees partition the feature space into regions with constant predictions. |
+| Neural networks | Architecture, parameter sharing, regularization, and optimization shape which functions are accessible and favored. Flexibility does not remove those preferences. |
+| CNNs | Local connectivity and shared filters make recurring spatial patterns natural to learn. Convolution gives translation equivariance; invariance depends on further design choices. |
+| RNNs | A shared state-update rule processes an ordered sequence. The representation of each step depends on the preceding state. |
+
+The familiar question is which model to use. A deeper question is **which
+assumptions the task deserves**. Locality is a useful starting point for images,
+but it does not tell us whether a digit is best described by connectivity,
+curvature, stroke order, or the location of a loop.
+
+Two handwritten digits can differ in thousands of pixels and still mean the
+same thing. A small change in where a curve closes can turn one digit into
+another. Which differences should the learner preserve? Which should it ignore?
+And how would we find out whether our answer is right?
+
+## Why this project starts with representation
+
+Representation gives us a manageable place to investigate those questions.
+Keep a learner fixed and change what it sees. Its predictions then depend on
+both the learner's existing bias and the assumptions encoded in the features.
+
+For a linear classifier, for example, a representation can make a relation
+available that was difficult to express in raw pixels. A graph exposes
+connectivity. A sequence preserves order. A histogram keeps a distribution and
+forgets where its events occurred. Each choice makes some distinctions easier
+to learn and removes others.
 
 A language model has encountered descriptions of curves, symmetry, strokes,
-and shape. That gives it a vocabulary for suggesting representations. Whether
-this vocabulary helps it search is an empirical question. A plausible account
-of handwriting can still lead to an unhelpful feature.
+and shape. It may use that knowledge to propose what a representation should
+preserve. We turn the proposal into a typed program and evaluate it locally.
+This makes the assumption inspectable and gives us a way to intervene on the
+structure it claims matters.
 
-MNIST gives us a small, familiar setting in which to examine that gap. The
-interesting outcome is a program whose assumptions we can read, whose behavior
-we can challenge, and whose limits we can locate. Accuracy is one part of that
-account.
+MNIST gives us a small, familiar setting in which to examine this process.
+The current search changes representation under a fixed learner. Later studies
+vary the learner to ask how much of the measured benefit belongs to that pairing.
 
-## 🔎 The question underneath the experiment
+## 🔎 From inductive bias to our research question
 
-> Can knowledge expressed in language become a useful structural prior for a
-> learner, with evidence that explains when and why it helps?
+> Can an LLM help us identify which assumptions a task rewards, express them as
+> executable representations, and design evidence that challenges them?
 
-The working question is narrower:
+The working question in this repository is narrower:
 
 > Can LLM-guided program synthesis discover compact, relational, transferable
 > structural priors?
 
-Answering it requires more than finding a good program:
+A good score is a starting point. To interpret it, we ask:
 
 - **Expression.** Can the LLM build a representation that was not supplied as a
   complete feature, or does it mostly recombine familiar summaries?
@@ -58,7 +92,8 @@ Answering it requires more than finding a good program:
 
 These questions distinguish a useful feature, an explanation supported by an
 intervention, and evidence that the LLM helped find it. The studies below pursue
-them separately.
+them separately. Proposing experiments is part of the longer-term vision;
+the completed studies use bounded, predefined evaluation procedures.
 
 ## The story so far
 
