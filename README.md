@@ -10,7 +10,7 @@ We usually put that knowledge into a model ourselves: through features,
 architecture, or augmentation. This project asks whether a language model can
 help us make those choices, and whether we can test the reasons it gives.
 
-![From a description of shape to a program and an empirical test](docs/images/research-loop.svg)
+![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
 
 **The idea is simple:** ask the LLM to suggest what matters, turn that suggestion
 into an inspectable representation, and give the experiment a chance to prove
