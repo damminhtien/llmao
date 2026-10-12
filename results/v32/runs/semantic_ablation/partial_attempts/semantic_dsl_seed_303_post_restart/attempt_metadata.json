@@ -1,0 +1,19 @@
+{
+  "condition": "semantic_dsl",
+  "optimizer": "llm_iterative",
+  "optimizer_seed": 303,
+  "status": "interrupted_without_trace",
+  "reason": "The optimizer process was no longer active after the turn interruption; no candidate trace was saved.",
+  "response_records": 144,
+  "proposal_batches_requested": 144,
+  "requested_candidate_slots": 303,
+  "parseable_proposal_objects": 232,
+  "distinct_proposal_ast_hashes": 177,
+  "accepted_response_records": 82,
+  "rejected_response_records": 62,
+  "llm_tokens_reported": 888499,
+  "llm_prompt_tokens_reported": 788615,
+  "llm_response_tokens_reported": 99884,
+  "audit_log": "results/v32/runs/semantic_ablation/partial_attempts/semantic_dsl_seed_303_post_restart/llm_responses.jsonl",
+  "archived_utc": "2026-10-12T04:06:30.402327+00:00"
+}

@@ -176,6 +176,8 @@ cython_debug/
 !/cache/.gitkeep
 /results/*
 !/results/.gitkeep
+!/results/v32/
+!/results/v32/**
 /graphify-out/
 
 # PyPI configuration file

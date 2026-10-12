@@ -1,0 +1,836 @@
+{
+  "matched_analysis_seed_ids": [
+    101,
+    202
+  ],
+  "per_run_winners": [
+    {
+      "candidate_id": "55200d94fac1adbb4e29eaf83e57aaa795fd5c3d7b535dee3bea0ea0efd1d541",
+      "evaluated_candidates": 184,
+      "feature_dim": 18,
+      "optimizer": "typed_random",
+      "optimizer_seed": 101,
+      "primary_fitness": 0.8048356898442403,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "axis": "vertical",
+          "bins": 6,
+          "high": 3.141592653589793,
+          "low": -3.141592653589793,
+          "regions": 3
+        }
+      },
+      "run_complete": false,
+      "trace": "results/v32/runs/primary/typed_random/seed_101/trace.json",
+      "trace_sha256": "51dcc93224690f394be1649b524ee8d84e0c9c8cf85d3ae7c7b4c7484a3e660c"
+    },
+    {
+      "candidate_id": "54b0b3e05e3b4da81a159c76143d215445dc5296602937e208004232c7e03292",
+      "evaluated_candidates": 183,
+      "feature_dim": 36,
+      "optimizer": "typed_random",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8311847240995112,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 4,
+              "rows": 4
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "spatial_condition",
+            "params": {
+              "axis": "vertical",
+              "bins": 6,
+              "high": 3.141592653589793,
+              "low": -3.141592653589793,
+              "regions": 3
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "run_complete": false,
+      "trace": "results/v32/runs/primary/typed_random/seed_202/trace.json",
+      "trace_sha256": "e42ec063e21dbbbb309988f480a24191ffbc9e0215e22432c9ee8a72fa9f04d0"
+    },
+    {
+      "candidate_id": "f6585880db640fdc6bfee1be4ec089012b0cfc307ff310ecb195299037f9368b",
+      "evaluated_candidates": 200,
+      "feature_dim": 34,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 101,
+      "primary_fitness": 0.8538238687275935,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.4
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "spatial_split",
+                    "params": {
+                      "cols": 4,
+                      "rows": 4
+                    }
+                  },
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "spatial_split",
+                    "params": {
+                      "cols": 3,
+                      "rows": 2
+                    }
+                  }
+                ],
+                "op": "concat",
+                "params": {}
+              },
+              {
+                "args": [
+                  {
+                    "args": [],
+                    "op": "image",
+                    "params": {}
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": 3,
+                  "rows": 3
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_101/trace.json",
+      "trace_sha256": "dcecb01fdc986b582b8323c1df2c22bce8d26d08d46043b09e4138ec5826c487"
+    },
+    {
+      "candidate_id": "572020ce62307637c3b45454454c0ed1090d8e7be1481d99a25acced42ede7a1",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8575820358797915,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "threshold",
+                            "params": {
+                              "value": 0.5
+                            }
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.4
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "axis": "vertical",
+          "bins": 8,
+          "high": 3.141592653589793,
+          "low": -3.141592653589793,
+          "regions": 3
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_202/trace.json",
+      "trace_sha256": "aad8a43ff4b8935b6812b0f0d07d8764b963b37d9aef99749ae275d5c1b3c5c7"
+    },
+    {
+      "candidate_id": "f4a1f9e4a04f60c71f44de1f194f3b624dc991bd97c917b4db3f9bb28e4d8f2e",
+      "evaluated_candidates": 200,
+      "feature_dim": 48,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 101,
+      "primary_fitness": 0.8185333262815648,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 16,
+          "high": 3.14,
+          "low": -3.14,
+          "regions": 3
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_one_shot/seed_101/trace.json",
+      "trace_sha256": "dfd3044042b19bc4dc5280821fa6d7729b1e612a8ebcf6a2c9ef6e4d88912854"
+    },
+    {
+      "candidate_id": "871c986585e7a4139a73b17b92fda261689e17aac0d6086bfcede2e666acbe00",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8427047810949302,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 8,
+          "high": 3.141593,
+          "low": -3.141593,
+          "regions": 3
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_one_shot/seed_202/trace.json",
+      "trace_sha256": "a6a7302b592d67509fc2021026cd6e093bb2abf3c5d3621490c7e058852c7653"
+    },
+    {
+      "candidate_id": "60d3712ca077344d1834b213bfffdb3ae6b233ecc06900c9f175920c95537513",
+      "evaluated_candidates": 200,
+      "feature_dim": 30,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "primary_fitness": 0.858990175379362,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 10,
+          "high": 3.141593
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c9accd6bd2f5ae1cff4f2c78723f0a3c95846bea98b86a9e187307a565a6c5fc"
+    },
+    {
+      "candidate_id": "79d47138541e0f1bf8d0646c940e91c33c6e8ef84e0c4e66a62c40ba8db99347",
+      "evaluated_candidates": 200,
+      "feature_dim": 36,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8583124210975231,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 12,
+          "high": 3.141592
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_iterative/seed_202/trace.json",
+      "trace_sha256": "bfbd459776dbbd63f05ed544953f15f073093f8589d7718f32b5fd18b5752823"
+    }
+  ],
+  "primary_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "protocol_seed_ids": [
+    101,
+    202,
+    303,
+    404,
+    505
+  ],
+  "representative_winners": {
+    "genetic_programming": {
+      "candidate_id": "572020ce62307637c3b45454454c0ed1090d8e7be1481d99a25acced42ede7a1",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8575820358797915,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "threshold",
+                            "params": {
+                              "value": 0.5
+                            }
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.4
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "axis": "vertical",
+          "bins": 8,
+          "high": 3.141592653589793,
+          "low": -3.141592653589793,
+          "regions": 3
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_202/trace.json",
+      "trace_sha256": "aad8a43ff4b8935b6812b0f0d07d8764b963b37d9aef99749ae275d5c1b3c5c7"
+    },
+    "llm_iterative": {
+      "candidate_id": "60d3712ca077344d1834b213bfffdb3ae6b233ecc06900c9f175920c95537513",
+      "evaluated_candidates": 200,
+      "feature_dim": 30,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "primary_fitness": 0.858990175379362,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 10,
+          "high": 3.141593
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c9accd6bd2f5ae1cff4f2c78723f0a3c95846bea98b86a9e187307a565a6c5fc"
+    },
+    "llm_one_shot": {
+      "candidate_id": "871c986585e7a4139a73b17b92fda261689e17aac0d6086bfcede2e666acbe00",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8427047810949302,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "bins": 8,
+          "high": 3.141593,
+          "low": -3.141593,
+          "regions": 3
+        }
+      },
+      "run_complete": true,
+      "trace": "results/v32/runs/primary/llm_one_shot/seed_202/trace.json",
+      "trace_sha256": "a6a7302b592d67509fc2021026cd6e093bb2abf3c5d3621490c7e058852c7653"
+    },
+    "typed_random": {
+      "candidate_id": "54b0b3e05e3b4da81a159c76143d215445dc5296602937e208004232c7e03292",
+      "evaluated_candidates": 183,
+      "feature_dim": 36,
+      "optimizer": "typed_random",
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8311847240995112,
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                2,
+                4
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 4,
+              "rows": 4
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "spatial_condition",
+            "params": {
+              "axis": "vertical",
+              "bins": 6,
+              "high": 3.141592653589793,
+              "low": -3.141592653589793,
+              "regions": 3
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "run_complete": false,
+      "trace": "results/v32/runs/primary/typed_random/seed_202/trace.json",
+      "trace_sha256": "e42ec063e21dbbbb309988f480a24191ffbc9e0215e22432c9ee8a72fa9f04d0"
+    }
+  },
+  "schema_version": 1,
+  "selection_rule": "highest primary fitness among matched per-run winners; incomplete runs use the best observed candidate and retain their incomplete status"
+}
