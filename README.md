@@ -1,4 +1,4 @@
-# LLM as Bias Optimizer
+# LLMAO LLM as biAs Optimizer
 
 An experiment in discovering useful image representations through LLM-proposed
 hypotheses and deterministic local evaluation. The classifier and evaluator stay
