@@ -1,0 +1,2776 @@
+{
+  "budget_max_proposal_attempts": 60,
+  "budget_seed_evaluations": 20,
+  "budget_total_evaluations": 40,
+  "complete": true,
+  "duplicate_count": 15,
+  "evaluated_candidates": [
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "e5bb27219f3305f8b4c7c88f8a45cac8577701e39b63da1ef0e78ff2b9302833",
+      "evaluation_index": 1,
+      "feature_dim": 3,
+      "fitness": 0.18744024702746961,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.7214580002473667,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.27554100006454973,
+        "mechanism": "Turn autocorrelation tests whether neighboring curvature changes persist along a path.",
+        "name": "typed_seed_000",
+        "oracle_elapsed_ms": 1978.075667000212,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 2.669582999715203
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 4.66658200002712,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.26,
+      "behavioral_novelty": null,
+      "candidate_id": "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b",
+      "evaluation_index": 2,
+      "feature_dim": 6,
+      "fitness": 0.25786577694932694,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.623334000214527,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2507919998606667,
+        "mechanism": "Graph-degree run lengths test whether local branching states persist in traversal order.",
+        "name": "typed_seed_001",
+        "oracle_elapsed_ms": 17.005749999952968,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 3.699917000176356
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 8,
+          "low": -8
+        }
+      },
+      "runtime_ms": 5.5740430002515495,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.356,
+      "behavioral_novelty": null,
+      "candidate_id": "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+      "evaluation_index": 3,
+      "feature_dim": 3,
+      "fitness": 0.35441690121587743,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.6023329999370617,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25591699977667304,
+        "mechanism": "Moments of graph-degree run lengths test higher-order persistence in the ordered graph trace.",
+        "name": "typed_seed_002",
+        "oracle_elapsed_ms": 17.42245900004491,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 4.298415999983263
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.1566659996969975,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "d1a3c6a3eb3d15a1acb964849a947414614bea53d5cd9e87264ec0d88386f14d",
+      "evaluation_index": 4,
+      "feature_dim": 3,
+      "fitness": 0.18744582633238369,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.62933299998258,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2631669999573205,
+        "mechanism": "Turn autocorrelation tests persistence across neighboring path steps.",
+        "name": "typed_seed_003",
+        "oracle_elapsed_ms": 15.70533299991439,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.4665840001034667
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 4.359084000043367,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.381,
+      "behavioral_novelty": null,
+      "candidate_id": "4a7356ee1cfbfd10c2c35c1a5bae69e90d26ee3df3ccfc2ee640ead22b58af92",
+      "evaluation_index": 5,
+      "feature_dim": 3,
+      "fitness": 0.37942422515818003,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5828750001674052,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2528330001041468,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_004",
+        "oracle_elapsed_ms": 16.884582999864506,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 3.8155420002112805
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.7
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 5.6512500004828325,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.155,
+      "behavioral_novelty": null,
+      "candidate_id": "b2d4591fe2eacc500757ea6b7d233db2cbbf395a967b3081c82196736b9925b7",
+      "evaluation_index": 6,
+      "feature_dim": 8,
+      "fitness": 0.15263426985823825,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5948749996823608,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25883399985104916,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_005",
+        "oracle_elapsed_ms": 15.652666999812936,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.5714285714285714,
+        "training_runtime_ms": 2.5390420000803715
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.3927509996137815,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.2815,
+      "behavioral_novelty": null,
+      "candidate_id": "9d1d10043d1b79a38c29c151e11ce5922c5eb2f666f31ada00d175e4d07744d2",
+      "evaluation_index": 7,
+      "feature_dim": 3,
+      "fitness": 0.2799358621296114,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.566417000049114,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2546669998082507,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_006",
+        "oracle_elapsed_ms": 16.252333000011276,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 3.099500000189437
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 1
+        }
+      },
+      "runtime_ms": 4.9205840000468015,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.21,
+      "behavioral_novelty": null,
+      "candidate_id": "bd443dbebf7797235daabd6102a64887c855001a1975b1f472c807b7465fde12",
+      "evaluation_index": 8,
+      "feature_dim": 3,
+      "fitness": 0.20845426391236407,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5744169995741686,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24083300013444386,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_007",
+        "oracle_elapsed_ms": 15.196500000001834,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.11020799997641
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 3.9254579996850225,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2555,
+      "behavioral_novelty": null,
+      "candidate_id": "93c2d29b77f9dcd7213549bbcef4a92ddf9be1b94aeddaa6da383acf0981cadc",
+      "evaluation_index": 9,
+      "feature_dim": 16,
+      "fitness": 0.2524863252564846,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5941669998937869,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2559999998084095,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_008",
+        "oracle_elapsed_ms": 16.354000000319502,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 3.2274579998556874
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 5.077624999557884,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.477,
+      "behavioral_novelty": null,
+      "candidate_id": "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2",
+      "evaluation_index": 10,
+      "feature_dim": 3,
+      "fitness": 0.4754157274007534,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5690830000494316,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.262542000200483,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_009",
+        "oracle_elapsed_ms": 17.499749999842606,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.409541999848443
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.241167000098358,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.493,
+      "behavioral_novelty": null,
+      "candidate_id": "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f",
+      "evaluation_index": 11,
+      "feature_dim": 6,
+      "fitness": 0.4908579243815907,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5705840000919125,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2847499999916181,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_010",
+        "oracle_elapsed_ms": 17.341207999834296,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.2557500000839354
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 2
+        }
+      },
+      "runtime_ms": 6.111084000167466,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1155,
+      "behavioral_novelty": null,
+      "candidate_id": "d1afa04ff9095aaf7667ee9ca731a13ef48ab91119332beef4f44384bebf32d8",
+      "evaluation_index": 12,
+      "feature_dim": 4,
+      "fitness": 0.11372767400084563,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5792079998391273,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.22270799991019885,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_011",
+        "oracle_elapsed_ms": 15.368207999927108,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.2962500001995068
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.098165999948833,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.4705,
+      "behavioral_novelty": null,
+      "candidate_id": "c479d00679a28fe5fe469badec0e83b33513b39c55c2252cf2476fd4e068168a",
+      "evaluation_index": 13,
+      "feature_dim": 16,
+      "fitness": 0.46747190975009856,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5808329999345005,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2631669999573205,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_012",
+        "oracle_elapsed_ms": 17.285207999975682,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 4.1760409999369585
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 6.02004099982878,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1145,
+      "behavioral_novelty": null,
+      "candidate_id": "4e3421438cf13e734c00f46cf76013370996d649ab30c20c88e7522eea4134b3",
+      "evaluation_index": 14,
+      "feature_dim": 4,
+      "fitness": 0.11272165479078343,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.8807090000336757,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.22624999974141247,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_013",
+        "oracle_elapsed_ms": 15.69145799976468,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.307500000370055
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.4
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.414459000145143,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2445,
+      "behavioral_novelty": null,
+      "candidate_id": "57e33af9c51a461d95c1e6590332203e20ece4e485cf13a5a0acf37779d56a1d",
+      "evaluation_index": 15,
+      "feature_dim": 6,
+      "fitness": 0.2423850479683376,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5913340002953191,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2437920002194005,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_014",
+        "oracle_elapsed_ms": 15.650124999865511,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.5866249998216517
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.3
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.421751000336371,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.145,
+      "behavioral_novelty": null,
+      "candidate_id": "ad52a7513edee456524163928b005895e3d3e363178f081b9e0fd868b3994eb2",
+      "evaluation_index": 16,
+      "feature_dim": 8,
+      "fitness": 0.14264100920265124,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5945000000101572,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.26191599999947357,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_015",
+        "oracle_elapsed_ms": 15.286083999853872,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.184875000239117
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.041291000248748,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.115,
+      "behavioral_novelty": null,
+      "candidate_id": "d702bd01134f5733c9c3acf0f5d24422442594a694ebd08b2de6cbddc922a113",
+      "evaluation_index": 17,
+      "feature_dim": 1,
+      "fitness": 0.11415653865687103,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5705000000707514,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2009999998335843,
+        "mechanism": "Foreground component count tests a compact topological cue.",
+        "name": "typed_seed_016",
+        "oracle_elapsed_ms": 14.743875000021944,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.7142857142857143,
+        "training_runtime_ms": 1.7242909998458344
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.5
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 3.49579099975017,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.242,
+      "behavioral_novelty": null,
+      "candidate_id": "11ad67ea5dc114822c5c259ad5744f680e2d66c52ad07d5dc876e76843487f6c",
+      "evaluation_index": 18,
+      "feature_dim": 3,
+      "fitness": 0.2404577316622691,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5703750000284344,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24795799981802702,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_017",
+        "oracle_elapsed_ms": 14.992249999977503,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 1.93924999985029
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 3.7575829996967514,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2625,
+      "behavioral_novelty": null,
+      "candidate_id": "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869",
+      "evaluation_index": 19,
+      "feature_dim": 16,
+      "fitness": 0.25948482691853125,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5936660001898417,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25858300023173797,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_018",
+        "oracle_elapsed_ms": 16.421791999619018,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.3171249997394625
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 5.169374000161042,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.262,
+      "behavioral_novelty": null,
+      "candidate_id": "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3",
+      "evaluation_index": 20,
+      "feature_dim": 3,
+      "fitness": 0.26044989742670005,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.5782919999765,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25724999977683183,
+        "mechanism": "Turning moments test aggregate stroke dynamics.",
+        "name": "typed_seed_019",
+        "oracle_elapsed_ms": 15.484290999665973,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.309750000222266
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 4.145291999975598,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.2625,
+      "behavioral_novelty": null,
+      "candidate_id": "a9070e3b7fb77de3c304a3f6c2025d34d38297960b3a48d7113f96be233e2e21",
+      "evaluation_index": 21,
+      "feature_dim": 2,
+      "fitness": 0.2612437014046865,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.604042000053596,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2403749999757565,
+        "mechanism": "order_sensitive",
+        "name": "gp_a9070e3b7fb7",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 15.079166000305122,
+        "parent_ids": [
+          "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 1,
+        "proposal_id": "genetic_programming:101:1",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 1.99533299974064
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2
+          ]
+        }
+      },
+      "runtime_ms": 3.8397499997699924,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.174,
+      "behavioral_novelty": null,
+      "candidate_id": "662dfd8c91284277269b4e4b6f8cda07dd75627d93685685408eedc6330cf268",
+      "evaluation_index": 22,
+      "feature_dim": 2,
+      "fitness": 0.17274803129772254,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.6006250002646993,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.22850000004837057,
+        "mechanism": "free_exploration",
+        "name": "gp_662dfd8c9128",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 14.855582999643957,
+        "parent_ids": [
+          "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 2,
+        "proposal_id": "genetic_programming:101:2",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 1.8055410000670236
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 2,
+          "rows": 1
+        }
+      },
+      "runtime_ms": 3.6346660003800935,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.5315,
+      "behavioral_novelty": null,
+      "candidate_id": "9e44e72f717c68d22095341433aa60ae478772f359c3f9cb1bac6d671bdc2275",
+      "evaluation_index": 23,
+      "feature_dim": 3,
+      "fitness": 0.5299078418372676,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5877079999881971,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.26308299993615947,
+        "mechanism": "free_exploration",
+        "name": "gp_9e44e72f717c",
+        "operator": "typed_subtree_crossover",
+        "oracle_elapsed_ms": 18.073958000059065,
+        "parent_ids": [
+          "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3",
+          "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 3,
+        "proposal_id": "genetic_programming:101:3",
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 4.984499999864056
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.835290999788413,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.274,
+      "behavioral_novelty": null,
+      "candidate_id": "25e1b3373c1c650dfa1944f702bdb46070aa135e900bfec1962988adba79308a",
+      "evaluation_index": 24,
+      "feature_dim": 6,
+      "fitness": 0.27186282866457245,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5847500003474124,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2445830000397109,
+        "mechanism": "order_sensitive",
+        "name": "gp_25e1b3373c1c",
+        "operator": "typed_subtree_crossover",
+        "oracle_elapsed_ms": 17.04650000010588,
+        "parent_ids": [
+          "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b",
+          "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 4,
+        "proposal_id": "genetic_programming:101:4",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.941417000078218
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 8,
+          "low": -8
+        }
+      },
+      "runtime_ms": 5.770750000465341,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.4135,
+      "behavioral_novelty": null,
+      "candidate_id": "a6e07822313770e9b328e2d0e65f74c1a3a230b04fe90e3c82994d46d82e8f50",
+      "evaluation_index": 25,
+      "feature_dim": 4,
+      "fitness": 0.41171297084773417,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5990829997463152,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.24779199975455413,
+        "mechanism": "free_exploration",
+        "name": "gp_a6e078223137",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 16.114584000206378,
+        "parent_ids": [
+          "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 5,
+        "proposal_id": "genetic_programming:101:5",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.058792000047106
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 2,
+          "rows": 2
+        }
+      },
+      "runtime_ms": 4.905666999547975,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1445,
+      "behavioral_novelty": null,
+      "candidate_id": "2b0a9b14f2583c47afb55d2178ae254290bac40c9fb5fc46817a569befecdfb1",
+      "evaluation_index": 26,
+      "feature_dim": 3,
+      "fitness": 0.14291815378343214,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.577791999807232,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2575000003162131,
+        "mechanism": "order_sensitive",
+        "name": "gp_2b0a9b14f258",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.347292000067682,
+        "parent_ids": [
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 9,
+        "proposal_id": "genetic_programming:101:9",
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 4.232291000334953
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "edge_lengths",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.067583000458399,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.358,
+      "behavioral_novelty": null,
+      "candidate_id": "1ac64182fbb4282e1ae997ac91c39c3d3a937b3599411eaea6bc609ff093a7ad",
+      "evaluation_index": 27,
+      "feature_dim": 2,
+      "fitness": 0.3567205861494239,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5953749998516287,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.24108399975375505,
+        "mechanism": "free_exploration",
+        "name": "gp_1ac64182fbb4",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 16.336416999820358,
+        "parent_ids": [
+          "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 10,
+        "proposal_id": "genetic_programming:101:10",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.2618750001347507
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 5.0983339997401345,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.455,
+      "behavioral_novelty": null,
+      "candidate_id": "63719037b6ad42311926f59cd488f118ae21d8469b21fedec03e78e3527948ea",
+      "evaluation_index": 28,
+      "feature_dim": 3,
+      "fitness": 0.45342263909589964,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.581834000262461,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.26141700027437764,
+        "mechanism": "free_exploration",
+        "name": "gp_63719037b6ad",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 16.993749999983265,
+        "parent_ids": [
+          "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 15,
+        "proposal_id": "genetic_programming:101:15",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.9143330000115384
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 5.757584000548377,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.495,
+      "behavioral_novelty": null,
+      "candidate_id": "17c0d2831249d36957bccf499bf000d28553482377a5322485cb9e8729747072",
+      "evaluation_index": 29,
+      "feature_dim": 3,
+      "fitness": 0.49341811134511737,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5941249998832063,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.25987500021074084,
+        "mechanism": "free_exploration",
+        "name": "gp_17c0d2831249",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.328916999758803,
+        "parent_ids": [
+          "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 16,
+        "proposal_id": "genetic_programming:101:16",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.216583000015817
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.3
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.070583000109764,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.113,
+      "behavioral_novelty": null,
+      "candidate_id": "edaa2af3d2f174b9309dd132141ab3e8c51292594555d919c016d6609b4d5990",
+      "evaluation_index": 30,
+      "feature_dim": 6,
+      "fitness": 0.11089003901224538,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5914999999040447,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.229374999889842,
+        "mechanism": "free_exploration",
+        "name": "gp_edaa2af3d2f1",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 15.401708999888797,
+        "parent_ids": [
+          "57e33af9c51a461d95c1e6590332203e20ece4e485cf13a5a0acf37779d56a1d"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 17,
+        "proposal_id": "genetic_programming:101:17",
+        "structural_novelty": 0.5714285714285714,
+        "training_runtime_ms": 2.33691599987651
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "threshold",
+                            "params": {
+                              "value": 0.5
+                            }
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.157790999670397,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.477,
+      "behavioral_novelty": null,
+      "candidate_id": "c96418b26a97828367f73a9789a34050595fd2843ad20b8a5cb50fabeb063d02",
+      "evaluation_index": 31,
+      "feature_dim": 3,
+      "fitness": 0.47541509530600673,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.6089169998849684,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.26333299956604606,
+        "mechanism": "free_exploration",
+        "name": "gp_c96418b26a97",
+        "operator": "typed_subtree_crossover",
+        "oracle_elapsed_ms": 17.541666999932204,
+        "parent_ids": [
+          "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2",
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 18,
+        "proposal_id": "genetic_programming:101:18",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.41483300028267
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {}
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.287082999733684,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.266,
+      "behavioral_novelty": null,
+      "candidate_id": "796df2dd647c67a63de493936c7ee5df732c04bf4b1c64eb757a24406ac2f325",
+      "evaluation_index": 32,
+      "feature_dim": 16,
+      "fitness": 0.2629782458593146,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.6065000004346075,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.26862499998969724,
+        "mechanism": "order_sensitive",
+        "name": "gp_796df2dd647c",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 16.831124999953317,
+        "parent_ids": [
+          "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 19,
+        "proposal_id": "genetic_programming:101:19",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.713917000368383
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.7
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 5.589042000792688,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.377,
+      "behavioral_novelty": null,
+      "candidate_id": "e83b7ba9dc42dd1b7808f1a1adc24aae1be0b70278009791a0fa07c703dd98aa",
+      "evaluation_index": 33,
+      "feature_dim": 3,
+      "fitness": 0.37541978112588603,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5955419999045262,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2563749999353604,
+        "mechanism": "order_sensitive",
+        "name": "gp_e83b7ba9dc42",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.199500000060652,
+        "parent_ids": [
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 23,
+        "proposal_id": "genetic_programming:101:23",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.101583000192477
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 5.9535000000323635,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.493,
+      "behavioral_novelty": null,
+      "candidate_id": "439df402fff75d4c48673bac1aaf14fdad74e89c8880eb631b22f88600dbfdb3",
+      "evaluation_index": 34,
+      "feature_dim": 6,
+      "fitness": 0.4908575226630245,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.6055830001278082,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.26362500011600787,
+        "mechanism": "free_exploration",
+        "name": "gp_439df402fff7",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.4056659998314,
+        "parent_ids": [
+          "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 24,
+        "proposal_id": "genetic_programming:101:24",
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 4.270500000075117
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          }
+        ],
+        "op": "normalize",
+        "params": {}
+      },
+      "runtime_ms": 6.139708000318933,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.691,
+      "behavioral_novelty": null,
+      "candidate_id": "b76bec70fde94ecf8012619b16c4084424e1f1b076a22c52d61e415e2d62f480",
+      "evaluation_index": 35,
+      "feature_dim": 16,
+      "fitness": 0.6879680974611506,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.607457999853068,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2646660000209522,
+        "mechanism": "free_exploration",
+        "name": "gp_b76bec70fde9",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.519833000278595,
+        "parent_ids": [
+          "9d1d10043d1b79a38c29c151e11ce5922c5eb2f666f31ada00d175e4d07744d2"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 26,
+        "proposal_id": "genetic_programming:101:26",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.4207079999978305
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 4,
+          "rows": 4
+        }
+      },
+      "runtime_ms": 6.292831999871851,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.362,
+      "behavioral_novelty": null,
+      "candidate_id": "f68a432884769648f883cdcc609f88a59ab65c577ed9f8908e89ecdfdade8e5b",
+      "evaluation_index": 36,
+      "feature_dim": 3,
+      "fitness": 0.36042437625141766,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5951670002323226,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2515829996809771,
+        "mechanism": "order_sensitive",
+        "name": "gp_f68a43288476",
+        "operator": "typed_subtree_crossover",
+        "oracle_elapsed_ms": 16.880125000170665,
+        "parent_ids": [
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+          "93c2d29b77f9dcd7213549bbcef4a92ddf9be1b94aeddaa6da383acf0981cadc"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 27,
+        "proposal_id": "genetic_programming:101:27",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.794457999902079
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.3
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 5.641207999815379,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.3105,
+      "behavioral_novelty": null,
+      "candidate_id": "c703e737fb9a71982fe1dc37530eac37d45a518110e74b0ed7af6254d74913ee",
+      "evaluation_index": 37,
+      "feature_dim": 32,
+      "fitness": 0.30680724791263464,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.6166250002243032,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2901249999922584,
+        "mechanism": "order_sensitive",
+        "name": "gp_c703e737fb9a",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.337624999981927,
+        "parent_ids": [
+          "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 30,
+        "proposal_id": "genetic_programming:101:30",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.209958000046754
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 32,
+          "high": 16.0,
+          "low": 0.0
+        }
+      },
+      "runtime_ms": 6.116708000263316,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.1595,
+      "behavioral_novelty": null,
+      "candidate_id": "de36b9efdcac6544d94240f3f0124d39cb0d3c5ac3a711a75286a1cbf0d0ccd4",
+      "evaluation_index": 38,
+      "feature_dim": 3,
+      "fitness": 0.1579150804451983,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.596874999904685,
+        "generation": 1,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.24079100012386334,
+        "mechanism": "order_sensitive",
+        "name": "gp_de36b9efdcac",
+        "operator": "typed_subtree_crossover",
+        "oracle_elapsed_ms": 17.537124999762455,
+        "parent_ids": [
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+          "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 31,
+        "proposal_id": "genetic_programming:101:31",
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 4.450499999620661
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "run_length_encode",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.288165999649209,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.3825,
+      "behavioral_novelty": null,
+      "candidate_id": "8ed9620d8e5ad46ec387dc1e3e3a7b5dac91f42883df28f6ef3de897a147e837",
+      "evaluation_index": 39,
+      "feature_dim": 3,
+      "fitness": 0.38092007996847005,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5842919997339777,
+        "generation": 2,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2592920000097365,
+        "mechanism": "order_sensitive",
+        "name": "gp_8ed9620d8e5a",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 17.16149999992922,
+        "parent_ids": [
+          "f68a432884769648f883cdcc609f88a59ab65c577ed9f8908e89ecdfdade8e5b"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 34,
+        "proposal_id": "genetic_programming:101:34",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.089167000074667
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 5.932750999818381,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.454,
+      "behavioral_novelty": null,
+      "candidate_id": "cccc43c212d43eaf95a62c523f06cbffb7e376d2781114818b207ab164334638",
+      "evaluation_index": 40,
+      "feature_dim": 6,
+      "fitness": 0.4518772464475303,
+      "metadata": {
+        "falsification": "Reject the program if its score does not improve the selected population region.",
+        "feature_runtime_ms": 1.5807079998921836,
+        "generation": 2,
+        "hypothesis": "Typed recombination or mutation may improve a representation under the fixed objective.",
+        "inference_runtime_ms": 0.2555420001044695,
+        "mechanism": "free_exploration",
+        "name": "gp_cccc43c212d4",
+        "operator": "typed_mutation",
+        "oracle_elapsed_ms": 16.074749999916094,
+        "parent_ids": [
+          "439df402fff75d4c48673bac1aaf14fdad74e89c8880eb631b22f88600dbfdb3"
+        ],
+        "prediction": "Selection should retain offspring with higher fixed validation fitness.",
+        "proposal_attempt": 35,
+        "proposal_id": "genetic_programming:101:35",
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.0254170001171588
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 3.141592653589793,
+          "low": -3.141592653589793
+        }
+      },
+      "runtime_ms": 4.861667000113812,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    }
+  ],
+  "evaluation_time_ms": 365.67016800063357,
+  "invalid_count": 0,
+  "llm_calls": 0,
+  "llm_tokens": 0,
+  "optimizer": "genetic_programming",
+  "optimizer_seed": 101,
+  "proposal_attempts": 35,
+  "proposal_time_ms": 7.132083001124556,
+  "rejected_by_constraint_count": 0,
+  "termination_reason": null,
+  "total_wall_time_ms": 2664.922332999595,
+  "valid_proposal_count": 35
+}

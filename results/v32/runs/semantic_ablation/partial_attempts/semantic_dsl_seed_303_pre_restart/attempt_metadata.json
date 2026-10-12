@@ -1,0 +1,18 @@
+{
+  "condition": "semantic_dsl",
+  "optimizer": "llm_iterative",
+  "optimizer_seed": 303,
+  "status": "interrupted_before_trace",
+  "reason": "Interrupted after the shared Ollama connection stalled; no candidate trace was saved for this seed.",
+  "process_elapsed_at_interrupt": "01:58:38",
+  "response_records": 64,
+  "proposal_batches_requested": 64,
+  "requested_new_candidate_slots": 161,
+  "accepted_response_records": 56,
+  "rejected_response_records": 8,
+  "llm_tokens_reported": 473034,
+  "llm_prompt_tokens_reported": 410342,
+  "llm_response_tokens_reported": 62692,
+  "audit_log": "results/v32/runs/semantic_ablation/partial_attempts/semantic_dsl_seed_303_pre_restart/llm_responses.jsonl",
+  "created_utc": "2026-10-11T06:20:59.030210+00:00"
+}

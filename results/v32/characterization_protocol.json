@@ -1,0 +1,69 @@
+{
+  "feedback_to_search": false,
+  "frozen_winners_sha256": "fea7e24fb3ca1e8566d88c2c7d1f8b8334e8f6278bbb3374faa13e1df039e70a",
+  "matched_analysis_seed_ids": [
+    101,
+    202
+  ],
+  "panels": {
+    "behavioral_novelty": {
+      "adaptive_candidates_only_in_mean": true,
+      "dataset": "mnist_validation",
+      "labels_read": false,
+      "metric": "normalized pairwise-distance-profile novelty against earlier candidates within each run",
+      "probe_image_count": 128,
+      "sampling_seed": 20261010
+    },
+    "hog_complementarity": {
+      "anchor": "hog",
+      "dataset": "mnist_validation",
+      "metric": "paired accuracy(hog + winner) - accuracy(hog)",
+      "probe": "linear_logreg",
+      "seeds": [
+        11,
+        23,
+        47
+      ],
+      "train_size": 500
+    },
+    "linear_accuracy": {
+      "dataset": "mnist_validation",
+      "probe": "linear_logreg",
+      "seeds": [
+        11,
+        23,
+        47
+      ],
+      "train_size": 500
+    },
+    "rbf_probe": {
+      "dataset": "mnist_validation",
+      "probe": "rbf_svm",
+      "seeds": [
+        11,
+        23,
+        47
+      ],
+      "train_size": 500
+    },
+    "robustness": {
+      "dataset": "mnist_official_test_post_search",
+      "probe": "linear_logreg",
+      "seeds": [
+        11,
+        23,
+        47
+      ],
+      "test_sample_seed": 27182,
+      "test_sample_size": 2000,
+      "train_size": 5000,
+      "transformation": "translate_x_+2",
+      "transformation_seed": 20261013
+    }
+  },
+  "primary_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "schema_version": 1,
+  "study_id": "v3.2-winner-characterization",
+  "v31_protocol_sha256": "64a0fe73d9c4454f9b8fcc9fd62dd0994ff9aff967168ebf9097736bcf33586b",
+  "winner_rule": "highest primary fitness among matched per-run winners; incomplete runs use the best observed candidate and retain their incomplete status"
+}

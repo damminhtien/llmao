@@ -1,0 +1,1345 @@
+{
+  "budget": {
+    "adaptive_new_evaluations": 180,
+    "max_proposal_attempts_per_run": 540,
+    "optimizer_seeds": [
+      101,
+      202,
+      303,
+      404,
+      505
+    ],
+    "seed_evaluations": 20,
+    "smoke_optimizer_seeds": [
+      101
+    ],
+    "smoke_total_evaluations_per_optimizer": 40,
+    "total_unique_evaluations_per_run": 200
+  },
+  "claim_boundary": "Under the frozen V3 typed program space and equal candidate-evaluation budget, iterative LLM-guided search reaches high-performing regions more efficiently than the tested random and genetic-programming baselines.",
+  "data_and_learner": {
+    "dataset": "MNIST OpenML mnist_784 v1; official 60,000-example training partition only",
+    "learner": {
+      "C": 1.0,
+      "classifier": "LogisticRegression",
+      "max_iter": 1000,
+      "random_state": 42,
+      "scaler": "StandardScaler",
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    "official_test_access": false,
+    "training_subset_seed": 42,
+    "training_subset_size": 500,
+    "validation_size": 2000,
+    "validation_split_seed": 42
+  },
+  "frozen_on": "2026-10-10",
+  "frozen_search_space": {
+    "ast_type": "bias_optimizer.dsl.ast.Expr",
+    "candidate_identity": "sha256 of canonical Expr.to_json() UTF-8 bytes; hypothesis metadata is excluded",
+    "constraints": {
+      "forbid_raw_pixels": true,
+      "max_depth": 6,
+      "max_feature_dim": 128,
+      "max_nodes": 127,
+      "require_vector_root": false,
+      "root_types": [
+        "Vector",
+        "Scalar"
+      ],
+      "track": "discovery"
+    },
+    "dsl_source": "src/bias_optimizer/dsl/primitives.py",
+    "seed_program_count": 20,
+    "seed_programs": [
+      {
+        "ast_sha256": "e5bb27219f3305f8b4c7c88f8a45cac8577701e39b63da1ef0e78ff2b9302833",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Turn autocorrelation tests whether neighboring curvature changes persist along a path.",
+          "name": "typed_seed_000",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [],
+                                    "op": "image",
+                                    "params": {}
+                                  }
+                                ],
+                                "op": "skeletonize",
+                                "params": {}
+                              }
+                            ],
+                            "op": "graph",
+                            "params": {}
+                          }
+                        ],
+                        "op": "paths",
+                        "params": {}
+                      }
+                    ],
+                    "op": "angles",
+                    "params": {}
+                  }
+                ],
+                "op": "delta_angle",
+                "params": {}
+              }
+            ],
+            "op": "autocorrelation",
+            "params": {
+              "lags": [
+                1,
+                2,
+                4
+              ]
+            }
+          }
+        },
+        "candidate_id": "138326b67ae63fd3e10caf2d8cde89069230ef8b30a31b0fc8f10a53e1fedbc3"
+      },
+      {
+        "ast_sha256": "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Graph-degree run lengths test whether local branching states persist in traversal order.",
+          "name": "typed_seed_001",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "run_length_encode",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 6,
+              "high": 8,
+              "low": -8
+            }
+          }
+        },
+        "candidate_id": "8e8a5bbc9d144c3967674e2602d68de3ef9d3afebfbee0423e5194629b3ef15f"
+      },
+      {
+        "ast_sha256": "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Moments of graph-degree run lengths test higher-order persistence in the ordered graph trace.",
+          "name": "typed_seed_002",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "run_length_encode",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "candidate_id": "4aa25282ac4050da26f768ce39383e72377c423e6306a1ca94255438831a7113"
+      },
+      {
+        "ast_sha256": "d1a3c6a3eb3d15a1acb964849a947414614bea53d5cd9e87264ec0d88386f14d",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Turn autocorrelation tests persistence across neighboring path steps.",
+          "name": "typed_seed_003",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [],
+                                    "op": "image",
+                                    "params": {}
+                                  }
+                                ],
+                                "op": "skeletonize",
+                                "params": {
+                                  "threshold": 0.5
+                                }
+                              }
+                            ],
+                            "op": "graph",
+                            "params": {}
+                          }
+                        ],
+                        "op": "paths",
+                        "params": {}
+                      }
+                    ],
+                    "op": "angles",
+                    "params": {}
+                  }
+                ],
+                "op": "delta_angle",
+                "params": {}
+              }
+            ],
+            "op": "autocorrelation",
+            "params": {
+              "lags": [
+                1,
+                2,
+                4
+              ]
+            }
+          }
+        },
+        "candidate_id": "a60825496f9b40e05517ce3b7e4f073276179923640ed1227028b6914e4fb4e6"
+      },
+      {
+        "ast_sha256": "4a7356ee1cfbfd10c2c35c1a5bae69e90d26ee3df3ccfc2ee640ead22b58af92",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Moments summarize graph degree structure.",
+          "name": "typed_seed_004",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "candidate_id": "71903f7d636636efad247d5daaca6456596b1b7f65a67cfd8c42c13c0450814d"
+      },
+      {
+        "ast_sha256": "b2d4591fe2eacc500757ea6b7d233db2cbbf395a967b3081c82196736b9925b7",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Edge-length frequencies test local stroke geometry.",
+          "name": "typed_seed_005",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.7
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "edge_lengths",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 8,
+              "high": 2.0,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "74cec8524fea656a8e4196583008b7c3aa343f5ba9bd5822b2271c2330a6d0d2"
+      },
+      {
+        "ast_sha256": "9d1d10043d1b79a38c29c151e11ce5922c5eb2f666f31ada00d175e4d07744d2",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+          "name": "typed_seed_006",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 1
+            }
+          }
+        },
+        "candidate_id": "b2e03d30fba6c3819de0d8fff69b27bba9d689841e2032884427d1802f168f3a"
+      },
+      {
+        "ast_sha256": "bd443dbebf7797235daabd6102a64887c855001a1975b1f472c807b7465fde12",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+          "name": "typed_seed_007",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "autocorrelation",
+            "params": {
+              "lags": [
+                1,
+                2,
+                4
+              ]
+            }
+          }
+        },
+        "candidate_id": "46f3caebf7ecdb653152c54c88960864bd866974bddfa2707905e9de472a48a2"
+      },
+      {
+        "ast_sha256": "93c2d29b77f9dcd7213549bbcef4a92ddf9be1b94aeddaa6da383acf0981cadc",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The turning-angle distribution tests local stroke geometry.",
+          "name": "typed_seed_008",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [],
+                                    "op": "image",
+                                    "params": {}
+                                  }
+                                ],
+                                "op": "skeletonize",
+                                "params": {
+                                  "threshold": 0.3
+                                }
+                              }
+                            ],
+                            "op": "graph",
+                            "params": {}
+                          }
+                        ],
+                        "op": "paths",
+                        "params": {}
+                      }
+                    ],
+                    "op": "angles",
+                    "params": {}
+                  }
+                ],
+                "op": "delta_angle",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 16,
+              "high": 3.141593,
+              "low": -3.141593
+            }
+          }
+        },
+        "candidate_id": "9919147607491c4a7bdcef2a013988a337ca924fb3c417b437c37a0622c0883f"
+      },
+      {
+        "ast_sha256": "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Moments summarize graph degree structure.",
+          "name": "typed_seed_009",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "candidate_id": "fee4b16a36a7926262acf61ce151258e22c22ed5d8c8769d02c46b3b1da81b43"
+      },
+      {
+        "ast_sha256": "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+          "name": "typed_seed_010",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          }
+        },
+        "candidate_id": "6bb9dbf3e6e99e6249cbcaa2e3a486a824f07a966bfa8923c21d0f02bb57adbe"
+      },
+      {
+        "ast_sha256": "d1afa04ff9095aaf7667ee9ca731a13ef48ab91119332beef4f44384bebf32d8",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The graph degree distribution tests skeleton branching structure.",
+          "name": "typed_seed_011",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 4,
+              "high": 16,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "df93c468dd798686e48d6d6f314ce0f3cef040f446dd4ecbd8ff5a6d94f1c2b6"
+      },
+      {
+        "ast_sha256": "c479d00679a28fe5fe469badec0e83b33513b39c55c2252cf2476fd4e068168a",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The graph degree distribution tests skeleton branching structure.",
+          "name": "typed_seed_012",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 16,
+              "high": 16,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "895f5436867a805c01accb678dfcc35ab8b40119807ab4d589501962bdd60630"
+      },
+      {
+        "ast_sha256": "4e3421438cf13e734c00f46cf76013370996d649ab30c20c88e7522eea4134b3",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The graph degree distribution tests skeleton branching structure.",
+          "name": "typed_seed_013",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.4
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 4,
+              "high": 16,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "bc36208a8d88e372e318a045a0f77b2408d87400338c5c753d5cc7d191e70615"
+      },
+      {
+        "ast_sha256": "57e33af9c51a461d95c1e6590332203e20ece4e485cf13a5a0acf37779d56a1d",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The graph degree distribution tests skeleton branching structure.",
+          "name": "typed_seed_014",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.3
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 6,
+              "high": 16,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "c348547f2137f07af73704ceae1c6b0f1bb373034049d881f34d025cc1be68a3"
+      },
+      {
+        "ast_sha256": "ad52a7513edee456524163928b005895e3d3e363178f081b9e0fd868b3994eb2",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Edge-length frequencies test local stroke geometry.",
+          "name": "typed_seed_015",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "edge_lengths",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 8,
+              "high": 2.0,
+              "low": 0
+            }
+          }
+        },
+        "candidate_id": "18f8ddce67ad9ff2e91a89a9163bbe114c9e440367a972dbc78482acfc829c9d"
+      },
+      {
+        "ast_sha256": "d702bd01134f5733c9c3acf0f5d24422442594a694ebd08b2de6cbddc922a113",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Foreground component count tests a compact topological cue.",
+          "name": "typed_seed_016",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [],
+                    "op": "image",
+                    "params": {}
+                  }
+                ],
+                "op": "threshold",
+                "params": {
+                  "value": 0.5
+                }
+              }
+            ],
+            "op": "connected_components",
+            "params": {}
+          }
+        },
+        "candidate_id": "41e642737e151f5634820df8972a50a8e9326515d57e789e764dfa760eff9fca"
+      },
+      {
+        "ast_sha256": "11ad67ea5dc114822c5c259ad5744f680e2d66c52ad07d5dc876e76843487f6c",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+          "name": "typed_seed_017",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "autocorrelation",
+            "params": {
+              "lags": [
+                1,
+                2,
+                4
+              ]
+            }
+          }
+        },
+        "candidate_id": "bc6258c65e4d5d23a090be9683ca77912d6474146d4fe9b34df90517abe85904"
+      },
+      {
+        "ast_sha256": "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "The turning-angle distribution tests local stroke geometry.",
+          "name": "typed_seed_018",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [],
+                                    "op": "image",
+                                    "params": {}
+                                  }
+                                ],
+                                "op": "skeletonize",
+                                "params": {
+                                  "threshold": 0.6
+                                }
+                              }
+                            ],
+                            "op": "graph",
+                            "params": {}
+                          }
+                        ],
+                        "op": "paths",
+                        "params": {}
+                      }
+                    ],
+                    "op": "angles",
+                    "params": {}
+                  }
+                ],
+                "op": "delta_angle",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 16,
+              "high": 3.141593,
+              "low": -3.141593
+            }
+          }
+        },
+        "candidate_id": "17ebaed841d836a80d605858b83b644bf323aea2ce62146b60d140b6009daa65"
+      },
+      {
+        "ast_sha256": "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3",
+        "bias": {
+          "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+          "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+          "mechanism": "Turning moments test aggregate stroke dynamics.",
+          "name": "typed_seed_019",
+          "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+          "program": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [
+                                  {
+                                    "args": [],
+                                    "op": "image",
+                                    "params": {}
+                                  }
+                                ],
+                                "op": "skeletonize",
+                                "params": {
+                                  "threshold": 0.6
+                                }
+                              }
+                            ],
+                            "op": "graph",
+                            "params": {}
+                          }
+                        ],
+                        "op": "paths",
+                        "params": {}
+                      }
+                    ],
+                    "op": "angles",
+                    "params": {}
+                  }
+                ],
+                "op": "delta_angle",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        },
+        "candidate_id": "2a5a22947fd86e6b5b6f4433930a7509a925b83b402f9c7d194a742c42f9b19b"
+      }
+    ]
+  },
+  "genetic_programming": {
+    "crossover": "typed subtree swap at matching ValueType sites",
+    "elitism": 2,
+    "initial_population": "same 20 V3 seed programs, already evaluated by the shared runner",
+    "large_hyperparameter_sweep": false,
+    "mutation": "typed subtree mutation or legal parameter mutation, selected uniformly",
+    "offspring_operator": "one operator per offspring: crossover with probability 0.5, otherwise mutation with probability 0.5",
+    "tournament_size": 3
+  },
+  "hypotheses": {
+    "H1": "Iterative LLM search reaches strong candidate programs using fewer evaluated candidates than random search.",
+    "H2": "Iterative LLM search improves over typed genetic programming under the same evaluation budget.",
+    "H3": "Iterative LLM search outperforms one-shot LLM proposals with the same DSL, model, candidate budget, and initial seeds.",
+    "H4_secondary_only": "Semantic DSL information contributes to LLM search quality.",
+    "H5": "High search fitness does not guarantee a generally useful inductive bias."
+  },
+  "interpretation_matrix": {
+    "all_approx_equal": "search space may be easy or the LLM may be unnecessary",
+    "gp_approx_iterative_llm_gt_random": "adaptive structured search matters, with little added LLM value",
+    "iterative_llm_gt_gp_gt_random": "semantic prior plus feedback appears useful for search efficiency",
+    "iterative_llm_gt_one_shot_approx_gp": "feedback matters without a unique LLM advantage",
+    "one_shot_approx_iterative_llm_gt_gp_random": "pretrained semantic prior helps while empirical feedback adds little",
+    "random_gt_llm": "LLM prior may bias search toward familiar but suboptimal regions"
+  },
+  "llm": {
+    "iterative_excluded_feedback": [
+      "confusion matrices",
+      "V3.1 characterization metrics",
+      "official test data or labels"
+    ],
+    "iterative_feedback": "V3 prompt format: top five MAP-Elites elites with accuracy_500, optional accuracy_5000 if present, feature dimension, descriptor, structural novelty, hypothesis and mechanism; all evaluated AST signatures; underexplored descriptor cells; generation and mechanism focus",
+    "mechanism_family_schedule": [
+      "order_sensitive",
+      "spatial_relational",
+      "graph_relational",
+      "free_exploration"
+    ],
+    "model": "qwen3.5:35b-mlx",
+    "num_predict": 6000,
+    "one_shot_feedback": "DSL, task, constraints, model settings, fixed mechanism schedule, and the 20 seed AST examples only; no candidate scores, evaluated history, descriptor coverage, or adaptive ban list",
+    "proposal_batch_size": 4,
+    "provider": "local Ollama",
+    "request_seed_policy": "proposal batch index + repair-attempt index - 1, reset for each independent run",
+    "temperature": 0.65,
+    "thinking": false,
+    "timeout_seconds": 600
+  },
+  "objective": {
+    "evaluator": "bias_optimizer.ml.evaluator.ProgramEvaluator",
+    "fitness_property": "bias_optimizer.domain.evaluation.Evaluation.ranking_score",
+    "formula": "accuracy_500 - 0.001*log1p(feature_dim) - 0.0001*log1p(runtime_ms)",
+    "runtime_ms": "feature_runtime_ms + training_runtime_ms + inference_runtime_ms",
+    "stage_one_only": true,
+    "train_sizes": [
+      500
+    ],
+    "v31_characterization_metrics_excluded": true
+  },
+  "primary_metrics": {
+    "auc": "trapezoidal integral of best-so-far fitness against evaluated-candidate count from 20 through 200",
+    "paired_bootstrap": {
+      "resamples": 10000,
+      "seed": 20261010,
+      "unit": "paired optimizer-seed index"
+    },
+    "search_curve_indices": [
+      20,
+      21,
+      22,
+      23,
+      24,
+      25,
+      26,
+      27,
+      28,
+      29,
+      30,
+      31,
+      32,
+      33,
+      34,
+      35,
+      36,
+      37,
+      38,
+      39,
+      40,
+      41,
+      42,
+      43,
+      44,
+      45,
+      46,
+      47,
+      48,
+      49,
+      50,
+      51,
+      52,
+      53,
+      54,
+      55,
+      56,
+      57,
+      58,
+      59,
+      60,
+      61,
+      62,
+      63,
+      64,
+      65,
+      66,
+      67,
+      68,
+      69,
+      70,
+      71,
+      72,
+      73,
+      74,
+      75,
+      76,
+      77,
+      78,
+      79,
+      80,
+      81,
+      82,
+      83,
+      84,
+      85,
+      86,
+      87,
+      88,
+      89,
+      90,
+      91,
+      92,
+      93,
+      94,
+      95,
+      96,
+      97,
+      98,
+      99,
+      100,
+      101,
+      102,
+      103,
+      104,
+      105,
+      106,
+      107,
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118,
+      119,
+      120,
+      121,
+      122,
+      123,
+      124,
+      125,
+      126,
+      127,
+      128,
+      129,
+      130,
+      131,
+      132,
+      133,
+      134,
+      135,
+      136,
+      137,
+      138,
+      139,
+      140,
+      141,
+      142,
+      143,
+      144,
+      145,
+      146,
+      147,
+      148,
+      149,
+      150,
+      151,
+      152,
+      153,
+      154,
+      155,
+      156,
+      157,
+      158,
+      159,
+      160,
+      161,
+      162,
+      163,
+      164,
+      165,
+      166,
+      167,
+      168,
+      169,
+      170,
+      171,
+      172,
+      173,
+      174,
+      175,
+      176,
+      177,
+      178,
+      179,
+      180,
+      181,
+      182,
+      183,
+      184,
+      185,
+      186,
+      187,
+      188,
+      189,
+      190,
+      191,
+      192,
+      193,
+      194,
+      195,
+      196,
+      197,
+      198,
+      199,
+      200
+    ],
+    "summary_statistics": [
+      "mean",
+      "median",
+      "sd",
+      "min",
+      "max"
+    ],
+    "thresholds": {
+      "v2_best": {
+        "source_archive_sha256": "26ceb8d94b0ba78352a2f3cc3c939b0892cd362c5798f25c8c50d9d3dbbb8772",
+        "value": 0.7144794413214341
+      },
+      "v3_frozen_finalist_floor": {
+        "source_finalist_manifest_sha256": "a2a2215e6d25ddb1e8d4e35ae084453117994b3e07341b71fdf522274ed33435",
+        "value": 0.8556684108877517
+      },
+      "v3_top_20_cutoff": {
+        "candidate_id": "b30b8768beb8769e9b8b8e6a18a2fb528257b94edc0dae53e6b202446e827ccf",
+        "source_archive_sha256": "452917a23a9e1be2b252e9739445e514bb119450c99c21020790d05e0cb2e686",
+        "value": 0.549790923187964
+      }
+    },
+    "top_k": 5
+  },
+  "primary_optimizers": [
+    "typed_random",
+    "genetic_programming",
+    "llm_one_shot",
+    "llm_iterative"
+  ],
+  "protected_inputs": {
+    "protected_source_sha256": {
+      "reports/V3_EVIDENCE.md": "121da1bf4429bb53253e82bc65dc32cba285d09bf0250e8580754a47847c9b5d",
+      "reports/V3_SEARCH.md": "7486bfaa019e27ea76f2a62c2ea8abfd46630e89e9e22a91a01de01c3a898083",
+      "results/program_search_discovery.jsonl": "26ceb8d94b0ba78352a2f3cc3c939b0892cd362c5798f25c8c50d9d3dbbb8772",
+      "results/v2_transfer_finalists.json": "98d8973e489e7992547288bb46d6ef6073c3ca69213e9adccdda2b63faaef5dd",
+      "results/v3_finalist_evaluations.json": "631c49158491b47f7e3f7e085d98c40f32447e6cc929ea65d2913f0e6df6699e",
+      "results/v3_frozen_finalists.json": "a2a2215e6d25ddb1e8d4e35ae084453117994b3e07341b71fdf522274ed33435",
+      "results/v3_program_search_discovery.jsonl": "452917a23a9e1be2b252e9739445e514bb119450c99c21020790d05e0cb2e686"
+    },
+    "v2_archive_sha256": "26ceb8d94b0ba78352a2f3cc3c939b0892cd362c5798f25c8c50d9d3dbbb8772",
+    "v31_manifest_sha256": "83ba82c60d164d7108f00e451c2b4016b21185383c97e44c732e92a318d7c8bd",
+    "v31_protocol_sha256": "64a0fe73d9c4454f9b8fcc9fd62dd0994ff9aff967168ebf9097736bcf33586b",
+    "v31_protocol_study_id": "v3.1-bias-evaluation",
+    "v3_archive_sha256": "452917a23a9e1be2b252e9739445e514bb119450c99c21020790d05e0cb2e686",
+    "v3_finalist_manifest_sha256": "a2a2215e6d25ddb1e8d4e35ae084453117994b3e07341b71fdf522274ed33435"
+  },
+  "research_question": "Does an LLM provide measurable value as an optimizer over structured inductive-bias program spaces, beyond conventional search methods?",
+  "schema_version": 1,
+  "secondary_semantic_ablation": {
+    "anonymization": "Replace operator names and vision-specific lexical labels with op_01... while preserving signatures, types, parameter constraints and mathematical behavior; interpretation is lexical-semantic only.",
+    "conditions": [
+      "semantic_dsl",
+      "anonymized_dsl"
+    ],
+    "evaluations_per_run": 200,
+    "optimizer": "llm_iterative",
+    "optimizer_seeds": [
+      101,
+      202,
+      303
+    ],
+    "order": "after primary benchmark is frozen and complete"
+  },
+  "study_id": "v3.2-optimizer-value-study",
+  "typed_random_policy": {
+    "canonical_duplicate_policy": "reject duplicate canonical AST hashes without evaluator calls",
+    "parameter_policy": "uniform over frozen, finite legal parameter presets; empty parameters use the DSL defaults",
+    "primitive_selection": "uniform over output-type-compatible primitives with a legal completion within the remaining target depth",
+    "root_type_distribution": "uniform over Vector and Scalar",
+    "target_depth_distribution": "uniform integer from 1 through 6"
+  },
+  "winner_characterization": {
+    "feeds_back_into_search": false,
+    "metrics": [
+      "linear accuracy",
+      "RBF probe",
+      "HOG complementarity",
+      "representation dimension",
+      "V3.1 robustness or counterfactual test where applicable"
+    ],
+    "selection_rule": "highest primary fitness among the five frozen per-run winners in each optimizer condition"
+  }
+}

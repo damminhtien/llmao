@@ -1,0 +1,321 @@
+{
+  "behavioral_diversity": {
+    "genetic_programming": {
+      "adaptive_candidate_count": 360,
+      "behavioral_novelty_mean": 0.12006528111882525,
+      "candidate_count": 400,
+      "descriptor_cell_coverage_mean": 17.0,
+      "descriptor_cell_coverage_union": 23,
+      "incomplete_run_count": 0,
+      "structural_novelty_mean": 0.15579492266992268
+    },
+    "llm_iterative": {
+      "adaptive_candidate_count": 360,
+      "behavioral_novelty_mean": 0.15985993062775883,
+      "candidate_count": 400,
+      "descriptor_cell_coverage_mean": 20.5,
+      "descriptor_cell_coverage_union": 23,
+      "incomplete_run_count": 0,
+      "structural_novelty_mean": 0.14861973775017254
+    },
+    "llm_one_shot": {
+      "adaptive_candidate_count": 360,
+      "behavioral_novelty_mean": 0.2158762403610053,
+      "candidate_count": 400,
+      "descriptor_cell_coverage_mean": 21.0,
+      "descriptor_cell_coverage_union": 25,
+      "incomplete_run_count": 0,
+      "structural_novelty_mean": 0.13391289668463582
+    },
+    "typed_random": {
+      "adaptive_candidate_count": 327,
+      "behavioral_novelty_mean": 0.23714626325277458,
+      "candidate_count": 367,
+      "descriptor_cell_coverage_mean": 25.0,
+      "descriptor_cell_coverage_union": 29,
+      "incomplete_run_count": 2,
+      "structural_novelty_mean": 0.167870723755562
+    }
+  },
+  "characterization_protocol_sha256": "41109ad791784cf4be38c7dedbf0347ffd029c1768062568c32fa9b37df4d0db",
+  "feedback_to_search": false,
+  "frozen_winners_sha256": "fea7e24fb3ca1e8566d88c2c7d1f8b8334e8f6278bbb3374faa13e1df039e70a",
+  "primary_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "schema_version": 1,
+  "selection_rule": "highest primary fitness among matched per-run winners; incomplete runs use the best observed candidate and retain their incomplete status",
+  "v31_protocol_sha256": "64a0fe73d9c4454f9b8fcc9fd62dd0994ff9aff967168ebf9097736bcf33586b",
+  "winners": {
+    "genetic_programming": {
+      "candidate_id": "572020ce62307637c3b45454454c0ed1090d8e7be1481d99a25acced42ede7a1",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "hog_complementarity_linear": {
+        "mean_delta": 0.010666666666666639,
+        "per_seed": {
+          "11": 0.0129999999999999,
+          "23": 0.007000000000000006,
+          "47": 0.01200000000000001
+        }
+      },
+      "linear_accuracy": {
+        "mean": 0.8601666666666666,
+        "n": 3,
+        "sd": 0.006788470618138799
+      },
+      "linear_per_seed": {
+        "11": 0.8665,
+        "23": 0.861,
+        "47": 0.853
+      },
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8575820358797915,
+      "rbf_accuracy": {
+        "mean": 0.8646666666666667,
+        "n": 3,
+        "sd": 0.007588368291888142
+      },
+      "rbf_per_seed": {
+        "11": 0.8715,
+        "23": 0.866,
+        "47": 0.8565
+      },
+      "robustness": {
+        "accuracy_drop_mean": 0.00033333333333333365,
+        "evaluation_partition": "official_test",
+        "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+        "per_seed": [
+          {
+            "accuracy_drop": 0.0004999999999999449,
+            "clean_accuracy": 0.8985,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.9995,
+            "seed": 11,
+            "transformed_accuracy": 0.898
+          },
+          {
+            "accuracy_drop": 0.0,
+            "clean_accuracy": 0.8875,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 1.0,
+            "seed": 23,
+            "transformed_accuracy": 0.8875
+          },
+          {
+            "accuracy_drop": 0.000500000000000056,
+            "clean_accuracy": 0.895,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.9995,
+            "seed": 47,
+            "transformed_accuracy": 0.8945
+          }
+        ],
+        "transformation": "translate_x_+2"
+      },
+      "run_complete": true
+    },
+    "llm_iterative": {
+      "candidate_id": "60d3712ca077344d1834b213bfffdb3ae6b233ecc06900c9f175920c95537513",
+      "evaluated_candidates": 200,
+      "feature_dim": 30,
+      "hog_complementarity_linear": {
+        "mean_delta": 0.010666666666666639,
+        "per_seed": {
+          "11": 0.0129999999999999,
+          "23": 0.007000000000000006,
+          "47": 0.01200000000000001
+        }
+      },
+      "linear_accuracy": {
+        "mean": 0.8603333333333333,
+        "n": 3,
+        "sd": 0.006027713773341713
+      },
+      "linear_per_seed": {
+        "11": 0.866,
+        "23": 0.861,
+        "47": 0.854
+      },
+      "optimizer_seed": 101,
+      "primary_fitness": 0.858990175379362,
+      "rbf_accuracy": {
+        "mean": 0.8651666666666668,
+        "n": 3,
+        "sd": 0.009073771725877474
+      },
+      "rbf_per_seed": {
+        "11": 0.8735,
+        "23": 0.8665,
+        "47": 0.8555
+      },
+      "robustness": {
+        "accuracy_drop_mean": 0.0003333333333332966,
+        "evaluation_partition": "official_test",
+        "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+        "per_seed": [
+          {
+            "accuracy_drop": 0.0004999999999999449,
+            "clean_accuracy": 0.8985,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.9995,
+            "seed": 11,
+            "transformed_accuracy": 0.898
+          },
+          {
+            "accuracy_drop": 0.0,
+            "clean_accuracy": 0.8865,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 1.0,
+            "seed": 23,
+            "transformed_accuracy": 0.8865
+          },
+          {
+            "accuracy_drop": 0.0004999999999999449,
+            "clean_accuracy": 0.8935,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.9995,
+            "seed": 47,
+            "transformed_accuracy": 0.893
+          }
+        ],
+        "transformation": "translate_x_+2"
+      },
+      "run_complete": true
+    },
+    "llm_one_shot": {
+      "candidate_id": "871c986585e7a4139a73b17b92fda261689e17aac0d6086bfcede2e666acbe00",
+      "evaluated_candidates": 200,
+      "feature_dim": 24,
+      "hog_complementarity_linear": {
+        "mean_delta": 0.008666666666666637,
+        "per_seed": {
+          "11": 0.011499999999999955,
+          "23": 0.0050000000000000044,
+          "47": 0.009499999999999953
+        }
+      },
+      "linear_accuracy": {
+        "mean": 0.848,
+        "n": 3,
+        "sd": 0.004092676385936235
+      },
+      "linear_per_seed": {
+        "11": 0.8525,
+        "23": 0.847,
+        "47": 0.8445
+      },
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8427047810949302,
+      "rbf_accuracy": {
+        "mean": 0.8575,
+        "n": 3,
+        "sd": 0.005220153254455248
+      },
+      "rbf_per_seed": {
+        "11": 0.86,
+        "23": 0.861,
+        "47": 0.8515
+      },
+      "robustness": {
+        "accuracy_drop_mean": 0.0,
+        "evaluation_partition": "official_test",
+        "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+        "per_seed": [
+          {
+            "accuracy_drop": 0.0,
+            "clean_accuracy": 0.887,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 1.0,
+            "seed": 11,
+            "transformed_accuracy": 0.887
+          },
+          {
+            "accuracy_drop": 0.0,
+            "clean_accuracy": 0.877,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 1.0,
+            "seed": 23,
+            "transformed_accuracy": 0.877
+          },
+          {
+            "accuracy_drop": 0.0,
+            "clean_accuracy": 0.883,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 1.0,
+            "seed": 47,
+            "transformed_accuracy": 0.883
+          }
+        ],
+        "transformation": "translate_x_+2"
+      },
+      "run_complete": true
+    },
+    "typed_random": {
+      "candidate_id": "54b0b3e05e3b4da81a159c76143d215445dc5296602937e208004232c7e03292",
+      "evaluated_candidates": 183,
+      "feature_dim": 36,
+      "hog_complementarity_linear": {
+        "mean_delta": 0.0074999999999999884,
+        "per_seed": {
+          "11": 0.007499999999999951,
+          "23": 0.006500000000000061,
+          "47": 0.008499999999999952
+        }
+      },
+      "linear_accuracy": {
+        "mean": 0.849,
+        "n": 3,
+        "sd": 0.005291502622129186
+      },
+      "linear_per_seed": {
+        "11": 0.847,
+        "23": 0.855,
+        "47": 0.845
+      },
+      "optimizer_seed": 202,
+      "primary_fitness": 0.8311847240995112,
+      "rbf_accuracy": {
+        "mean": 0.8665,
+        "n": 3,
+        "sd": 0.005267826876426348
+      },
+      "rbf_per_seed": {
+        "11": 0.872,
+        "23": 0.8615,
+        "47": 0.866
+      },
+      "robustness": {
+        "accuracy_drop_mean": 0.09549999999999999,
+        "evaluation_partition": "official_test",
+        "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+        "per_seed": [
+          {
+            "accuracy_drop": 0.08799999999999997,
+            "clean_accuracy": 0.895,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.8495,
+            "seed": 11,
+            "transformed_accuracy": 0.807
+          },
+          {
+            "accuracy_drop": 0.10499999999999998,
+            "clean_accuracy": 0.892,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.8255,
+            "seed": 23,
+            "transformed_accuracy": 0.787
+          },
+          {
+            "accuracy_drop": 0.09350000000000003,
+            "clean_accuracy": 0.896,
+            "evaluation_split_id": "mnist-official-test-27182-a44fed7980e25ed9",
+            "prediction_agreement": 0.8445,
+            "seed": 47,
+            "transformed_accuracy": 0.8025
+          }
+        ],
+        "transformation": "translate_x_+2"
+      },
+      "run_complete": false
+    }
+  }
+}

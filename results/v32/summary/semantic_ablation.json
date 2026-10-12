@@ -1,0 +1,191 @@
+{
+  "conditions": {
+    "anonymized_dsl": {
+      "complete_run_count": 3,
+      "final_best_fitness": {
+        "max": 0.6359419977073393,
+        "mean": 0.6129100931440794,
+        "median": 0.6305844275942513,
+        "min": 0.5722038541306477,
+        "n": 3,
+        "sd": 0.03535426862973037
+      },
+      "incomplete_per_seed": {},
+      "per_seed": {
+        "101": 0.6359419977073393,
+        "202": 0.5722038541306477,
+        "303": 0.6305844275942513
+      }
+    },
+    "semantic_dsl": {
+      "complete_run_count": 3,
+      "final_best_fitness": {
+        "max": 0.8593025876727763,
+        "mean": 0.8584670534219794,
+        "median": 0.8580934413131144,
+        "min": 0.8580051312800475,
+        "n": 3,
+        "sd": 0.0007249398448672524
+      },
+      "incomplete_per_seed": {},
+      "per_seed": {
+        "101": 0.8580051312800475,
+        "202": 0.8580934413131144,
+        "303": 0.8593025876727763
+      }
+    }
+  },
+  "interpretation": "lexical-semantic ablation only; does not remove all pretrained knowledge",
+  "interrupted_attempts": [
+    {
+      "accepted_response_records": 82,
+      "archived_utc": "2026-10-12T04:06:30.402327+00:00",
+      "audit_log": "results/v32/runs/semantic_ablation/partial_attempts/semantic_dsl_seed_303_post_restart/llm_responses.jsonl",
+      "condition": "semantic_dsl",
+      "distinct_proposal_ast_hashes": 177,
+      "llm_prompt_tokens_reported": 788615,
+      "llm_response_tokens_reported": 99884,
+      "llm_tokens_reported": 888499,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 303,
+      "parseable_proposal_objects": 232,
+      "proposal_batches_requested": 144,
+      "reason": "The optimizer process was no longer active after the turn interruption; no candidate trace was saved.",
+      "rejected_response_records": 62,
+      "requested_candidate_slots": 303,
+      "response_records": 144,
+      "status": "interrupted_without_trace"
+    },
+    {
+      "accepted_response_records": 56,
+      "audit_log": "results/v32/runs/semantic_ablation/partial_attempts/semantic_dsl_seed_303_pre_restart/llm_responses.jsonl",
+      "condition": "semantic_dsl",
+      "created_utc": "2026-10-11T06:20:59.030210+00:00",
+      "llm_prompt_tokens_reported": 410342,
+      "llm_response_tokens_reported": 62692,
+      "llm_tokens_reported": 473034,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 303,
+      "process_elapsed_at_interrupt": "01:58:38",
+      "proposal_batches_requested": 64,
+      "reason": "Interrupted after the shared Ollama connection stalled; no candidate trace was saved for this seed.",
+      "rejected_response_records": 8,
+      "requested_new_candidate_slots": 161,
+      "response_records": 64,
+      "status": "interrupted_before_trace"
+    }
+  ],
+  "optimizer": "llm_iterative",
+  "optimizer_seeds": [
+    101,
+    202,
+    303
+  ],
+  "paired_difference": {
+    "bootstrap_seed": 20261010,
+    "ci_95": [
+      0.22206313357270824,
+      0.2858895871824667
+    ],
+    "mean_delta": 0.2455569602779,
+    "median_delta": 0.22871816007852508,
+    "n": 3,
+    "paired_runs": 3,
+    "paired_seed_indices": [
+      101,
+      202,
+      303
+    ],
+    "resamples": 10000,
+    "semantic_wins": 3
+  },
+  "parent_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "protocol_sha256": "6282c5d9418edbf428075d3b244759c7a858f219e29dad9954f5e3904cc08d08",
+  "runs": [
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "duplicate_count": 101,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.8580051312800475,
+      "invalid_count": 5,
+      "last_observed_best_fitness": null,
+      "llm_calls": 140,
+      "llm_tokens": 1283246,
+      "optimizer_seed": 101,
+      "proposal_attempts": 315,
+      "total_wall_time_ms": 2866318.9389169994
+    },
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "duplicate_count": 88,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.8580934413131144,
+      "invalid_count": 20,
+      "last_observed_best_fitness": null,
+      "llm_calls": 116,
+      "llm_tokens": 1036961,
+      "optimizer_seed": 202,
+      "proposal_attempts": 311,
+      "total_wall_time_ms": 2910353.180708
+    },
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "duplicate_count": 121,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.8593025876727763,
+      "invalid_count": 4,
+      "last_observed_best_fitness": null,
+      "llm_calls": 137,
+      "llm_tokens": 1268457,
+      "optimizer_seed": 303,
+      "proposal_attempts": 327,
+      "total_wall_time_ms": 2842702.2836249997
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "duplicate_count": 35,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.6359419977073393,
+      "invalid_count": 3,
+      "last_observed_best_fitness": null,
+      "llm_calls": 97,
+      "llm_tokens": 1132729,
+      "optimizer_seed": 101,
+      "proposal_attempts": 242,
+      "total_wall_time_ms": 2483003.2377919997
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "duplicate_count": 293,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.5722038541306477,
+      "invalid_count": 6,
+      "last_observed_best_fitness": null,
+      "llm_calls": 262,
+      "llm_tokens": 3297685,
+      "optimizer_seed": 202,
+      "proposal_attempts": 535,
+      "total_wall_time_ms": 5567153.768042001
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "duplicate_count": 117,
+      "evaluated_candidates": 200,
+      "final_best_fitness": 0.6305844275942513,
+      "invalid_count": 12,
+      "last_observed_best_fitness": null,
+      "llm_calls": 174,
+      "llm_tokens": 2077172,
+      "optimizer_seed": 303,
+      "proposal_attempts": 370,
+      "total_wall_time_ms": 3795782.6055410006
+    }
+  ],
+  "schema_version": 1
+}

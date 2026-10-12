@@ -1,0 +1,399 @@
+{
+  "primary_execution": {
+    "excluded_run_statuses": [
+      {
+        "complete": false,
+        "evaluated_candidates": 187,
+        "optimizer": "typed_random",
+        "optimizer_seed": 303,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 181,
+        "optimizer": "typed_random",
+        "optimizer_seed": 404,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 178,
+        "optimizer": "typed_random",
+        "optimizer_seed": 505,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": true,
+        "evaluated_candidates": 200,
+        "optimizer": "genetic_programming",
+        "optimizer_seed": 303,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": true,
+        "evaluated_candidates": 200,
+        "optimizer": "genetic_programming",
+        "optimizer_seed": 404,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": true,
+        "evaluated_candidates": 200,
+        "optimizer": "genetic_programming",
+        "optimizer_seed": 505,
+        "status": "retained_outside_matched_analysis"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_one_shot",
+        "optimizer_seed": 303,
+        "status": "not_run_under_runtime_fallback"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_one_shot",
+        "optimizer_seed": 404,
+        "status": "not_run_under_runtime_fallback"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_one_shot",
+        "optimizer_seed": 505,
+        "status": "not_run_under_runtime_fallback"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_iterative",
+        "optimizer_seed": 303,
+        "status": "not_run_under_runtime_fallback"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_iterative",
+        "optimizer_seed": 404,
+        "status": "not_run_under_runtime_fallback"
+      },
+      {
+        "complete": false,
+        "evaluated_candidates": 0,
+        "optimizer": "llm_iterative",
+        "optimizer_seed": 505,
+        "status": "not_run_under_runtime_fallback"
+      }
+    ],
+    "matched_analysis_seeds": [
+      101,
+      202
+    ],
+    "protocol_seeds": [
+      101,
+      202,
+      303,
+      404,
+      505
+    ],
+    "runtime_fallback": true,
+    "runtime_fallback_reason": "Local qwen3.5:35b-mlx proposal throughput made the full five-seed run prohibitive; the matched seed subset (101, 202) is used."
+  },
+  "protected_inputs": {
+    "protected_source_sha256": {
+      "reports/V3_EVIDENCE.md": "121da1bf4429bb53253e82bc65dc32cba285d09bf0250e8580754a47847c9b5d",
+      "reports/V3_SEARCH.md": "7486bfaa019e27ea76f2a62c2ea8abfd46630e89e9e22a91a01de01c3a898083",
+      "results/program_search_discovery.jsonl": "26ceb8d94b0ba78352a2f3cc3c939b0892cd362c5798f25c8c50d9d3dbbb8772",
+      "results/v2_transfer_finalists.json": "98d8973e489e7992547288bb46d6ef6073c3ca69213e9adccdda2b63faaef5dd",
+      "results/v3_finalist_evaluations.json": "631c49158491b47f7e3f7e085d98c40f32447e6cc929ea65d2913f0e6df6699e",
+      "results/v3_frozen_finalists.json": "a2a2215e6d25ddb1e8d4e35ae084453117994b3e07341b71fdf522274ed33435",
+      "results/v3_program_search_discovery.jsonl": "452917a23a9e1be2b252e9739445e514bb119450c99c21020790d05e0cb2e686"
+    },
+    "v2_archive_sha256": "26ceb8d94b0ba78352a2f3cc3c939b0892cd362c5798f25c8c50d9d3dbbb8772",
+    "v31_manifest_sha256": "83ba82c60d164d7108f00e451c2b4016b21185383c97e44c732e92a318d7c8bd",
+    "v31_protocol_sha256": "64a0fe73d9c4454f9b8fcc9fd62dd0994ff9aff967168ebf9097736bcf33586b",
+    "v31_protocol_study_id": "v3.1-bias-evaluation",
+    "v3_archive_sha256": "452917a23a9e1be2b252e9739445e514bb119450c99c21020790d05e0cb2e686",
+    "v3_finalist_manifest_sha256": "a2a2215e6d25ddb1e8d4e35ae084453117994b3e07341b71fdf522274ed33435"
+  },
+  "protocol": {
+    "path": "results/v32/protocol.json",
+    "sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a"
+  },
+  "runs": [
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 101,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_101/trace.json",
+      "trace_sha256": "dcecb01fdc986b582b8323c1df2c22bce8d26d08d46043b09e4138ec5826c487"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 202,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_202/trace.json",
+      "trace_sha256": "aad8a43ff4b8935b6812b0f0d07d8764b963b37d9aef99749ae275d5c1b3c5c7"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 303,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_303/trace.json",
+      "trace_sha256": "ed2b77ed3c0634b0c9172836387b5c1686ea09bd6e99dc0fffc8351956b9d5f9"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 404,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_404/trace.json",
+      "trace_sha256": "a7f34f9f1cd7d854b2056e4cea5207a340737f28d6f1d8465763df666d547c42"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 505,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/genetic_programming/seed_505/trace.json",
+      "trace_sha256": "8631e707110f0a6539b41922f2f49a6d71437062db0981f4dbe5f05eefe72f99"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c9accd6bd2f5ae1cff4f2c78723f0a3c95846bea98b86a9e187307a565a6c5fc"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 202,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/llm_iterative/seed_202/trace.json",
+      "trace_sha256": "bfbd459776dbbd63f05ed544953f15f073093f8589d7718f32b5fd18b5752823"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 101,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/llm_one_shot/seed_101/trace.json",
+      "trace_sha256": "dfd3044042b19bc4dc5280821fa6d7729b1e612a8ebcf6a2c9ef6e4d88912854"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 200,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 202,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/llm_one_shot/seed_202/trace.json",
+      "trace_sha256": "a6a7302b592d67509fc2021026cd6e093bb2abf3c5d3621490c7e058852c7653"
+    },
+    {
+      "complete": false,
+      "evaluated_candidates": 184,
+      "optimizer": "typed_random",
+      "optimizer_seed": 101,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/typed_random/seed_101/trace.json",
+      "trace_sha256": "51dcc93224690f394be1649b524ee8d84e0c9c8cf85d3ae7c7b4c7484a3e660c"
+    },
+    {
+      "complete": false,
+      "evaluated_candidates": 183,
+      "optimizer": "typed_random",
+      "optimizer_seed": 202,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/typed_random/seed_202/trace.json",
+      "trace_sha256": "e42ec063e21dbbbb309988f480a24191ffbc9e0215e22432c9ee8a72fa9f04d0"
+    },
+    {
+      "complete": false,
+      "evaluated_candidates": 187,
+      "optimizer": "typed_random",
+      "optimizer_seed": 303,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/typed_random/seed_303/trace.json",
+      "trace_sha256": "306c75c6fbc74f599be3a72a4c906bd659fc53e28b5d46041e74585d12a831c2"
+    },
+    {
+      "complete": false,
+      "evaluated_candidates": 181,
+      "optimizer": "typed_random",
+      "optimizer_seed": 404,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/typed_random/seed_404/trace.json",
+      "trace_sha256": "645f507e83ad29efd212f9ebe8633693eb77be24675394ca17600766a1e88643"
+    },
+    {
+      "complete": false,
+      "evaluated_candidates": 178,
+      "optimizer": "typed_random",
+      "optimizer_seed": 505,
+      "phase": "primary",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/primary/typed_random/seed_505/trace.json",
+      "trace_sha256": "3507adcf249db496408b5714b70f16c98ca47ba92676e2132a02ee396163a85a"
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/anonymized_dsl/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c396a35635f36b4c9dbf520a658fcdd8c2d165379ebad978efc6b8dc2cdb117b"
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 202,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/anonymized_dsl/llm_iterative/seed_202/trace.json",
+      "trace_sha256": "ca9fc8c556c45a279cc33b8b07791bd3ae52508b65dfeda011cf190c791a5267"
+    },
+    {
+      "complete": true,
+      "condition": "anonymized_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 303,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/anonymized_dsl/llm_iterative/seed_303/trace.json",
+      "trace_sha256": "f5e41ac3632d878ffeea2c508c7c3436412cd413c7d09ce8499655866b3c60ca"
+    },
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/semantic_dsl/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "2d56b80aa5c828cedefe3c69b8b06f17dd6f830bb358606cc1e58fcd3a9a301f"
+    },
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 202,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/semantic_dsl/llm_iterative/seed_202/trace.json",
+      "trace_sha256": "21b9e020c1511945fea7663bee94fe52a1b02cbdd3dc8ac4026bf95b600a665e"
+    },
+    {
+      "complete": true,
+      "condition": "semantic_dsl",
+      "evaluated_candidates": 200,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 303,
+      "phase": "semantic_ablation",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 200,
+      "trace": "results/v32/runs/semantic_ablation/semantic_dsl/llm_iterative/seed_303/trace.json",
+      "trace_sha256": "406fa88da078f4b436b269da6909ba77f90b802e2c39d4727840b4cfe8438d8c"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 101,
+      "phase": "smoke",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "trace": "results/v32/runs/smoke/genetic_programming/seed_101/trace.json",
+      "trace_sha256": "f3813cc3164c3206a47d5971953d1e840a1ceb1b61513a35b9d4f4444725330c"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "phase": "smoke",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "trace": "results/v32/runs/smoke/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "2b4e442f622163e1315cd377b91cc6d2668cc619cac9f3420fc677af749e15ac"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 101,
+      "phase": "smoke",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "trace": "results/v32/runs/smoke/llm_one_shot/seed_101/trace.json",
+      "trace_sha256": "b843a280ab71bf51ffe17a2822a3659b1c7a4534697be915b421c1137ae5a724"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "typed_random",
+      "optimizer_seed": 101,
+      "phase": "smoke",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "trace": "results/v32/runs/smoke/typed_random/seed_101/trace.json",
+      "trace_sha256": "c58be7de32ec0f088ec5e472b1388c764243e5f70fb8ec54f3edc9891ccd7f5a"
+    }
+  ],
+  "schema_version": 1,
+  "status": "primary_finished_with_runtime_fallback",
+  "study_id": "v3.2-optimizer-value-study"
+}
