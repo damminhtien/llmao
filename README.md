@@ -17,9 +17,7 @@ We usually make these choices ourselves. LLMAO asks whether a language model
 can help propose them, and what an experiment would have to show before we
 could trust its proposal.
 
-![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
-
-[Read the studies](#the-story-so-far) · [See the architecture](#conceptual-architecture) · [Reproduce a version](docs/REPRODUCIBILITY.md)
+[Read the studies](reports/README.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
 ## The assumptions we bring to learning
 
@@ -97,14 +95,6 @@ the completed studies use bounded, predefined evaluation procedures.
 
 ## The story so far
 
-```mermaid
-flowchart LR
-    V1["V1<br/>Choose features"] --> V2["V2<br/>Write programs"]
-    V2 --> V3["V3<br/>Express relations"]
-    V3 --> V31["V3.1<br/>Challenge the bias"]
-    V31 --> V32["V3.2<br/>Challenge the optimizer"]
-```
-
 Each stage begins with something the previous experiment could not tell us.
 
 ### V1: Can the LLM choose useful biases?
@@ -115,7 +105,7 @@ composition improves over raw pixels, while HOG remains stronger.
 
 This establishes useful composition within a supplied menu. It also reveals the
 boundary of that approach: the LLM cannot express a representation outside the
-operators we have already designed. See the [V1 report](reports/FINAL_REPORT.md).
+operators we have already designed. See the [V1 report](reports/scientific/V1_OPERATOR_COMPOSITION.md).
 
 ### V2: Can the LLM write representation programs?
 
@@ -129,7 +119,7 @@ limitation. The descriptor places many programs in the same `hybrid` niche,
 and successful finalists mostly summarize distributions. Sequence shuffling
 leaves their predictions unchanged. Strong Fashion-MNIST transfer also prevents
 a handwriting-specific interpretation. See the
-[V2 report](reports/V2_PROGRAM_SYNTHESIS.md).
+[V2 report](reports/scientific/V2_PROGRAM_SYNTHESIS.md).
 
 ### V3: Can the programs express useful relations?
 
@@ -144,7 +134,7 @@ ablations support the importance of event location. The finalists still remain
 orderless, and their transfer is strongest on EMNIST Digits; KMNIST and
 Fashion-MNIST expose substantial limits. Evidence supports a useful digit-domain
 spatial prior, with the exact subtraction mechanism still unresolved. See the
-[V3 evidence report](reports/V3_EVIDENCE.md), with the
+[V3 evidence report](reports/scientific/V3_RELATIONAL_PRIORS.md), with the
 [pilot](reports/V3_PILOT.md) and [search record](reports/V3_SEARCH.md).
 
 ### V3.1: What does a frozen bias actually contribute?
@@ -159,7 +149,7 @@ They add predictive signal when combined with HOG under the fixed linear probe.
 Sensitivity to erosion and vertical translation, alongside uneven transfer,
 shows how specific their assumptions are. A bias therefore has an empirical
 profile tied to its learner and domain, rather than one universal quality score.
-See the [V3.1 evaluation report](reports/V3_1_BIAS_EVALUATION.md).
+See the [V3.1 evaluation report](reports/scientific/V3_1_BIAS_EVALUATION.md).
 
 ### V3.2: What did the LLM contribute to search?
 
@@ -179,23 +169,9 @@ all pretrained knowledge.
 These observations support a bounded role for semantics and feedback in this
 search space. The small matched sample and censored runs limit broader claims
 about optimizer superiority or scientific discovery. See the
-[V3.2 optimizer study](reports/V3_2_OPTIMIZER_VALUE.md).
+[V3.2 optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md).
 
 ## Conceptual architecture
-
-```mermaid
-flowchart TD
-    H[Hypothesis and mechanism] --> P[Typed representation proposal]
-    P --> V[Static validation and compilation]
-    V --> E[Local train and validation evaluator]
-    E --> A[Evidence and quality-diversity archive]
-    A --> H
-    A --> F[Freeze selected programs and provenance]
-    F --> C[Mechanism and nuisance interventions]
-    F --> T[Transfer and learner comparisons]
-    F --> B[Complementarity and robustness]
-    O[Matched optimizer alternatives] --> P
-```
 
 The LLM supplies hypotheses and programs. The typed language limits execution
 to approved primitives, and the evaluator assigns every score. Invalid programs
@@ -208,7 +184,9 @@ under a shared search contract, then characterizes preselected winners after
 search. These boundaries keep representation quality, mechanism evidence, and
 optimizer value as separately answerable questions.
 
-The detailed design is in [ARCHITECTURE.md](ARCHITECTURE.md), with the original
+The [architecture diagram](docs/FIGURES.md#figure-3-the-experimental-architecture)
+summarizes these boundaries. The detailed design is in
+[ARCHITECTURE.md](ARCHITECTURE.md), with the original
 [V1 architecture](ARCHITECTURE_V1.md) retained. The historical
 [search plan](PLAN.md) and [V3.1 protocol](V3_1_PROTOCOL.md) document the study
 boundaries.
@@ -245,14 +223,6 @@ occur is essential. More search for accuracy may leave them tied. An interventio
 that preserves the turn distribution while reassigning locations can tell us
 something a leaderboard cannot.
 
-```mermaid
-flowchart LR
-    Q["Two plausible explanations"] --> X["An experiment that separates them"]
-    X --> D["Observed disagreement"]
-    D --> R["Revise the representation<br/>and its explanation"]
-    R --> Q
-```
-
 That is a possible next research direction, beyond the completed studies here.
 It would need a bounded experimental language, controls for what each
 intervention changes, and a record of failed predictions. The system would also
@@ -272,15 +242,16 @@ in building that discipline.
 ## 📚 Preserved versions and reading guide
 
 `main` integrates the full sequence. Historical branches and commits retain the
-implementation at each stage; the version reports remain separate and unchanged.
+implementation at each stage. The scientific reports present the findings;
+the original experimental records retain full tables and frozen provenance.
 
 | Stage | Historical source | Report |
 |---|---|---|
-| V1: operator composition | `1037c5b` | [Final report](reports/FINAL_REPORT.md) |
-| V2: typed synthesis | `v2-program-bias-search` / `c6d3f85` (tag `v2-final`) | [Program synthesis](reports/V2_PROGRAM_SYNTHESIS.md) |
-| V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/V3_EVIDENCE.md) |
-| V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/V3_1_BIAS_EVALUATION.md) |
-| V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/V3_2_OPTIMIZER_VALUE.md) |
+| V1: operator composition | `1037c5b` | [Final report](reports/scientific/V1_OPERATOR_COMPOSITION.md) |
+| V2: typed synthesis | `v2-program-bias-search` / `c6d3f85` (tag `v2-final`) | [Program synthesis](reports/scientific/V2_PROGRAM_SYNTHESIS.md) |
+| V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/scientific/V3_RELATIONAL_PRIORS.md) |
+| V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/scientific/V3_1_BIAS_EVALUATION.md) |
+| V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md) |
 
 For setup and historical execution commands, see
 [Development and reproduction](docs/REPRODUCIBILITY.md). Research reports record
