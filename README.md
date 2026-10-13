@@ -97,6 +97,14 @@ the completed studies use bounded, predefined evaluation procedures.
 
 ## The story so far
 
+```mermaid
+flowchart LR
+    V1["V1<br/>Choose features"] --> V2["V2<br/>Write programs"]
+    V2 --> V3["V3<br/>Express relations"]
+    V3 --> V31["V3.1<br/>Challenge the bias"]
+    V31 --> V32["V3.2<br/>Challenge the optimizer"]
+```
+
 Each stage begins with something the previous experiment could not tell us.
 
 ### V1: Can the LLM choose useful biases?
@@ -211,6 +219,20 @@ and remain censored. Fitness includes complexity and runtime penalties.
 
 ## Conceptual architecture
 
+```mermaid
+flowchart TD
+    H[Hypothesis and mechanism] --> P[Typed representation proposal]
+    P --> V[Static validation and compilation]
+    V --> E[Local train and validation evaluator]
+    E --> A[Evidence and quality-diversity archive]
+    A --> H
+    A --> F[Freeze selected programs and provenance]
+    F --> C[Mechanism and nuisance interventions]
+    F --> T[Transfer and learner comparisons]
+    F --> B[Complementarity and robustness]
+    O[Matched optimizer alternatives] --> P
+```
+
 The LLM supplies hypotheses and programs. The typed language limits execution
 to approved primitives, and the evaluator assigns every score. Invalid programs
 are rejected before evaluation. During discovery, train and validation evidence
@@ -222,8 +244,7 @@ under a shared search contract, then characterizes preselected winners after
 search. These boundaries keep representation quality, mechanism evidence, and
 optimizer value as separately answerable questions.
 
-The [architecture diagram](docs/FIGURES.md#figure-3-the-experimental-architecture)
-summarizes these boundaries. The detailed design is in
+The detailed design is in
 [ARCHITECTURE.md](ARCHITECTURE.md), with the original
 [V1 architecture](ARCHITECTURE_V1.md) retained. The historical
 [search plan](PLAN.md) and [V3.1 protocol](V3_1_PROTOCOL.md) document the study
@@ -260,6 +281,14 @@ are identified by how often a stroke turns; another says that where those turns
 occur is essential. More search for accuracy may leave them tied. An intervention
 that preserves the turn distribution while reassigning locations can tell us
 something a leaderboard cannot.
+
+```mermaid
+flowchart LR
+    Q["Two plausible explanations"] --> X["An experiment that separates them"]
+    X --> D["Observed disagreement"]
+    D --> R["Revise the representation<br/>and its explanation"]
+    R --> Q
+```
 
 That is a possible next research direction, beyond the completed studies here.
 It would need a bounded experimental language, controls for what each
