@@ -46,6 +46,14 @@ three training seeds, and 2,000 official-test images per external domain.
 
 ### Predictive performance and representation diversity
 
+![V3 spatial interventions and transfer](../figures/V3_MECHANISM_TRANSFER.png)
+
+**Figure 1.** Left: original and event-location-reassigned accuracy on 2,000
+held-out MNIST images; intervention values are means over three intervention
+seeds. Right: transfer at 5,000 training examples. Green intervals show the
+range of mean accuracies across five finalists, not statistical uncertainty.
+All values are drawn from the original evidence report.
+
 The archive occupied 21 behavioral cells. The leading 30-dimensional program
 was proposed in generation seven and had not been supplied as a complete seed
 feature. It relates regional stroke-angle and centroid summaries through a

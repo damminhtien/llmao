@@ -44,6 +44,13 @@ were evaluated separately using MNIST training and validation data only.
 
 ### Search and augmentation
 
+![V2 augmentation controls and transfer](../figures/V2_AUGMENTATION_TRANSFER.png)
+
+**Figure 1.** Left: post-search validation controls at two training sizes.
+Right: frozen spatial-cycle transfer with 5,000 training examples; error bars
+show standard deviations over three training seeds. Each domain uses 2,000
+sampled official-test images. Panels use different evaluation partitions.
+
 The leading discovery program combined cycle and angle summaries. It used
 16 features and achieved 71.80% validation accuracy at 500 examples and 74.20%
 at 5,000. The augmentation search reached 64.45% at 500 examples; although raw

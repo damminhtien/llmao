@@ -17,6 +17,8 @@ We usually make these choices ourselves. LLMAO asks whether a language model
 can help propose them, and what an experiment would have to show before we
 could trust its proposal.
 
+![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
+
 [Read the studies](reports/README.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
 ## The assumptions we bring to learning
@@ -107,6 +109,12 @@ This establishes useful composition within a supplied menu. It also reveals the
 boundary of that approach: the LLM cannot express a representation outside the
 operators we have already designed. See the [V1 report](reports/scientific/V1_OPERATOR_COMPOSITION.md).
 
+![V1 learning curves for stroke-direction augmentation, raw pixels, and HOG](reports/figures/V1_LEARNING_CURVES.png)
+
+**V1.** Official MNIST test accuracy after finalist selection. Error bars show
+standard deviation over three runs; at 60,000 examples the training partition
+is identical across runs. Stroke-direction features help, while HOG stays ahead.
+
 ### V2: Can the LLM write representation programs?
 
 V2 replaces the feature menu with a typed expression language. Programs compose
@@ -120,6 +128,15 @@ and successful finalists mostly summarize distributions. Sequence shuffling
 leaves their predictions unchanged. Strong Fashion-MNIST transfer also prevents
 a handwriting-specific interpretation. See the
 [V2 report](reports/scientific/V2_PROGRAM_SYNTHESIS.md).
+
+![V2 post-search pixel augmentation and frozen spatial-cycle transfer](reports/figures/V2_AUGMENTATION_TRANSFER.png)
+
+**V2.** Left: post-search compositions on the same validation split used for
+selection, not independently tested LLM discoveries. Right: the frozen 25D
+spatial-cycle representation, trained with 5,000 examples and evaluated on
+2,000 official-test images per domain; bars show means and error bars show
+standard deviations over three training seeds. Fashion-MNIST performance
+limits a handwriting-specific interpretation.
 
 ### V3: Can the programs express useful relations?
 
@@ -137,6 +154,14 @@ spatial prior, with the exact subtraction mechanism still unresolved. See the
 [V3 evidence report](reports/scientific/V3_RELATIONAL_PRIORS.md), with the
 [pilot](reports/V3_PILOT.md) and [search record](reports/V3_SEARCH.md).
 
+![V3 event-location intervention and transfer relative to zoning and HOG](reports/figures/V3_MECHANISM_TRANSFER.png)
+
+**V3.** Left: reassigning stroke-event locations while preserving the marginal
+values substantially reduces accuracy on 2,000 held-out MNIST images. Right:
+transfer at 5,000 training examples. Green intervals span the five finalists'
+mean accuracies, not confidence intervals. The benefit is strongest on EMNIST
+Digits; HOG remains stronger across domains.
+
 ### V3.1: What does a frozen bias actually contribute?
 
 V3.1 freezes the V3 finalists and evaluates them across representation, learner,
@@ -150,6 +175,12 @@ Sensitivity to erosion and vertical translation, alongside uneven transfer,
 shows how specific their assumptions are. A bias therefore has an empirical
 profile tied to its learner and domain, rather than one universal quality score.
 See the [V3.1 evaluation report](reports/scientific/V3_1_BIAS_EVALUATION.md).
+
+![V3.1 learning curves across frozen representations and classifiers](reports/V3_1_LEARNING_CURVES.png)
+
+**V3.1.** The frozen evaluation compares representations under several learners
+and training sizes. V3 beats simple zoning but trails dimension-matched HOG-PCA.
+See the report for paired uncertainty estimates and complementarity results.
 
 ### V3.2: What did the LLM contribute to search?
 
@@ -170,6 +201,13 @@ These observations support a bounded role for semantics and feedback in this
 search space. The small matched sample and censored runs limit broader claims
 about optimizer superiority or scientific discovery. See the
 [V3.2 optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md).
+
+![V3.2 search curves and diagnostics for matched optimizers](reports/V3_2_SEARCH_CURVES.png)
+
+**V3.2.** Matched optimizer runs under a shared candidate-evaluation budget.
+Shading is the observed min-to-max range, not a confidence interval. The primary
+analysis uses two seeds per optimizer; random runs stop before 200 evaluations
+and remain censored. Fitness includes complexity and runtime penalties.
 
 ## Conceptual architecture
 

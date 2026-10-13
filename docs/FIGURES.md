@@ -63,5 +63,19 @@ experiment-design capability.
 The following figures belong to the scientific reports, where their sampling
 protocols and limitations are described.
 
+- [V1 learning curves](../reports/scientific/V1_OPERATOR_COMPOSITION.md#predictive-performance).
+- [V2 augmentation and transfer](../reports/scientific/V2_PROGRAM_SYNTHESIS.md#search-and-augmentation).
+- [V3 mechanism and transfer](../reports/scientific/V3_RELATIONAL_PRIORS.md#predictive-performance-and-representation-diversity).
 - [V3.1 learning curves](../reports/scientific/V3_1_BIAS_EVALUATION.md#sample-efficiency-and-learner-dependence).
 - [V3.2 search curves](../reports/scientific/V3_2_OPTIMIZER_VALUE.md#search-quality-and-feedback).
+
+### Figure provenance
+
+V1, V2, and V3 overview figures are rendered directly from tables in the original
+experimental reports by `experiments/plot_report_figures.py`. They use published
+rounded values and do not recompute experimental results. The selected panels
+are also embedded in README and the corresponding scientific reports.
+
+V3.1 and V3.2 use the existing study figures. Their interpretation belongs to
+the reports' frozen evaluation protocols. Different studies' axes and outcomes
+should not be combined into one performance ranking.

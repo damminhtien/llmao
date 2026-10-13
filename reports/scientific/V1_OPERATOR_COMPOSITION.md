@@ -42,6 +42,13 @@ a zero standard deviation at that size does not establish absence of uncertainty
 
 ### Predictive performance
 
+![Selected V1 learning curves](../figures/V1_LEARNING_CURVES.png)
+
+**Figure 1.** Mean official MNIST test accuracy for three selected representations.
+Error bars show standard deviation over three runs. At 60,000 examples all
+runs use the same training partition. Plotted values are taken directly from
+the original report.
+
 | Representation | Dimensions | Test accuracy at 500 examples | At 5,000 examples |
 |---|---:|---:|---:|
 | Raw pixels and stroke direction | 792 | 86.41% ± 0.39% | 91.37% ± 0.35% |
