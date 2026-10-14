@@ -161,19 +161,22 @@ CandidateV4
 └── provenance
 ```
 
-- [ ] Add `language_hash`.
-- [ ] Add `parent_language_hash`.
-- [ ] Add `program_hash`.
-- [ ] Add list of invented primitives.
-- [ ] Add list of primitives used.
-- [ ] Add parent candidate ID.
-- [ ] Add EvE agent ID.
-- [ ] Add guidance hash.
-- [ ] Add generation number.
-- [ ] Add model/backend metadata.
-- [ ] Add evaluation seed.
-- [ ] Add token usage.
-- [ ] Add wall-clock measurements.
+- [x] Add `language_hash`.
+- [x] Add `parent_language_hash`.
+- [x] Add `program_hash`.
+- [x] Add list of invented primitives.
+- [x] Add list of primitives used.
+- [x] Add parent candidate ID.
+- [x] Add EvE agent ID.
+- [x] Add guidance hash.
+- [x] Add generation number.
+- [x] Add model/backend metadata.
+- [x] Add evaluation seed.
+- [x] Add token usage.
+- [x] Add wall-clock measurements.
+
+Candidate hashes and used-primitive lists are recomputed when loading a record;
+serialized values must match the validated language and expanded program.
 
 ---
 
