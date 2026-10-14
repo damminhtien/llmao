@@ -67,6 +67,31 @@ fresh-search, semantic-ablation, transfer, and statistical requirements.
 
 ## Implemented response and replay
 
+### Follow-up worker interface
+
+The follow-up uses separate EvE application and optimizer groups, the original
+G0 seed, and the unchanged Phase 10 stage-one evaluator. Its read-only worker
+assets include a structural-check bundle assembled from a pinned LLMAO commit.
+The bundle has an explicit source allowlist and per-file SHA-256 digests. It
+contains the candidate schema, static type/expansion validators, and their
+primitive definitions; it excludes evaluators, learners, data loaders, and
+examples. Minimal package initializers avoid importing execution-only
+convenience modules. Primitive source bytes remain unchanged so G0 identity
+matches the authoritative validator.
+
+Workers invoke the bundled checker with the project interpreter, isolated
+Python imports, and bytecode writes disabled. They provide the selected
+prefill's evaluator-owned lineage state. Checks consume their existing turn
+and time allowance, return structural feedback only, and do not submit an
+extra proposal. Immutable assets and other workspace files remain outside the
+two-file edit allowlist. The final evaluator validates independently.
+
+The follow-up worker guidance contains serialization and expansion rules but
+imports no first-pilot macro, program, score trajectory, or population. Workers
+compare final expanded hashes against examples from their own new run. A
+repeated final submission still counts, and no evaluator replacement budget
+is created.
+
 `experiments/v4_check_candidate.py` checks a two-file candidate directory and
 an optional evaluator-owned `--parent-state`. It reports content identities,
 expanded depth/node count, feature dimension, used macros, and unused inherited
