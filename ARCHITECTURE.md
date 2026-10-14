@@ -453,6 +453,8 @@ src/bias_optimizer/v4/
 │   ├── loader.py
 │   └── provenance.py
 │
+├── evaluator.py
+│
 ├── evaluation/
 │   ├── candidate.py
 │   ├── fresh_search.py
@@ -537,13 +539,23 @@ editable:
     candidate/primitives/*
 ```
 
+Evaluator-managed context (outside the candidate directory) carries the
+candidate ID, provenance, and validated parent-language history. The worker
+cannot edit this context. The evaluator reads only `language.json` and
+`program.json` from the candidate directory.
+
 Evaluator:
 
 ```text
-python experiments/v4_evaluate_candidate.py candidate/
+python experiments/v4_evaluate_candidate.py candidate/ --context run_context.json
 ```
 
-The evaluator independently produces the EvE score artifact.
+The evaluator writes its score artifact and log outside the candidate
+directory. Its artifact includes the frozen stage-one score and separate
+program/language complexity measurements. Until the language-complexity
+penalty is preregistered, `discovery_fitness` remains null and the artifact is
+not eligible for a V4 discovery run. Score feedback contains no labels,
+predictions, or confusion matrix.
 
 An agent modifying:
 

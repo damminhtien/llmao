@@ -41,6 +41,26 @@
     "official_test_access": false,
     "web_search": false
   },
+  "candidate_feedback": {
+    "allowed_outputs": [
+      "accuracy_500",
+      "feature_dimension",
+      "feature_runtime_ms",
+      "training_runtime_ms",
+      "inference_runtime_ms",
+      "stage_one_fitness",
+      "program_complexity_components",
+      "language_complexity_components",
+      "structured_failure"
+    ],
+    "confusion_matrix_exposed": false,
+    "discovery_fitness_available": false,
+    "evaluator_source_digest_recorded": true,
+    "labels_exposed": false,
+    "language_penalty_applied": false,
+    "predictions_exposed": false,
+    "status": "draft_only_pending_preregistration"
+  },
   "created_on": "2026-10-14",
   "discovery_language_complexity_penalty": {
     "coefficient": null,

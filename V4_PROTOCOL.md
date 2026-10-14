@@ -114,6 +114,15 @@ must be fixed before discovery. Record accuracy, dimension, runtime, program
 complexity, and language complexity separately. Official test partitions are
 inaccessible until languages and finalists are frozen.
 
+The evaluator accepts only data-only candidate language/program JSON plus
+evaluator-managed provenance and parent-language history. It returns scalar
+validation accuracy, the frozen stage-one score, separate complexity
+components, and structured failures; it does not return labels, predictions,
+or a confusion matrix. Each score artifact records an evaluator-source digest.
+While this protocol is a draft, the language penalty is unapplied and
+`discovery_fitness` is null, so these artifacts cannot drive a preregistered
+discovery run.
+
 ## Primary fresh-search design
 
 Run the three language conditions `G0`, `GH`, and frozen `G*` with both fixed

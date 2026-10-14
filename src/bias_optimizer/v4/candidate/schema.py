@@ -173,7 +173,7 @@ class CandidateV4:
             raise CandidateValidationError("candidate record has an invalid shape")
         if type(value["schema_version"]) is not int or value["schema_version"] != 1:
             raise CandidateValidationError("unsupported CandidateV4 schema version")
-        language = _load_macro_language(value["language"], parent_language)
+        language = load_macro_language(value["language"], parent_language)
         try:
             program = Expr.from_dict(value["program"])
         except (TypeError, ValueError, KeyError) as exc:
@@ -197,10 +197,11 @@ class CandidateV4:
         return candidate
 
 
-def _load_macro_language(
+def load_macro_language(
     value: Any,
     parent_language: LanguageManifest | MacroLanguage,
 ) -> MacroLanguage:
+    """Rebuild a candidate language against its trusted parent snapshot."""
     expected = {
         "schema_version",
         "language",

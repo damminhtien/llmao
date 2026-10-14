@@ -198,15 +198,28 @@ Evaluator procedure:
 6. execute representation;
 7. fit frozen learner;
 8. score validation set;
-9. calculate complexity penalties;
+9. record program/language complexity components and apply only a
+   preregistered penalty;
 10. write score artifact.
 
-- [ ] Reuse frozen V3 learner settings.
-- [ ] Reuse deterministic split machinery.
-- [ ] Give candidate no access to labels except through evaluator output.
-- [ ] Store evaluator logs separately from candidate workspace.
-- [ ] Hash evaluator version.
-- [ ] Record all failures explicitly.
+- [x] Reuse frozen V3.2 learner settings and the 500-example stage-one score.
+- [x] Reuse deterministic 2,000-example validation split and 500-example
+  training-subset machinery.
+- [x] Keep candidate input data-only; return scalar accuracy/score and omit
+  labels, predictions, and confusion matrices from evaluator output.
+- [x] Store score artifacts and evaluator logs outside the candidate directory.
+- [x] Hash the evaluator entrypoint, LLMAO source, frozen protocol/language
+  manifests, environment record, and dependency configuration.
+- [x] Record candidate validation and evaluator failures in structured artifacts.
+- [x] Record program and language complexity components separately.
+- [ ] Freeze the language-complexity definition and coefficient in the final
+  preregistration before producing a V4 discovery fitness value.
+
+The evaluator currently emits the frozen V3.2 stage-one score for smoke and
+integration use. It marks `discovery_ready` false and `discovery_fitness` null
+until the language-complexity penalty and remaining preregistration decisions
+are frozen. No scientific candidate evaluation or discovery run has been
+launched.
 
 ---
 
