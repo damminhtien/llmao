@@ -6,7 +6,14 @@
     "plan": "ChatGPT Plus",
     "authentication": "ChatGPT login verified with codex login status",
     "plan_verification": "Codex usage limits status",
-    "account_identifier_recorded": false
+    "account_identifier_recorded": false,
+    "usage_snapshot": {
+      "checked_at_utc": "2026-10-14T08:18:25Z",
+      "ordinary_usage_allowed": true,
+      "five_hour_window_used_percent": 30,
+      "weekly_window_used_percent": 11,
+      "paid_credits_balance": "0"
+    }
   },
   "codex": {
     "cli_version": "0.162.0-alpha.17.2",
@@ -22,16 +29,17 @@
     },
     "web_search_control": "disabled_in_llmao_v4_codex_tmux_config",
     "uncontrolled_external_tools_control": "network_and_multi_agent_disabled_in_config",
-    "eve_worker_launch_verified": false
+    "eve_worker_launch_verified": true,
+    "eve_worker_launch_evidence": "Two completed frozen-G0 smoke runs; see results/v4/smoke_manifest.json"
   },
   "scientific_worker_controls": {
-    "status": "configured_not_launch_verified",
+    "status": "worker_launch_verified",
     "driver": "codex_tmux",
     "codex_sandbox_mode": "workspace-write",
     "agent_shell_network_access": false,
     "web_search": false,
     "multi_agent_mode": false,
-    "verified_by_eve_worker_launch": false
+    "verified_by_eve_worker_launch": true
   },
   "eve": {
     "repository": "https://github.com/scaling-group/eve.git",

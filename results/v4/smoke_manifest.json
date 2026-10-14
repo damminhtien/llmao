@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "study_id": "v4-evolving-bias-language",
+  "status": "phase_9_frozen_language_smoke_complete",
+  "recorded_at_utc": "2026-10-14T08:18:25Z",
+  "account": {
+    "plan": "ChatGPT Plus",
+    "usage_source": "Codex usage limits status",
+    "ordinary_usage_allowed": true,
+    "five_hour_window_used_percent": 30,
+    "weekly_window_used_percent": 11,
+    "paid_credits_balance": "0",
+    "account_identifier_recorded": false
+  },
+  "worker": {
+    "driver": "codex_tmux",
+    "model": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "sandbox_mode": "workspace-write",
+    "agent_shell_network_access": false,
+    "web_search": false,
+    "multi_agent_mode": false,
+    "codex_home": "task-local isolated Codex home; global user configuration was not used"
+  },
+  "frozen_language": {
+    "language_id": "G0",
+    "manifest_path": "results/v4/languages/g0.json",
+    "manifest_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+    "language_json_unchanged_in_worker_snapshots": true,
+    "g0_reference_unchanged_in_worker_snapshots": true,
+    "solver_workspace_only_allowed_delta": "candidate/program.json"
+  },
+  "runs": [
+    {
+      "label": "initial_frozen_g0_smoke",
+      "purpose": "Five-iteration frozen-language solver smoke",
+      "run_id": "run-20261014_154603_391459-llmao-v4-frozen-g0-smoke-20261014T0746Z-ed09b968fa1e",
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0746Z",
+      "completed_iterations": 5,
+      "repository_pins": {
+        "llmao_commit": "778410575d34ccaea3d123707175e08dc22c0c22",
+        "eve_commit": "82e080a7f6a0e2c2918f3747c4a449b88b4797f7"
+      },
+      "population": {
+        "solver_entries_including_seed": 6,
+        "optimizer_entries_at_completion": 1
+      },
+      "baseline": {
+        "stage_one_fitness": 0.4905910815813082,
+        "accuracy_500": 0.493,
+        "feature_dimension": 6
+      },
+      "proposal_attempts": [
+        {
+          "candidate_id": null,
+          "status": "candidate_context_validation_failed",
+          "program": "flatten_pixels(image())",
+          "feature_dimension_claimed": 784,
+          "scored": false,
+          "detail": "The raw-pixel proposal failed candidate-context validation before stage-one scoring; this run did not record an explicit scored 128-feature-cap rejection."
+        },
+        {
+          "candidate_id": "candidate-7dcff94d2702ea3318cd",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.8827378844446938,
+          "accuracy_500": 0.8875,
+          "feature_dimension": 57
+        },
+        {
+          "candidate_id": "candidate-42a4d7b990e00ee6c1fe",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.8850958813415277,
+          "accuracy_500": 0.89,
+          "feature_dimension": 65
+        },
+        {
+          "candidate_id": "candidate-960308394b2e1573da88",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.893262337895274,
+          "accuracy_500": 0.8985,
+          "feature_dimension": 89
+        },
+        {
+          "candidate_id": "candidate-b3c11db707734344125e",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.8896616982753854,
+          "accuracy_500": 0.895,
+          "feature_dimension": 98
+        }
+      ],
+      "token_usage": {
+        "source": "EvE telemetry/phase2_solvers.csv",
+        "input_tokens": 950165,
+        "cache_read_tokens": 763392,
+        "output_tokens": 34021,
+        "wallclock_seconds": 890.720862
+      },
+      "interpretation": "Draft V3.2 stage-one feedback only; discovery_ready=false and discovery_fitness=null."
+    },
+    {
+      "label": "optimizer_guidance_follow_up",
+      "purpose": "Two-iteration check of separate, evidence-based optimizer-guidance updates",
+      "run_id": "run-20261014_161252_084198-llmao-v4-guidance-smoke-20261014T0813Z-cfacfeb002fb",
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0813Z",
+      "completed_iterations": 2,
+      "repository_pins": {
+        "llmao_commit": "8197796f628ef12791bce47deb81be72aa82ad1f",
+        "eve_commit": "fb675d5d2d86aa705d5ef710030998b6ba373cc7"
+      },
+      "population": {
+        "solver_entries_including_seed": 3,
+        "optimizer_entries_at_completion": 3,
+        "guidance_changed_between_iterations": true
+      },
+      "baseline": {
+        "stage_one_fitness": 0.49059162909491405,
+        "accuracy_500": 0.493,
+        "feature_dimension": 6
+      },
+      "proposal_attempts": [
+        {
+          "candidate_id": "candidate-d98eb0b85a6ebf02fdcf",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.817490125271686,
+          "accuracy_500": 0.8225,
+          "feature_dimension": 80
+        },
+        {
+          "candidate_id": "candidate-c4fe560331052bfd9135",
+          "status": "stage_one_only",
+          "stage_one_fitness": 0.8846976405132219,
+          "accuracy_500": 0.89,
+          "feature_dimension": 96
+        }
+      ],
+      "token_usage": {
+        "source": "EvE telemetry/phase2_solvers.csv",
+        "input_tokens": 483406,
+        "cache_read_tokens": 402176,
+        "output_tokens": 20758,
+        "wallclock_seconds": 227.523215
+      },
+      "interpretation": "Draft V3.2 stage-one feedback only; discovery_ready=false and discovery_fitness=null."
+    }
+  ],
+  "setup_attempts": [
+    {
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0730Z",
+      "status": "hook_preflight_failed_before_worker_launch",
+      "worker_token_usage": "not_recorded; no EvE worker run was created"
+    },
+    {
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0739Z",
+      "status": "evaluator_failed_on_missing_pyyaml_dependency",
+      "worker_token_usage": {
+        "source": "Codex rollout usage event",
+        "input_tokens": 40643,
+        "cache_read_tokens": 31744,
+        "output_tokens": 1004
+      }
+    },
+    {
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0743Z",
+      "status": "evaluator_child_used_wrong_python_interpreter",
+      "worker_token_usage": "unreported; rollout file existed without a token-count event"
+    },
+    {
+      "run_root": "/Users/macbook/Library/Caches/llmao-v4-eve-runs/20261014T0744Z",
+      "status": "evaluator_child_used_wrong_python_interpreter",
+      "worker_token_usage": {
+        "source": "Codex rollout usage event",
+        "input_tokens": 8273,
+        "cache_read_tokens": 1792,
+        "output_tokens": 167
+      }
+    }
+  ],
+  "verification": {
+    "score_feedback_returned": true,
+    "valid_stage_one_proposals": 6,
+    "proposal_attempts": 7,
+    "solver_candidate_language_boundary_preserved": true,
+    "no_cross_workspace_contamination_observed": true,
+    "optimizer_guidance_population_evolved": true,
+    "official_test_accessed": false,
+    "primary_discovery_started": false,
+    "discovery_ready": false,
+    "discovery_fitness": null
+  },
+  "next_gate": "Predeclare the Phase 10 language-pilot acceptance gates and finish pending Phase 0 preregistration before language edits or primary discovery."
+}

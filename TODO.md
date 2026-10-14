@@ -32,6 +32,9 @@ evaluation has run.
 - [x] Verify the installed Codex CLI supports the selected GPT-6 model.
 - [x] Verify ChatGPT Plus authentication using `codex` and the account usage
   status.
+- [x] Confirm the account plan is ChatGPT Plus (not Pro) and use its ordinary
+  Codex allowance; the 2026-10-14 08:18 UTC usage snapshot showed 30% used in
+  the five-hour window, 11% in the weekly window, and no paid credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
 - [x] Verify `max` reasoning is available for that model using an isolated
@@ -311,39 +314,56 @@ G_t=G_0.
 - [x] Run EvE with `language.json` read-only.
 - [x] Allow only `program.json` modification in the solver snapshot; keep the
   separate optimizer guidance artifact explicitly scoped.
-- [x] Run five candidate evaluations in the initial smoke; the short follow-up
-  is scoped to checking the optimizer guidance path.
+- [x] Run five candidate attempts in the initial smoke and two in the
+  optimizer-guidance follow-up; six attempts produced valid stage-one scores.
 - [x] Verify EvE solver population.
-- [ ] Verify guidance population evolves (the first smoke held it at one entry;
-  a two-iteration follow-up is required).
+- [x] Verify guidance population evolves in a two-iteration follow-up: optimizer
+  population grew from one to three entries, and guidance changed between
+  iterations.
 - [x] Verify score feedback returns correctly.
-- [x] Verify valid candidates remain within limits; the 784-feature proposal
-  was rejected by the 128-feature cap.
+- [x] Verify valid candidates remain within limits. The `flatten_pixels(image())`
+  proposal (784 features) failed candidate-context validation before scoring;
+  it was not recorded as a scored 128-feature-cap rejection.
 - [x] Verify per-rollout token usage logging.
 - [x] Verify no cross-workspace contamination.
 
-Initial five-iteration smoke evidence (2026-10-14): the frozen G0 seed scored
-0.4906 stage-one fitness (`accuracy_500=0.493`, 6 features). Four of five
-solver proposals passed stage-one evaluation; one 784-feature proposal was
-rejected. The best observed smoke score was 0.8933 (`accuracy_500=0.8985`, 89
-features). `candidate/language.json` and the G0 reference matched across all
-worker snapshots. The optimizer population remained at one because the initial
-worker instructions prohibited guidance edits; the follow-up tests a separately
-scoped guidance artifact. All scores are draft V3.2 stage-one feedback, not
-discovery results. See `results/v4/smoke_manifest.json` for run and token
-details.
+Frozen-G0 smoke evidence (2026-10-14): the initial five-iteration run had four
+valid stage-one proposals and one candidate-context validation failure. Its
+seed scored 0.4906 (`accuracy_500=0.493`, 6 features), and its best proposal
+scored 0.8933 (`accuracy_500=0.8985`, 89 features). In the follow-up, both
+proposals received valid stage-one scores; optimizer population grew from one
+to three entries. `candidate/language.json` and the G0 reference remained
+byte-identical across worker snapshots, while only `candidate/program.json`
+changed in each solver workspace. One attempted `flatten_pixels(image())`
+proposal represented 784 features and failed candidate-context validation
+before scoring. All six successful scores are draft V3.2 stage-one feedback,
+not discovery results; `discovery_ready=false` and `discovery_fitness=null`.
+Token totals, run IDs, commits, failed setup attempts, and exact candidate
+scores are recorded in `results/v4/smoke_manifest.json`.
 
 Gate:
 
 > EvE must reproduce ordinary representation search before language evolution is enabled.
 
-The first smoke verified solver feedback, validation, isolation, and the frozen
-language boundary, but the optimizer population did not change. Keep the Phase
-10 language-editing gate closed until the separate guidance update is verified.
+The frozen-language smoke gate is satisfied. Phase 10 is next, but its pilot
+acceptance gates must be recorded before enabling language edits. Do not start
+Phase 12 discovery or emit discovery fitness until the pending Phase 0
+preregistration decisions are resolved and the final protocol is hashed.
 
 ---
 
 # Phase 10 — Enable language evolution
+
+Before the pilot:
+
+- [ ] Predeclare numeric pilot gates, macro/resource limits, and stop rules in
+  `V4_PROTOCOL.md` and `results/v4/protocol.json`; then refresh the protocol
+  digest.
+- [ ] Keep pilot feedback marked stage-one-only while discovery penalty and
+  primary-study decisions remain unresolved.
+- [ ] Configure EvE to permit only `candidate/language.json` and
+  `candidate/program.json` edits; keep the evaluator and scientific inputs
+  immutable.
 
 Allow:
 
@@ -364,7 +384,8 @@ to evolve jointly.
 - [ ] Check whether agents simply rename existing operations.
 - [ ] Check whether macros actually alter search behavior.
 
-Predeclare pilot gates, e.g.:
+Pilot acceptance gates must be numeric and fixed before the first language
+proposal. Candidate gates to finalize include:
 
 ```text
 valid candidates >= 80%

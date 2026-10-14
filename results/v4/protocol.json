@@ -102,7 +102,9 @@
     "authentication": "ChatGPT login verified using codex login status",
     "codex_cli_version": "0.162.0-alpha.17.2",
     "baseline_reproduction_verified": true,
-    "eve_worker_launched": false,
+    "eve_worker_launched": true,
+    "frozen_language_smoke_manifest": "results/v4/smoke_manifest.json",
+    "frozen_language_smoke_status": "completed; phase 9 gate satisfied; discovery not started",
     "model_support_verified": true,
     "model_probe": "isolated ephemeral read-only codex exec with --ignore-user-config returned the expected sentinel",
     "reasoning_effort": "max",
@@ -137,7 +139,7 @@
     "macro_count_limit_and_language_complexity_penalty",
     "discovery_only_language_selection_rule_and_tie_breakers",
     "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria",
-    "pilot_gates_and_baseline_reproduction"
+    "pilot_gates"
   ],
   "primary_design": {
     "carry_discovery_program_history_guidance_population": false,

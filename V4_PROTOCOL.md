@@ -134,8 +134,10 @@ The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
 ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
 verified on 2026-10-14; the CLI version and EvE commit are recorded in
 `results/v4/environment.json`. The pinned account plan is Plus, not Pro. The
-LLMAO evaluator/compiler snapshot, worker permissions, and context policy must
-still be pinned before scientific workers launch.
+LLMAO evaluator/compiler snapshot, worker permissions, and context policy used
+for each completed smoke run are pinned in
+`results/v4/smoke_manifest.json`. Freeze their final protocol values before
+launching the Phase 10 pilot or primary discovery workers.
 
 The primary measure is best-so-far search AUC against candidate evaluations
 for `G*` versus `G0` under matched optimizer conditions. Also retain token
