@@ -16,6 +16,7 @@ from bias_optimizer.v4.candidate.context import (
     build_candidate_context,
     build_candidate_lineage_state,
 )
+from bias_optimizer.v4.candidate.loader import load_language_lineage
 from bias_optimizer.v4.candidate.provenance import CandidateValidationError
 from bias_optimizer.v4.candidate.replay import replay_pilot, verify_artifact
 from bias_optimizer.v4.language import (
@@ -228,6 +229,73 @@ def test_replay_rejects_changed_protocol(pilot) -> None:
     protocol.write_text(protocol.read_text() + "\n")
     with pytest.raises(CandidateValidationError, match="protocol differs"):
         replay_pilot(manifest, artifact_root=root, protocol_path=protocol)
+
+
+def test_replay_retains_evaluation_failure_and_accepted_descendant(pilot) -> None:
+    manifest, root, protocol = pilot
+    failed_path = root / "1" / "evaluation.json"
+    failure = {
+        "score": {"status": "failed", "score": 0.0},
+        "validation_error": "learner fit failed after context acceptance",
+    }
+    failed_path.write_text(json.dumps(failure))
+    accepted_parent = json.loads((root / "1" / "lineage_state.json").read_text())
+    directory = root / "2"
+    candidate = root / "descendant_candidate"
+    candidate.mkdir()
+    language = extend_macro_language(
+        load_language_lineage(accepted_parent["language_lineage"]), []
+    )
+    (candidate / "language.json").write_text(json.dumps(language.to_dict()))
+    (candidate / "program.json").write_bytes((directory / "program.json").read_bytes())
+    context = build_candidate_context(
+        candidate,
+        protocol_path=protocol,
+        parent_lineage=accepted_parent["language_lineage"],
+        parent_candidate_id=accepted_parent["candidate_id"],
+        generation=2,
+    )
+    state = build_candidate_lineage_state(candidate, context=context)
+    (directory / "language.json").write_bytes(
+        (candidate / "language.json").read_bytes()
+    )
+    (directory / "lineage_state.json").write_text(json.dumps(state))
+    parent = json.loads((directory / "lineage_parent.json").read_text())
+    parent.update(
+        generation=2,
+        v4_parent_candidate_id=accepted_parent["candidate_id"],
+        parent_language_hash=accepted_parent["language_hash"],
+    )
+    (directory / "lineage_parent.json").write_text(json.dumps(parent))
+    evaluation = json.loads((directory / "evaluation.json").read_text())
+    evaluation["score"]["candidate_id"] = state["candidate_id"]
+    evaluation["score"]["parent_candidate_id"] = accepted_parent["candidate_id"]
+    (directory / "evaluation.json").write_text(json.dumps(evaluation))
+    with (root / "phase2_solvers.csv").open(newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    rows[0]["score_json"] = json.dumps(failure["score"])
+    rows[1]["score_json"] = json.dumps(evaluation["score"])
+    with (root / "phase2_solvers.csv").open("w", newline="") as stream:
+        writer = csv.DictWriter(stream, fieldnames=list(rows[0]))
+        writer.writeheader()
+        writer.writerows(rows)
+    data = json.loads(manifest.read_text())
+    for record in data["attempts"]:
+        for name, value in record["files"].items():
+            record["files"][name] = _record(root / value["path"], root)
+    data["run"]["evidence_files"]["telemetry"] = _record(
+        root / "phase2_solvers.csv", root
+    )
+    manifest.write_text(json.dumps(data))
+    replay = replay_pilot(manifest, artifact_root=root, protocol_path=protocol)
+    assert (replay["valid_proposals"], replay["invalid_proposals"]) == (2, 1)
+    assert replay["scored_proposals"] == 1
+    assert replay["failed_evaluations_of_valid_proposals"] == 1
+    assert replay["observations"][1]["original_evaluation"] == failure
+    assert replay["observations"][1]["score_succeeded"] is False
+    assert replay["observations"][2]["lineage_state"]["generation"] == 2
+    archive = build_lineage_archive([replay])
+    assert archive["observations"][1]["original_evaluation"] == failure
 
 
 def test_artifact_rejects_escape_and_symlink(tmp_path) -> None:

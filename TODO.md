@@ -482,6 +482,9 @@ and the EvE prefill entry ID is stored separately for audit.
 - [x] Track observed worker entries and declared independent search identities;
   independent reuse remains unknown when the declaration is absent.
 - [x] Generate lineage graph.
+- [x] Retain structurally accepted candidates whose evaluation fails, including
+  their failed scores and descendants; report structural and scored counts
+  separately. Replay rejects contradictory lineage transitions.
 
 The verified pilot archive is `results/v4/phase10_pilot/lineage_archive.json`
 with graph `lineage_archive.mmd`. It contains 11 observations including the

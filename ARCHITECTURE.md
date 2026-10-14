@@ -673,6 +673,12 @@ through native worker shells. Four focused bundle tests pass; native worker
 integration remains pending. The running follow-up retains its original
 21-file bundle and frozen contract.
 
+Structural replay records context acceptance separately from score success.
+An accepted candidate whose evaluation fails keeps its original failed score
+and can supply the evaluator-owned parent state for a later descendant.
+Replay verifies both state transitions and candidate contents; successful
+stage-one score counts exclude these failures.
+
 ---
 
 # 11. Discovery objective

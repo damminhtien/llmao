@@ -109,27 +109,31 @@ def replay_pilot(
             raise CandidateValidationError(
                 "telemetry score differs from archived evaluation"
             )
-        valid = score["status"] == "stage_one_only"
+        scored = score["status"] == "stage_one_only"
         if score["status"] not in {"stage_one_only", "failed"}:
             raise CandidateValidationError("unexpected pilot evaluation status")
-        if valid != (evaluation["validation_error"] is None):
+        if scored != (evaluation["validation_error"] is None):
             raise CandidateValidationError("evaluation error contradicts its status")
         for name, value in score.items():
             if type(value) in (int, float) and not math.isfinite(value):
                 raise CandidateValidationError(f"non-finite archived metric: {name}")
-        if valid:
+        accepted = state["generation"] == parent["generation"]
+        if scored and not accepted:
+            raise CandidateValidationError("successful score has no accepted lineage")
+        if scored:
             if score["discovery_ready"] is not False:
                 raise CandidateValidationError("pilot score must remain exploratory")
             for key in ("llmao_commit", "evaluator_version_sha256"):
                 if score[key] != manifest["environment"][key]:
                     raise CandidateValidationError(f"score provenance mismatch: {key}")
+        if accepted:
             if state["generation"] == 0:
                 parent_state = None
             else:
                 snapshots = state["language_lineage"][:-1]
                 parent_state = {
                     "schema_version": 1,
-                    "candidate_id": score["parent_candidate_id"],
+                    "candidate_id": parent["v4_parent_candidate_id"],
                     "generation": state["generation"] - 1,
                     "language_hash": parent["parent_language_hash"],
                     "language_lineage": snapshots,
@@ -162,15 +166,14 @@ def replay_pilot(
                 parent_state=parent_state,
                 protocol_path=protocol_path,
             )
-        if (checked["status"] == "valid") != valid:
+        if (checked["status"] == "valid") != accepted:
             raise CandidateValidationError(
                 f"structural outcome changed for observation {index}"
             )
-        if valid:
-            if (
-                checked["candidate_id"] != score["candidate_id"]
-                or checked["candidate_id"] != state["candidate_id"]
-            ):
+        if accepted:
+            if (scored and checked["candidate_id"] != score["candidate_id"]) or checked[
+                "candidate_id"
+            ] != state["candidate_id"]:
                 raise CandidateValidationError(
                     "archived candidate identity differs from content"
                 )
@@ -182,13 +185,13 @@ def replay_pilot(
                 raise CandidateValidationError(
                     "language file differs from current lineage snapshot"
                 )
-            if checked["feature_dimension"] != score["feature_dimension"]:
+            if scored and checked["feature_dimension"] != score["feature_dimension"]:
                 raise CandidateValidationError(
                     "archived feature dimension differs from expansion"
                 )
-            if (
-                parent["generation"] != state["generation"]
-                or parent["v4_parent_candidate_id"] != score["parent_candidate_id"]
+            if parent["generation"] != state["generation"] or (
+                scored
+                and parent["v4_parent_candidate_id"] != score["parent_candidate_id"]
             ):
                 raise CandidateValidationError(
                     "candidate parent provenance is inconsistent"
@@ -202,6 +205,7 @@ def replay_pilot(
                 "eve_solver_entry_id": telemetry[index]["solver_id"] if index else None,
                 "worker_telemetry": telemetry[index] if index else None,
                 "original_evaluation": evaluation,
+                "score_succeeded": scored,
                 "structural_check": checked,
                 "source_files": files,
                 "lineage_state": state,
@@ -230,6 +234,12 @@ def replay_pilot(
         ),
         "invalid_proposals": sum(
             item["structural_check"]["status"] == "invalid" for item in observations[1:]
+        ),
+        "scored_proposals": sum(item["score_succeeded"] for item in observations[1:]),
+        "failed_evaluations_of_valid_proposals": sum(
+            item["structural_check"]["status"] == "valid"
+            and not item["score_succeeded"]
+            for item in observations[1:]
         ),
         "unique_valid_expanded_representations": len(representations),
         "expanded_representation_observations": representations,

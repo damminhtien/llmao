@@ -67,6 +67,15 @@ fresh-search, semantic-ablation, transfer, and statistical requirements.
 
 ## Implemented response and replay
 
+Replay must distinguish context acceptance from a successful stage-one score.
+The pinned EvE evaluator publishes the candidate's validated lineage before
+fitting the learner. If fitting or artifact production fails, replay must
+verify that accepted structure and retain the failed score without promoting
+it to a successful evaluation. Descendants may inherit that evaluator-owned
+state. Context failures instead retain the selected parent's state. Record
+structural validity and score success separately and reject inconsistent state
+transitions. The frozen evaluator and historical artifacts remain unchanged.
+
 ### Follow-up worker interface
 
 The running follow-up exposed an interpreter-delivery defect: native worker
