@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "study_id": "v4-evolving-bias-language",
+  "observed_on": "2026-10-14",
+  "account": {
+    "plan": "ChatGPT Plus",
+    "authentication": "ChatGPT login verified with codex login status",
+    "plan_verification": "Codex usage limits status",
+    "account_identifier_recorded": false
+  },
+  "codex": {
+    "cli_version": "0.162.0-alpha.17.2",
+    "model_identifier": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "user_config_isolation_required": true,
+    "isolation_reason": "The global Codex configuration has a custom API base URL; the model probe used --ignore-user-config.",
+    "model_reasoning_probe": "ephemeral read-only invocation with --ignore-user-config succeeded using the requested model and effort",
+    "model_probe_usage": {
+      "input_tokens": 20354,
+      "cached_input_tokens": 11008,
+      "output_tokens": 8
+    },
+    "web_search_control": "pending",
+    "uncontrolled_external_tools_control": "pending",
+    "eve_worker_launch_verified": false
+  },
+  "eve": {
+    "repository": "https://github.com/scaling-group/eve.git",
+    "checkout": "../eve",
+    "commit": "979065fd2cf1b3be9caf70596478fe27df7815ad",
+    "working_tree_clean": true
+  },
+  "hardware": {
+    "model": "MacBook Pro (Mac14,6)",
+    "chip": "Apple M2 Max",
+    "unified_memory_gb": 64
+  },
+  "project_python": {
+    "environment": ".venv",
+    "version": "3.14.8"
+  }
+}

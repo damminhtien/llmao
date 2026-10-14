@@ -54,10 +54,14 @@
   },
   "evolution_level": "A_typed_macros_only",
   "execution_observations": {
-    "authentication": "ChatGPT login present; subscription tier unverified",
+    "account_plan": "ChatGPT Plus (verified 2026-10-14)",
+    "authentication": "ChatGPT login verified using codex login status",
     "codex_cli_version": "0.162.0-alpha.17.2",
     "eve_worker_launched": false,
-    "model_support_verified": false
+    "model_support_verified": true,
+    "model_probe": "isolated ephemeral read-only codex exec with --ignore-user-config returned the expected sentinel",
+    "reasoning_effort": "max",
+    "reasoning_support_verified": true
   },
   "language_conditions": {
     "G0": {
@@ -78,7 +82,7 @@
     }
   },
   "pending_preregistration_decisions": [
-    "exact_environment_and_repository_pins",
+    "evaluator_compiler_snapshot_and_worker_permissions_context_policy",
     "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
     "common_initial_program_manifest_and_split_fingerprints",
     "macro_resource_limits_and_language_complexity_penalty",
@@ -88,7 +92,7 @@
   ],
   "primary_design": {
     "carry_discovery_program_history_guidance_population": false,
-    "exact_cli_model_identifier": null,
+    "exact_cli_model_identifier": "gpt-6-luna",
     "fresh_search": true,
     "languages": [
       "G0",
@@ -112,7 +116,7 @@
       "eve"
     ],
     "primary_metric": "best-so-far search AUC versus candidate evaluations: G_star minus G0 under matched optimizer conditions",
-    "requested_model": "GPT-6 Luna",
+    "requested_model": "gpt-6-luna",
     "requested_reasoning_effort": "max"
   },
   "research_question": "Can an LLM invent reusable abstractions that make useful inductive biases easier to discover?",

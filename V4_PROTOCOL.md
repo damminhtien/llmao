@@ -88,9 +88,12 @@ iterative Codex and EvE. Each optimizer starts fresh with the same initial
 programs, evaluation data, independent seeds, model, reasoning effort,
 permissions, context policy, candidate budget, token accounting, and timeout.
 
-The requested backend is GPT-6 Luna with `max` reasoning. Verify the exact
-Codex CLI model identifier and supported reasoning level, then pin both
-repositories and the execution environment before launching workers.
+The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
+ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
+verified on 2026-10-14; the CLI version and EvE commit are recorded in
+`results/v4/environment.json`. The pinned account plan is Plus, not Pro. The
+LLMAO evaluator/compiler snapshot, worker permissions, and context policy must
+still be pinned before scientific workers launch.
 
 The primary measure is best-so-far search AUC against candidate evaluations
 for `G*` versus `G0` under matched optimizer conditions. Also retain token
@@ -105,8 +108,9 @@ Fashion-MNIST using the frozen MNIST language.
 
 ## Decisions required before final preregistration
 
-1. Exact EvE commit, Codex CLI model identifier, reasoning support, LLMAO
-   evaluator/compiler snapshot, worker permissions, and context policy.
+1. LLMAO evaluator/compiler snapshot, worker permissions, and context policy.
+   The EvE commit, Codex CLI model identifier, reasoning support, and CLI
+   version are recorded in `results/v4/environment.json`.
 2. Candidate and token budgets, independent seeds, proposal-attempt cap,
    timeout policy, and rules for incomplete runs.
 3. Common initial program manifest and split fingerprints. The existing twenty

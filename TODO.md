@@ -27,22 +27,30 @@ evaluation has run.
 
 # Phase 1 — Pin EvE / Codex environment
 
-- [ ] Clone/pin `scaling-group/eve` at a specific commit.
-- [ ] Record EvE commit in `results/v4/environment.json`.
-- [ ] Update Codex CLI to a version supporting the selected GPT-6 model.
-- [ ] Verify ChatGPT Pro authentication using `codex`.
-- [ ] Verify exact GPT-6 Luna model identifier exposed by the CLI.
-- [ ] Verify whether `max` reasoning is available for that model.
-- [ ] Pin exact model and reasoning level in V4 protocol.
-- [ ] Record Codex CLI version.
+- [x] Clone/pin `scaling-group/eve` at a specific commit.
+- [x] Record EvE commit in `results/v4/environment.json`.
+- [x] Verify the installed Codex CLI supports the selected GPT-6 model.
+- [x] Verify ChatGPT Plus authentication using `codex` and the account usage
+  status.
+- [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
+  `gpt-6-luna`.
+- [x] Verify `max` reasoning is available for that model using an isolated
+  Codex CLI invocation.
+- [x] Pin exact model and reasoning level in V4 protocol.
+- [x] Record Codex CLI version.
 - [ ] Disable web search for all scientific runs.
 - [ ] Disable any uncontrolled external tools.
 - [ ] Verify EvE can launch one Codex worker using ChatGPT-account authentication.
+- [ ] Ensure all V4 workers use the isolated Codex configuration so the global
+  custom API base URL cannot reroute requests.
 - [ ] Record token/usage information returned by each rollout.
 
 Main-run invariant:
 
 ```text
+ChatGPT Plus account
+GPT-6 Luna (`gpt-6-luna`)
+max reasoning
 same model
 same reasoning level
 same agent permissions
