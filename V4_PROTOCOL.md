@@ -182,7 +182,7 @@ permissions, context policy, candidate budget, token accounting, and timeout.
 
 The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
 ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
-verified on 2026-10-14; the pre-launch usage snapshot at 09:32 UTC showed
+verified on 2026-10-14; the pre-launch usage snapshot at 09:35 UTC showed
 37% used in the five-hour window, 12% in the weekly window, and no paid
 credits. The CLI version and both checkout commits are recorded in
 `results/v4/environment.json`. The pinned account plan is Plus, not Pro. The

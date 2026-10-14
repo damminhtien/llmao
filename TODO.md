@@ -33,7 +33,7 @@ evaluation has run.
 - [x] Verify ChatGPT Plus authentication using `codex` and the account usage
   status.
 - [x] Confirm the account plan is ChatGPT Plus (not Pro) and use its ordinary
-  Codex allowance; the 2026-10-14 09:32 UTC pre-launch usage snapshot showed
+  Codex allowance; the 2026-10-14 09:35 UTC pre-launch usage snapshot showed
   37% used in the five-hour window, 12% in the weekly window, and no paid
   credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
