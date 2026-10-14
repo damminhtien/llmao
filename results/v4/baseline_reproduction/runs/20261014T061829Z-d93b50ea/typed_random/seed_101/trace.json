@@ -1,0 +1,2765 @@
+{
+  "budget_max_proposal_attempts": 60,
+  "budget_seed_evaluations": 20,
+  "budget_total_evaluations": 40,
+  "complete": true,
+  "duplicate_count": 12,
+  "evaluated_candidates": [
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "e5bb27219f3305f8b4c7c88f8a45cac8577701e39b63da1ef0e78ff2b9302833",
+      "evaluation_index": 1,
+      "feature_dim": 3,
+      "fitness": 0.18734462908437494,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 3.424667000217596,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 1.0028329998021945,
+        "mechanism": "Turn autocorrelation tests whether neighboring curvature changes persist along a path.",
+        "name": "typed_seed_000",
+        "oracle_elapsed_ms": 1876.7993749997913,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 9.315457999946375
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 13.742957999966166,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.26,
+      "behavioral_novelty": null,
+      "candidate_id": "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b",
+      "evaluation_index": 2,
+      "feature_dim": 6,
+      "fitness": 0.2578542299953934,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.4914579998949193,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2610000001368462,
+        "mechanism": "Graph-degree run lengths test whether local branching states persist in traversal order.",
+        "name": "typed_seed_001",
+        "oracle_elapsed_ms": 17.208916000527097,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 3.6262499997974373
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 8,
+          "low": -8
+        }
+      },
+      "runtime_ms": 6.378707999829203,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.356,
+      "behavioral_novelty": null,
+      "candidate_id": "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+      "evaluation_index": 3,
+      "feature_dim": 3,
+      "fitness": 0.3544096853850503,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.1094169997013523,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25262500003009336,
+        "mechanism": "Moments of graph-degree run lengths test higher-order persistence in the ordered graph trace.",
+        "name": "typed_seed_002",
+        "oracle_elapsed_ms": 17.15091699952609,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 4.330124999796681
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.692166999528126,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "d1a3c6a3eb3d15a1acb964849a947414614bea53d5cd9e87264ec0d88386f14d",
+      "evaluation_index": 4,
+      "feature_dim": 3,
+      "fitness": 0.1874365095626904,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.2421670000767335,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24766699971223716,
+        "mechanism": "Turn autocorrelation tests persistence across neighboring path steps.",
+        "name": "typed_seed_003",
+        "oracle_elapsed_ms": 15.34395900034724,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.3925420000523445
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 4.882375999841315,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.381,
+      "behavioral_novelty": null,
+      "candidate_id": "4a7356ee1cfbfd10c2c35c1a5bae69e90d26ee3df3ccfc2ee640ead22b58af92",
+      "evaluation_index": 5,
+      "feature_dim": 3,
+      "fitness": 0.37941735461764187,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.043999999841617,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24616599966975627,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_004",
+        "oracle_elapsed_ms": 16.495042000315152,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 3.8341250001394656
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.7
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.124290999650839,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.155,
+      "behavioral_novelty": null,
+      "candidate_id": "b2d4591fe2eacc500757ea6b7d233db2cbbf395a967b3081c82196736b9925b7",
+      "evaluation_index": 6,
+      "feature_dim": 8,
+      "fitness": 0.15262728027701483,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.110417000039888,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25145800009340746,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_005",
+        "oracle_elapsed_ms": 15.179541000179597,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.5714285714285714,
+        "training_runtime_ms": 2.421291999780806
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.783166999914101,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.2815,
+      "behavioral_novelty": null,
+      "candidate_id": "9d1d10043d1b79a38c29c151e11ce5922c5eb2f666f31ada00d175e4d07744d2",
+      "evaluation_index": 7,
+      "feature_dim": 3,
+      "fitness": 0.279928375773565,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.086250000502332,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2512080000087735,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_006",
+        "oracle_elapsed_ms": 15.76379200014344,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 3.043374999833759
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 1
+        }
+      },
+      "runtime_ms": 5.380833000344865,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.21,
+      "behavioral_novelty": null,
+      "candidate_id": "bd443dbebf7797235daabd6102a64887c855001a1975b1f472c807b7465fde12",
+      "evaluation_index": 8,
+      "feature_dim": 3,
+      "fitness": 0.2084465849474312,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.0315000001573935,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2357499997742707,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_007",
+        "oracle_elapsed_ms": 14.753125000424916,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.051333000054001
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 4.318582999985665,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2555,
+      "behavioral_novelty": null,
+      "candidate_id": "93c2d29b77f9dcd7213549bbcef4a92ddf9be1b94aeddaa6da383acf0981cadc",
+      "evaluation_index": 9,
+      "feature_dim": 16,
+      "fitness": 0.2524791963878076,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.1513749998121057,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24987500000861473,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_008",
+        "oracle_elapsed_ms": 15.924250000352913,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 3.125457999885839
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 5.526707999706559,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.477,
+      "behavioral_novelty": null,
+      "candidate_id": "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2",
+      "evaluation_index": 10,
+      "feature_dim": 3,
+      "fitness": 0.4754097238471565,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.037374999417807,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2516670001568855,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_009",
+        "oracle_elapsed_ms": 17.0773330000884,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.4001669994031545
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.689208998977847,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.493,
+      "behavioral_novelty": null,
+      "candidate_id": "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f",
+      "evaluation_index": 11,
+      "feature_dim": 6,
+      "fitness": 0.4908564626552041,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.9384589995752322,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24858300002961187,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_010",
+        "oracle_elapsed_ms": 16.60287499998958,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.028749999633874
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 2
+        }
+      },
+      "runtime_ms": 6.215791999238718,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1155,
+      "behavioral_novelty": null,
+      "candidate_id": "d1afa04ff9095aaf7667ee9ca731a13ef48ab91119332beef4f44384bebf32d8",
+      "evaluation_index": 12,
+      "feature_dim": 4,
+      "fitness": 0.11371887870204712,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.1050000004834146,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2147089999198215,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_011",
+        "oracle_elapsed_ms": 14.971582999351085,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.247165999506251
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.566874999909487,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.4705,
+      "behavioral_novelty": null,
+      "candidate_id": "c479d00679a28fe5fe469badec0e83b33513b39c55c2252cf2476fd4e068168a",
+      "evaluation_index": 13,
+      "feature_dim": 16,
+      "fitness": 0.46746717386942793,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.1692919999622973,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25187499977619154,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_012",
+        "oracle_elapsed_ms": 16.760541999246925,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 3.9393329998347326
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 6.360499999573221,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1145,
+      "behavioral_novelty": null,
+      "candidate_id": "4e3421438cf13e734c00f46cf76013370996d649ab30c20c88e7522eea4134b3",
+      "evaluation_index": 14,
+      "feature_dim": 4,
+      "fitness": 0.11271968278841903,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.0787089997611474,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.22458300009020604,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_013",
+        "oracle_elapsed_ms": 14.882208999551949,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.2189999999682186
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.4
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.522291999819572,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2445,
+      "behavioral_novelty": null,
+      "candidate_id": "57e33af9c51a461d95c1e6590332203e20ece4e485cf13a5a0acf37779d56a1d",
+      "evaluation_index": 15,
+      "feature_dim": 6,
+      "fitness": 0.24237885803910042,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.073749999908614,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2364170004511834,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_014",
+        "oracle_elapsed_ms": 15.400874999613734,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.457790999869758
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.3
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.767958000229555,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.145,
+      "behavioral_novelty": null,
+      "candidate_id": "ad52a7513edee456524163928b005895e3d3e363178f081b9e0fd868b3994eb2",
+      "evaluation_index": 16,
+      "feature_dim": 8,
+      "fitness": 0.14263285672048642,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.129207999132632,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24920800024119671,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_015",
+        "oracle_elapsed_ms": 14.869124999677297,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.0910830007778713
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 4.4694990001517,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.115,
+      "behavioral_novelty": null,
+      "candidate_id": "d702bd01134f5733c9c3acf0f5d24422442594a694ebd08b2de6cbddc922a113",
+      "evaluation_index": 17,
+      "feature_dim": 1,
+      "fitness": 0.1141430729673011,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.0474160000958364,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.19387500015000114,
+        "mechanism": "Foreground component count tests a compact topological cue.",
+        "name": "typed_seed_016",
+        "oracle_elapsed_ms": 14.516709000417904,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.7142857142857143,
+        "training_runtime_ms": 1.9025419996978599
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.5
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 4.143832999943697,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.242,
+      "behavioral_novelty": null,
+      "candidate_id": "11ad67ea5dc114822c5c259ad5744f680e2d66c52ad07d5dc876e76843487f6c",
+      "evaluation_index": 18,
+      "feature_dim": 3,
+      "fitness": 0.2404493498828478,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.013541999986046,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.23958299971127417,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_017",
+        "oracle_elapsed_ms": 14.561500000127126,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 1.9204170002922183
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 4.1735419999895385,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2625,
+      "behavioral_novelty": null,
+      "candidate_id": "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869",
+      "evaluation_index": 19,
+      "feature_dim": 16,
+      "fitness": 0.2594778917465674,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 2.1821660002387944,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.25349999941681745,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_018",
+        "oracle_elapsed_ms": 15.987249999852793,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.1767499995112303
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 5.612415999166842,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.262,
+      "behavioral_novelty": null,
+      "candidate_id": "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3",
+      "evaluation_index": 20,
+      "feature_dim": 3,
+      "fitness": 0.2604448191404438,
+      "metadata": {
+        "falsification": "Reject it if validation quality does not improve after complexity is accounted for.",
+        "feature_runtime_ms": 1.8590829995446256,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24599999960628338,
+        "mechanism": "Turning moments test aggregate stroke dynamics.",
+        "name": "typed_seed_019",
+        "oracle_elapsed_ms": 14.814457999818842,
+        "prediction": "It should improve validation accuracy or reduce model size versus nearby alternatives.",
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.3082500001692097
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 4.413332999320119,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.115,
+      "behavioral_novelty": null,
+      "candidate_id": "63966e821835bc3bf7f6853dc1a5b00450cd379fdeafa5aef73eea4503119f94",
+      "evaluation_index": 21,
+      "feature_dim": 1,
+      "fitness": 0.11414223002125458,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 1.9395420004002517,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2613750002637971,
+        "mechanism": "free_exploration",
+        "name": "random_63966e821835",
+        "oracle_elapsed_ms": 14.938667000023997,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 3,
+        "proposal_id": "typed_random:101:3",
+        "structural_novelty": 0.14285714285714285,
+        "target_depth": 6,
+        "training_runtime_ms": 1.9864590003635385
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.6
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 4.187376001027587,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.691,
+      "behavioral_novelty": null,
+      "candidate_id": "b76bec70fde94ecf8012619b16c4084424e1f1b076a22c52d61e415e2d62f480",
+      "evaluation_index": 22,
+      "feature_dim": 16,
+      "fitness": 0.6879600234096249,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.3702919997958816,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.255040999945777,
+        "mechanism": "free_exploration",
+        "name": "random_b76bec70fde9",
+        "oracle_elapsed_ms": 17.743832999258302,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 4,
+        "proposal_id": "typed_random:101:4",
+        "structural_novelty": 0.14285714285714285,
+        "target_depth": 3,
+        "training_runtime_ms": 4.280750000361877
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 4,
+          "rows": 4
+        }
+      },
+      "runtime_ms": 6.906083000103536,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.3285,
+      "behavioral_novelty": null,
+      "candidate_id": "56c11a7851b527bfe23de3b1da2894a31b8e6401521f974a3d66a95155ec80ca",
+      "evaluation_index": 23,
+      "feature_dim": 1,
+      "fitness": 0.3276318589482077,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.0977080002921866,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2045419996647979,
+        "mechanism": "free_exploration",
+        "name": "random_56c11a7851b5",
+        "oracle_elapsed_ms": 15.413541000270925,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 5,
+        "proposal_id": "typed_random:101:5",
+        "structural_novelty": 0.7142857142857143,
+        "target_depth": 6,
+        "training_runtime_ms": 2.4520000006305054
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "threshold",
+                            "params": {
+                              "value": 0.3
+                            }
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "count",
+        "params": {}
+      },
+      "runtime_ms": 4.75425000058749,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.174,
+      "behavioral_novelty": null,
+      "candidate_id": "662dfd8c91284277269b4e4b6f8cda07dd75627d93685685408eedc6330cf268",
+      "evaluation_index": 24,
+      "feature_dim": 2,
+      "fitness": 0.17273493670951617,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.2762920007153298,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2222499997515115,
+        "mechanism": "free_exploration",
+        "name": "random_662dfd8c9128",
+        "oracle_elapsed_ms": 14.815833999819006,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 7,
+        "proposal_id": "typed_random:101:7",
+        "structural_novelty": 0.14285714285714285,
+        "target_depth": 1,
+        "training_runtime_ms": 1.7845419997684075
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 2,
+          "rows": 1
+        }
+      },
+      "runtime_ms": 4.283084000235249,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.3375,
+      "behavioral_novelty": null,
+      "candidate_id": "c0673fa0358173bad11457615d0f2ee29bac6a47775ee47c241ae90584bbdfe3",
+      "evaluation_index": 25,
+      "feature_dim": 16,
+      "fitness": 0.33447948727849225,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.198750000388827,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2501250000932487,
+        "mechanism": "free_exploration",
+        "name": "random_c0673fa03581",
+        "oracle_elapsed_ms": 15.985375000127533,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 11,
+        "proposal_id": "typed_random:101:11",
+        "structural_novelty": 0.8181818181818182,
+        "target_depth": 5,
+        "training_runtime_ms": 3.0588750005335896
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "angles",
+            "params": {}
+          }
+        ],
+        "op": "cross_histogram",
+        "params": {
+          "bins_x": 4,
+          "bins_y": 4,
+          "high_x": 1.0,
+          "high_y": 1.0,
+          "low_x": 0.0,
+          "low_y": 0.0
+        }
+      },
+      "runtime_ms": 5.5077500010156655,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "composite",
+        "deep"
+      ]
+    },
+    {
+      "accuracy": 0.1125,
+      "behavioral_novelty": null,
+      "candidate_id": "3757b372a584a336092804fcd3e3bd5530eee6a2c61b675f24d5586414f38088",
+      "evaluation_index": 26,
+      "feature_dim": 3,
+      "fitness": 0.11096384012213863,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 1.9722500001080334,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2272909996463568,
+        "mechanism": "free_exploration",
+        "name": "random_3757b372a584",
+        "oracle_elapsed_ms": 14.005666999764799,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 12,
+        "proposal_id": "typed_random:101:12",
+        "structural_novelty": 0.45454545454545453,
+        "target_depth": 5,
+        "training_runtime_ms": 1.2761250000039581
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "sign",
+            "params": {
+              "epsilon": 0.05
+            }
+          }
+        ],
+        "op": "quantiles",
+        "params": {
+          "quantiles": [
+            0.25,
+            0.5,
+            0.75
+          ]
+        }
+      },
+      "runtime_ms": 3.4756659997583483,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.317,
+      "behavioral_novelty": null,
+      "candidate_id": "532434cd3c5c1023079c9d0ac8b0015458f2c83eb53ca4f8547335a45a3a704a",
+      "evaluation_index": 27,
+      "feature_dim": 1,
+      "fitness": 0.3161341818488169,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.0796249991690274,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.21375000051193638,
+        "mechanism": "order_sensitive",
+        "name": "random_532434cd3c5c",
+        "oracle_elapsed_ms": 15.140499999688473,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 13,
+        "proposal_id": "typed_random:101:13",
+        "structural_novelty": 0.36363636363636365,
+        "target_depth": 5,
+        "training_runtime_ms": 2.328749999833235
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "delta",
+            "params": {}
+          }
+        ],
+        "op": "count",
+        "params": {}
+      },
+      "runtime_ms": 4.622124999514199,
+      "structural_descriptor": [
+        "graph",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.47,
+      "behavioral_novelty": null,
+      "candidate_id": "537a8a452d27298dc2b877f8878241f80262a06ebbf7b345818c3e69b7f889c5",
+      "evaluation_index": 28,
+      "feature_dim": 32,
+      "fitness": 0.4662892459219364,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.5209579998772824,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.278041999990819,
+        "mechanism": "free_exploration",
+        "name": "random_537a8a452d27",
+        "oracle_elapsed_ms": 18.027791999884357,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 14,
+        "proposal_id": "typed_random:101:14",
+        "structural_novelty": 0.36363636363636365,
+        "target_depth": 6,
+        "training_runtime_ms": 4.721416000393219
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "sign",
+            "params": {
+              "epsilon": 0.05
+            }
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 32,
+          "high": 8.0,
+          "low": -8.0
+        }
+      },
+      "runtime_ms": 7.520416000261321,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.618,
+      "behavioral_novelty": null,
+      "candidate_id": "33934dedbdb9e67adb06438e1b13c66344e370d69e14c605ce198f914eb711c5",
+      "evaluation_index": 29,
+      "feature_dim": 9,
+      "fitness": 0.6154830759963102,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.2209580001799623,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2630419994602562,
+        "mechanism": "free_exploration",
+        "name": "random_33934dedbdb9",
+        "oracle_elapsed_ms": 17.970083999898634,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 17,
+        "proposal_id": "typed_random:101:17",
+        "structural_novelty": 0.2727272727272727,
+        "target_depth": 2,
+        "training_runtime_ms": 5.0442920000932645
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 3
+            }
+          }
+        ],
+        "op": "normalize",
+        "params": {}
+      },
+      "runtime_ms": 7.528291999733483,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.4135,
+      "behavioral_novelty": null,
+      "candidate_id": "149896b5e89f9bf4ae4010ce1aa7dea746aaced500f1bff7a527c3e9fb775ca7",
+      "evaluation_index": 30,
+      "feature_dim": 4,
+      "fitness": 0.41170651242594425,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 1.9996660003016586,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.24079200011328794,
+        "mechanism": "free_exploration",
+        "name": "random_149896b5e89f",
+        "oracle_elapsed_ms": 15.716832999714825,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 18,
+        "proposal_id": "typed_random:101:18",
+        "structural_novelty": 0.09090909090909091,
+        "target_depth": 2,
+        "training_runtime_ms": 3.0592080001952127
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 2,
+              "rows": 2
+            }
+          }
+        ],
+        "op": "normalize",
+        "params": {}
+      },
+      "runtime_ms": 5.299666000610159,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.4755,
+      "behavioral_novelty": null,
+      "candidate_id": "9e26c894c6c2bdfc4947ce69020e726fbc226241ddccde029173a24056c9d136",
+      "evaluation_index": 31,
+      "feature_dim": 16,
+      "fitness": 0.4724634125428938,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.199333000135084,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2539999995860853,
+        "mechanism": "spatial_relational",
+        "name": "random_9e26c894c6c2",
+        "oracle_elapsed_ms": 17.107832999499806,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 23,
+        "proposal_id": "typed_random:101:23",
+        "structural_novelty": 0.18181818181818182,
+        "target_depth": 4,
+        "training_runtime_ms": 4.189291999864508
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.4
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "spatial_condition",
+        "params": {
+          "axis": "horizontal",
+          "bins": 4,
+          "high": 3.141592653589793,
+          "low": -3.141592653589793,
+          "regions": 4
+        }
+      },
+      "runtime_ms": 6.642624999585678,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.335,
+      "behavioral_novelty": null,
+      "candidate_id": "6bb1e9f1e8fca3f7e2032bc5aa27e6ecd310a64cff032070ff9d7458a4dea7f6",
+      "evaluation_index": 32,
+      "feature_dim": 5,
+      "fitness": 0.33302204785014117,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.1517499999390566,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2397920006842469,
+        "mechanism": "order_sensitive",
+        "name": "random_6bb1e9f1e8fc",
+        "oracle_elapsed_ms": 15.990750000128173,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 28,
+        "proposal_id": "typed_random:101:28",
+        "structural_novelty": 0.8421052631578947,
+        "target_depth": 6,
+        "training_runtime_ms": 3.044583999326278
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "quantiles",
+            "params": {
+              "quantiles": [
+                0.5
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "delta",
+                "params": {}
+              }
+            ],
+            "op": "quantiles",
+            "params": {
+              "quantiles": [
+                0.1,
+                0.5,
+                0.9
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.4
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "quantiles",
+            "params": {
+              "quantiles": [
+                0.5
+              ]
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "runtime_ms": 5.4361259999495815,
+      "structural_descriptor": [
+        "mixed",
+        "first_order",
+        "global",
+        "composite",
+        "deep"
+      ]
+    },
+    {
+      "accuracy": 0.118,
+      "behavioral_novelty": null,
+      "candidate_id": "97c69fdd031f5136307b53ee7f5db436a4b06eef66635e33c13cc551bdbd447a",
+      "evaluation_index": 33,
+      "feature_dim": 1,
+      "fitness": 0.11714437339957397,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.0919159996992676,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.1887500002339948,
+        "mechanism": "free_exploration",
+        "name": "random_97c69fdd031f",
+        "oracle_elapsed_ms": 14.462374999311578,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 32,
+        "proposal_id": "typed_random:101:32",
+        "structural_novelty": 0.05263157894736842,
+        "target_depth": 2,
+        "training_runtime_ms": 1.796707999346836
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.7
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 4.077373999280098,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2595,
+      "behavioral_novelty": null,
+      "candidate_id": "61575de6ca4ffe8cfc8a2d10cf981c0f8dbad61f6a70c1ca3c342569ad3ce760",
+      "evaluation_index": 34,
+      "feature_dim": 1,
+      "fitness": 0.2586331004942008,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.0223750007062335,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.19299999985378236,
+        "mechanism": "free_exploration",
+        "name": "random_61575de6ca4f",
+        "oracle_elapsed_ms": 15.084292000210553,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 33,
+        "proposal_id": "typed_random:101:33",
+        "structural_novelty": 0.2631578947368421,
+        "target_depth": 3,
+        "training_runtime_ms": 2.4678750005477923
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [],
+                    "op": "image",
+                    "params": {}
+                  }
+                ],
+                "op": "skeletonize",
+                "params": {
+                  "threshold": 0.4
+                }
+              }
+            ],
+            "op": "graph",
+            "params": {}
+          }
+        ],
+        "op": "cycle_rank",
+        "params": {}
+      },
+      "runtime_ms": 4.683250001107808,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.717,
+      "behavioral_novelty": null,
+      "candidate_id": "04ef95b389dd125247faf04c43ecc0c2ac8263c3ea90d0f310df0550d8b5593e",
+      "evaluation_index": 35,
+      "feature_dim": 25,
+      "fitness": 0.7135032786549496,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.4669579997862456,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.27733299975807313,
+        "mechanism": "free_exploration",
+        "name": "random_04ef95b389dd",
+        "oracle_elapsed_ms": 20.276915999602352,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 35,
+        "proposal_id": "typed_random:101:35",
+        "structural_novelty": 0.3157894736842105,
+        "target_depth": 2,
+        "training_runtime_ms": 7.128332999855047
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 4,
+              "rows": 4
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 1
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "runtime_ms": 9.872623999399366,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "composite",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.317,
+      "behavioral_novelty": null,
+      "candidate_id": "424033f82cd4d3093e651c454b81ab6b30af10717177462fe2dd7a55dede4a91",
+      "evaluation_index": 36,
+      "feature_dim": 1,
+      "fitness": 0.3161346788910027,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.1081249997223495,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2022499993472593,
+        "mechanism": "free_exploration",
+        "name": "random_424033f82cd4",
+        "oracle_elapsed_ms": 14.977208000345854,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 36,
+        "proposal_id": "typed_random:101:36",
+        "structural_novelty": 0.10526315789473684,
+        "target_depth": 4,
+        "training_runtime_ms": 2.283875000102853
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "count",
+        "params": {}
+      },
+      "runtime_ms": 4.594249999172462,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.455,
+      "behavioral_novelty": null,
+      "candidate_id": "63719037b6ad42311926f59cd488f118ae21d8469b21fedec03e78e3527948ea",
+      "evaluation_index": 37,
+      "feature_dim": 3,
+      "fitness": 0.4534164353673375,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.057083000181592,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.24816699988150503,
+        "mechanism": "free_exploration",
+        "name": "random_63719037b6ad",
+        "oracle_elapsed_ms": 16.58450000013545,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 37,
+        "proposal_id": "typed_random:101:37",
+        "structural_novelty": 0.05263157894736842,
+        "target_depth": 4,
+        "training_runtime_ms": 3.884832999574428
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 6.190082999637525,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.7905,
+      "behavioral_novelty": null,
+      "candidate_id": "f56eaba86aab7e0b8144e50be3ae1ebdd237e7fe995cc277bab0d528b861e829",
+      "evaluation_index": 38,
+      "feature_dim": 25,
+      "fitness": 0.7870102267173567,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 2.4404999994658283,
+        "generation": 1,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.2703749996726401,
+        "mechanism": "free_exploration",
+        "name": "random_f56eaba86aab",
+        "oracle_elapsed_ms": 19.553125000129512,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 38,
+        "proposal_id": "typed_random:101:38",
+        "structural_novelty": 0.15789473684210525,
+        "target_depth": 2,
+        "training_runtime_ms": 6.43195900011051
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 3
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 4,
+              "rows": 4
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "runtime_ms": 9.142833999248978,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "composite",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1125,
+      "behavioral_novelty": null,
+      "candidate_id": "3cac80dcfc5adf119ec49a2d37236af673c982537c9b078f6acf16be56deb96e",
+      "evaluation_index": 39,
+      "feature_dim": 1,
+      "fitness": 0.11164833573600581,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 1.8660420000742306,
+        "generation": 2,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.18683300004340708,
+        "mechanism": "free_exploration",
+        "name": "random_3cac80dcfc5a",
+        "oracle_elapsed_ms": 14.311042000372254,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 39,
+        "proposal_id": "typed_random:101:39",
+        "structural_novelty": 0.05263157894736842,
+        "target_depth": 2,
+        "training_runtime_ms": 1.8272500001330627
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.4
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 3.8801250002507004,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1125,
+      "behavioral_novelty": null,
+      "candidate_id": "0d7762106dd1febb49d6443af798447b1f72b6993b758d737ef23d0cae3110c2",
+      "evaluation_index": 40,
+      "feature_dim": 4,
+      "fitness": 0.11073763633972443,
+      "metadata": {
+        "falsification": "Reject the proposal if its fixed validation score is poor.",
+        "feature_runtime_ms": 1.9222909995733062,
+        "generation": 2,
+        "hypothesis": "A typed random program tests whether unguided coverage reaches useful representations.",
+        "inference_runtime_ms": 0.22600000011152588,
+        "mechanism": "spatial_relational",
+        "name": "random_0d7762106dd1",
+        "oracle_elapsed_ms": 14.052915999855031,
+        "parent_ids": [],
+        "prediction": "Its held-out validation score will reveal whether the sampled structure is useful.",
+        "proposal_attempt": 40,
+        "proposal_id": "typed_random:101:40",
+        "structural_novelty": 0.3157894736842105,
+        "target_depth": 6,
+        "training_runtime_ms": 1.466457999413251
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "path_summary",
+                "params": {
+                  "measure": "centroid_y"
+                }
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 4,
+              "high": 3.141592653589793,
+              "low": -3.141592653589793
+            }
+          }
+        ],
+        "op": "normalize",
+        "params": {}
+      },
+      "runtime_ms": 3.614748999098083,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "localized",
+        "single",
+        "moderate"
+      ]
+    }
+  ],
+  "evaluation_time_ms": 2497.222458997385,
+  "invalid_count": 0,
+  "llm_calls": 0,
+  "llm_tokens": 0,
+  "optimizer": "typed_random",
+  "optimizer_seed": 101,
+  "proposal_attempts": 40,
+  "proposal_time_ms": 3.462879000835528,
+  "rejected_by_constraint_count": 8,
+  "termination_reason": null,
+  "total_wall_time_ms": 2547.322250000434,
+  "valid_proposal_count": 32
+}

@@ -54,11 +54,20 @@ Macro bodies and their transitive expansions use only `G0` operations and
 previously validated macros; hidden use of excluded `GH` operations is invalid.
 Level A changes the vocabulary while preserving `G0` computational expressivity.
 
-Candidate agents may edit only the candidate language and program artifacts.
-The evaluator, learner, data loader, splits, protocol, and test partitions are
-outside their editable and accessible workspace. Candidate execution is
-deterministic and has no labels, dataset access, network, filesystem,
-subprocess, dynamic imports, or model inference.
+Candidate agents work in an EvE workspace containing candidate artifacts and
+task guidance. The EvE boundary checker rejects edits outside the candidate
+language and program files. Scientific workers must use the `codex_tmux` driver,
+`workspace-write` sandboxing, disabled agent-shell network access, disabled web
+search, and disabled multi-agent mode. The worker's Codex home is isolated from
+the user's global Codex configuration. The evaluator and its data are kept
+outside the candidate workspace; it returns scalar scores and structured
+failure summaries only.
+
+Candidates are JSON ASTs accepted by a deterministic allow-listed interpreter,
+not agent-authored Python or executable code. Candidate execution has no
+labels, dataset, network, filesystem, subprocess, dynamic imports, or model
+inference. EvE's file boundary and the typed interpreter are separate gates;
+neither substitutes for the other.
 
 ## Evaluator basis
 
@@ -67,6 +76,14 @@ a fixed stratified 2,000-example validation split with seed 42, and a
 500-example training subset with seed 42. The learner is training-fitted
 `StandardScaler` followed by logistic regression with `C=1`, `lbfgs`,
 `max_iter=1000`, `tol=0.0001`, and `random_state=42`.
+
+The V3.2 smoke evaluator was reproduced on the M2 Max before V4 discovery.
+All four optimizer conditions completed 40 candidates. Their 20 frozen seed
+programs matched the saved V3.2 traces exactly by candidate ID, accuracy, and
+feature dimension; the largest fitness difference was below `0.001`, allowing
+for runtime variation. Split fingerprints and reproduction traces are in
+`results/v4/baseline_reproduction/summary.json` and `manifest.json`. The V3.2
+protocol and manifest remained byte-for-byte unchanged.
 
 The existing stage-one score is
 
@@ -113,9 +130,10 @@ Fashion-MNIST using the frozen MNIST language.
    version are recorded in `results/v4/environment.json`.
 2. Candidate and token budgets, independent seeds, proposal-attempt cap,
    timeout policy, and rules for incomplete runs.
-3. Common initial program manifest and split fingerprints. The existing twenty
-   V3.2 seed ASTs contain none of the four excluded V3 operations, making them
-   eligible for validation as the common starting set.
+3. Common initial program manifest. The split parameters and fingerprints are
+   recorded in `results/v4/baseline_reproduction/summary.json`. The existing
+   twenty V3.2 seed ASTs contain none of the four excluded V3 operations,
+   making them eligible for validation as the common starting set.
 4. Macro count and expansion limits, language complexity definition, and
    discovery penalty coefficient.
 5. Discovery-only language selection rule and deterministic tie breakers.

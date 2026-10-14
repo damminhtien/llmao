@@ -38,8 +38,10 @@ evaluation has run.
   Codex CLI invocation.
 - [x] Pin exact model and reasoning level in V4 protocol.
 - [x] Record Codex CLI version.
-- [ ] Disable web search for all scientific runs.
-- [ ] Disable any uncontrolled external tools.
+- [ ] Configure `codex_tmux` with `workspace-write`, no agent-shell network,
+  disabled web search, and disabled multi-agent mode. Do not use `codex_exec`
+  for scientific workers because it bypasses the Codex sandbox.
+- [ ] Verify the scientific worker configuration disables uncontrolled tools.
 - [ ] Verify EvE can launch one Codex worker using ChatGPT-account authentication.
 - [ ] Ensure all V4 workers use the isolated Codex configuration so the global
   custom API base URL cannot reroute requests.
@@ -65,12 +67,17 @@ for all LLM-based conditions.
 
 Before adding language evolution:
 
-- [ ] Re-run a small V3.2 fixed-language experiment on the M2 Max.
-- [ ] Confirm candidate scores reproduce within expected deterministic limits.
-- [ ] Confirm split hashes match existing protocol.
-- [ ] Confirm evaluator runtime.
-- [ ] Confirm no official-test access occurs.
-- [ ] Save baseline artifact under `results/v4/baseline_reproduction/`.
+- [x] Re-run a small V3.2 fixed-language experiment on the M2 Max.
+- [x] Confirm the 20 frozen seed-program candidate IDs, accuracies, and feature
+  dimensions reproduce exactly; maximum fitness delta stayed below the recorded
+  `0.001` runtime-timing tolerance.
+- [x] Confirm split settings match the existing protocol and save SHA-256
+  fingerprints for the search train pool, validation split, and 500-example
+  training subset.
+- [x] Record evaluator and end-to-end runtimes for all four smoke conditions.
+- [x] Confirm the official test partition was not used by the search evaluator.
+- [x] Save baseline traces, manifest, protocol copy, and summary under
+  `results/v4/baseline_reproduction/`.
 
 Gate:
 

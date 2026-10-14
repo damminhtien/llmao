@@ -24,6 +24,15 @@
     "uncontrolled_external_tools_control": "pending",
     "eve_worker_launch_verified": false
   },
+  "scientific_worker_controls": {
+    "status": "planned_unverified",
+    "driver": "codex_tmux",
+    "codex_sandbox_mode": "workspace-write",
+    "agent_shell_network_access": false,
+    "web_search": false,
+    "multi_agent_mode": false,
+    "verified_by_eve_worker_launch": false
+  },
   "eve": {
     "repository": "https://github.com/scaling-group/eve.git",
     "checkout": "../eve",

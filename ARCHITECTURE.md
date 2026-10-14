@@ -558,6 +558,19 @@ test data
 
 must receive a hard failure.
 
+V4 Codex workers use EvE's `codex_tmux` driver with `workspace-write`
+sandboxing, agent-shell network access disabled, web search disabled, and
+multi-agent mode disabled. Do not use `codex_exec` for scientific workers: its
+runtime passes `--dangerously-bypass-approvals-and-sandbox`. EvE creates a
+per-workspace Codex home, so the worker uses the pinned model and reasoning
+settings without loading the user's global Codex configuration.
+
+The agent workspace contains only the candidate artifacts and task guidance.
+EvE's boundary checker rejects changes to every other path. The submitted
+program is JSON for the allow-listed typed interpreter; it is never executed
+as agent-authored Python. The evaluator returns scalar fitness and structured
+failure summaries, not training or validation examples or labels.
+
 ---
 
 # 11. Discovery objective
