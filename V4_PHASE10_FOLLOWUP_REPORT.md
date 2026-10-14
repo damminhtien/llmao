@@ -1,7 +1,7 @@
 # V4 Phase 10 follow-up — launch and live audit
 
-Status: **running**, with two completed proposals at the
-2026-10-14 11:21:44 UTC snapshot. This document is not a final gate audit.
+Status: **running**, with seven completed proposals at the
+2026-10-14 12:00:27 UTC snapshot. This document is not a final gate audit.
 The first pilot remains failed and unchanged.
 
 ## Frozen contract and execution
@@ -51,10 +51,20 @@ unavailable. Primary discovery remains closed until final preregistration.
 | Separate seed | Valid stage one | Original candidate ID; accuracy 0.493, six features, score 0.4905900505 |
 | Proposal 1 | Invalid | `local_shape_signature` lacked a closed object parameter schema; score zero |
 | Proposal 2 | Valid stage one | Accuracy 0.8925 and 49 features; its full original score is retained in the run artifacts |
+| Proposal 3 | Valid stage one | Accuracy 0.818 and 35 features |
+| Proposal 4 | Valid stage one | Accuracy 0.8815 and 69 features |
+| Proposal 5 | Valid stage one | Accuracy 0.886 and 68 features; generation 2 |
+| Proposal 6 | Valid stage one | Accuracy 0.8925 and 57 features |
+| Proposal 7 | Valid stage one | Accuracy 0.892 and 88 features; generation 2 |
 
 The seed accuracy and feature dimension match the original seed; its small
-score difference reflects the runtime component. Two completed proposals are
-not enough to assess any final follow-up gate or claim language utility.
+score difference reflects the runtime component. The partial data-free audit
+verified six structurally valid proposals with six distinct expanded-program
+hashes and one invalid proposal. It reconciled all seven original scores with
+the telemetry and verified that checking changed no candidate or lineage
+input bytes. Its source digests and observations are saved in
+`results/v4/phase10_followup/live_structural_audit_20261014T120027.json`.
+Three proposals remain; final gates and language utility are unestablished.
 
 ### Worker-side interpreter issue
 
@@ -71,6 +81,11 @@ proposal, prompt, checker, or score is repaired in place. Before another run
 uses this interface, remove its dependence on an inherited shell variable and
 demonstrate a successful approved checker invocation through the native worker
 tool path. Audit all ten transcripts for successful and failed checker calls.
+
+Future bundle tooling now emits a hashed launcher bound to the verified project
+interpreter. Four focused tests pass without the shell variable, with a
+system-only PATH and paths containing spaces. Successful invocation through
+native scientific worker tools remains pending. The running bundle is unchanged.
 
 ## Durable evidence and remaining audit
 
