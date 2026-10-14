@@ -142,3 +142,12 @@ Validation: all 66 V4 unit tests passed, including read-only checks, malformed
 parent states, artifact digest tampering, path escapes/symlinks, repeated score
 preservation, forged parent rejection, and explicit independence declarations.
 The 86 protected V3-family artifact digests remain unchanged.
+
+The launch command is `experiments/v4_launch_followup.py`, with a fresh
+`--usage-snapshot` and new `--record` path. `--validate-only` checks the frozen
+contract, source/file pins, clean evaluator/EvE checkouts, and ordinary Plus
+allowance without starting a worker. The supervisor records the owned runner
+PID and terminal status, watches EvE forbidden-change artifacts and pinned
+worker checker sources, and stops only its owned process group on a detected
+boundary failure. This operational guard does not alter the EvE algorithm or
+turn exploratory feedback into a primary result.
