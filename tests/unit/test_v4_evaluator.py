@@ -19,7 +19,10 @@ from bias_optimizer.v4.candidate import (
     load_candidate_directory,
     load_language_lineage,
 )
-from bias_optimizer.v4.candidate.context import build_candidate_context
+from bias_optimizer.v4.candidate.context import (
+    build_candidate_context,
+    build_candidate_lineage_state,
+)
 from bias_optimizer.v4.evaluator import (
     evaluate_candidate,
     evaluator_source_snapshot,
@@ -102,7 +105,9 @@ def test_candidate_directory_loads_data_only_files_and_external_context(
     assert loaded.expanded_program_hash == candidate.expanded_program_hash
 
 
-def test_context_builder_derives_provenance_from_candidate_and_protocol(tmp_path) -> None:
+def test_context_builder_derives_provenance_from_candidate_and_protocol(
+    tmp_path,
+) -> None:
     candidate = _candidate()
     candidate_directory = tmp_path / "candidate"
     candidate_directory.mkdir()
@@ -149,6 +154,26 @@ def test_context_builder_requires_trusted_parent_language_lineage(tmp_path) -> N
 
     assert context["provenance"]["generation"] == 1
     assert context["provenance"]["parent_candidate_id"] == candidate.candidate_id
+
+
+def test_lineage_state_records_validated_language_hash_and_snapshots(tmp_path) -> None:
+    candidate = _candidate()
+    candidate_directory = tmp_path / "candidate"
+    candidate_directory.mkdir()
+    (candidate_directory / "language.json").write_text(
+        json.dumps(candidate.language.to_dict()), encoding="utf-8"
+    )
+    (candidate_directory / "program.json").write_text(
+        json.dumps(candidate.program.to_dict()), encoding="utf-8"
+    )
+
+    context = build_candidate_context(candidate_directory)
+    state = build_candidate_lineage_state(candidate_directory, context=context)
+
+    assert state["candidate_id"] == context["candidate_id"]
+    assert state["generation"] == 0
+    assert state["language_hash"] == candidate.language.sha256
+    assert state["language_lineage"] == [candidate.language.to_dict()]
 
 
 class _FakeEvaluator:

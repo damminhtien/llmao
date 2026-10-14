@@ -549,6 +549,19 @@ candidate ID, provenance, and validated parent-language history. The worker
 cannot edit this context. The evaluator reads only `language.json` and
 `program.json` from the candidate directory.
 
+For the Phase 10 EvE pilot, the evaluator stores the last valid V4 candidate
+ID, generation, canonical language hash, and ordered language snapshots in
+`evaluate/lineage_state.json`. EvE carries that evaluator log with each solver
+entry and exposes it through read-only solver examples. The pilot evaluator
+loads the state attached to EvE's selected prefill entry, passes its language
+snapshots to the context builder, and appends the current snapshot only after
+candidate-context validation succeeds. If validation fails, the evaluator
+keeps the inherited valid state so later attempts can recover from it. The
+EvE prefill entry ID is recorded separately from the V4 parent candidate ID;
+the latter names the last valid language ancestor. This history stays outside
+the two-file candidate directory and is never accepted from worker-authored
+candidate data.
+
 Evaluator:
 
 ```text
@@ -612,6 +625,13 @@ must remain immutable. EvE records changes to
 program and language are JSON for the allow-listed typed interpreter; neither
 can execute agent-authored Python. The evaluator returns scalar fitness and
 structured failure summaries, not training or validation examples or labels.
+
+The Phase 10 configuration uses a separate application, optimizer, and
+evaluator group while retaining the frozen `llmao_v4` root config. It samples
+up to 32 prior solvers per iteration, enough to include the complete population
+for the ten-attempt pilot. The evaluator receives those solver examples and
+their evaluator logs; it does not modify EvE's algorithm core or the frozen
+Phase 9 evaluator.
 
 ---
 

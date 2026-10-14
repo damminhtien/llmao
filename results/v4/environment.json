@@ -8,9 +8,9 @@
     "plan_verification": "Codex usage limits status",
     "account_identifier_recorded": false,
     "usage_snapshot": {
-      "checked_at_utc": "2026-10-14T08:18:25Z",
+      "checked_at_utc": "2026-10-14T09:26:44Z",
       "ordinary_usage_allowed": true,
-      "five_hour_window_used_percent": 30,
+      "five_hour_window_used_percent": 36,
       "weekly_window_used_percent": 11,
       "paid_credits_balance": "0"
     }
@@ -45,7 +45,7 @@
     "repository": "https://github.com/scaling-group/eve.git",
     "checkout": "../eve",
     "branch": "dev/llmao-v4-config",
-    "commit": "fb675d5d2d86aa705d5ef710030998b6ba373cc7",
+    "commit": "eb30d4f467780d9fbfa5c0389d9ffa40dbff0fb4",
     "working_tree_clean": true
   },
   "hardware": {

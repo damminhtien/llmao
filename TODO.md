@@ -33,7 +33,7 @@ evaluation has run.
 - [x] Verify ChatGPT Plus authentication using `codex` and the account usage
   status.
 - [x] Confirm the account plan is ChatGPT Plus (not Pro) and use its ordinary
-  Codex allowance; the 2026-10-14 08:18 UTC usage snapshot showed 30% used in
+  Codex allowance; the 2026-10-14 09:26 UTC usage snapshot showed 36% used in
   the five-hour window, 11% in the weekly window, and no paid credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
@@ -347,10 +347,11 @@ Gate:
 
 > EvE must reproduce ordinary representation search before language evolution is enabled.
 
-The frozen-language smoke gate is satisfied. Phase 10 is next, but its pilot
-acceptance gates must be recorded before enabling language edits. Do not start
-Phase 12 discovery or emit discovery fitness until the pending Phase 0
-preregistration decisions are resolved and the final protocol is hashed.
+The frozen-language smoke gate is satisfied. Phase 10 is next. Its numeric
+acceptance gates are recorded; validate the isolated language-pilot config and
+lineage handoff before enabling language edits. Do not start Phase 12 discovery
+or emit discovery fitness until the pending Phase 0 preregistration decisions
+are resolved and the final protocol is hashed.
 
 ---
 
@@ -363,9 +364,10 @@ Before the pilot:
   digest.
 - [x] Keep pilot feedback marked stage-one-only while discovery penalty and
   primary-study decisions remain unresolved.
-- [ ] Configure EvE to permit only `candidate/language.json` and
-  `candidate/program.json` edits; keep the evaluator and scientific inputs
-  immutable.
+- [x] Compose the isolated EvE application, optimizer, and evaluator groups;
+  permit only `candidate/language.json` and `candidate/program.json` edits.
+- [x] Validate evaluator-managed parent-language lineage propagation through
+  EvE solver-entry evaluation logs; keep the frozen Phase 9 evaluator unchanged.
 
 Allow:
 
@@ -376,7 +378,8 @@ program.json
 
 to evolve jointly.
 
-- [ ] Run 10–20 candidate pilot.
+- [ ] Run exactly 10 candidate attempts; invalid and failing attempts count and
+  are not replaced. The initial seed evaluation is separate from those attempts.
 - [ ] Inspect every invented primitive manually.
 - [ ] Inspect language lineage.
 - [ ] Check invalid-rate.
@@ -401,6 +404,15 @@ zero evaluator, data, label, test-partition, or workspace-boundary violations
 Stop after 10 attempts or immediately on a protected-boundary or official-test
 access violation. A failed gate requires a separately documented pilot plan
 before another language run.
+
+Lineage handoff: the pilot evaluator stores the last valid candidate ID,
+generation, canonical language hash, and ordered language snapshots in
+`evaluate/lineage_state.json`.
+EvE carries this evaluator log with its solver entry. Each evaluation reads the
+state from the selected prefill example and appends the current language only
+after candidate-context validation succeeds; context failures preserve the
+last valid state. The V4 parent ID refers to that last valid language ancestor,
+and the EvE prefill entry ID is stored separately for audit.
 
 ---
 

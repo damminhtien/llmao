@@ -33,14 +33,18 @@ def build_candidate_context(
         raise ValueError("candidate path must be a directory")
     expected_files = {"language.json", "program.json"}
     if {path.name for path in directory.iterdir()} != expected_files:
-        raise ValueError("candidate directory must contain only language.json and program.json")
+        raise ValueError(
+            "candidate directory must contain only language.json and program.json"
+        )
     for path in (directory / "language.json", directory / "program.json"):
         if path.is_symlink() or not path.is_file():
             raise ValueError(f"candidate must contain a regular {path.name} file")
 
     lineage = parent_lineage or []
     parent_language = load_language_lineage(lineage)
-    language = load_macro_language(read_json(directory / "language.json"), parent_language)
+    language = load_macro_language(
+        read_json(directory / "language.json"), parent_language
+    )
     program = Expr.from_dict(read_json(directory / "program.json"))
     protocol_file = protocol_path or ROOT / "results/v4/protocol.json"
     protocol = json.loads(protocol_file.read_text(encoding="utf-8"))
@@ -73,4 +77,49 @@ def build_candidate_context(
         "candidate_id": candidate.candidate_id,
         "provenance": candidate.provenance.to_dict(),
         "parent_language_lineage": lineage,
+    }
+
+
+def build_candidate_lineage_state(
+    candidate_directory: Path,
+    *,
+    context: dict[str, Any],
+) -> dict[str, Any]:
+    """Return evaluator-owned lineage state for a validated candidate context."""
+    expected = {
+        "schema_version",
+        "candidate_id",
+        "provenance",
+        "parent_language_lineage",
+    }
+    if not isinstance(context, dict) or set(context) != expected:
+        raise ValueError("evaluation context has an invalid shape")
+    if type(context["schema_version"]) is not int or context["schema_version"] != 1:
+        raise ValueError("unsupported evaluation context version")
+    provenance = context["provenance"]
+    lineage = context["parent_language_lineage"]
+    if not isinstance(provenance, dict) or not isinstance(lineage, list):
+        raise TypeError("evaluation context lineage is invalid")
+    if (
+        not isinstance(context["candidate_id"], str)
+        or not context["candidate_id"]
+        or type(provenance.get("generation")) is not int
+    ):
+        raise TypeError("evaluation context identity is invalid")
+
+    directory = Path(candidate_directory).resolve(strict=True)
+    if {path.name for path in directory.iterdir()} != {"language.json", "program.json"}:
+        raise ValueError(
+            "candidate directory must contain only language.json and program.json"
+        )
+    parent_language = load_language_lineage(lineage)
+    language = load_macro_language(
+        read_json(directory / "language.json"), parent_language
+    )
+    return {
+        "schema_version": 1,
+        "candidate_id": context["candidate_id"],
+        "generation": provenance["generation"],
+        "language_hash": language.sha256,
+        "language_lineage": [*lineage, language.to_dict()],
     }

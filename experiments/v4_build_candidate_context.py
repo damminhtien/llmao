@@ -10,7 +10,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
-from bias_optimizer.v4.candidate.context import build_candidate_context
+from bias_optimizer.v4.candidate.context import (
+    build_candidate_context,
+    build_candidate_lineage_state,
+)
 from bias_optimizer.v4.candidate.loader import read_json
 
 
@@ -23,6 +26,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--generation", type=int, default=0)
     parser.add_argument("--eve-agent-id")
     parser.add_argument("--guidance-hash")
+    parser.add_argument("--lineage-state-output", type=Path)
     return parser
 
 
@@ -41,11 +45,24 @@ def main() -> int:
     )
     output = args.output.resolve(strict=False)
     if output.is_relative_to(args.candidate_directory.resolve(strict=True)):
-        raise SystemExit("evaluation context output must be outside the candidate directory")
+        raise SystemExit(
+            "evaluation context output must be outside the candidate directory"
+        )
     output.parent.mkdir(parents=True, exist_ok=True)
     with output.open("x", encoding="utf-8") as stream:
         json.dump(context, stream, indent=2, sort_keys=True, allow_nan=False)
         stream.write("\n")
+    if args.lineage_state_output:
+        state_output = args.lineage_state_output.resolve(strict=False)
+        if state_output.is_relative_to(args.candidate_directory.resolve(strict=True)):
+            raise SystemExit(
+                "lineage state output must be outside the candidate directory"
+            )
+        state_output.parent.mkdir(parents=True, exist_ok=True)
+        state = build_candidate_lineage_state(args.candidate_directory, context=context)
+        with state_output.open("x", encoding="utf-8") as stream:
+            json.dump(state, stream, indent=2, sort_keys=True, allow_nan=False)
+            stream.write("\n")
     print(json.dumps({"candidate_id": context["candidate_id"], "context": str(output)}))
     return 0
 

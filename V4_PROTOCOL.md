@@ -127,10 +127,37 @@ discovery run.
 
 ## Phase 10 language-evolution pilot
 
-Run exactly ten candidate attempts with one solver worker. Count every proposal,
-including invalid candidates and context or evaluator failures; do not replace
-failed attempts. The pilot uses the frozen stage-one evaluator and is
-exploratory feasibility evidence only. `discovery_fitness` remains null.
+Run exactly ten candidate attempts with one solver worker and zero automatic
+boundary-repair attempts. Count every proposal, including invalid candidates
+and context or evaluator failures; do not replace failed attempts. The pilot
+uses the frozen stage-one evaluator and is exploratory feasibility evidence
+only. The initial seed evaluation is recorded separately and is not one of the
+ten solver proposals. `discovery_fitness` remains null.
+
+Use the existing `llmao_v4` Hydra root with these pilot-only overrides:
+
+```text
+application=llmao_v4_language_pilot
+optimizer=llmao_v4_language_pilot
+evaluation=llmao_v4_language_pilot
+loop.max_iterations=10
+loop.n_workers_phase2=1
+loop.n_parallel_phase2=1
+loop.boundary_repair_attempts=0
+loop.n_solver_examples_phase2=32
+```
+
+The pilot evaluator includes solver examples so it can read the evaluator log
+attached to EvE's selected prefill entry. Each valid seed or candidate context
+stores `evaluate/lineage_state.json`: the last valid V4 candidate ID, its
+language generation and canonical language hash, and the ordered language
+snapshots from G0 through that candidate. A later evaluator invocation reads the state from the prefill's
+read-only solver example, passes the snapshots to the context builder, and
+appends the current language snapshot only after candidate-context validation
+succeeds. A context failure carries the inherited valid state forward. The
+EvE prefill entry ID is recorded separately; `parent_candidate_id` names the
+last valid V4 language ancestor. Candidate files remain exactly
+`language.json` and `program.json`.
 
 The pilot passes only if all of these conditions hold:
 
@@ -155,7 +182,9 @@ permissions, context policy, candidate budget, token accounting, and timeout.
 
 The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
 ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
-verified on 2026-10-14; the CLI version and EvE commit are recorded in
+verified on 2026-10-14; the launch-preparation usage snapshot at 09:26 UTC
+showed 36% used in the five-hour window, 11% in the weekly window, and no paid
+credits. The CLI version and EvE commit are recorded in
 `results/v4/environment.json`. The pinned account plan is Plus, not Pro. The
 LLMAO evaluator/compiler snapshot, worker permissions, and context policy used
 for each completed smoke run are pinned in

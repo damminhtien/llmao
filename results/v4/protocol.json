@@ -77,6 +77,31 @@
   },
   "phase_10_language_pilot": {
     "candidate_attempts": 10,
+    "run_configuration": {
+      "hydra_config_name": "llmao_v4",
+      "application_group": "llmao_v4_language_pilot",
+      "optimizer_group": "llmao_v4_language_pilot",
+      "evaluation_group": "llmao_v4_language_pilot",
+      "solver_workers": 1,
+      "parallel_solver_workers": 1,
+      "boundary_repair_attempts": 0,
+      "solver_examples_per_iteration": 32,
+      "evaluator_includes_solver_examples": true,
+      "rollout_max_turns": 80,
+      "timeout_seconds": 3600
+    },
+    "lineage_state": {
+      "artifact": "evaluate/lineage_state.json",
+      "contents": [
+        "last_valid_v4_candidate_id",
+        "language_generation",
+        "canonical_language_hash",
+        "ordered_language_snapshots_from_g0"
+      ],
+      "source": "evaluator_logs_attached_to_selected_prefill_solver_example",
+      "append_current_snapshot_after_candidate_context_validation": true,
+      "context_failure_preserves_last_valid_state": true
+    },
     "candidate_accounting": "Count every proposal, including invalid candidates and context or evaluator failures; do not replace failed attempts.",
     "score_status": "stage_one_only; discovery_fitness remains null",
     "purpose": "Exploratory language-evolution feasibility pilot; not a primary result.",
