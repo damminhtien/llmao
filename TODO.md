@@ -1,79 +1,646 @@
-# V3.1 Bias Evaluation Checklist
+# LLMAO V4 — TODO
 
-V3.1 evaluates the already frozen V3 representations. It does not propose or
-search for new biases. `PLAN.md`, `reports/V3_SEARCH.md`,
-`reports/V3_EVIDENCE.md`, the V3 finalist manifest, and candidate ASTs remain
-the V3 record and must not be rewritten by this study.
+## Phase 0 — Freeze previous work
 
-## Freeze and protocol
+- [x] Create branch `v4-evolving-bias-language` from the current integrated
+  `main` branch.
+- [x] Move the previous architecture and completed V3.1 checklist to
+  `ARCHITECTURE_V3_REFERENCE.md` and `TODO_V3_1.md`.
+- [x] Replace the root architecture and checklist with the V4 design and plan.
+- [ ] Record commit hashes for V3, V3.1 and V3.2 artifacts.
+- [ ] Verify V3/V3.1/V3.2 reports and results remain unchanged.
+- [ ] Create `V4_PROTOCOL.md`.
+- [ ] Create canonical `results/v4/protocol.json`.
+- [ ] Hash the V4 protocol before producing primary results.
+- [ ] Define primary RQ and acceptance criteria before running V4 discovery.
 
-- [x] Start `v3.1-bias-evaluation` from `v3-relational-bias-search`.
-- [x] Update `ARCHITECTURE.md` with the V3.1 evaluation boundary and design.
-- [x] Create this V3.1 checklist without rewriting the frozen V3 `PLAN.md`.
-- [x] Verify the V3 report, evidence, finalist manifest, candidate ASTs, and
-  source branch are unchanged; record their hashes in the V3.1 manifest.
-- [x] Write `V3_1_PROTOCOL.md` and canonical `results/v31/protocol.json` before
-  computing any V3.1 result. Freeze hypotheses, representations, probes,
-  datasets, sizes, seeds, transformations, metrics, and primary comparisons.
-- [x] Hash the canonical protocol and verify repeatable serialization.
+---
 
-## Evaluation package
+# Phase 1 — Pin EvE / Codex environment
 
-- [x] Add `src/bias_optimizer/evaluation/` with schema, representation registry,
-  probes, protocol, runner, metrics, statistics, complementarity, robustness,
-  and artifact modules.
-- [x] Define stateful `Representation.fit/transform`; wrap all five V3
-  finalists, V2 `cycle_angle_hist`, raw pixels, HOG, zoning30, and train-fitted
-  HOG-PCA30/HOG-PCA60.
-- [x] Define fresh `Probe` instances for fixed logistic regression, RBF-SVM,
-  and small MLP configurations; keep kNN secondary. Do not change the V3
-  `Learner` class or tune probes against test performance.
-- [x] Add deterministic stratified split IDs shared across representations for
-  each dataset, size, and seed. Preserve train/evaluation alignment.
-- [x] Add split-aware feature caching. Cache stateless full-dataset features
-  and HOG inputs; never cache PCA outputs across training splits.
-- [x] Add a generic runner that fits each representation and probe fresh on
-  training data only, retains predictions, and records feature, fit, and
-  inference timings, accuracy, error, and confusion matrix.
-- [x] Add learning curves at 100, 250, 500, 1,000, 2,500, and 5,000 samples
-  with seeds 11, 23, and 47; report trapezoidal AULC over log sample size.
-- [x] Add dimension-matched HOG-PCA comparisons and accuracy/dimension Pareto
-  frontiers. Do not divide accuracy by dimension into a scalar score.
-- [x] Add HOG+V3 and raw+V3 complementarity for the top three V3
-  representations at sizes 500 and 5,000, with linear and MLP probes.
-- [x] Add targeted mechanism destruction with a matched nuisance control;
-  report both accuracy drops and intervention coverage.
-- [x] Add clean-trained robustness evaluations for frozen translation,
-  rotation, dilation, erosion, stroke-width, and noise transformations.
-- [x] Add same-matrix transfer evaluation for MNIST, EMNIST Digits, EMNIST
-  Letters, KMNIST, and Fashion-MNIST, preserving each dataset's provenance and
-  the frozen V3 test-access boundary.
-- [x] Add paired bootstrap confidence intervals and McNemar tests for primary
-  comparisons. Report mean and SD over subset seeds; do not use a t-test with
-  three seeds.
-- [x] Add artifact manifests, per-run predictions, summaries, and profile
-  generation under `results/v31/`.
+- [ ] Clone/pin `scaling-group/eve` at a specific commit.
+- [ ] Record EvE commit in `results/v4/environment.json`.
+- [ ] Update Codex CLI to a version supporting the selected GPT-6 model.
+- [ ] Verify ChatGPT Pro authentication using `codex`.
+- [ ] Verify exact GPT-6 Luna model identifier exposed by the CLI.
+- [ ] Verify whether `max` reasoning is available for that model.
+- [ ] Pin exact model and reasoning level in V4 protocol.
+- [ ] Record Codex CLI version.
+- [ ] Disable web search for all scientific runs.
+- [ ] Disable any uncontrolled external tools.
+- [ ] Verify EvE can launch one Codex worker using ChatGPT-account authentication.
+- [ ] Record token/usage information returned by each rollout.
 
-## Leakage and validation gates
+Main-run invariant:
 
-- [x] Test shared split indices, repeatable and distinct seeds, PCA train-only
-  fitting, scaler train-only fitting, fresh fitted objects, label isolation,
-  concatenation alignment, prediction length, paired bootstrap alignment, and
-  stable protocol hashing.
-- [x] Run the narrow evaluation test suite and repository-required checks.
-- [x] Run a smoke matrix with one representation, two probes, and two sample
-  sizes; inspect artifacts before starting larger runs.
-- [x] Run Phase A core matrix: nine representations × three primary probes ×
-  four sample sizes (250, 500, 1,000, 5,000) × three seeds.
-- [x] Run the two additional frozen sizes (100 and 2,500) to complete all six
-  learning-curve points.
-- [x] Analyze learning curves, learner-capacity rank changes, and the
-  dimension/accuracy frontier.
-- [x] Run Phase B complementarity for the top three V3 representations.
-- [x] Run Phase C mechanism and robustness evaluations for the top two or three
-  V3 representations.
-- [x] Run Phase D transfer for representations supported by Phase A/B.
-- [x] Generate `reports/V3_1_BIAS_EVALUATION.md` with the five predeclared
-  research answers, evidence limits, and a multi-axis profile per bias.
-- [x] Confirm frozen V3 files remain unchanged; inspect status and diff, run
-  `git diff --check`, and commit the completed V3.1 work as one focused commit.
+```text
+same model
+same reasoning level
+same agent permissions
+same context policy
+```
+
+for all LLM-based conditions.
+
+---
+
+# Phase 2 — Reproduce current baseline
+
+Before adding language evolution:
+
+- [ ] Re-run a small V3.2 fixed-language experiment on the M2 Max.
+- [ ] Confirm candidate scores reproduce within expected deterministic limits.
+- [ ] Confirm split hashes match existing protocol.
+- [ ] Confirm evaluator runtime.
+- [ ] Confirm no official-test access occurs.
+- [ ] Save baseline artifact under `results/v4/baseline_reproduction/`.
+
+Gate:
+
+> Do not proceed until the existing fixed-DSL evaluator is trustworthy on the new machine/environment.
+
+---
+
+# Phase 3 — Define \(G_0\)
+
+- [ ] Create `src/bias_optimizer/v4/language/base_language.py`.
+- [ ] Build \(G_0\) from the frozen V2-level typed DSL.
+- [ ] Explicitly exclude manually introduced V3 relational primitives.
+- [ ] Canonically serialize language manifests.
+- [ ] Add SHA-256 language identity.
+- [ ] Record every primitive's signature and parameters.
+- [ ] Write tests verifying deterministic language hashing.
+- [ ] Add frozen \(G_H\) wrapper for the complete human-designed V3 DSL.
+
+Required languages:
+
+```text
+G0 = base / impoverished language
+GH = frozen human V3 language
+```
+
+---
+
+# Phase 4 — Implement typed macro invention
+
+- [ ] Add `MacroPrimitive`.
+- [ ] Define:
+
+```text
+name
+description
+input_types
+output_type
+parameters
+body_AST
+```
+
+- [ ] Type-check macro bodies.
+- [ ] Expand macros into canonical underlying ASTs.
+- [ ] Detect recursive macro definitions.
+- [ ] Reject cyclic dependencies.
+- [ ] Cap macro expansion depth.
+- [ ] Cap expanded AST node count.
+- [ ] Cap output feature dimension.
+- [ ] Canonically hash macro definitions.
+- [ ] Add macro deduplication by behavior/expanded AST.
+- [ ] Require every newly introduced macro to be used by the candidate that introduces it.
+
+Tests:
+
+- [ ] valid macro;
+- [ ] type mismatch;
+- [ ] recursion;
+- [ ] excessive expansion;
+- [ ] duplicate macro;
+- [ ] unused primitive;
+- [ ] dimension overflow.
+
+---
+
+# Phase 5 — Candidate schema
+
+Implement:
+
+```text
+CandidateV4
+├── language
+├── program
+└── provenance
+```
+
+- [ ] Add `language_hash`.
+- [ ] Add `parent_language_hash`.
+- [ ] Add `program_hash`.
+- [ ] Add list of invented primitives.
+- [ ] Add list of primitives used.
+- [ ] Add parent candidate ID.
+- [ ] Add EvE agent ID.
+- [ ] Add guidance hash.
+- [ ] Add generation number.
+- [ ] Add model/backend metadata.
+- [ ] Add evaluation seed.
+- [ ] Add token usage.
+- [ ] Add wall-clock measurements.
+
+---
+
+# Phase 6 — Build immutable candidate evaluator
+
+Create:
+
+```text
+experiments/v4_evaluate_candidate.py
+```
+
+Evaluator procedure:
+
+1. load candidate;
+2. validate language;
+3. compile macros;
+4. validate representation AST;
+5. expand candidate to canonical base AST;
+6. execute representation;
+7. fit frozen learner;
+8. score validation set;
+9. calculate complexity penalties;
+10. write score artifact.
+
+- [ ] Reuse frozen V3 learner settings.
+- [ ] Reuse deterministic split machinery.
+- [ ] Give candidate no access to labels except through evaluator output.
+- [ ] Store evaluator logs separately from candidate workspace.
+- [ ] Hash evaluator version.
+- [ ] Record all failures explicitly.
+
+---
+
+# Phase 7 — Boundary and leakage tests
+
+EvE must never edit scientific infrastructure.
+
+- [ ] Make evaluator files read-only to agent.
+- [ ] Make dataset loader read-only.
+- [ ] Make learner configuration read-only.
+- [ ] Make protocol manifest read-only.
+- [ ] Make train/validation indices read-only.
+- [ ] Prevent access to test labels.
+- [ ] Reject candidate filesystem access.
+- [ ] Reject network access.
+- [ ] Reject subprocess execution.
+- [ ] Reject dynamic imports.
+- [ ] Verify deterministic execution.
+
+Attack tests:
+
+- [ ] candidate tries reading labels;
+- [ ] candidate tries opening test data;
+- [ ] candidate modifies evaluator;
+- [ ] candidate imports sklearn model;
+- [ ] candidate writes global state;
+- [ ] candidate calls network;
+- [ ] candidate creates raw-pixel passthrough;
+- [ ] candidate expands beyond dimension cap.
+
+All must fail.
+
+---
+
+# Phase 8 — Create EvE LLMAO task
+
+Create EvE-side configs:
+
+```text
+configs/eve/application/llmao_v4.yaml
+configs/eve/evaluation/llmao_v4.yaml
+configs/eve/optimizer/llmao_v4.yaml
+configs/eve/llmao_v4.yaml
+```
+
+Application:
+
+- [ ] point to pinned LLMAO snapshot;
+- [ ] allow edits only in candidate directory;
+- [ ] hard-fail all boundary violations.
+
+Evaluation:
+
+- [ ] invoke V4 evaluator;
+- [ ] convert LLMAO fitness to EvE score;
+- [ ] return structured summary.
+
+Optimizer prompt:
+
+- [ ] explain typed DSL;
+- [ ] expose current language;
+- [ ] expose candidate/evaluator history;
+- [ ] ask agent to propose either:
+  - better program;
+  - useful abstraction;
+  - both.
+- [ ] explicitly prohibit evaluator modification.
+
+---
+
+# Phase 9 — EvE smoke test with frozen language
+
+Before allowing \(G\) to evolve:
+
+\[
+G_t=G_0.
+\]
+
+- [ ] Run EvE with `language.json` read-only.
+- [ ] Allow only `program.json` modification.
+- [ ] Run approximately 5–10 candidate evaluations.
+- [ ] Verify EvE solver population.
+- [ ] Verify guidance population evolves.
+- [ ] Verify score feedback returns correctly.
+- [ ] Verify candidates remain valid.
+- [ ] Verify token usage logging.
+- [ ] Verify no cross-workspace contamination.
+
+Gate:
+
+> EvE must reproduce ordinary representation search before language evolution is enabled.
+
+---
+
+# Phase 10 — Enable language evolution
+
+Allow:
+
+```text
+language.json
+program.json
+```
+
+to evolve jointly.
+
+- [ ] Run 10–20 candidate pilot.
+- [ ] Inspect every invented primitive manually.
+- [ ] Inspect language lineage.
+- [ ] Check invalid-rate.
+- [ ] Check dead-primitive rate.
+- [ ] Check duplicate abstractions.
+- [ ] Check language bloat.
+- [ ] Check whether agents simply rename existing operations.
+- [ ] Check whether macros actually alter search behavior.
+
+Predeclare pilot gates, e.g.:
+
+```text
+valid candidates >= 80%
+invented primitive used by introducer = 100%
+language size remains below cap
+no evaluator leakage
+at least one primitive survives into descendants
+```
+
+---
+
+# Phase 11 — Add language lineage archive
+
+- [ ] Store every unique language.
+- [ ] Store parent-child edges.
+- [ ] Store primitive birth generation.
+- [ ] Store primitive death/removal.
+- [ ] Store candidate score using each primitive.
+- [ ] Track primitive descendant frequency.
+- [ ] Track primitive reuse by independent agents.
+- [ ] Generate lineage graph.
+
+Output:
+
+```text
+results/v4/discovery/language_lineage.json
+```
+
+---
+
+# Phase 12 — Run full language discovery
+
+Primary discovery condition:
+
+```text
+EvE
++ GPT-6 Luna
++ max reasoning
++ G0 initial language
++ language evolution enabled
+```
+
+- [ ] Predeclare candidate/token budget.
+- [ ] Predeclare independent seeds.
+- [ ] Run matched independent searches.
+- [ ] Store every solver candidate.
+- [ ] Store every language.
+- [ ] Store every agent guidance revision.
+- [ ] Store token usage.
+- [ ] Store search trajectory.
+- [ ] Store primitive lineage.
+
+Do not access official test results.
+
+---
+
+# Phase 13 — Select and freeze \(G^*\)
+
+Selection must use only discovery evidence.
+
+- [ ] Predeclare language-selection rule.
+- [ ] Select \(G^*\).
+- [ ] Export canonical language manifest.
+- [ ] Hash \(G^*\).
+- [ ] Freeze primitive definitions.
+- [ ] Freeze names/descriptions.
+- [ ] Freeze compiler.
+- [ ] Freeze evaluator.
+- [ ] Freeze dataset protocol.
+- [ ] Record all hashes in `results/v4/frozen_manifest.json`.
+
+Important:
+
+> Do not carry the winning representation or EvE population into primary language evaluation.
+
+---
+
+# Phase 14 — Fresh-search experiment
+
+Restart every optimizer from scratch.
+
+Run:
+
+```text
+G0 + fixed iterative Codex
+GH + fixed iterative Codex
+G* + fixed iterative Codex
+
+G0 + EvE
+GH + EvE
+G* + EvE
+```
+
+- [ ] Same initial candidate seeds.
+- [ ] Same candidate budget.
+- [ ] Same token budget/accounting.
+- [ ] Same model.
+- [ ] Same reasoning level.
+- [ ] Same evaluation data.
+- [ ] Same run seeds.
+
+Primary metrics:
+
+- [ ] best-so-far search curve;
+- [ ] candidate-budget AUC;
+- [ ] token-budget AUC;
+- [ ] time-to-threshold;
+- [ ] final best score;
+- [ ] valid proposal rate;
+- [ ] duplicate rate.
+
+Primary hypothesis:
+
+\[
+AUC(G^*) > AUC(G_0).
+\]
+
+---
+
+# Phase 15 — Semantic-language ablation
+
+Construct:
+
+```text
+G*_semantic
+G*_anonymous
+```
+
+with identical computational behavior.
+
+- [ ] deterministically anonymize primitive names;
+- [ ] anonymize descriptions;
+- [ ] preserve signatures;
+- [ ] preserve implementations;
+- [ ] preserve parameter names where required for execution only;
+- [ ] verify bit-identical primitive output.
+
+Run matched fresh searches.
+
+Measure:
+
+\[
+\Delta_{\text{semantic}}
+=
+AUC(G^*_{\text{semantic}})
+-
+AUC(G^*_{\text{anonymous}}).
+\]
+
+This separates:
+
+```text
+computational vocabulary
+```
+
+from:
+
+```text
+semantic vocabulary available to the LLM
+```
+
+---
+
+# Phase 16 — Primitive reuse analysis
+
+For every invented primitive:
+
+- [ ] number of independent candidates using it;
+- [ ] number of independent runs using it;
+- [ ] score distribution with/without it;
+- [ ] generations survived;
+- [ ] descendants;
+- [ ] semantic similarity to V3 primitives;
+- [ ] structural equivalence to existing DSL expressions.
+
+Identify:
+
+```text
+one-off tricks
+vs
+reusable abstractions
+```
+
+---
+
+# Phase 17 — Transfer test
+
+Freeze \(G^*_{\text{MNIST}}\).
+
+Fresh search on:
+
+```text
+EMNIST Digits
+EMNIST Letters
+KMNIST
+Fashion-MNIST
+```
+
+Primary comparison:
+
+\[
+Search(G^*_{\text{MNIST}})
+\quad vs\quad
+Search(G_0).
+\]
+
+Do not transfer the MNIST winning representation.
+
+Transfer only the language.
+
+This is the critical distinction.
+
+Measure:
+
+- [ ] search AUC;
+- [ ] final fitness;
+- [ ] time-to-threshold;
+- [ ] which invented primitives are reused;
+- [ ] which primitives disappear;
+- [ ] which new abstractions are added.
+
+---
+
+# Phase 18 — Human DSL comparison
+
+Compare:
+
+\[
+G_0,\quad G_H,\quad G^*.
+\]
+
+Questions:
+
+- [ ] Does evolved \(G^*\) rediscover V3 relational concepts?
+- [ ] Does \(G^*\) contain abstractions absent from V3?
+- [ ] Is \(G^*\) smaller or larger than \(G_H\)?
+- [ ] Which language gives better fresh-search AUC?
+- [ ] Which language transfers better?
+- [ ] Which language needs fewer candidate evaluations?
+
+---
+
+# Phase 19 — Optimizer-language interaction
+
+Use the \(3\times2\) design to test whether:
+
+\[
+\text{language effect}
+\]
+
+depends on:
+
+\[
+\text{optimizer}.
+\]
+
+Specifically compare:
+
+\[
+\Delta_G^{fixed}
+=
+AUC(G^*,fixed)-AUC(G_0,fixed)
+\]
+
+and
+
+\[
+\Delta_G^{EvE}
+=
+AUC(G^*,EvE)-AUC(G_0,EvE).
+\]
+
+This answers:
+
+> Does an adaptive optimizer exploit an evolved language differently from a fixed optimizer?
+
+Secondary result only; not the primary RQ.
+
+---
+
+# Phase 20 — Optional Level B primitive synthesis
+
+Only after macro evolution works.
+
+- [ ] Define restricted numerical primitive language.
+- [ ] Add generated primitive body validator.
+- [ ] Add deterministic sandbox.
+- [ ] Ban labels/datasets/models/imports/network.
+- [ ] Add CPU/runtime limit.
+- [ ] Add memory limit.
+- [ ] Add semantic equivalence checks.
+- [ ] Repeat pilot.
+
+Do not mix Level A and Level B results.
+
+---
+
+# Phase 21 — Statistics
+
+For primary comparisons:
+
+- [ ] use multiple independent search seeds;
+- [ ] retain complete trajectories;
+- [ ] bootstrap differences in search AUC;
+- [ ] report paired comparisons where seeds/budgets align;
+- [ ] report individual run results;
+- [ ] do not rely only on mean final score;
+- [ ] do not treat LLM calls as independent statistical samples.
+
+---
+
+# Phase 22 — Final report
+
+Generate:
+
+```text
+reports/V4_LANGUAGE_OF_BIAS.md
+```
+
+Required sections:
+
+1. Research question
+2. Why fixed DSL is a hidden human inductive bias
+3. V4 architecture
+4. Language evolution mechanism
+5. EvE setup
+6. Discovery results
+7. Language lineage
+8. Fresh-search experiment
+9. Human DSL comparison
+10. Semantic ablation
+11. Transfer
+12. Primitive reuse
+13. Failure modes
+14. Attribution limits
+15. What the system actually discovered
+
+Final conclusion must distinguish:
+
+```text
+discovered a good representation
+```
+
+from:
+
+```text
+discovered a useful representation language
+```
+
+and from:
+
+```text
+discovered a generally reusable inductive-bias vocabulary.
+```
+
+These are three different claims.

@@ -9,9 +9,10 @@ command on `main` does not reproduce its historical experiment automatically.
 Search and evaluation write local artifacts. Preserve existing frozen results
 before rerunning commands, and follow the corresponding protocol and manifests.
 The V3.1 workflow is specified in [V3_1_PROTOCOL.md](../V3_1_PROTOCOL.md).
-The V3.2 workflow and execution boundaries are documented in
-[ARCHITECTURE.md](../ARCHITECTURE.md) and its
+The V3/V3.1 architecture and V3.2 execution boundaries are documented in
+[ARCHITECTURE_V3_REFERENCE.md](../ARCHITECTURE_V3_REFERENCE.md) and its
 [study report](../reports/V3_2_OPTIMIZER_VALUE.md).
+The current V4 design is documented in [ARCHITECTURE.md](../ARCHITECTURE.md).
 
 ## Development setup
 
@@ -66,8 +67,9 @@ for each of 10 generations, using batches of at most four ASTs and up to 36
 refill batches per generation. Discovery rejects raw pixels and caps the feature
 width at 128; augmentation allows raw pixels and uses a 1,024-feature cap. Each
 track has its own candidate and LLM-response JSONL archives. See
-[`PLAN.md`](../PLAN.md) and [`ARCHITECTURE.md`](../ARCHITECTURE.md) for the V2 scope
-and post-search evaluation protocol.
+[`PLAN.md`](../PLAN.md) and
+[`ARCHITECTURE_V3_REFERENCE.md`](../ARCHITECTURE_V3_REFERENCE.md) for the V2
+scope and post-search evaluation protocol.
 
 After both search tracks finish, freeze the raw-free discovery finalists before
 loading external test partitions. The follow-on commands evaluate transfer,
