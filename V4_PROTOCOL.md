@@ -204,6 +204,13 @@ Fashion-MNIST using the frozen MNIST language.
 
 ## Decisions required before final preregistration
 
+`V4_PRIMARY_DESIGN.md` now fixes the scientific budgets, seed sets, failure
+accounting, macro-count discovery penalty, selection rule, AUC definition,
+statistical procedure, and numeric support criteria before primary discovery.
+The list below records the canonical protocol's remaining integration and
+implementation-pin requirements. The historical pilot JSON and digest remain
+unchanged until a separately versioned primary protocol is ready.
+
 1. LLMAO evaluator/compiler snapshot, worker permissions, and context policy.
    The EvE commit, Codex CLI model identifier, reasoning support, and CLI
    version are recorded in `results/v4/environment.json`.

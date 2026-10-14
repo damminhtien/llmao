@@ -18,6 +18,14 @@
 - [x] Freeze the twenty common initial ASTs from the pinned V3.2 protocol,
   validate G0/GH eligibility, and hash `V4_INITIAL_PROGRAMS.json` without
   importing historical scores, descriptions, or search history.
+- [x] Fix scientific primary-study choices in `V4_PRIMARY_DESIGN.md`: budgets,
+  independent discovery/fresh seeds, failures and censoring, language penalty,
+  selection, AUC/statistics, and numeric support criteria.
+- [ ] Implement and verify those choices, pin final sources/configuration, and
+  bind the design and common starting-program digest into the final protocol.
+- [x] Implement the pure discovery macro-count objective; eight focused checks
+  pass. Pilot/fresh-search stage-one scoring is unchanged; finalized-protocol
+  discovery evaluator integration remains pending.
 - [ ] Hash the V4 protocol before producing primary results.
 - [x] Define primary RQ and qualitative acceptance criteria before running
   V4 discovery; numerical support criteria remain pending final preregistration.
@@ -523,8 +531,8 @@ EvE
 + language evolution enabled
 ```
 
-- [ ] Predeclare candidate/token budget.
-- [ ] Predeclare independent seeds.
+- [x] Predeclare candidate/token budget in `V4_PRIMARY_DESIGN.md`.
+- [x] Predeclare independent seeds in `V4_PRIMARY_DESIGN.md`.
 - [ ] Run matched independent searches.
 - [ ] Store every solver candidate.
 - [ ] Store every language.
@@ -541,7 +549,7 @@ Do not access official test results.
 
 Selection must use only discovery evidence.
 
-- [ ] Predeclare language-selection rule.
+- [x] Predeclare language-selection rule in `V4_PRIMARY_DESIGN.md`.
 - [ ] Select \(G^*\).
 - [ ] Export canonical language manifest.
 - [ ] Hash \(G^*\).

@@ -714,6 +714,14 @@ Do not reward a primitive merely for having a sophisticated name or explanation.
 
 The main V4 claim will not rely on this discovery score.
 
+`V4_PRIMARY_DESIGN.md` fixes the discovery language cost as invented macro
+count with coefficient 0.0005. Fresh frozen-language searches retain the
+unchanged stage-one score. It also fixes the common 200-unique-evaluation target,
+540 adaptive-proposal cap, token/turn/time budgets, separate discovery and fresh
+seed sets, discovery-only selection, paired primary AUC contrast, and numeric
+support criteria. Final implementation/configuration pins and the canonical
+protocol hash remain launch requirements. No primary discovery has started.
+
 ---
 
 # 12. Language provenance graph
