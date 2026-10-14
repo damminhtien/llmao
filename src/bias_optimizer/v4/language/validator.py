@@ -51,14 +51,22 @@ _SCALAR_TYPES = {"number", "integer", "string", "boolean", "null"}
 
 @dataclass(frozen=True, slots=True)
 class MacroLimits:
-    """Hard limits applied to fully expanded representation ASTs."""
+    """Hard limits on language size and expanded representation ASTs."""
 
     max_expansion_depth: int = 6
     max_expanded_nodes: int = 127
     max_feature_dim: int = 128
+    max_macros: int = 8
+    max_new_macros_per_candidate: int = 1
 
     def __post_init__(self) -> None:
-        for name in ("max_expansion_depth", "max_expanded_nodes", "max_feature_dim"):
+        for name in (
+            "max_expansion_depth",
+            "max_expanded_nodes",
+            "max_feature_dim",
+            "max_macros",
+            "max_new_macros_per_candidate",
+        ):
             value = getattr(self, name)
             if type(value) is not int or value <= 0:
                 raise ValueError(f"{name} must be a positive integer")
@@ -68,6 +76,8 @@ class MacroLimits:
             "max_expansion_depth": self.max_expansion_depth,
             "max_expanded_nodes": self.max_expanded_nodes,
             "max_feature_dim": self.max_feature_dim,
+            "max_macros": self.max_macros,
+            "max_new_macros_per_candidate": self.max_new_macros_per_candidate,
         }
 
 
@@ -593,6 +603,9 @@ def extend_macro_language(
             selected_limits.max_expansion_depth > parent.limits.max_expansion_depth
             or selected_limits.max_expanded_nodes > parent.limits.max_expanded_nodes
             or selected_limits.max_feature_dim > parent.limits.max_feature_dim
+            or selected_limits.max_macros > parent.limits.max_macros
+            or selected_limits.max_new_macros_per_candidate
+            > parent.limits.max_new_macros_per_candidate
         ):
             raise MacroValidationError("a child language cannot widen its parent limits")
     else:
@@ -607,6 +620,17 @@ def extend_macro_language(
     if not all(isinstance(macro, MacroPrimitive) for macro in additions):
         raise MacroValidationError("new language entries must be MacroPrimitive values")
     all_macros = inherited + additions
+    if len(additions) > selected_limits.max_new_macros_per_candidate:
+        raise MacroValidationError(
+            "candidate adds "
+            f"{len(additions)} macros; limit is "
+            f"{selected_limits.max_new_macros_per_candidate}"
+        )
+    if len(all_macros) > selected_limits.max_macros:
+        raise MacroValidationError(
+            f"language defines {len(all_macros)} macros; "
+            f"limit is {selected_limits.max_macros}"
+        )
     names = [macro.name for macro in all_macros]
     if len(names) != len(set(names)):
         raise MacroValidationError("macro names must be unique across a language lineage")

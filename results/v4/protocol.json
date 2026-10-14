@@ -71,8 +71,32 @@
     "max_expansion_depth": 6,
     "max_expanded_ast_nodes": 127,
     "max_feature_dimension": 128,
-    "max_macros": null,
-    "status": "draft_limits_match_v3_2_discovery_defaults"
+    "max_macros": 8,
+    "max_new_macros_per_candidate": 1,
+    "status": "pinned_for_v4_language_evolution"
+  },
+  "phase_10_language_pilot": {
+    "candidate_attempts": 10,
+    "candidate_accounting": "Count every proposal, including invalid candidates and context or evaluator failures; do not replace failed attempts.",
+    "score_status": "stage_one_only; discovery_fitness remains null",
+    "purpose": "Exploratory language-evolution feasibility pilot; not a primary result.",
+    "acceptance_gates": {
+      "valid_proposal_rate_min": 0.8,
+      "introduced_macro_used_by_introducer_rate_min": 1.0,
+      "at_least_one_introduced_macro_reused_by_descendant": true,
+      "max_macros_per_language": 8,
+      "max_new_macros_per_candidate": 1,
+      "max_expansion_depth": 6,
+      "max_expanded_ast_nodes": 127,
+      "max_feature_dimension": 128,
+      "protected_boundary_violations_max": 0
+    },
+    "stop_rules": [
+      "Stop after ten candidate attempts.",
+      "Stop immediately on evidence of a protected-boundary or official-test access violation.",
+      "Retain all valid, invalid, incomplete, and failed-attempt artifacts.",
+      "A failed gate requires a separately documented plan before another language pilot."
+    ]
   },
   "evaluator_basis": {
     "dataset": "MNIST OpenML mnist_784 v1; official 60,000-example training partition only",
@@ -136,10 +160,9 @@
     "evaluator_compiler_snapshot_and_worker_permissions_context_policy",
     "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
     "common_initial_program_manifest",
-    "macro_count_limit_and_language_complexity_penalty",
+    "language_complexity_penalty_definition_and_coefficient",
     "discovery_only_language_selection_rule_and_tie_breakers",
-    "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria",
-    "pilot_gates"
+    "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria"
   ],
   "primary_design": {
     "carry_discovery_program_history_guidance_population": false,

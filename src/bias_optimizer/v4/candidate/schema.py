@@ -236,6 +236,8 @@ def load_macro_language(
         "max_expansion_depth",
         "max_expanded_nodes",
         "max_feature_dim",
+        "max_macros",
+        "max_new_macros_per_candidate",
     }:
         raise CandidateValidationError("candidate language limits have an invalid shape")
     try:

@@ -147,11 +147,13 @@ Tests:
 - [x] duplicate macro;
 - [x] unused primitive;
 - [x] dimension overflow.
+- [x] total macro-count and per-candidate macro-addition caps.
 
-The implementation defaults to the existing V3.2 discovery caps: macro
-dependency and expanded AST depth 6, 127 expanded AST nodes, and 128 output
-features. Preregistration must confirm these values and set the macro-count
-and language-complexity limits.
+The implementation enforces the V3.2 discovery caps: macro dependency and
+expanded AST depth 6, 127 expanded AST nodes, and 128 output features. The V4
+protocol now sets a maximum of eight macros per language and one new macro per
+candidate. The language-complexity penalty definition and coefficient remain
+pending final preregistration.
 
 ---
 
@@ -356,10 +358,10 @@ preregistration decisions are resolved and the final protocol is hashed.
 
 Before the pilot:
 
-- [ ] Predeclare numeric pilot gates, macro/resource limits, and stop rules in
+- [x] Predeclare numeric pilot gates, macro/resource limits, and stop rules in
   `V4_PROTOCOL.md` and `results/v4/protocol.json`; then refresh the protocol
   digest.
-- [ ] Keep pilot feedback marked stage-one-only while discovery penalty and
+- [x] Keep pilot feedback marked stage-one-only while discovery penalty and
   primary-study decisions remain unresolved.
 - [ ] Configure EvE to permit only `candidate/language.json` and
   `candidate/program.json` edits; keep the evaluator and scientific inputs
@@ -384,16 +386,21 @@ to evolve jointly.
 - [ ] Check whether agents simply rename existing operations.
 - [ ] Check whether macros actually alter search behavior.
 
-Pilot acceptance gates must be numeric and fixed before the first language
-proposal. Candidate gates to finalize include:
+The fixed pilot gates are:
 
 ```text
-valid candidates >= 80%
-invented primitive used by introducer = 100%
-language size remains below cap
-no evaluator leakage
-at least one primitive survives into descendants
+10 candidate attempts; invalid/failing attempts count and are not replaced
+valid stage-one candidates >= 8/10
+every introduced macro is used by its introducing candidate
+at least one introduced macro is used by a descendant
+maximum 8 macros per language; at most 1 new macro per candidate
+maximum expansion depth 6; expanded AST nodes 127; feature width 128
+zero evaluator, data, label, test-partition, or workspace-boundary violations
 ```
+
+Stop after 10 attempts or immediately on a protected-boundary or official-test
+access violation. A failed gate requires a separately documented pilot plan
+before another language run.
 
 ---
 

@@ -63,9 +63,11 @@ provenance. Cycles, recursive definitions, unused new macros, and resource
 limit violations fail validation. The current implementation defaults cap
 both macro dependency depth and expanded AST depth at 6, expanded AST size at
 127 nodes, and output width at 128 features, matching the V3.2 discovery
-limits. The final preregistration must confirm them and set the macro-count and
-language-complexity limits. Arbitrary Python and Level B primitive synthesis
-are excluded from the initial experiment.
+limits. The protocol caps each language at eight macros and each candidate at
+one newly introduced macro. Language complexity is measured and reported, but
+its discovery penalty definition and coefficient remain pending final
+preregistration. Arbitrary Python and Level B primitive synthesis are excluded
+from the initial experiment.
 Macro bodies and their transitive expansions use only `G0` operations and
 previously validated macros; hidden use of excluded `GH` operations is invalid.
 Level A changes the vocabulary while preserving `G0` computational expressivity.
@@ -123,6 +125,27 @@ While this protocol is a draft, the language penalty is unapplied and
 `discovery_fitness` is null, so these artifacts cannot drive a preregistered
 discovery run.
 
+## Phase 10 language-evolution pilot
+
+Run exactly ten candidate attempts with one solver worker. Count every proposal,
+including invalid candidates and context or evaluator failures; do not replace
+failed attempts. The pilot uses the frozen stage-one evaluator and is
+exploratory feasibility evidence only. `discovery_fitness` remains null.
+
+The pilot passes only if all of these conditions hold:
+
+- at least 8 of 10 candidate attempts receive valid stage-one scores;
+- every introduced macro is used by its introducing candidate;
+- at least one introduced macro is used by a descendant candidate;
+- the language never exceeds eight macros, with at most one new macro per
+  candidate, depth 6, 127 expanded nodes, and 128 features;
+- zero evaluator, data, label, test-partition, or workspace-boundary violations.
+
+Stop immediately on evidence of a protected-boundary or official-test access
+violation. Stop after ten attempts. Retain all invalid, incomplete, and valid
+candidate artifacts. A failed gate requires a separately documented plan before
+another language pilot.
+
 ## Primary fresh-search design
 
 Run the three language conditions `G0`, `GH`, and frozen `G*` with both fixed
@@ -161,15 +184,13 @@ Fashion-MNIST using the frozen MNIST language.
    recorded in `results/v4/baseline_reproduction/summary.json`. The existing
    twenty V3.2 seed ASTs contain none of the four excluded V3 operations,
    making them eligible for validation as the common starting set.
-4. Macro-count limit, confirmation of the draft expansion limits (depth 6, 127
-   nodes, and 128 features), language-complexity definition, and discovery
-   penalty coefficient.
+4. Language-complexity definition and discovery penalty coefficient. The V4
+   macro caps are pinned at eight macros per language and one new macro per
+   candidate; expansion caps remain depth 6, 127 nodes, and 128 features.
 5. Discovery-only language selection rule and deterministic tie breakers.
 6. Exact AUC integration bounds and normalization, primary contrast across
    optimizer conditions, paired statistical procedure, and numerical support
    criteria.
-7. Pilot gates and baseline reproduction evidence.
-
 All decisions must be recorded before observing the results they govern.
 Protocol changes after discovery require a versioned amendment; preserve the
 original protocol, digest, and affected traces.

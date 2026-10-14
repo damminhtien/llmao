@@ -238,7 +238,11 @@ def test_recursive_and_cyclic_macro_dependencies_are_rejected() -> None:
     with pytest.raises(MacroValidationError, match="recursive macro dependency"):
         extend_macro_language(G0_LANGUAGE, [recursive])
     with pytest.raises(MacroValidationError, match="recursive macro dependency"):
-        extend_macro_language(G0_LANGUAGE, [left, right])
+        extend_macro_language(
+            G0_LANGUAGE,
+            [left, right],
+            limits=MacroLimits(max_new_macros_per_candidate=2),
+        )
 
 
 def test_expansion_depth_and_node_caps_are_enforced() -> None:
@@ -296,7 +300,10 @@ def test_macro_call_depth_is_limited_even_when_aliases_add_no_ast_nodes() -> Non
         extend_macro_language(
             G0_LANGUAGE,
             [identity, alias_one, alias_two],
-            limits=MacroLimits(max_expansion_depth=2),
+            limits=MacroLimits(
+                max_expansion_depth=2,
+                max_new_macros_per_candidate=3,
+            ),
         )
 
 
@@ -341,7 +348,43 @@ def test_duplicate_macro_behavior_is_deduplicated_by_expanded_ast() -> None:
     )
 
     with pytest.raises(MacroValidationError, match="duplicates behavior"):
-        extend_macro_language(G0_LANGUAGE, [first, duplicate])
+        extend_macro_language(
+            G0_LANGUAGE,
+            [first, duplicate],
+            limits=MacroLimits(max_new_macros_per_candidate=2),
+        )
+
+
+def test_language_macro_count_cap_is_enforced() -> None:
+    with pytest.raises(MacroValidationError, match="language defines 2 macros; limit is 1"):
+        extend_macro_language(
+            G0_LANGUAGE,
+            [_normalize_macro(), _histogram_macro()],
+            limits=MacroLimits(max_macros=1, max_new_macros_per_candidate=2),
+        )
+
+
+def test_candidate_macro_addition_cap_is_enforced() -> None:
+    with pytest.raises(MacroValidationError, match="candidate adds 2 macros; limit is 1"):
+        extend_macro_language(
+            G0_LANGUAGE,
+            [_normalize_macro(), _histogram_macro()],
+        )
+
+
+def test_child_language_cannot_widen_macro_count_limits() -> None:
+    parent = extend_macro_language(
+        G0_LANGUAGE,
+        [_normalize_macro()],
+        limits=MacroLimits(max_macros=2),
+    )
+
+    with pytest.raises(MacroValidationError, match="cannot widen its parent limits"):
+        extend_macro_language(
+            parent,
+            [_histogram_macro()],
+            limits=MacroLimits(max_macros=3),
+        )
 
 
 def test_new_macro_must_be_used_by_its_introducing_candidate() -> None:

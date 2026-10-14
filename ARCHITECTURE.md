@@ -271,19 +271,19 @@ An invented primitive is a reusable abstraction composed from existing typed ope
 Example:
 
 ```text
-relative_component_geometry(...)
+stroke_turn_profile(image())
 ```
 
-could internally compile to a bounded combination of:
+could internally compile to a bounded G0 composition of:
 
 ```text
-path_summary
-centroid
-pairwise_difference
+image
+skeletonize
+graph
+paths
+angles
 histogram
 ```
-
-or their lower-level equivalents.
 
 A macro:
 
@@ -294,6 +294,11 @@ A macro:
 - can be hashed canonically.
 
 This tests whether the system can invent a **better vocabulary/search representation**.
+
+V4 allows at most eight macros in a language and at most one newly introduced
+macro per candidate. Each macro remains within the existing caps of expansion
+depth 6, 127 expanded AST nodes, and 128 output features. These limits are
+serialized with each language and enforced by the typed validator.
 
 Macro bodies may use only the operations available in their parent language,
 including previously validated macros. Their transitive expansion must stay
