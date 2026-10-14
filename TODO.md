@@ -447,6 +447,14 @@ another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
   `V4_FOLLOWUP_PILOT_CONTRACT.json` and its adjacent `.sha256` file.
 - [ ] Run and audit the separate ten-proposal follow-up pilot against its
   original gates and additional eight-distinct-expanded-hash gate.
+- [ ] Fix worker-side interpreter delivery and demonstrate a successful
+  structural checker call through native worker tools; the first follow-up
+  worker received no `LLMAO_PYTHON` shell variable and bare Python lacked
+  dependencies. Preserve its failed proposal and frozen run.
+
+The follow-up is running under the frozen contract. Its launch and live
+observations are recorded in `V4_PHASE10_FOLLOWUP_REPORT.md`; final gates and
+the full ten-attempt audit remain pending.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
