@@ -8,6 +8,7 @@ import sys
 from pathlib import Path
 
 import numpy as np
+import pytest
 
 from bias_optimizer.domain.evaluation import Evaluation
 from bias_optimizer.dsl.ast import Expr
@@ -18,6 +19,7 @@ from bias_optimizer.v4.candidate import (
     load_candidate_directory,
     load_language_lineage,
 )
+from bias_optimizer.v4.candidate.context import build_candidate_context
 from bias_optimizer.v4.evaluator import (
     evaluate_candidate,
     evaluator_source_snapshot,
@@ -100,6 +102,55 @@ def test_candidate_directory_loads_data_only_files_and_external_context(
     assert loaded.expanded_program_hash == candidate.expanded_program_hash
 
 
+def test_context_builder_derives_provenance_from_candidate_and_protocol(tmp_path) -> None:
+    candidate = _candidate()
+    candidate_directory = tmp_path / "candidate"
+    candidate_directory.mkdir()
+    (candidate_directory / "language.json").write_text(
+        json.dumps(candidate.language.to_dict()), encoding="utf-8"
+    )
+    (candidate_directory / "program.json").write_text(
+        json.dumps(candidate.program.to_dict()), encoding="utf-8"
+    )
+
+    context = build_candidate_context(candidate_directory)
+
+    assert context["provenance"]["model_backend"] == {
+        "model_identifier": "gpt-6-luna",
+        "backend": "codex_tmux",
+        "reasoning_effort": "max",
+    }
+    assert context["provenance"]["used_primitives"] == list(
+        candidate.provenance.used_primitives
+    )
+    assert context["parent_language_lineage"] == []
+
+
+def test_context_builder_requires_trusted_parent_language_lineage(tmp_path) -> None:
+    candidate = _candidate()
+    child = extend_macro_language(candidate.language, [])
+    candidate_directory = tmp_path / "candidate"
+    candidate_directory.mkdir()
+    (candidate_directory / "language.json").write_text(
+        json.dumps(child.to_dict()), encoding="utf-8"
+    )
+    (candidate_directory / "program.json").write_text(
+        json.dumps(candidate.program.to_dict()), encoding="utf-8"
+    )
+
+    with pytest.raises(ValueError, match="parent hash does not match"):
+        build_candidate_context(candidate_directory)
+    context = build_candidate_context(
+        candidate_directory,
+        parent_lineage=[candidate.language.to_dict()],
+        parent_candidate_id=candidate.candidate_id,
+        generation=1,
+    )
+
+    assert context["provenance"]["generation"] == 1
+    assert context["provenance"]["parent_candidate_id"] == candidate.candidate_id
+
+
 class _FakeEvaluator:
     def evaluate_pipeline(self, pipeline, **kwargs) -> Evaluation:
         assert pipeline.feature_dim == 2
@@ -161,6 +212,7 @@ def test_evaluator_source_snapshot_covers_frozen_inputs() -> None:
 
     assert len(snapshot["sha256"]) == 64
     assert "experiments/v4_evaluate_candidate.py" in source_paths
+    assert "experiments/v4_build_candidate_context.py" in source_paths
     assert "results/v4/protocol.json" in source_paths
     assert "results/v4/languages/g0.json.sha256" in source_paths
 
