@@ -20,12 +20,12 @@
       "cached_input_tokens": 11008,
       "output_tokens": 8
     },
-    "web_search_control": "pending",
-    "uncontrolled_external_tools_control": "pending",
+    "web_search_control": "disabled_in_llmao_v4_codex_tmux_config",
+    "uncontrolled_external_tools_control": "network_and_multi_agent_disabled_in_config",
     "eve_worker_launch_verified": false
   },
   "scientific_worker_controls": {
-    "status": "planned_unverified",
+    "status": "configured_not_launch_verified",
     "driver": "codex_tmux",
     "codex_sandbox_mode": "workspace-write",
     "agent_shell_network_access": false,
@@ -36,7 +36,8 @@
   "eve": {
     "repository": "https://github.com/scaling-group/eve.git",
     "checkout": "../eve",
-    "commit": "979065fd2cf1b3be9caf70596478fe27df7815ad",
+    "branch": "dev/llmao-v4-config",
+    "commit": "f72f2701fde2c8874027418fbaca1bd4217dd7f0",
     "working_tree_clean": true
   },
   "hardware": {

@@ -38,10 +38,11 @@ evaluation has run.
   Codex CLI invocation.
 - [x] Pin exact model and reasoning level in V4 protocol.
 - [x] Record Codex CLI version.
-- [ ] Configure `codex_tmux` with `workspace-write`, no agent-shell network,
+- [x] Configure `codex_tmux` with `workspace-write`, no agent-shell network,
   disabled web search, and disabled multi-agent mode. Do not use `codex_exec`
   for scientific workers because it bypasses the Codex sandbox.
-- [ ] Verify the scientific worker configuration disables uncontrolled tools.
+- [x] Verify the scientific worker config pins `codex_tmux`, disables network,
+  web search, and multi-agent mode, and uses the isolated Codex home.
 - [ ] Verify EvE can launch one Codex worker using ChatGPT-account authentication.
 - [ ] Ensure all V4 workers use the isolated Codex configuration so the global
   custom API base URL cannot reroute requests.
@@ -271,26 +272,30 @@ configs/eve/llmao_v4.yaml
 
 Application:
 
-- [ ] point to pinned LLMAO snapshot;
-- [ ] allow edits only in candidate directory;
-- [ ] hard-fail all boundary violations.
+- [x] snapshot only the minimal G0 candidate task; the evaluation wrapper
+  requires the clean LLMAO checkout at the exact `LLMAO_EXPECTED_COMMIT`;
+- [x] allow edits only to `candidate/program.json` for the frozen-language
+  smoke; keep `candidate/language.json` read-only until the Phase 9 gate passes;
+- [x] assign zero score to boundary violations and reject the candidate.
 
 Evaluation:
 
-- [ ] invoke V4 evaluator;
-- [ ] convert LLMAO fitness to EvE score;
-- [ ] return structured summary.
+- [x] invoke the pinned V4 evaluator and keep its artifacts in the EvE log
+  directory;
+- [x] convert only the draft V3.2 stage-one score to EvE's scalar score;
+- [x] return candidate identity, accuracy, dimensions, runtimes, protocol
+  status, evaluator digest, and a structured failure summary.
 
 Optimizer prompt:
 
-- [ ] explain typed DSL;
-- [ ] expose current language;
-- [ ] expose candidate/evaluator history;
-- [ ] ask agent to propose either:
+- [x] explain the typed DSL and expose the pinned G0 manifest/current language;
+- [x] expose candidate and evaluator history through sampled solver examples
+  and their score/log artifacts;
+- [x] ask the agent to propose either:
   - better program;
   - useful abstraction;
   - both.
-- [ ] explicitly prohibit evaluator modification.
+- [x] explicitly prohibit evaluator modification and executable candidate data.
 
 ---
 

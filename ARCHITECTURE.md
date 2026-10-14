@@ -577,6 +577,13 @@ runtime passes `--dangerously-bypass-approvals-and-sandbox`. EvE creates a
 per-workspace Codex home, so the worker uses the pinned model and reasoning
 settings without loading the user's global Codex configuration.
 
+The first EvE smoke snapshots only the candidate JSON and the pinned G0
+manifest. Its evaluator uses a separately configured, clean LLMAO checkout at
+the exact `LLMAO_EXPECTED_COMMIT`; the evaluator source and data cache are not
+copied into the worker snapshot. During this smoke, only
+`candidate/program.json` is editable. Unlock `candidate/language.json` only
+after the frozen-language Phase 9 gate passes.
+
 The agent workspace contains only the candidate artifacts and task guidance.
 EvE's boundary checker rejects changes to every other path. The submitted
 program is JSON for the allow-listed typed interpreter; it is never executed
