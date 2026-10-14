@@ -633,6 +633,28 @@ for the ten-attempt pilot. The evaluator receives those solver examples and
 their evaluator logs; it does not modify EvE's algorithm core or the frozen
 Phase 9 evaluator.
 
+### Phase 10 exploratory pilot outcome
+
+The 2026-10-14 pilot completed ten proposals plus a separate seed evaluation.
+Six proposals received valid V3.2 stage-one scores and four failed candidate
+context validation, missing the preregistered minimum of eight valid proposals.
+The best recorded accuracy was 0.873 on 500 examples with 33 features. This is
+feasibility evidence only; `discovery_fitness` remains null and the result does
+not establish a search improvement.
+
+Lineage checks confirmed macro inheritance and descendant use. The run also
+exposed two depth-7 proposals rejected against the depth-6 cap, two exact macro
+reintroductions on separate branches, two duplicate candidate IDs, and one
+accepted language carrying an unused inherited macro. No protected data or
+workspace-boundary violation was found. The reviewed run summary is in
+`V4_PHASE10_PILOT_REPORT.md`; candidate files, lineage snapshots, and raw
+telemetry are preserved locally under `results/v4/phase10_pilot/`, which the
+repository intentionally excludes from Git.
+
+The pilot gate failed. Do not run another language pilot or begin primary
+discovery until a separate response plan is recorded and Phase 0
+preregistration is completed and hashed.
+
 ---
 
 # 11. Discovery objective

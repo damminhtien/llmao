@@ -20,8 +20,8 @@
   V4 discovery; numerical support criteria remain pending final preregistration.
 
 The protocol is a draft. Phase 0 is complete only after its pending decisions
-are resolved and the final protocol is hashed. No V4 discovery or primary
-evaluation has run.
+are resolved and the final protocol is hashed. The Phase 10 exploratory pilot
+has run; preregistered Phase 12 discovery and primary evaluation have not.
 
 ---
 
@@ -33,8 +33,8 @@ evaluation has run.
 - [x] Verify ChatGPT Plus authentication using `codex` and the account usage
   status.
 - [x] Confirm the account plan is ChatGPT Plus (not Pro) and use its ordinary
-  Codex allowance; the 2026-10-14 09:35 UTC pre-launch usage snapshot showed
-  37% used in the five-hour window, 12% in the weekly window, and no paid
+  Codex allowance; the 2026-10-14 09:50:21 UTC pre-worker usage snapshot showed
+  41% used in the five-hour window, 12% in the weekly window, and no paid
   credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
@@ -348,11 +348,10 @@ Gate:
 
 > EvE must reproduce ordinary representation search before language evolution is enabled.
 
-The frozen-language smoke gate is satisfied. Phase 10 is next. Its numeric
-acceptance gates are recorded; validate the isolated language-pilot config and
-lineage handoff before enabling language edits. Do not start Phase 12 discovery
-or emit discovery fitness until the pending Phase 0 preregistration decisions
-are resolved and the final protocol is hashed.
+The frozen-language smoke gate is satisfied. The Phase 10 language pilot has
+completed, but it failed its valid-candidate minimum. Do not start another
+language pilot or Phase 12 discovery until a separate response plan is recorded
+and the pending Phase 0 preregistration decisions are resolved and hashed.
 
 ---
 
@@ -379,16 +378,16 @@ program.json
 
 to evolve jointly.
 
-- [ ] Run exactly 10 candidate attempts; invalid and failing attempts count and
+- [x] Run exactly 10 candidate attempts; invalid and failing attempts count and
   are not replaced. The initial seed evaluation is separate from those attempts.
-- [ ] Inspect every invented primitive manually.
-- [ ] Inspect language lineage.
-- [ ] Check invalid-rate.
-- [ ] Check dead-primitive rate.
-- [ ] Check duplicate abstractions.
-- [ ] Check language bloat.
-- [ ] Check whether agents simply rename existing operations.
-- [ ] Check whether macros actually alter search behavior.
+- [x] Inspect every proposed macro manually.
+- [x] Inspect language lineage.
+- [x] Check invalid-rate.
+- [x] Check dead-primitive rate.
+- [x] Check duplicate abstractions.
+- [x] Check language bloat.
+- [x] Check whether agents simply rename existing operations.
+- [x] Check whether macros actually alter search behavior.
 
 The fixed pilot gates are:
 
@@ -405,6 +404,39 @@ zero evaluator, data, label, test-partition, or workspace-boundary violations
 Stop after 10 attempts or immediately on a protected-boundary or official-test
 access violation. A failed gate requires a separately documented pilot plan
 before another language run.
+
+### Phase 10 pilot result — 2026-10-14
+
+The exploratory run completed exactly 10 proposals, plus one separately scored
+seed. Six proposals received stage-one scores and four were rejected during
+candidate-context validation (40% invalid rate), so the required minimum of
+8/10 was not met. The highest score was 0.8687732694 at accuracy 0.873 with 33
+features; it remains a V3.2 stage-one score, not discovery fitness. The seed
+score was 0.4905797185 at accuracy 0.493 with six features.
+
+Manual review found five distinct macro definitions across seven introduction
+events. Iterations 8 and 9 reintroduced the exact `regional_ink_angle_profile`
+definition from separate G0 branches. All introduced macros were referenced
+by their proposing programs. A valid generation-2 candidate also used the
+inherited `regional_ink_angle_profile` macro. Two valid attempts repeated
+earlier candidate IDs (iterations 9 and 10),
+leaving four unique valid candidate IDs. One accepted language retained an
+inherited macro that its own program did not call, though a descendant did.
+Macros were compositions of G0 operations rather than aliases. The run does
+not establish that language evolution causally improves search behavior.
+
+Two rejected proposals attempted expanded depth 7 against the depth-6 limit;
+the evaluator rejected both before admission. The accepted candidates remained
+within the macro-count and feature-width caps. No data, label, official-test, or
+workspace-boundary violation was found. The reviewed attempt table is in
+`V4_PHASE10_PILOT_REPORT.md`; raw candidate and lineage artifacts are preserved
+locally in the Git-ignored `results/v4/phase10_pilot/` archive.
+
+**Gate result: failed.** Do not run another language pilot or begin Phase 12.
+Before resuming, document a separate response plan addressing depth-invalid
+proposals, duplicate candidate and macro handling, the 40% invalid rate, and
+the stage-one-only evidence limit; then resolve and hash the full Phase 0
+preregistration.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
