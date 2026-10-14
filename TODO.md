@@ -227,28 +227,32 @@ launched.
 
 EvE must never edit scientific infrastructure.
 
+The V4 typed interpreter and candidate loader now reject executable payloads,
+unknown operations, extra candidate files, and test-label fields. This static
+boundary is covered independently from the EvE worker sandbox; the worker-side
+read-only and filesystem/network enforcement remains pending below.
+
 - [ ] Make evaluator files read-only to agent.
 - [ ] Make dataset loader read-only.
 - [ ] Make learner configuration read-only.
 - [ ] Make protocol manifest read-only.
 - [ ] Make train/validation indices read-only.
-- [ ] Prevent access to test labels.
-- [ ] Reject candidate filesystem access.
-- [ ] Reject network access.
-- [ ] Reject subprocess execution.
-- [ ] Reject dynamic imports.
+- [x] Keep labels and test data out of the candidate AST and score artifact.
+- [x] Reject candidate filesystem payloads and executable operation names.
+- [x] Reject network, subprocess, and dynamic-import operations in candidate ASTs.
+- [ ] Enforce the same restrictions in the EvE worker sandbox.
 - [ ] Verify deterministic execution.
 
 Attack tests:
 
-- [ ] candidate tries reading labels;
-- [ ] candidate tries opening test data;
+- [x] candidate tries reading labels;
+- [x] candidate tries opening test data;
 - [ ] candidate modifies evaluator;
-- [ ] candidate imports sklearn model;
-- [ ] candidate writes global state;
-- [ ] candidate calls network;
-- [ ] candidate creates raw-pixel passthrough;
-- [ ] candidate expands beyond dimension cap.
+- [x] candidate imports sklearn model;
+- [x] candidate writes global state;
+- [x] candidate calls network;
+- [x] candidate creates raw-pixel passthrough;
+- [x] candidate expands beyond dimension cap.
 
 All must fail.
 

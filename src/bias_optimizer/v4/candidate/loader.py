@@ -88,6 +88,15 @@ def load_candidate_directory(
     directory = Path(candidate_directory).resolve(strict=True)
     if not directory.is_dir():
         raise CandidateValidationError("candidate path must be a directory")
+    expected_files = {"language.json", "program.json"}
+    entries = {path.name for path in directory.iterdir()}
+    if entries != expected_files:
+        unexpected = sorted(entries - expected_files)
+        missing = sorted(expected_files - entries)
+        raise CandidateValidationError(
+            f"candidate directory must contain only language.json and program.json; "
+            f"unexpected={unexpected}, missing={missing}"
+        )
     language_path = directory / "language.json"
     program_path = directory / "program.json"
     for path in (language_path, program_path):
