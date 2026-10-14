@@ -1,0 +1,140 @@
+{
+  "acceptance_criteria": [
+    "freeze_G_star_before_primary_evaluation",
+    "restart_search_from_scratch",
+    "match_optimizer_and_budget_conditions",
+    "improve_search_efficiency_over_G0",
+    "survive_independent_seeds",
+    "reuse_at_least_one_evolved_abstraction_across_independent_searches"
+  ],
+  "baseline_manifest": {
+    "path": "results/v4/baseline_manifest.json",
+    "sha256": "050bc754b6117b716e9e2f1f5f9e92e2ef1c08872aab4245c099de7393e72d2b"
+  },
+  "candidate_boundary": {
+    "arbitrary_python": false,
+    "editable": [
+      "candidate/language.json",
+      "candidate/program.json"
+    ],
+    "immutable": [
+      "evaluator",
+      "dataset_loader",
+      "learner",
+      "metric",
+      "split",
+      "protocol"
+    ],
+    "macro_transitive_expansion_vocabulary": "G0 only; excluded GH operations forbidden",
+    "new_macro_must_be_used_by_introducing_candidate": true,
+    "official_test_access": false
+  },
+  "created_on": "2026-10-14",
+  "discovery_language_complexity_penalty": {
+    "coefficient": null,
+    "definition": null,
+    "must_be_fixed_before_discovery": true
+  },
+  "evaluator_basis": {
+    "dataset": "MNIST OpenML mnist_784 v1; official 60,000-example training partition only",
+    "learner": {
+      "C": 1.0,
+      "classifier": "LogisticRegression",
+      "max_iter": 1000,
+      "random_state": 42,
+      "scaler": "StandardScaler",
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    "official_test_access": false,
+    "training_subset_seed": 42,
+    "training_subset_size": 500,
+    "validation_size": 2000,
+    "validation_split_seed": 42
+  },
+  "evolution_level": "A_typed_macros_only",
+  "execution_observations": {
+    "authentication": "ChatGPT login present; subscription tier unverified",
+    "codex_cli_version": "0.162.0-alpha.17.2",
+    "eve_worker_launched": false,
+    "model_support_verified": false
+  },
+  "language_conditions": {
+    "G0": {
+      "basis": "frozen V2-level typed DSL",
+      "excluded_v3_operations": [
+        "spatial_condition",
+        "pairwise_difference",
+        "cross_histogram",
+        "path_summary"
+      ]
+    },
+    "GH": {
+      "basis": "full frozen human V3 typed DSL"
+    },
+    "G_star": {
+      "basis": "G0 plus discovered typed macros",
+      "freeze_before_primary_evaluation": true
+    }
+  },
+  "pending_preregistration_decisions": [
+    "exact_environment_and_repository_pins",
+    "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
+    "common_initial_program_manifest_and_split_fingerprints",
+    "macro_resource_limits_and_language_complexity_penalty",
+    "discovery_only_language_selection_rule_and_tie_breakers",
+    "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria",
+    "pilot_gates_and_baseline_reproduction"
+  ],
+  "primary_design": {
+    "carry_discovery_program_history_guidance_population": false,
+    "exact_cli_model_identifier": null,
+    "fresh_search": true,
+    "languages": [
+      "G0",
+      "GH",
+      "G_star"
+    ],
+    "matching_requirements": [
+      "initial_programs",
+      "candidate_budget",
+      "token_accounting",
+      "timeouts",
+      "model",
+      "reasoning_effort",
+      "permissions",
+      "context_policy",
+      "evaluation_data",
+      "independent_seeds"
+    ],
+    "optimizers": [
+      "fixed_iterative_codex",
+      "eve"
+    ],
+    "primary_metric": "best-so-far search AUC versus candidate evaluations: G_star minus G0 under matched optimizer conditions",
+    "requested_model": "GPT-6 Luna",
+    "requested_reasoning_effort": "max"
+  },
+  "research_question": "Can an LLM invent reusable abstractions that make useful inductive biases easier to discover?",
+  "schema_version": 1,
+  "secondary_analyses": [
+    "token_budget_search_curves",
+    "time_to_frozen_thresholds",
+    "final_fitness",
+    "validity_and_duplicates",
+    "language_complexity_and_reuse",
+    "human_V3_language_reference",
+    "optimizer_language_interaction",
+    "semantic_name_ablation",
+    "fresh_search_transfer"
+  ],
+  "stage_one_fitness": "accuracy_500 - 0.001*log1p(feature_dim) - 0.0001*log1p(feature_runtime_ms + training_runtime_ms + inference_runtime_ms)",
+  "status": "draft_before_discovery",
+  "study_id": "v4-evolving-bias-language",
+  "transfer_datasets": [
+    "EMNIST Digits",
+    "EMNIST Letters",
+    "KMNIST",
+    "Fashion-MNIST"
+  ]
+}

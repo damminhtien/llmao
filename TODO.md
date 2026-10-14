@@ -7,12 +7,21 @@
 - [x] Move the previous architecture and completed V3.1 checklist to
   `ARCHITECTURE_V3_REFERENCE.md` and `TODO_V3_1.md`.
 - [x] Replace the root architecture and checklist with the V4 design and plan.
-- [ ] Record commit hashes for V3, V3.1 and V3.2 artifacts.
-- [ ] Verify V3/V3.1/V3.2 reports and results remain unchanged.
-- [ ] Create `V4_PROTOCOL.md`.
-- [ ] Create canonical `results/v4/protocol.json`.
+- [x] Record commit hashes for V3, V3.1 and V3.2 artifacts in
+  `results/v4/baseline_manifest.json`.
+- [x] Verify V3/V3.1/V3.2 reports and results remain unchanged; record 86
+  protected artifact hashes in the baseline manifest.
+- [x] Create `V4_PROTOCOL.md` as a pre-discovery draft.
+- [x] Create canonical `results/v4/protocol.json` as a pre-discovery draft.
+- [x] Hash the current draft snapshot in `results/v4/protocol.sha256`.
+- [ ] Resolve all pending preregistration decisions in `V4_PROTOCOL.md`.
 - [ ] Hash the V4 protocol before producing primary results.
-- [ ] Define primary RQ and acceptance criteria before running V4 discovery.
+- [x] Define primary RQ and qualitative acceptance criteria before running
+  V4 discovery; numerical support criteria remain pending final preregistration.
+
+The protocol is a draft. Phase 0 is complete only after its pending decisions
+are resolved and the final protocol is hashed. No V4 discovery or primary
+evaluation has run.
 
 ---
 

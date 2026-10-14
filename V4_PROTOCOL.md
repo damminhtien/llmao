@@ -1,0 +1,125 @@
+# LLMAO V4 — Language Evolution Protocol
+
+Status: **draft, before discovery**. The canonical design is in
+`results/v4/protocol.json`; its current snapshot digest is in
+`results/v4/protocol.sha256`. A draft digest records the current document and
+does not constitute final preregistration. Resolve the pending decisions below
+and regenerate the digest before discovery or primary results.
+
+## Research question and acceptance criteria
+
+Can an LLM invent reusable abstractions that make useful inductive biases
+easier to discover?
+
+The primary claim requires a frozen evolved language, fresh optimizer runs,
+matched budgets and data, improved search efficiency over the starting
+language across independent seeds, and at least one invented abstraction
+reused across independent searches. Transfer to an unseen related task would
+support the stronger claim of a reusable vocabulary across tasks.
+
+Joint discovery performance alone establishes neither language utility nor
+transfer. Freeze the language and discard the discovering representation,
+search history, guidance state, and EvE population before primary evaluation.
+
+## Frozen prior work
+
+V4 starts from integrated `main` commit
+`ea6e1d6d268a10bdafc2061c73fcb2c694be9679`.
+
+| Study | Preserved source commit |
+|---|---|
+| V3 | `1e9f29bd7f21863f84340b25e6b3e193c43d1220` |
+| V3.1 | `798415cf847bf8d74e76c9f46f8cc272bc74725c` |
+| V3.2 | `85beeaff62791946989b3163cd67fbaed7e7c108` |
+
+`results/v4/baseline_manifest.json` records SHA-256 digests of the existing
+tracked reports and results, the seven protected V2/V3 artifacts recorded by
+V3.1, and the historical protocol and reference documents. V3.1 and V3.2
+protocol digests and protected artifacts were verified when this draft was
+created. Existing V3.2 incomplete-run statuses remain part of the evidence.
+
+## Language and execution boundary
+
+- `G0`: the frozen V2-level vocabulary, excluding `spatial_condition`,
+  `pairwise_difference`, `cross_histogram`, and `path_summary`.
+- `GH`: the full frozen human V3 vocabulary, used as a reference condition.
+- `G*`: `G0` plus typed macros invented during discovery.
+
+Level A macro invention is the initial implementation. Each macro has a static
+signature and parameter schema, expands to a valid canonical AST, and has
+provenance and a parent language hash. Cycles, recursive definitions, unused
+new macros, and resource limit violations fail validation. Arbitrary Python
+and Level B primitive synthesis are excluded from the initial experiment.
+Macro bodies and their transitive expansions use only `G0` operations and
+previously validated macros; hidden use of excluded `GH` operations is invalid.
+Level A changes the vocabulary while preserving `G0` computational expressivity.
+
+Candidate agents may edit only the candidate language and program artifacts.
+The evaluator, learner, data loader, splits, protocol, and test partitions are
+outside their editable and accessible workspace. Candidate execution is
+deterministic and has no labels, dataset access, network, filesystem,
+subprocess, dynamic imports, or model inference.
+
+## Evaluator basis
+
+Reuse the V3.2 stage-one evaluator: MNIST official training partition only,
+a fixed stratified 2,000-example validation split with seed 42, and a
+500-example training subset with seed 42. The learner is training-fitted
+`StandardScaler` followed by logistic regression with `C=1`, `lbfgs`,
+`max_iter=1000`, `tol=0.0001`, and `random_state=42`.
+
+The existing stage-one score is
+
+```text
+accuracy_500
+- 0.001 * log1p(feature_dim)
+- 0.0001 * log1p(feature_runtime_ms + training_runtime_ms + inference_runtime_ms)
+```
+
+Discovery adds a language complexity cost. Its exact definition and coefficient
+must be fixed before discovery. Record accuracy, dimension, runtime, program
+complexity, and language complexity separately. Official test partitions are
+inaccessible until languages and finalists are frozen.
+
+## Primary fresh-search design
+
+Run the three language conditions `G0`, `GH`, and frozen `G*` with both fixed
+iterative Codex and EvE. Each optimizer starts fresh with the same initial
+programs, evaluation data, independent seeds, model, reasoning effort,
+permissions, context policy, candidate budget, token accounting, and timeout.
+
+The requested backend is GPT-6 Luna with `max` reasoning. Verify the exact
+Codex CLI model identifier and supported reasoning level, then pin both
+repositories and the execution environment before launching workers.
+
+The primary measure is best-so-far search AUC against candidate evaluations
+for `G*` versus `G0` under matched optimizer conditions. Also retain token
+curves, time to predeclared frozen thresholds, final fitness, invalid and
+duplicate rates, compile/runtime failures, macro reuse, and macro survival.
+The optimizer-language interaction and `GH` comparison are secondary.
+
+After language freezing, semantic ablation changes only names and descriptions
+while preserving computation, signatures, and parameter ranges. Transfer
+restarts representation search on EMNIST Digits, EMNIST Letters, KMNIST, and
+Fashion-MNIST using the frozen MNIST language.
+
+## Decisions required before final preregistration
+
+1. Exact EvE commit, Codex CLI model identifier, reasoning support, LLMAO
+   evaluator/compiler snapshot, worker permissions, and context policy.
+2. Candidate and token budgets, independent seeds, proposal-attempt cap,
+   timeout policy, and rules for incomplete runs.
+3. Common initial program manifest and split fingerprints. The existing twenty
+   V3.2 seed ASTs contain none of the four excluded V3 operations, making them
+   eligible for validation as the common starting set.
+4. Macro count and expansion limits, language complexity definition, and
+   discovery penalty coefficient.
+5. Discovery-only language selection rule and deterministic tie breakers.
+6. Exact AUC integration bounds and normalization, primary contrast across
+   optimizer conditions, paired statistical procedure, and numerical support
+   criteria.
+7. Pilot gates and baseline reproduction evidence.
+
+All decisions must be recorded before observing the results they govern.
+Protocol changes after discovery require a versioned amendment; preserve the
+original protocol, digest, and affected traces.

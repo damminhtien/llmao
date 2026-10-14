@@ -295,6 +295,13 @@ A macro:
 
 This tests whether the system can invent a **better vocabulary/search representation**.
 
+Macro bodies may use only the operations available in their parent language,
+including previously validated macros. Their transitive expansion must stay
+inside the `G_0` computational vocabulary. Hidden calls to excluded `G_H`
+operations would leak the human reference into discovery. Level A preserves
+the computational expressivity of `G_0`; rediscovery of a V3 abstraction is
+possible only when its behavior can be expressed using those base operations.
+
 ---
 
 ## Level B — primitive synthesis

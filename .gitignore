@@ -178,6 +178,11 @@ cython_debug/
 !/results/.gitkeep
 !/results/v32/
 !/results/v32/**
+!/results/v4/
+/results/v4/*
+!/results/v4/protocol.json
+!/results/v4/protocol.sha256
+!/results/v4/baseline_manifest.json
 /graphify-out/
 
 # PyPI configuration file
