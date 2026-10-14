@@ -5,8 +5,11 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import re
+import shlex
 import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -43,6 +46,7 @@ def build_bundle(
     commit: str,
     protocol_path: Path,
     protocol_sha256: str,
+    python_executable: Path | None = None,
 ) -> dict:
     """Read source from Git objects, never from a possibly dirty working tree."""
     if not re.fullmatch(r"[0-9a-f]{40}", commit):
@@ -51,6 +55,35 @@ def build_bundle(
     if hashlib.sha256(protocol).hexdigest() != protocol_sha256:
         raise ValueError("checker protocol digest mismatch")
     json.loads(protocol)
+    # Resolving this symlink would select the base interpreter and lose the venv.
+    python = Path(python_executable or sys.executable).expanduser().absolute()
+    if not python.is_file() or not os.access(python, os.X_OK):
+        raise ValueError("structural checker needs an executable project Python")
+    probe = subprocess.run(
+        [
+            str(python),
+            "-IB",
+            "-c",
+            (
+                "import json,sys,networkx,numpy,scipy,skimage; "
+                "from importlib.metadata import version; "
+                "print(json.dumps({'version':list(sys.version_info[:3]), "
+                "'dependencies':{name:version(name) for name in "
+                "('networkx','numpy','scipy','scikit-image')}}))"
+            ),
+        ],
+        check=False,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    if probe.returncode:
+        raise ValueError(
+            f"project Python cannot import checker dependencies: {probe.stderr.strip()}"
+        )
+    runtime = json.loads(probe.stdout)
+    if runtime["version"][:2] != [3, 14]:
+        raise ValueError("structural checker requires project Python 3.14")
     contents = {}
     for relative in SOURCE_PATHS:
         result = subprocess.run(
@@ -65,10 +98,19 @@ def build_bundle(
             "package_initializer_shim",
         )
     contents["results/v4/protocol.json"] = (protocol, "checker_protocol")
+    launcher = (
+        "#!/bin/sh\nset -eu\n"
+        'bundle_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)\n'
+        f'exec {shlex.quote(str(python))} -IB "$bundle_root/experiments/v4_check_candidate.py" "$@"\n'
+    )
+    contents["run_check.sh"] = (launcher.encode(), "interpreter_launcher")
     manifest = {
         "schema_version": 1,
         "source_commit": commit,
         "protocol_sha256": protocol_sha256,
+        "python_executable": str(python),
+        "python_runtime": runtime,
+        "worker_command": "sh structural_check/run_check.sh",
         "purpose": "data-free structural validation; no accuracy evaluation",
         "files": {
             relative: {
@@ -100,6 +142,7 @@ def main() -> int:
         "--protocol", type=Path, default=ROOT / "results/v4/protocol.json"
     )
     parser.add_argument("--protocol-sha256", required=True)
+    parser.add_argument("--python-executable", type=Path, default=Path(sys.executable))
     args = parser.parse_args()
     manifest = build_bundle(
         args.destination,
@@ -107,6 +150,7 @@ def main() -> int:
         commit=args.commit,
         protocol_path=args.protocol,
         protocol_sha256=args.protocol_sha256,
+        python_executable=args.python_executable,
     )
     print(
         json.dumps(

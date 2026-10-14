@@ -666,6 +666,13 @@ the existing turn/time budget and never return scores. Invalid, failed, and
 repeated final submissions still count. Primary discovery remains closed until
 final preregistration.
 
+Future structural bundles include a hashed `run_check.sh` launcher bound to
+the verified project Python entrypoint. The exporter records the interpreter
+and dependency versions. This removes dependence on `LLMAO_PYTHON` propagation
+through native worker shells. Four focused bundle tests pass; native worker
+integration remains pending. The running follow-up retains its original
+21-file bundle and frozen contract.
+
 ---
 
 # 11. Discovery objective

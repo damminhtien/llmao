@@ -69,6 +69,18 @@ fresh-search, semantic-ablation, transfer, and statistical requirements.
 
 ### Follow-up worker interface
 
+The running follow-up exposed an interpreter-delivery defect: native worker
+tool shells do not receive the runner's `LLMAO_PYTHON` variable. The next bundle
+version now includes `run_check.sh`, which binds a verified absolute project
+interpreter path while preserving its virtualenv entrypoint symlink. Workers
+can invoke `sh structural_check/run_check.sh ...`; this needs no inherited
+interpreter variable or project Python on PATH. The exporter probes the
+interpreter version and static-check dependencies before writing the bundle,
+then hashes the launcher and records the binding in its manifest. Four focused
+tests pass, including valid and invalid checks with the variable absent, a
+system-only PATH, and paths containing spaces. Native worker integration remains
+pending. Do not change the running pilot's pinned assets or contract.
+
 The follow-up uses separate EvE application and optimizer groups, the original
 G0 seed, and the unchanged Phase 10 stage-one evaluator. Its read-only worker
 assets include a structural-check bundle assembled from a pinned LLMAO commit.

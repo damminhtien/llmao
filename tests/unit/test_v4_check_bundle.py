@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import runpy
 import subprocess
 import sys
@@ -45,9 +46,11 @@ def inputs(tmp_path: Path):
 
 
 def test_pinned_bundle_runs_without_data_or_scoring_modules(tmp_path, inputs) -> None:
-    destination = tmp_path / "bundle"
+    destination = tmp_path / "bundle with spaces"
     manifest = BUILDER["build_bundle"](destination, **inputs)
-    assert len(manifest["files"]) == 21
+    assert len(manifest["files"]) == 22
+    assert manifest["python_executable"] == str(Path(sys.executable).absolute())
+    assert manifest["python_runtime"]["version"][:2] == [3, 14]
     for relative, record in manifest["files"].items():
         assert (
             hashlib.sha256((destination / relative).read_bytes()).hexdigest()
@@ -56,7 +59,7 @@ def test_pinned_bundle_runs_without_data_or_scoring_modules(tmp_path, inputs) ->
         assert not any(
             part in relative.split("/") for part in ("ml", "data", "evaluation")
         )
-    candidate = tmp_path / "candidate"
+    candidate = tmp_path / "candidate with spaces"
     candidate.mkdir()
     (candidate / "language.json").write_text(
         json.dumps(extend_macro_language(G0_LANGUAGE, []).to_dict())
@@ -64,13 +67,13 @@ def test_pinned_bundle_runs_without_data_or_scoring_modules(tmp_path, inputs) ->
     (candidate / "program.json").write_text(
         Expr("spatial_split", (Expr("image"),), {"rows": 2, "cols": 3}).to_json()
     )
-    command = [
-        sys.executable,
-        "-IB",
-        str(destination / "experiments/v4_check_candidate.py"),
-        str(candidate),
-    ]
-    valid = subprocess.run(command, check=True, text=True, capture_output=True)
+    command = ["/bin/sh", str(destination / "run_check.sh"), str(candidate)]
+    environment = os.environ.copy()
+    environment.pop("LLMAO_PYTHON", None)
+    environment["PATH"] = "/usr/bin:/bin"
+    valid = subprocess.run(
+        command, check=True, text=True, capture_output=True, env=environment
+    )
     result = json.loads(valid.stdout)
     assert result["status"] == "valid" and result["feature_dimension"] == 6
     inspection = """
@@ -94,7 +97,9 @@ for name, module in tuple(sys.modules.items()):
     )
     assert not list(destination.rglob("__pycache__"))
     (candidate / "program.json").write_text(Expr("unknown").to_json())
-    invalid = subprocess.run(command, check=False, text=True, capture_output=True)
+    invalid = subprocess.run(
+        command, check=False, text=True, capture_output=True, env=environment
+    )
     assert invalid.returncode == 1
     assert json.loads(invalid.stdout)["status"] == "invalid"
 
@@ -108,6 +113,15 @@ def test_bundle_requires_new_output_and_matching_protocol(tmp_path, inputs) -> N
     BUILDER["build_bundle"](destination, **inputs)
     with pytest.raises(FileExistsError):
         BUILDER["build_bundle"](destination, **inputs)
+
+
+def test_bundle_rejects_missing_interpreter_before_writing(tmp_path, inputs) -> None:
+    destination = tmp_path / "bundle"
+    with pytest.raises(ValueError, match="executable project Python"):
+        BUILDER["build_bundle"](
+            destination, **inputs, python_executable=tmp_path / "missing"
+        )
+    assert not destination.exists()
 
 
 def test_bundle_rejects_noncanonical_commit_before_writing(tmp_path, inputs) -> None:
