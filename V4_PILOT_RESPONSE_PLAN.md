@@ -1,0 +1,113 @@
+# V4 pilot response plan
+
+This plan responds to the failed ten-attempt Phase 10 pilot. The original
+protocol, scores, candidates, and failure ledger remain the historical record.
+The follow-up is exploratory feasibility work under ChatGPT Plus, GPT-6 Luna,
+and max reasoning. It cannot produce a primary discovery conclusion.
+
+## Evidence and diagnosis
+
+- Attempt 1 used nested `input_types` instead of a flat list of ValueType names.
+- Attempts 4 and 5 composed expressions beyond expanded depth 6. A legal
+  constituent can become illegal when another enclosing call is added.
+- Attempt 6 placed `regional_ink_angle_profile` before
+  `multiscale_ink_angle_profile`; canonical language serialization sorts macro
+  definitions alphabetically. Reordering is a diagnosis, not a retroactive
+  correction of that failed proposal.
+- Attempts 9 and 10 repeated previous candidate content. Different language
+  revision identities can also express the same expanded representation.
+- Repeated solver-entry IDs are distinct observations, not proof of independent
+  discovery or statistically independent macro reuse.
+
+## Implementation before another run
+
+1. Provide a read-only, data-free structural candidate check using the existing
+   schema, type checker, expansion limits, and lineage loader. Print structural
+   feedback only. Do not repair files or execute a representation on examples.
+2. Build the Phase 11 archive from verified candidate and lineage artifacts.
+   Keep observation identity, candidate identity, language revision identity,
+   macro behavior identity, and expanded representation identity separate.
+   Retain invalid attempts and repeated score measurements.
+3. Record macro birth, inherited use, unused inventory, parent-child edges,
+   removals, and observed agent/run identifiers. Independent-search reuse is
+   unknown unless the source supplies a declared independent search identity.
+4. Prepare future pilot guidance with flat signatures, alphabetical macro order,
+   depth counted after expansion, and review of previous expanded-program hashes.
+   Duplicate final proposals still count; no replacement budget is permitted.
+
+## Follow-up run contract
+
+Use a new run ID and start from the original G0 seed. Do not import the first
+pilot's winning program, population, or macro definitions. Keep exactly ten
+submitted proposals plus a separate seed, one worker, zero automatic boundary
+repairs, the same learner and stage-one score, and the original 8/10 validity
+gate. All existing resource, macro-use, descendant-use, and boundary gates apply.
+Structural checking within a worker's existing turn/time allowance does not
+provide an additional score call or proposal replacement.
+
+Report exact candidate repeats and expanded-representation repeats separately.
+Also predeclare a follow-up quality gate of at least eight distinct valid
+expanded representations among the ten proposals. This is an additional gate;
+the original pilot is not reassessed against it.
+
+Before launch, pin the changed guidance and tooling commits, hash the follow-up
+contract, verify the Plus allowance, and validate the isolated EvE configuration.
+Do not launch a new pilot until these implementation and configuration checks
+are complete. Full Phase 0 preregistration is required before Phase 12 discovery
+and primary evaluation; it is separate from an exploratory pilot contract.
+
+## Remaining primary-study decisions
+
+The full TODO still requires fixed primary candidate/token budgets, independent
+seeds, timeout/censoring rules, shared initial programs, language-complexity
+penalty, language selection and tie breakers, AUC bounds, statistics, and numeric
+support criteria. Record these before primary discovery, then hash the final
+protocol. A follow-up pilot does not satisfy those decisions or the later
+fresh-search, semantic-ablation, transfer, and statistical requirements.
+
+## Implemented response and replay
+
+`experiments/v4_check_candidate.py` checks a two-file candidate directory and
+an optional evaluator-owned `--parent-state`. It reports content identities,
+expanded depth/node count, feature dimension, used macros, and unused inherited
+macros. It writes no files and computes no accuracy or learner fit. Exit status
+is zero for valid structure and one for invalid structure. The authoritative
+evaluator still controls accepted provenance and scored submissions.
+
+`experiments/v4_replay_pilot.py` verifies the source digests, original protocol,
+telemetry scores, candidate identities, canonical language chains, and accepted
+parent states before replaying checks in temporary copies. The historical run
+reproduces six valid and four invalid proposals, with three unique valid
+expanded representations; all 59 source files verify. Sorting only attempt 6's
+macro array in a separate temporary copy passes structural validation at depth
+6. The original attempt remains invalid and receives no new score.
+
+`experiments/v4_archive_lineage.py` performs the same verification before
+producing language, primitive, candidate, and observation records plus a
+Mermaid graph. The pilot archive has five language nodes including G0, four
+edges, two valid macro behaviors, and 11 observations including the seed.
+Repeated measurements and invalid attempts remain separate. Worker-entry IDs
+are recorded; no independent-search declaration exists for this pilot, so
+independent reuse is unknown. The CLI writes only new output paths.
+
+The replay and archive are generated under `results/v4/phase10_pilot/` and stay
+Git-ignored. Follow-up guidance/configuration and its hashed launch contract
+remain pending. No follow-up pilot or primary discovery was launched by this
+implementation step.
+
+Example commands from the repository root (outputs must not already exist):
+
+```bash
+.venv/bin/python experiments/v4_check_candidate.py /path/to/candidate \
+  --parent-state /path/to/evaluator/lineage_state.json
+.venv/bin/python experiments/v4_replay_pilot.py \
+  results/v4/phase10_pilot/manifest.json /tmp/v4-replay.json
+.venv/bin/python experiments/v4_archive_lineage.py \
+  --manifest results/v4/phase10_pilot/manifest.json \
+  --output /tmp/v4-lineage.json --graph /tmp/v4-lineage.mmd
+```
+
+Validation: all 66 V4 unit tests passed, including read-only checks, malformed
+parent states, artifact digest tampering, path escapes/symlinks, repeated score
+preservation, forged parent rejection, and explicit independence declarations.
+The 86 protected V3-family artifact digests remain unchanged.

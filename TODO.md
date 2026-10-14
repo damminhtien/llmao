@@ -349,9 +349,9 @@ Gate:
 > EvE must reproduce ordinary representation search before language evolution is enabled.
 
 The frozen-language smoke gate is satisfied. The Phase 10 language pilot has
-completed, but it failed its valid-candidate minimum. Do not start another
-language pilot or Phase 12 discovery until a separate response plan is recorded
-and the pending Phase 0 preregistration decisions are resolved and hashed.
+completed, but it failed its valid-candidate minimum. The response is recorded
+in `V4_PILOT_RESPONSE_PLAN.md`. A follow-up pilot requires its tooling and
+contract checks; Phase 12 still requires final Phase 0 preregistration.
 
 ---
 
@@ -432,11 +432,16 @@ workspace-boundary violation was found. The reviewed attempt table is in
 `V4_PHASE10_PILOT_REPORT.md`; raw candidate and lineage artifacts are preserved
 locally in the Git-ignored `results/v4/phase10_pilot/` archive.
 
-**Gate result: failed.** Do not run another language pilot or begin Phase 12.
-Before resuming, document a separate response plan addressing depth-invalid
-proposals, duplicate candidate and macro handling, the 40% invalid rate, and
-the stage-one-only evidence limit; then resolve and hash the full Phase 0
-preregistration.
+**Gate result: failed.** `V4_PILOT_RESPONSE_PLAN.md` records the response to
+depth-invalid proposals, duplicates, and the 40% invalid rate. The original
+outcome remains failed. Complete that plan's tooling and contract checks before
+another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
+
+- [x] Document the pilot failure response before changing implementation.
+- [x] Add a data-free structural candidate check.
+- [x] Replay the historical artifacts against the check without changing them.
+- [ ] Prepare and pin follow-up pilot guidance and configuration.
+- [ ] Hash the follow-up contract before launching another pilot.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
@@ -451,14 +456,30 @@ and the EvE prefill entry ID is stored separately for audit.
 
 # Phase 11 — Add language lineage archive
 
-- [ ] Store every unique language.
-- [ ] Store parent-child edges.
-- [ ] Store primitive birth generation.
-- [ ] Store primitive death/removal.
-- [ ] Store candidate score using each primitive.
-- [ ] Track primitive descendant frequency.
-- [ ] Track primitive reuse by independent agents.
-- [ ] Generate lineage graph.
+- [x] Implement storage of every unique valid language revision.
+- [x] Implement storage of parent-child edges.
+- [x] Record primitive birth generation.
+- [x] Record primitive death/removal on language edges; the current append-only
+  Level A validator permits no removals, so the pilot records none.
+- [x] Store each original candidate score using each primitive.
+- [x] Track primitive descendant observation and distinct-candidate frequency.
+- [x] Track observed worker entries and declared independent search identities;
+  independent reuse remains unknown when the declaration is absent.
+- [x] Generate lineage graph.
+
+The verified pilot archive is `results/v4/phase10_pilot/lineage_archive.json`
+with graph `lineage_archive.mmd`. It contains 11 observations including the
+seed, five language nodes including G0, four language edges, and two valid
+macro behaviors. Six valid proposals collapse to three distinct expanded
+representations. Every original score and invalid attempt is retained; no new
+accuracy evaluation occurred. Independent reuse is unestablished in this pilot.
+The structural replay verifies 59 source files against the manifest and
+reproduces all six valid and four invalid outcomes. Attempt 6 becomes
+structurally valid after sorting its macro array in a temporary diagnostic
+copy, confirming the serialization diagnosis without changing its result.
+
+These checks complete the archive tooling on pilot evidence. The discovery
+output below remains pending Phase 12; this archive is not a discovery result.
 
 Output:
 

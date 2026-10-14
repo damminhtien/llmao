@@ -651,9 +651,10 @@ workspace-boundary violation was found. The reviewed run summary is in
 telemetry are preserved locally under `results/v4/phase10_pilot/`, which the
 repository intentionally excludes from Git.
 
-The pilot gate failed. Do not run another language pilot or begin primary
-discovery until a separate response plan is recorded and Phase 0
-preregistration is completed and hashed.
+The pilot gate failed. `V4_PILOT_RESPONSE_PLAN.md` records the response and
+preserves its result. Another exploratory pilot requires that plan's tooling,
+configuration, and contract checks. Primary discovery requires completed and
+hashed Phase 0 preregistration.
 
 ---
 
@@ -719,6 +720,26 @@ descendant count
 ```
 
 This produces a language lineage graph.
+
+The archive distinguishes each scored observation from candidate content,
+language revisions, computational macro behavior, and expanded programs.
+Repeated proposals retain their separate scores and timing measurements.
+Invalid proposals remain in the attempt ledger but never create valid language
+nodes. Source file digests and canonical lineage chains must verify before
+archiving. The archive records births, removals, inherited use, and unused
+macro inventory; separate worker-entry IDs do not establish independent search
+reuse. A declared independent-search identity is required for that measure.
+
+The implemented pilot importer is `experiments/v4_archive_lineage.py`. It
+verifies artifact digests, canonical lineage state, previously accepted
+parents, and score telemetry through `candidate/replay.py`, then builds the
+archive through `v4/lineage.py`. The data-free author check is
+`experiments/v4_check_candidate.py`; it reuses evaluator validation and reports
+expanded structural limits without reading examples or generating a score.
+The first pilot archive contains five language nodes including G0, four edges,
+two valid macro behaviors, and eleven observations including the seed. The
+six valid proposals contain three distinct expanded representations. The
+archive describes exploratory evidence; primary discovery remains pending.
 
 We should be able to reconstruct:
 
