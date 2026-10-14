@@ -110,8 +110,8 @@ GH = frozen human V3 language
 
 # Phase 4 — Implement typed macro invention
 
-- [ ] Add `MacroPrimitive`.
-- [ ] Define:
+- [x] Add `MacroPrimitive`.
+- [x] Define:
 
 ```text
 name
@@ -122,26 +122,31 @@ parameters
 body_AST
 ```
 
-- [ ] Type-check macro bodies.
-- [ ] Expand macros into canonical underlying ASTs.
-- [ ] Detect recursive macro definitions.
-- [ ] Reject cyclic dependencies.
-- [ ] Cap macro expansion depth.
-- [ ] Cap expanded AST node count.
-- [ ] Cap output feature dimension.
-- [ ] Canonically hash macro definitions.
-- [ ] Add macro deduplication by behavior/expanded AST.
-- [ ] Require every newly introduced macro to be used by the candidate that introduces it.
+- [x] Type-check macro bodies.
+- [x] Expand macros into canonical underlying ASTs.
+- [x] Detect recursive macro definitions.
+- [x] Reject cyclic dependencies.
+- [x] Cap macro expansion depth.
+- [x] Cap expanded AST node count.
+- [x] Cap output feature dimension.
+- [x] Canonically hash macro definitions.
+- [x] Add macro deduplication by behavior/expanded AST.
+- [x] Require every newly introduced macro to be used by the candidate that introduces it.
 
 Tests:
 
-- [ ] valid macro;
-- [ ] type mismatch;
-- [ ] recursion;
-- [ ] excessive expansion;
-- [ ] duplicate macro;
-- [ ] unused primitive;
-- [ ] dimension overflow.
+- [x] valid macro;
+- [x] type mismatch;
+- [x] recursion;
+- [x] excessive expansion;
+- [x] duplicate macro;
+- [x] unused primitive;
+- [x] dimension overflow.
+
+The implementation defaults to the existing V3.2 discovery caps: macro
+dependency and expanded AST depth 6, 127 expanded AST nodes, and 128 output
+features. Preregistration must confirm these values and set the macro-count
+and language-complexity limits.
 
 ---
 

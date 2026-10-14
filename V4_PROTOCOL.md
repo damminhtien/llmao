@@ -55,10 +55,17 @@ contract, output-dimension rule, parameter schema, and primitive source digest.
 at `1e9f29bd7f21863f84340b25e6b3e193c43d1220`.
 
 Level A macro invention is the initial implementation. Each macro has a static
-signature and parameter schema, expands to a valid canonical AST, and has
-provenance and a parent language hash. Cycles, recursive definitions, unused
-new macros, and resource limit violations fail validation. Arbitrary Python
-and Level B primitive synthesis are excluded from the initial experiment.
+signature and closed parameter schema with defaults; candidates may override
+those defaults with validated values. Language snapshots carry a parent hash,
+and macro definitions have canonical hashes. Each candidate records its
+language and program hashes, introduced and used macros, and lineage
+provenance. Cycles, recursive definitions, unused new macros, and resource
+limit violations fail validation. The current implementation defaults cap
+both macro dependency depth and expanded AST depth at 6, expanded AST size at
+127 nodes, and output width at 128 features, matching the V3.2 discovery
+limits. The final preregistration must confirm them and set the macro-count and
+language-complexity limits. Arbitrary Python and Level B primitive synthesis
+are excluded from the initial experiment.
 Macro bodies and their transitive expansions use only `G0` operations and
 previously validated macros; hidden use of excluded `GH` operations is invalid.
 Level A changes the vocabulary while preserving `G0` computational expressivity.
@@ -143,8 +150,9 @@ Fashion-MNIST using the frozen MNIST language.
    recorded in `results/v4/baseline_reproduction/summary.json`. The existing
    twenty V3.2 seed ASTs contain none of the four excluded V3 operations,
    making them eligible for validation as the common starting set.
-4. Macro count and expansion limits, language complexity definition, and
-   discovery penalty coefficient.
+4. Macro-count limit, confirmation of the draft expansion limits (depth 6, 127
+   nodes, and 128 features), language-complexity definition, and discovery
+   penalty coefficient.
 5. Discovery-only language selection rule and deterministic tie breakers.
 6. Exact AUC integration bounds and normalization, primary contrast across
    optimizer conditions, paired statistical procedure, and numerical support

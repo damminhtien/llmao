@@ -47,6 +47,13 @@
     "definition": null,
     "must_be_fixed_before_discovery": true
   },
+  "macro_resource_limits": {
+    "max_expansion_depth": 6,
+    "max_expanded_ast_nodes": 127,
+    "max_feature_dimension": 128,
+    "max_macros": null,
+    "status": "draft_limits_match_v3_2_discovery_defaults"
+  },
   "evaluator_basis": {
     "dataset": "MNIST OpenML mnist_784 v1; official 60,000-example training partition only",
     "learner": {
@@ -107,7 +114,7 @@
     "evaluator_compiler_snapshot_and_worker_permissions_context_policy",
     "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
     "common_initial_program_manifest",
-    "macro_resource_limits_and_language_complexity_penalty",
+    "macro_count_limit_and_language_complexity_penalty",
     "discovery_only_language_selection_rule_and_tie_breakers",
     "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria",
     "pilot_gates_and_baseline_reproduction"
