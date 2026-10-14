@@ -37,7 +37,7 @@
     "repository": "https://github.com/scaling-group/eve.git",
     "checkout": "../eve",
     "branch": "dev/llmao-v4-config",
-    "commit": "aeb89f9345a287af073741ec2b55fadf9f234ba9",
+    "commit": "fb675d5d2d86aa705d5ef710030998b6ba373cc7",
     "working_tree_clean": true
   },
   "hardware": {

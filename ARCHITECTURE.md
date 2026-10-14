@@ -580,15 +580,21 @@ settings without loading the user's global Codex configuration.
 The first EvE smoke snapshots only the candidate JSON and the pinned G0
 manifest. Its evaluator uses a separately configured, clean LLMAO checkout at
 the exact `LLMAO_EXPECTED_COMMIT`; the evaluator source and data cache are not
-copied into the worker snapshot. During this smoke, only
-`candidate/program.json` is editable. Unlock `candidate/language.json` only
-after the frozen-language Phase 9 gate passes.
+copied into the worker snapshot. Within `solver/`, only
+`candidate/program.json` is editable. Keep `candidate/language.json` frozen
+until the Phase 9 gate passes. EvE's separate optimizer artifact
+`guidance/V4_SEARCH_GUIDANCE.md` may evolve with concise, evidence-grounded
+search rules; it is optimizer state and does not modify the candidate
+language.
 
-The agent workspace contains only the candidate artifacts and task guidance.
-EvE's boundary checker rejects changes to every other path. The submitted
-program is JSON for the allow-listed typed interpreter; it is never executed
-as agent-authored Python. The evaluator returns scalar fitness and structured
-failure summaries, not training or validation examples or labels.
+The agent workspace contains the candidate artifacts and separate task
+guidance. EvE's solver boundary rejects changes to every solver path except
+`candidate/program.json`; its optimizer extraction records changes to
+`guidance/V4_SEARCH_GUIDANCE.md` separately. No other workspace paths may
+change. The submitted program is JSON for the allow-listed typed interpreter;
+it is never executed as agent-authored Python. The evaluator returns scalar
+fitness and structured failure summaries, not training or validation examples
+or labels.
 
 ---
 

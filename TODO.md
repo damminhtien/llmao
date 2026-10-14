@@ -43,10 +43,11 @@ evaluation has run.
   for scientific workers because it bypasses the Codex sandbox.
 - [x] Verify the scientific worker config pins `codex_tmux`, disables network,
   web search, and multi-agent mode, and uses the isolated Codex home.
-- [ ] Verify EvE can launch one Codex worker using ChatGPT-account authentication.
-- [ ] Ensure all V4 workers use the isolated Codex configuration so the global
+- [x] Verify EvE can launch Codex workers using ChatGPT-account authentication.
+- [x] Ensure V4 workers use the isolated Codex configuration so the global
   custom API base URL cannot reroute requests.
-- [ ] Record token/usage information returned by each rollout.
+- [x] Record token/usage information returned by each rollout in the smoke
+  manifest; keep primary-study budgets unresolved until preregistration.
 
 Main-run invariant:
 
@@ -307,19 +308,38 @@ Before allowing \(G\) to evolve:
 G_t=G_0.
 \]
 
-- [ ] Run EvE with `language.json` read-only.
-- [ ] Allow only `program.json` modification.
-- [ ] Run approximately 5–10 candidate evaluations.
-- [ ] Verify EvE solver population.
-- [ ] Verify guidance population evolves.
-- [ ] Verify score feedback returns correctly.
-- [ ] Verify candidates remain valid.
-- [ ] Verify token usage logging.
-- [ ] Verify no cross-workspace contamination.
+- [x] Run EvE with `language.json` read-only.
+- [x] Allow only `program.json` modification in the solver snapshot; keep the
+  separate optimizer guidance artifact explicitly scoped.
+- [x] Run five candidate evaluations in the initial smoke; the short follow-up
+  is scoped to checking the optimizer guidance path.
+- [x] Verify EvE solver population.
+- [ ] Verify guidance population evolves (the first smoke held it at one entry;
+  a two-iteration follow-up is required).
+- [x] Verify score feedback returns correctly.
+- [x] Verify valid candidates remain within limits; the 784-feature proposal
+  was rejected by the 128-feature cap.
+- [x] Verify per-rollout token usage logging.
+- [x] Verify no cross-workspace contamination.
+
+Initial five-iteration smoke evidence (2026-10-14): the frozen G0 seed scored
+0.4906 stage-one fitness (`accuracy_500=0.493`, 6 features). Four of five
+solver proposals passed stage-one evaluation; one 784-feature proposal was
+rejected. The best observed smoke score was 0.8933 (`accuracy_500=0.8985`, 89
+features). `candidate/language.json` and the G0 reference matched across all
+worker snapshots. The optimizer population remained at one because the initial
+worker instructions prohibited guidance edits; the follow-up tests a separately
+scoped guidance artifact. All scores are draft V3.2 stage-one feedback, not
+discovery results. See `results/v4/smoke_manifest.json` for run and token
+details.
 
 Gate:
 
 > EvE must reproduce ordinary representation search before language evolution is enabled.
+
+The first smoke verified solver feedback, validation, isolation, and the frozen
+language boundary, but the optimizer population did not change. Keep the Phase
+10 language-editing gate closed until the separate guidance update is verified.
 
 ---
 
