@@ -15,6 +15,9 @@
 - [x] Create canonical `results/v4/protocol.json` as a pre-discovery draft.
 - [x] Hash the current draft snapshot in `results/v4/protocol.sha256`.
 - [ ] Resolve all pending preregistration decisions in `V4_PROTOCOL.md`.
+- [x] Freeze the twenty common initial ASTs from the pinned V3.2 protocol,
+  validate G0/GH eligibility, and hash `V4_INITIAL_PROGRAMS.json` without
+  importing historical scores, descriptions, or search history.
 - [ ] Hash the V4 protocol before producing primary results.
 - [x] Define primary RQ and qualitative acceptance criteria before running
   V4 discovery; numerical support criteria remain pending final preregistration.

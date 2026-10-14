@@ -212,7 +212,18 @@ Fashion-MNIST using the frozen MNIST language.
 3. Common initial program manifest. The split parameters and fingerprints are
    recorded in `results/v4/baseline_reproduction/summary.json`. The existing
    twenty V3.2 seed ASTs contain none of the four excluded V3 operations,
-   making them eligible for validation as the common starting set.
+   and are validated in `V4_INITIAL_PROGRAMS.json`. Its digest is
+   `60d0cc90bf0d4e3f282023108ca9113800e01cf0486865a60771879746f4afab`,
+   recorded in `V4_INITIAL_PROGRAMS.sha256`. The exporter reads the pinned
+   V3.2 protocol Git object and preserves its original order. It exports ASTs
+   and historical identities, excluding hypotheses, mechanisms, descriptions,
+   scores, and search history. It verifies uniqueness, canonical AST digests,
+   G0 structural/resource eligibility, and inclusion in GH. Future G* starts
+   use these same base ASTs without expanding them into discovered macros.
+   Bind this manifest digest into the final canonical primary protocol. The
+   running pilot retains its original protocol snapshot and one-program seed.
+   This manifest does not resolve the remaining budget, selection, or
+   statistical decisions.
 4. Language-complexity definition and discovery penalty coefficient. The V4
    macro caps are pinned at eight macros per language and one new macro per
    candidate; expansion caps remain depth 6, 127 nodes, and 128 features.

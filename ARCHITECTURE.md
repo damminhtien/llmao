@@ -860,6 +860,15 @@ same seeds
 same initial programs
 ```
 
+`V4_INITIAL_PROGRAMS.json` freezes twenty distinct ASTs in their original
+V3.2 protocol order, read from the pinned source commit. The manifest records
+canonical AST identities, historical candidate identities, static dimensions,
+depths, node counts, and used operations. All programs pass G0 constraints and
+use operations available in GH. It includes no historical scores or proposer
+descriptions. Fresh G* searches start from these same base ASTs without
+substituting discovered macros. Its digest must be bound into the final primary
+protocol before launch; the running pilot keeps its original one-program seed.
+
 Primary comparison:
 
 \[
