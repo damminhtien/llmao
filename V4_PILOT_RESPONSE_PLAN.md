@@ -116,9 +116,15 @@ are recorded; no independent-search declaration exists for this pilot, so
 independent reuse is unknown. The CLI writes only new output paths.
 
 The replay and archive are generated under `results/v4/phase10_pilot/` and stay
-Git-ignored. Follow-up guidance/configuration and its hashed launch contract
-remain pending. No follow-up pilot or primary discovery was launched by this
-implementation step.
+Git-ignored. Follow-up guidance/configuration is pinned at EvE
+`01abaa5e33c3e0936d3fe2e250d071a746f71864`; the runtime checkout is LLMAO
+`01f6371ded33537cb93c52b27303212db0c3a054`. The hashed launch contract is
+`V4_FOLLOWUP_PILOT_CONTRACT.json`, with its digest in the adjacent `.sha256`.
+The resolved configuration, original seed bytes, 21 checker bundle files, and
+unchanged evaluation script verified before launch. Current run metadata is
+stored separately under `results/v4/phase10_followup/`; the baseline
+`environment.json` remains its historical snapshot. Primary discovery remains
+pending final preregistration.
 
 Example commands from the repository root (outputs must not already exist):
 

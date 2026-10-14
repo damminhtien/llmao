@@ -656,6 +656,16 @@ preserves its result. Another exploratory pilot requires that plan's tooling,
 configuration, and contract checks. Primary discovery requires completed and
 hashed Phase 0 preregistration.
 
+The follow-up is separately pinned in `V4_FOLLOWUP_PILOT_CONTRACT.json`.
+It keeps the original G0 seed, stage-one score, learner, ten-proposal budget,
+one worker, and original resource/boundary gates. Its additional quality gate
+requires eight distinct valid expanded-program hashes among the ten proposals.
+This measures structural diversity, not semantic or statistical independence.
+Workers receive a digest-verified data-free structural checker; checks share
+the existing turn/time budget and never return scores. Invalid, failed, and
+repeated final submissions still count. Primary discovery remains closed until
+final preregistration.
+
 ---
 
 # 11. Discovery objective

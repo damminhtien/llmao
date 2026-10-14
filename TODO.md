@@ -440,8 +440,13 @@ another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
 - [x] Document the pilot failure response before changing implementation.
 - [x] Add a data-free structural candidate check.
 - [x] Replay the historical artifacts against the check without changing them.
-- [ ] Prepare and pin follow-up pilot guidance and configuration.
-- [ ] Hash the follow-up contract before launching another pilot.
+- [x] Prepare and pin follow-up pilot guidance and configuration: EvE
+  `01abaa5e33c3e0936d3fe2e250d071a746f71864`, LLMAO runtime
+  `01f6371ded33537cb93c52b27303212db0c3a054`.
+- [x] Hash the follow-up contract before launching another pilot:
+  `V4_FOLLOWUP_PILOT_CONTRACT.json` and its adjacent `.sha256` file.
+- [ ] Run and audit the separate ten-proposal follow-up pilot against its
+  original gates and additional eight-distinct-expanded-hash gate.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
