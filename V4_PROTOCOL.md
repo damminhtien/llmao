@@ -182,9 +182,9 @@ permissions, context policy, candidate budget, token accounting, and timeout.
 
 The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
 ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
-verified on 2026-10-14; the launch-preparation usage snapshot at 09:26 UTC
-showed 36% used in the five-hour window, 11% in the weekly window, and no paid
-credits. The CLI version and EvE commit are recorded in
+verified on 2026-10-14; the pre-launch usage snapshot at 09:32 UTC showed
+37% used in the five-hour window, 12% in the weekly window, and no paid
+credits. The CLI version and both checkout commits are recorded in
 `results/v4/environment.json`. The pinned account plan is Plus, not Pro. The
 LLMAO evaluator/compiler snapshot, worker permissions, and context policy used
 for each completed smoke run are pinned in

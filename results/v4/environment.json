@@ -8,10 +8,10 @@
     "plan_verification": "Codex usage limits status",
     "account_identifier_recorded": false,
     "usage_snapshot": {
-      "checked_at_utc": "2026-10-14T09:26:44Z",
+      "checked_at_utc": "2026-10-14T09:32:29Z",
       "ordinary_usage_allowed": true,
-      "five_hour_window_used_percent": 36,
-      "weekly_window_used_percent": 11,
+      "five_hour_window_used_percent": 37,
+      "weekly_window_used_percent": 12,
       "paid_credits_balance": "0"
     }
   },
@@ -56,5 +56,11 @@
   "project_python": {
     "environment": ".venv",
     "version": "3.14.8"
+  },
+  "llmao": {
+    "checkout": ".",
+    "branch": "v4-evolving-bias-language",
+    "commit": "dc300a630f2ecde24811d2fb6e394f77f84a44df",
+    "working_tree_clean": true
   }
 }
