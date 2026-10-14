@@ -45,6 +45,15 @@ created. Existing V3.2 incomplete-run statuses remain part of the evidence.
 - `GH`: the full frozen human V3 vocabulary, used as a reference condition.
 - `G*`: `G0` plus typed macros invented during discovery.
 
+The canonical manifests for `G0` and `GH` are stored in
+`results/v4/languages/g0.json` and `results/v4/languages/gh.json`. Their
+SHA-256 identities are recorded in adjacent `.sha256` files and
+`results/v4/protocol.json`. Each manifest records the typed input and output
+contract, output-dimension rule, parameter schema, and primitive source digest.
+`G0` pins the V2 primitive vocabulary at
+`cab3e82fecf82326bb49690c22f9233824d55eae`; `GH` pins the full V3 vocabulary
+at `1e9f29bd7f21863f84340b25e6b3e193c43d1220`.
+
 Level A macro invention is the initial implementation. Each macro has a static
 signature and parameter schema, expands to a valid canonical AST, and has
 provenance and a parent language hash. Cycles, recursive definitions, unused

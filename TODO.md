@@ -87,14 +87,17 @@ Gate:
 
 # Phase 3 — Define \(G_0\)
 
-- [ ] Create `src/bias_optimizer/v4/language/base_language.py`.
-- [ ] Build \(G_0\) from the frozen V2-level typed DSL.
-- [ ] Explicitly exclude manually introduced V3 relational primitives.
-- [ ] Canonically serialize language manifests.
-- [ ] Add SHA-256 language identity.
-- [ ] Record every primitive's signature and parameters.
-- [ ] Write tests verifying deterministic language hashing.
-- [ ] Add frozen \(G_H\) wrapper for the complete human-designed V3 DSL.
+- [x] Create `src/bias_optimizer/v4/language/base_language.py`.
+- [x] Build \(G_0\) from the frozen V2-level typed DSL.
+- [x] Explicitly exclude manually introduced V3 relational primitives.
+- [x] Canonically serialize language manifests.
+- [x] Add SHA-256 language identity.
+- [x] Record every primitive's signature and parameters.
+- [x] Write tests verifying deterministic language hashing.
+- [x] Add frozen \(G_H\) wrapper for the complete human-designed V3 DSL.
+
+Canonical `G0` and `GH` manifests and their digests are saved under
+`results/v4/languages/` and pinned in the draft protocol.
 
 Required languages:
 

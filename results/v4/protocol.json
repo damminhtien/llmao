@@ -84,6 +84,8 @@
   "language_conditions": {
     "G0": {
       "basis": "frozen V2-level typed DSL",
+      "manifest_path": "results/v4/languages/g0.json",
+      "manifest_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
       "excluded_v3_operations": [
         "spatial_condition",
         "pairwise_difference",
@@ -92,7 +94,9 @@
       ]
     },
     "GH": {
-      "basis": "full frozen human V3 typed DSL"
+      "basis": "full frozen human V3 typed DSL",
+      "manifest_path": "results/v4/languages/gh.json",
+      "manifest_sha256": "79d65f19cd6bf7a9bf46bb080877c810a3e9378f8ed71d474f36cd1e0de1ec14"
     },
     "G_star": {
       "basis": "G0 plus discovered typed macros",

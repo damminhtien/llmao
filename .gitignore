@@ -184,6 +184,8 @@ cython_debug/
 !/results/v4/protocol.sha256
 !/results/v4/baseline_manifest.json
 !/results/v4/environment.json
+!/results/v4/languages/
+!/results/v4/languages/**
 /graphify-out/
 
 # PyPI configuration file
