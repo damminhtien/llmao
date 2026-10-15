@@ -27,6 +27,15 @@ else:
         tracked_tree_is_clean,
     )
 
+_PENDING_PREREGISTRATION_DECISIONS = {
+    "evaluator_compiler_snapshot_and_worker_permissions_context_policy",
+    "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
+    "common_initial_program_manifest",
+    "language_complexity_penalty_definition_and_coefficient",
+    "discovery_only_language_selection_rule_and_tie_breakers",
+    "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria",
+}
+
 
 def _write_exclusive(path: Path, payload: bytes) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
@@ -273,6 +282,15 @@ def finalize_protocol(
         },
         source_pins=_source_pins(),
     )
+    pending_decisions = protocol.get("pending_preregistration_decisions")
+    if (
+        not isinstance(pending_decisions, list)
+        or len(pending_decisions) != len(_PENDING_PREREGISTRATION_DECISIONS)
+        or not all(isinstance(item, str) for item in pending_decisions)
+        or set(pending_decisions) != _PENDING_PREREGISTRATION_DECISIONS
+    ):
+        raise ValueError("historical preregistration decision inventory changed; resolve it explicitly")
+    protocol["pending_preregistration_decisions"] = []
     if supersedes is not None:
         protocol["supersedes"] = _supersedes_record(supersedes)
     protocol["primary_design"].update(
