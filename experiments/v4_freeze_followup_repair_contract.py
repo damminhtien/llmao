@@ -445,9 +445,7 @@ def freeze(
     )
     if (
         lineage_result.get("previous_sandbox_wrapper_sha256")
-        != prior_repair_contract["source_pins"]["host_files_sha256"][
-            "scripts/codex-v4-sandbox"
-        ]
+        != previous_wrapper_sha256
         or lineage_result.get("sandbox_wrapper_sha256") != _sha256(WRAPPER)
     ):
         raise ValueError("real-runner fixture wrapper lineage is inconsistent")
