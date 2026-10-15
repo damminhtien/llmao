@@ -679,6 +679,15 @@ and can supply the evaluator-owned parent state for a later descendant.
 Replay verifies both state transitions and candidate contents; successful
 stage-one score counts exclude these failures.
 
+The follow-up ended after ten proposals with eight valid scores and eight
+distinct valid expanded ASTs. Its overall gate failed: none of four invented
+macro behaviors was used by a descendant, and native transcripts exposed
+noncandidate temporary writes while workers tried to repair missing checker
+dependencies. Immutable workspace checks did not detect those host effects.
+`V4_PHASE10_FOLLOWUP_REPORT.md` records the complete audit and preserved
+evidence; `V4_FOLLOWUP_RESPONSE_PLAN.md` defines the required interface and
+boundary fixes before another fresh pilot. Primary discovery remains closed.
+
 ---
 
 # 11. Discovery objective

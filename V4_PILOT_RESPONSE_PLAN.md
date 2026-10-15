@@ -67,6 +67,14 @@ fresh-search, semantic-ablation, transfer, and statistical requirements.
 
 ## Implemented response and replay
 
+At terminal follow-up completion, collect a new archive only after the
+supervisor reports exit zero and the checkpoint/telemetry cover all ten
+proposals. Verify every worker bundle against the frozen manifest, preserve
+the separate seed and all failed proposals, copy evaluator logs and native
+transcripts without Codex authentication files, and hash each copied file.
+Reconcile score JSON with telemetry before structural replay and lineage
+analysis. A terminal process alone cannot satisfy any scientific gate.
+
 Replay must distinguish context acceptance from a successful stage-one score.
 The pinned EvE evaluator publishes the candidate's validated lineage before
 fitting the learner. If fitting or artifact production fails, replay must

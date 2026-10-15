@@ -9,11 +9,14 @@ document and record any later change as a versioned amendment.
 
 ## Account and execution
 
-Use ChatGPT Plus ordinary Codex allowance, `gpt-6-luna`, max reasoning,
-`codex_tmux`, one worker, workspace-write sandboxing, disabled shell network,
-disabled web search, and disabled multi-agent mode. Use an isolated Codex home
-without a custom model provider. Paid credits, plan upgrades, and rate-limit
-resets are excluded. Check current ordinary allowance before each worker launch.
+Use the ChatGPT Plus plan (not Pro) and its ordinary Codex allowance. Run
+`gpt-6-luna` with max reasoning through `codex_tmux`, one worker,
+workspace-write sandboxing, disabled shell network, disabled web search, and
+disabled multi-agent mode. Use an isolated Codex home without a custom model
+provider. Do not use Pro, paid credits, plan upgrades, or rate-limit resets.
+Before each worker launch, verify the active plan is Plus and check its current
+ordinary allowance; pause at the account limit instead of changing plans or
+buying credits.
 
 Use the same EvE workspace/example selection machinery and a cap of 32
 read-only solver examples across conditions. Pin the selection code and

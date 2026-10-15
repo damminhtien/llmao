@@ -47,6 +47,9 @@ has run; preregistered Phase 12 discovery and primary evaluation have not.
   Codex allowance; the 2026-10-14 09:50:21 UTC pre-worker usage snapshot showed
   41% used in the five-hour window, 12% in the weekly window, and no paid
   credits.
+- [ ] Before each future primary worker launch, verify the active account is
+  still on Plus and record its ordinary allowance; pause at the limit without
+  switching to Pro, upgrading, or using paid credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
 - [x] Verify `max` reasoning is available for that model using an isolated
@@ -68,6 +71,7 @@ Main-run invariant:
 
 ```text
 ChatGPT Plus account
+(not Pro; ordinary Plus allowance only)
 GPT-6 Luna (`gpt-6-luna`)
 max reasoning
 same model
@@ -456,7 +460,7 @@ another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
   `01f6371ded33537cb93c52b27303212db0c3a054`.
 - [x] Hash the follow-up contract before launching another pilot:
   `V4_FOLLOWUP_PILOT_CONTRACT.json` and its adjacent `.sha256` file.
-- [ ] Run and audit the separate ten-proposal follow-up pilot against its
+- [x] Run and audit the separate ten-proposal follow-up pilot against its
   original gates and additional eight-distinct-expanded-hash gate.
 - [x] Implement a hashed project-interpreter launcher for future bundles;
   four focused tests pass with the interpreter variable absent, system-only
@@ -466,9 +470,17 @@ another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
   worker received no `LLMAO_PYTHON` shell variable and bare Python lacked
   dependencies. Preserve its failed proposal and frozen run.
 
-The follow-up is running under the frozen contract. Its launch and live
-observations are recorded in `V4_PHASE10_FOLLOWUP_REPORT.md`; final gates and
-the full ten-attempt audit remain pending.
+The follow-up completed all ten proposals and **failed its gate**: eight
+valid scores and eight distinct expanded ASTs passed those thresholds, but
+no macro was used by a descendant and native transcripts exposed noncandidate
+temporary writes. `V4_PHASE10_FOLLOWUP_REPORT.md` records the final audit;
+`V4_FOLLOWUP_RESPONSE_PLAN.md` fixes the next required work. All original
+artifacts remain in the ignored `results/v4/phase10_followup/archive_verified/`.
+- [x] Preserve and hash terminal candidates, failures, lineage, telemetry,
+  evaluator logs, and all ten native transcripts.
+- [x] Document the follow-up failure response before changing its interface.
+- [ ] Verify the interpreter launcher and stricter temporary-write policy
+  through native worker tools before another separately pinned pilot.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
