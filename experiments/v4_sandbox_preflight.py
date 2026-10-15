@@ -15,6 +15,7 @@ from uuid import uuid4
 
 ROOT = Path(__file__).resolve().parents[1]
 WRAPPER = ROOT / "scripts/codex-v4-sandbox"
+PHASE12_EVIDENCE_ROOT = ROOT / "results/v4/phase12/native_worker_integration"
 
 # Executed by the resolved Python runtime inside the sandbox. Every assertion
 # contributes to the final exit status, including expected command failures.
@@ -258,14 +259,22 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--workspace", required=True, type=Path)
     parser.add_argument("--evidence", required=True, type=Path)
+    parser.add_argument("--checker-bundle", type=Path)
     args = parser.parse_args()
     from experiments.v4_native_check_fixture import EVIDENCE_ROOT, _build_workspace
 
     workspace = args.workspace.expanduser().absolute()
     evidence = args.evidence.expanduser().absolute()
-    if not evidence.is_relative_to(EVIDENCE_ROOT) or evidence.exists():
+    if not any(
+        evidence.is_relative_to(root)
+        for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
+    ) or evidence.exists():
         raise ValueError("evidence must be new and inside the ignored V4 evidence root")
-    _build_workspace(workspace, args.run_id)
+    _build_workspace(
+        workspace,
+        args.run_id,
+        structural_bundle=args.checker_bundle,
+    )
     result = run_preflight(workspace, evidence)
     print(json.dumps({key: result[key] for key in ("passed", "checks")}))
     return 0 if result["passed"] else 1

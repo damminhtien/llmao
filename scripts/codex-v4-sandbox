@@ -15,6 +15,13 @@ ROOT = Path(__file__).resolve().parents[1]
 MODEL_INSTRUCTIONS_FILE = str(
     (ROOT / "configs/v4/phase10_followup_worker.md").resolve()
 )
+PRIMARY_MODEL_INSTRUCTIONS_FILE = str(
+    (ROOT / "configs/v4/phase12_primary_worker.md").resolve()
+)
+MODEL_INSTRUCTIONS_FILES = {
+    MODEL_INSTRUCTIONS_FILE,
+    PRIMARY_MODEL_INSTRUCTIONS_FILE,
+}
 FIXTURE_INSTRUCTIONS_FILE = ROOT / "configs/v4/native_fixture_worker.md"
 FIXTURE_WORKSPACE_INSTRUCTIONS_NAME = "native_system_prompt.md"
 
@@ -189,7 +196,9 @@ def _strip_legacy_sandbox(
                 "model_reasoning_effort": {"max", '"max"'},
                 "web_search": {"disabled", '"disabled"'},
                 "features.multi_agent": {"false"},
-                "model_instructions_file": {json.dumps(MODEL_INSTRUCTIONS_FILE)},
+                "model_instructions_file": {
+                    *(json.dumps(path) for path in MODEL_INSTRUCTIONS_FILES)
+                },
             }
             allowed_fixture_prompt = (
                 key.strip() == "model_instructions_file"

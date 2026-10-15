@@ -78,10 +78,15 @@ result remains exploratory feasibility evidence only.
 
 ## M2 — Final preregistration and implementation pins
 
-**Status: active.** Resolve the remaining Phase 0 decisions and freeze the
-canonical V4 protocol before Phase 12 discovery.
+**Status: active.** Scientific Phase 0 choices are fixed in
+`V4_PRIMARY_DESIGN.md`; finish implementation pins, canonical protocol
+finalization, and launch evidence before Phase 12 discovery.
 
-Resolve every remaining Phase 0 decision. Integrate the primary design, objective, budgets, seed set, source/configuration pins, common initial-program digest, resume/failure rules, and analysis requirements into a versioned canonical protocol.
+Integrate the primary design, objective, budgets, seed set,
+source/configuration pins, common initial-program digest, resume/failure
+rules, and analysis requirements into a versioned canonical protocol. Verify
+the data-free sandbox preflight and native lineage fixture, then validate a
+seed-specific contract for every discovery seed.
 
 **Done when:** the final protocol is complete, its hash verifies, all pinned implementations and configurations match it, and the launch checks in `V4_PRIMARY_DESIGN.md` pass.
 

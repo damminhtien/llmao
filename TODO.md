@@ -14,25 +14,26 @@
 - [x] Create `V4_PROTOCOL.md` as a pre-discovery draft.
 - [x] Create canonical `results/v4/protocol.json` as a pre-discovery draft.
 - [x] Hash the current draft snapshot in `results/v4/protocol.sha256`.
-- [ ] Resolve all pending preregistration decisions in `V4_PROTOCOL.md`.
+- [ ] Integrate the resolved scientific choices into the versioned primary
+  protocol and verify its adjacent digest.
 - [x] Freeze the twenty common initial ASTs from the pinned V3.2 protocol,
   validate G0/GH eligibility, and hash `V4_INITIAL_PROGRAMS.json` without
   importing historical scores, descriptions, or search history.
 - [x] Fix scientific primary-study choices in `V4_PRIMARY_DESIGN.md`: budgets,
   independent discovery/fresh seeds, failures and censoring, language penalty,
   selection, AUC/statistics, and numeric support criteria.
-- [ ] Implement and verify those choices, pin final sources/configuration, and
-  bind the design and common starting-program digest into the final protocol.
-- [x] Implement the pure discovery macro-count objective; eight focused checks
-  pass. Pilot/fresh-search stage-one scoring is unchanged; finalized-protocol
-  discovery evaluator integration remains pending.
-- [ ] Hash the V4 protocol before producing primary results.
+- [ ] Finish implementation/configuration pins and bind the design and common
+  starting-program digest into the final protocol.
+- [x] Implement the pure discovery macro-count objective and integrate it with
+  the finalized-protocol evaluator; stage-one scoring remains unchanged.
+- [ ] Hash the finalized primary protocol before producing primary results.
 - [x] Define primary RQ and qualitative acceptance criteria before running
-  V4 discovery; numerical support criteria remain pending final preregistration.
+  V4 discovery, including numeric support criteria.
 
-The protocol is a draft. Phase 0 is complete only after its pending decisions
-are resolved and the final protocol is hashed. The Phase 10 exploratory pilot
-has run; preregistered Phase 12 discovery and primary evaluation have not.
+The historical `results/v4/protocol.json` remains the pilot draft. Phase 0
+design decisions are resolved in `V4_PRIMARY_DESIGN.md`; M2 is still active
+until the separate primary protocol, source pins, and launch contracts verify.
+The Phase 10 exploratory pilots remain feasibility evidence only.
 
 ---
 
@@ -367,7 +368,8 @@ Gate:
 The frozen-language smoke gate is satisfied. The Phase 10 language pilot has
 completed, but it failed its valid-candidate minimum. The response is recorded
 in `V4_PILOT_RESPONSE_PLAN.md`. A follow-up pilot requires its tooling and
-contract checks; Phase 12 still requires final Phase 0 preregistration.
+contract checks. Those pilot-time notes do not replace the separate primary
+protocol and launch gates tracked in M2.
 
 ---
 
@@ -451,7 +453,8 @@ locally in the Git-ignored `results/v4/phase10_pilot/` archive.
 **Gate result: failed.** `V4_PILOT_RESPONSE_PLAN.md` records the response to
 depth-invalid proposals, duplicates, and the 40% invalid rate. The original
 outcome remains failed. Complete that plan's tooling and contract checks before
-another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
+another exploratory pilot. Phase 12 uses a separate primary protocol and
+contract, so none of this exploratory evidence is promoted to primary status.
 
 - [x] Document the pilot failure response before changing implementation.
 - [x] Add a data-free structural candidate check.

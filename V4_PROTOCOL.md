@@ -1,10 +1,11 @@
 # LLMAO V4 — Language Evolution Protocol
 
-Status: **draft, before discovery**. The canonical design is in
-`results/v4/protocol.json`; its current snapshot digest is in
-`results/v4/protocol.sha256`. A draft digest records the current document and
-does not constitute final preregistration. Resolve the pending decisions below
-and regenerate the digest before discovery or primary results.
+Status: **historical V4 protocol and pilot record**. The immutable
+`results/v4/protocol.json` and `results/v4/protocol.sha256` describe the
+exploratory pilot; they are not the Phase 12 primary preregistration. Scientific
+primary-study choices are fixed in `V4_PRIMARY_DESIGN.md`. The separate
+`results/v4/primary_protocol.json` is generated and hashed before Phase 12
+launch. Keep the historical pilot JSON and digest unchanged.
 
 ## Research question and acceptance criteria
 
@@ -64,10 +65,10 @@ limit violations fail validation. The current implementation defaults cap
 both macro dependency depth and expanded AST depth at 6, expanded AST size at
 127 nodes, and output width at 128 features, matching the V3.2 discovery
 limits. The protocol caps each language at eight macros and each candidate at
-one newly introduced macro. Language complexity is measured and reported, but
-its discovery penalty definition and coefficient remain pending final
-preregistration. Arbitrary Python and Level B primitive synthesis are excluded
-from the initial experiment.
+one newly introduced macro. The primary discovery penalty is fixed in
+`V4_PRIMARY_DESIGN.md` and bound by the separate primary protocol. Arbitrary
+Python and Level B primitive synthesis are excluded from the initial
+experiment.
 Macro bodies and their transitive expansions use only `G0` operations and
 previously validated macros; hidden use of excluded `GH` operations is invalid.
 Level A changes the vocabulary while preserving `G0` computational expressivity.
@@ -111,10 +112,11 @@ accuracy_500
 - 0.0001 * log1p(feature_runtime_ms + training_runtime_ms + inference_runtime_ms)
 ```
 
-Discovery adds a language complexity cost. Its exact definition and coefficient
-must be fixed before discovery. Record accuracy, dimension, runtime, program
-complexity, and language complexity separately. Official test partitions are
-inaccessible until languages and finalists are frozen.
+Primary discovery adds the language complexity cost fixed in
+`V4_PRIMARY_DESIGN.md`; the historical pilot protocol remains unchanged.
+Record accuracy, dimension, runtime, program complexity, and language
+complexity separately. Official test partitions are inaccessible until
+languages and finalists are frozen.
 
 The evaluator accepts only data-only candidate language/program JSON plus
 evaluator-managed provenance and parent-language history. It returns scalar
@@ -181,15 +183,11 @@ programs, evaluation data, independent seeds, model, reasoning effort,
 permissions, context policy, candidate budget, token accounting, and timeout.
 
 The requested backend is GPT-6 Luna (`gpt-6-luna`) with `max` reasoning. The
-ChatGPT Plus account, Codex CLI model access, and `max` reasoning support were
-verified on 2026-10-14; the pre-launch usage snapshot at 09:35 UTC showed
-37% used in the five-hour window, 12% in the weekly window, and no paid
-credits. The CLI version and both checkout commits are recorded in
-`results/v4/environment.json`. The pinned account plan is Plus, not Pro. The
-LLMAO evaluator/compiler snapshot, worker permissions, and context policy used
-for each completed smoke run are pinned in
-`results/v4/smoke_manifest.json`. Freeze their final protocol values before
-launching the Phase 10 pilot or primary discovery workers.
+CLI version and both checkout commits used by historical runs are recorded in
+`results/v4/environment.json`. The LLMAO evaluator/compiler snapshot, worker
+permissions, and context policy used for each completed smoke run are pinned
+in `results/v4/smoke_manifest.json`. Primary execution details and source pins
+are recorded in the separate finalized primary protocol and seed contracts.
 
 The primary measure is best-so-far search AUC against candidate evaluations
 for `G*` versus `G0` under matched optimizer conditions. Also retain token
@@ -202,42 +200,17 @@ while preserving computation, signatures, and parameter ranges. Transfer
 restarts representation search on EMNIST Digits, EMNIST Letters, KMNIST, and
 Fashion-MNIST using the frozen MNIST language.
 
-## Decisions required before final preregistration
+## Primary protocol boundary
 
-`V4_PRIMARY_DESIGN.md` now fixes the scientific budgets, seed sets, failure
-accounting, macro-count discovery penalty, selection rule, AUC definition,
-statistical procedure, and numeric support criteria before primary discovery.
-The list below records the canonical protocol's remaining integration and
-implementation-pin requirements. The historical pilot JSON and digest remain
-unchanged until a separately versioned primary protocol is ready.
+`V4_PRIMARY_DESIGN.md` fixes the scientific budgets, seed sets, failure
+accounting, macro-count discovery penalty, language-selection rule, AUC
+definition, statistical procedure, and numeric support criteria before
+primary discovery. The versioned `results/v4/primary_protocol.json` binds
+those choices to the implementation, evaluator, sandbox, initial-program
+manifest, and runtime digests. Seed-specific contracts bind the native
+preflight and lineage-fixture evidence before any discovery worker starts.
 
-1. LLMAO evaluator/compiler snapshot, worker permissions, and context policy.
-   The EvE commit, Codex CLI model identifier, reasoning support, and CLI
-   version are recorded in `results/v4/environment.json`.
-2. Candidate and token budgets, independent seeds, proposal-attempt cap,
-   timeout policy, and rules for incomplete runs.
-3. Common initial program manifest. The split parameters and fingerprints are
-   recorded in `results/v4/baseline_reproduction/summary.json`. The existing
-   twenty V3.2 seed ASTs contain none of the four excluded V3 operations,
-   and are validated in `V4_INITIAL_PROGRAMS.json`. Its digest is
-   `60d0cc90bf0d4e3f282023108ca9113800e01cf0486865a60771879746f4afab`,
-   recorded in `V4_INITIAL_PROGRAMS.sha256`. The exporter reads the pinned
-   V3.2 protocol Git object and preserves its original order. It exports ASTs
-   and historical identities, excluding hypotheses, mechanisms, descriptions,
-   scores, and search history. It verifies uniqueness, canonical AST digests,
-   G0 structural/resource eligibility, and inclusion in GH. Future G* starts
-   use these same base ASTs without expanding them into discovered macros.
-   Bind this manifest digest into the final canonical primary protocol. The
-   running pilot retains its original protocol snapshot and one-program seed.
-   This manifest does not resolve the remaining budget, selection, or
-   statistical decisions.
-4. Language-complexity definition and discovery penalty coefficient. The V4
-   macro caps are pinned at eight macros per language and one new macro per
-   candidate; expansion caps remain depth 6, 127 nodes, and 128 features.
-5. Discovery-only language selection rule and deterministic tie breakers.
-6. Exact AUC integration bounds and normalization, primary contrast across
-   optimizer conditions, paired statistical procedure, and numerical support
-   criteria.
-All decisions must be recorded before observing the results they govern.
-Protocol changes after discovery require a versioned amendment; preserve the
-original protocol, digest, and affected traces.
+`results/v4/protocol.json` and its sidecar remain the historical pilot record;
+do not regenerate them from the primary design. All changes after primary
+discovery require a versioned amendment, and the original protocol, digest,
+contracts, and traces remain preserved.

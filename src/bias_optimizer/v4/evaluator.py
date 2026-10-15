@@ -95,6 +95,7 @@ def evaluate_candidate(
     *,
     evaluator_version_sha256: str,
     protocol_status: str,
+    cache_namespace: str | None = None,
 ) -> dict[str, Any]:
     """Evaluate one validated candidate and return score-only feedback."""
     if candidate.provenance.evaluation_seed != _TRAINING_SEED:
@@ -112,7 +113,7 @@ def evaluate_candidate(
     evaluation = evaluator.evaluate_pipeline(
         pipeline,
         cache_key=candidate.expanded_program_hash,
-        cache_namespace=f"mnist_v4_{candidate.language_hash}",
+        cache_namespace=cache_namespace or f"mnist_v4_{candidate.language_hash}",
         train_sizes=(_TRAINING_SUBSET_SIZE,),
     )
     score = stage_one_fitness(evaluation)

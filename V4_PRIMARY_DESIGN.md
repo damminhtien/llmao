@@ -1,16 +1,17 @@
 # V4 primary study decisions
 
-Status: **design fixed before primary discovery; implementation pins pending**.
-This document resolves the scientific choices below. It does not authorize an
-unvalidated primary launch or change either exploratory pilot. Bind these
-choices, the common-program manifest, and the final implementation/configuration
-digests into the canonical protocol before primary discovery. Preserve this
-document and record any later change as a versioned amendment.
+Status: **scientific choices fixed before primary discovery**. This document
+resolves the scientific choices below. It does not change either exploratory
+pilot. The canonical primary protocol binds these choices, the common-program
+manifest, and the final implementation/configuration digests; verify its hash
+and seed launch contract before discovery. Preserve this document and record
+any later change as a versioned amendment.
 
 ## Account and execution
 
-Use the ChatGPT Plus plan (not Pro) and its ordinary Codex allowance. Run
-`gpt-6-luna` with max reasoning through `codex_tmux`, one worker. Set EvE's
+Run `gpt-6-luna` with max reasoning through `codex_tmux`, one worker. The user
+has confirmed sufficient resources; do not require an account-usage snapshot
+or allowance check. Set EvE's
 `driver.executable` to `scripts/codex-v4-sandbox`, which installs the named
 `llmao-v4-workspace-only` permission profile. Deny external dataset reads,
 undeclared writes, shell network access, `/tmp`, and `$TMPDIR`; reject legacy
@@ -19,11 +20,8 @@ mode, and the remote plugin catalog. Use an isolated Codex home without a
 custom model provider. Require the automated sandbox preflight and native
 fixture evidence described in `V4_SANDBOX_REPAIR.md`, then bind the final
 sources, policy, and runtime into the contract before scientific launch.
-Do not use Pro, paid credits, plan upgrades, or rate-limit resets. The user has
-confirmed sufficient resources; do not require a live Plus usage snapshot or
-allowance check before a worker launch. If a service limit is reached, preserve
-durable state and report the run as incomplete without changing plans or buying
-credits.
+Do not use paid credits, plan upgrades, or rate-limit resets. If a service
+limit is reached, preserve durable state and report the run as incomplete.
 
 Use the same EvE workspace/example selection machinery and a cap of 32
 read-only solver examples across conditions. Pin the selection code and
@@ -71,15 +69,15 @@ Each proposal receives at most **80 native turns and 3,600 seconds**. Zero
 automatic boundary repairs. Structural checks consume the same allowance.
 Evaluator subprocesses receive at most 1,800 seconds, with identical limits
 across conditions. Track optimizer overhead, feature, learner, inference, and
-active search time separately. Account waiting time is reported separately
-from active execution time.
+active search time separately.
 
-At an ordinary account limit, preserve durable state and pause launches until
-ordinary allowance becomes available. Do not reset candidate, attempt, token,
-or native-turn counters. Resuming an unfinished worker uses its remaining
-allowance; a terminal timed-out or failed proposal remains a consumed attempt.
-Boundary or official-test violations terminate the affected run immediately.
-An exhausted proposal/token cap, terminal infrastructure failure, or missing
+If a service rejects a request or terminates a proposal, retain its transcript
+and token record and apply the frozen interruption rule. EvE resumes only from
+completed iteration checkpoints; any later partial workspace is archived and
+counted as one consumed attempt, with no replacement beyond the 540-attempt
+cap. Do not reset candidate, attempt, token, or native-turn counters. Boundary
+or official-test violations terminate the affected run immediately. An
+exhausted proposal/token cap, terminal infrastructure failure, or missing
 unique evaluation leaves the run **incomplete**, with its observed trajectory
 retained. Do not extrapolate its final score or AUC to the full budget.
 

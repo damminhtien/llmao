@@ -19,6 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
 PROJECT_PYTHON = ROOT / ".venv/bin/python"
 EVIDENCE_ROOT = ROOT / "results/v4/phase10_followup/native_worker_integration"
+PHASE12_EVIDENCE_ROOT = ROOT / "results/v4/phase12/native_worker_integration"
 CACHE_ROOT = Path.home() / "Library/Caches/llmao-v4-eve-lineage-fixtures"
 LANGUAGE_ONLY_PROBE = r"""
 import errno, json, os, sys
@@ -123,6 +124,7 @@ def _run_context_builder(
     *,
     context_path: Path,
     lineage_state_path: Path,
+    protocol_path: Path | None = None,
     parent_lineage_path: Path | None = None,
     parent_candidate_id: str | None = None,
     generation: int = 0,
@@ -140,6 +142,8 @@ def _run_context_builder(
     ]
     if parent_lineage_path is not None:
         command.extend(["--parent-lineage", str(parent_lineage_path)])
+    if protocol_path is not None:
+        command.extend(["--protocol", str(protocol_path)])
     if parent_candidate_id is not None:
         command.extend(["--parent-candidate-id", parent_candidate_id])
     completed = subprocess.run(
@@ -397,6 +401,7 @@ class _DataFreeEvaluator:
                 workspace_root / "solver/candidate",
                 context_path=workspace_root / "fixture_candidate_context.json",
                 lineage_state_path=workspace_root / "fixture_candidate_lineage_state.json",
+                protocol_path=self.protocol_path,
                 parent_lineage_path=(
                     workspace_root
                     / "solver_examples"
@@ -672,20 +677,52 @@ def _install_fixture_driver_guards(
     return preflight
 
 
-def run_fixture(run_id: str, *, contract_path: Path, eve_root: Path, output: Path) -> dict[str, Any]:
+def run_fixture(
+    run_id: str,
+    *,
+    contract_path: Path,
+    eve_root: Path,
+    output: Path,
+    system_prompt_path: Path | None = None,
+    checker_bundle_path: Path | None = None,
+    protocol_path: Path | None = None,
+) -> dict[str, Any]:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", run_id):
         raise ValueError("run ID must contain only letters, digits, hyphens, and underscores")
     eve_root = eve_root.expanduser().resolve(strict=True)
     output = output.expanduser().absolute()
     cache_run = CACHE_ROOT / run_id
-    if not output.is_relative_to(EVIDENCE_ROOT) or output.exists():
-        raise ValueError("fixture evidence path must be new inside the ignored evidence root")
+    if not any(
+        output.is_relative_to(root) for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
+    ) or output.exists():
+        raise ValueError("fixture evidence path must be new inside a V4 evidence root")
     if cache_run.exists():
         raise ValueError("fixture cache path must be new")
     project_root = str(ROOT)
     if project_root not in sys.path:
         sys.path.insert(0, project_root)
     contract, config = _load_pinned_config(contract_path, eve_root)
+    resolved_protocol = (protocol_path or ROOT / "results/v4/protocol.json").resolve(
+        strict=True
+    )
+    bundle_manifest: dict[str, Any] | None = None
+    if checker_bundle_path is not None:
+        checker_bundle_path = checker_bundle_path.expanduser().resolve(strict=True)
+        bundle_manifest = _json(checker_bundle_path / "manifest.json")
+        if bundle_manifest.get("source_commit") != subprocess.check_output(
+            ["git", "-C", str(ROOT), "rev-parse", "HEAD"], text=True
+        ).strip():
+            raise ValueError("primary checker bundle source commit differs from LLMAO")
+        if bundle_manifest.get("protocol_sha256") != _sha256(resolved_protocol):
+            raise ValueError("primary checker bundle protocol digest differs")
+        config.application.path = str(ROOT / "configs/v4/phase12_primary/task")
+        config.optimizer.workers.items[0].immutable = str(checker_bundle_path.parent)
+        reference = ROOT / "configs/v4/phase12_primary/task/g0_reference.json"
+        immutable_reference = checker_bundle_path.parent / "g0_reference.json"
+        if immutable_reference.exists() and _sha256(immutable_reference) != _sha256(reference):
+            raise ValueError("immutable G0 reference differs from Phase 12 task")
+        if not immutable_reference.exists():
+            shutil.copyfile(reference, immutable_reference)
     output.mkdir(parents=True)
     cache_run.mkdir(parents=True)
     _verify_tmux_failure_capture(output, eve_root)
@@ -744,11 +781,11 @@ def run_fixture(run_id: str, *, contract_path: Path, eve_root: Path, output: Pat
         path = g0_candidate / relative
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(content, encoding="utf-8")
-    protocol_path = ROOT / "results/v4/protocol.json"
     parent_build = _run_context_builder(
         g0_candidate / "candidate",
         context_path=cache_run / "g0_context.json",
         lineage_state_path=cache_run / "g0_lineage_state.json",
+        protocol_path=resolved_protocol,
     )
     parent_state = parent_build["lineage_state"]
     prefill_id = "solver_lineage_fixture_prefill"
@@ -786,8 +823,17 @@ def run_fixture(run_id: str, *, contract_path: Path, eve_root: Path, output: Pat
         score={"elo": 1500.0},
         logs={},
     )
-    evaluator = _DataFreeEvaluator(protocol_path=protocol_path)
-    driver_config = contract["driver"]
+    evaluator = _DataFreeEvaluator(protocol_path=resolved_protocol)
+    driver_config = dict(contract["driver"])
+    if system_prompt_path is not None:
+        resolved_prompt = system_prompt_path.expanduser().resolve(strict=True)
+        allowed_prompts = {
+            (ROOT / "configs/v4/phase10_followup_worker.md").resolve(),
+            (ROOT / "configs/v4/phase12_primary_worker.md").resolve(),
+        }
+        if resolved_prompt not in allowed_prompts:
+            raise ValueError("fixture system prompt is not a pinned V4 worker prompt")
+        driver_config["system_prompt_file"] = str(resolved_prompt)
     tmux_session = f"llmao-v4-lineage-{run_id}"
     pane_command = [
         "tmux",
@@ -893,6 +939,12 @@ def run_fixture(run_id: str, *, contract_path: Path, eve_root: Path, output: Pat
         "configuration_validation_sha256": contract["source_pins"][
             "configuration_validation_sha256"
         ],
+        "protocol_sha256": _sha256(resolved_protocol),
+        "checker_bundle_manifest_sha256": (
+            _sha256(checker_bundle_path / "manifest.json")
+            if checker_bundle_path is not None
+            else None
+        ),
         "effective_fixture_overrides": {
             "loop.max_iterations": 1,
             "loop.n_workers_phase2": 1,
@@ -936,6 +988,9 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--contract", type=Path, default=DEFAULT_CONTRACT)
     parser.add_argument("--eve-root", type=Path, default=ROOT.parent / "eve")
+    parser.add_argument("--system-prompt", type=Path)
+    parser.add_argument("--checker-bundle", type=Path)
+    parser.add_argument("--protocol", type=Path)
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
     try:
@@ -944,6 +999,9 @@ def main() -> int:
             contract_path=args.contract,
             eve_root=args.eve_root,
             output=args.output,
+            system_prompt_path=args.system_prompt,
+            checker_bundle_path=args.checker_bundle,
+            protocol_path=args.protocol,
         )
     except Exception as exc:  # noqa: BLE001 - persist fixture failures for diagnosis.
         result = {
@@ -951,7 +1009,10 @@ def main() -> int:
             "status": "failed",
             "error": f"{type(exc).__name__}: {exc}",
         }
-        if args.output.exists() and args.output.is_relative_to(EVIDENCE_ROOT):
+        if args.output.exists() and any(
+            args.output.is_relative_to(root)
+            for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
+        ):
             _write_json(args.output / "result.json", result)
         print(json.dumps(result, sort_keys=True))
         return 1

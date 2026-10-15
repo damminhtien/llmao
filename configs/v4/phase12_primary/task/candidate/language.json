@@ -1,0 +1,15 @@
+{
+  "schema_version": 1,
+  "language": "G*",
+  "parent_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+  "base_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+  "limits": {
+    "max_expansion_depth": 6,
+    "max_expanded_nodes": 127,
+    "max_feature_dim": 128,
+    "max_macros": 8,
+    "max_new_macros_per_candidate": 1
+  },
+  "introduced_macros": [],
+  "macros": []
+}

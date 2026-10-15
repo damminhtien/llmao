@@ -243,32 +243,53 @@ def _verify_bundle(bundle: Path, manifest: dict) -> None:
             raise ValueError(f"worker changed pinned structural file: {relative}")
 
 
-def _build_workspace(workspace: Path, run_id: str) -> dict:
+def _build_workspace(
+    workspace: Path,
+    run_id: str,
+    *,
+    structural_bundle: Path | None = None,
+) -> dict:
     if not PROJECT_PYTHON.is_file() or not os.access(PROJECT_PYTHON, os.X_OK):
         raise ValueError("verified project Python entrypoint is unavailable")
-    contract_digest = _sha256(CONTRACT)
-    if contract_digest != CONTRACT.with_suffix(".sha256").read_text().split()[0]:
-        raise ValueError("historical follow-up contract digest changed")
-    contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
-    protocol_digest = contract["source_pins"]["base_protocol_sha256"]
-    if _sha256(PROTOCOL) != protocol_digest:
-        raise ValueError("historical pilot protocol digest changed")
+    contract_digest = None
+    if structural_bundle is None:
+        contract_digest = _sha256(CONTRACT)
+        if contract_digest != CONTRACT.with_suffix(".sha256").read_text().split()[0]:
+            raise ValueError("historical follow-up contract digest changed")
+        contract = json.loads(CONTRACT.read_text(encoding="utf-8"))
+        protocol_digest = contract["source_pins"]["base_protocol_sha256"]
+        if _sha256(PROTOCOL) != protocol_digest:
+            raise ValueError("historical pilot protocol digest changed")
+        structural_source_commit = contract["source_pins"][
+            "structural_bundle_source_commit"
+        ]
+    else:
+        source_bundle = structural_bundle.expanduser().resolve(strict=True)
+        source_manifest = source_bundle / "manifest.json"
+        manifest_payload = json.loads(source_manifest.read_text(encoding="utf-8"))
+        protocol_digest = manifest_payload["protocol_sha256"]
+        structural_source_commit = manifest_payload["source_commit"]
     if not workspace.is_relative_to(FIXTURE_CACHE) or workspace.exists():
         raise ValueError(
             "workspace must be a new fixture under the dedicated cache root"
         )
     workspace.mkdir(parents=True)
 
-    builder = runpy.run_path(str(ROOT / "experiments/v4_build_check_bundle.py"))
     bundle = workspace / "structural_check"
-    manifest = builder["build_bundle"](
-        bundle,
-        repo_root=ROOT,
-        commit=contract["source_pins"]["structural_bundle_source_commit"],
-        protocol_path=PROTOCOL,
-        protocol_sha256=protocol_digest,
-        python_executable=PROJECT_PYTHON,
-    )
+    if structural_bundle is None:
+        builder = runpy.run_path(str(ROOT / "experiments/v4_build_check_bundle.py"))
+        manifest = builder["build_bundle"](
+            bundle,
+            repo_root=ROOT,
+            commit=structural_source_commit,
+            protocol_path=PROTOCOL,
+            protocol_sha256=protocol_digest,
+            python_executable=PROJECT_PYTHON,
+        )
+    else:
+        shutil.copytree(source_bundle, bundle)
+        manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
+        _verify_bundle(bundle, manifest)
 
     from bias_optimizer.dsl.ast import Expr
     from bias_optimizer.v4.language import G0_LANGUAGE, extend_macro_language
@@ -338,9 +359,7 @@ def _build_workspace(workspace: Path, run_id: str) -> dict:
     return {
         "contract_sha256": contract_digest,
         "protocol_sha256": protocol_digest,
-        "structural_source_commit": contract["source_pins"][
-            "structural_bundle_source_commit"
-        ],
+        "structural_source_commit": structural_source_commit,
         "python_executable": str(PROJECT_PYTHON.absolute()),
         "python_is_symlink": PROJECT_PYTHON.is_symlink(),
         "bundle_manifest_sha256": _sha256(bundle / "manifest.json"),

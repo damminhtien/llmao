@@ -1,0 +1,47 @@
+{
+  "args": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [],
+                          "op": "image",
+                          "params": {}
+                        }
+                      ],
+                      "op": "skeletonize",
+                      "params": {}
+                    }
+                  ],
+                  "op": "graph",
+                  "params": {}
+                }
+              ],
+              "op": "paths",
+              "params": {}
+            }
+          ],
+          "op": "angles",
+          "params": {}
+        }
+      ],
+      "op": "delta_angle",
+      "params": {}
+    }
+  ],
+  "op": "autocorrelation",
+  "params": {
+    "lags": [
+      1,
+      2,
+      4
+    ]
+  }
+}

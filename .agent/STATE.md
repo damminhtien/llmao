@@ -13,13 +13,22 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M2 — Final preregistration and implementation pins.** M1 is complete. Phase 0 decisions remain unresolved, so the canonical V4 protocol is still a draft and Phase 12 discovery has not run.
+- **M2 — Final preregistration and implementation pins.** M1 is complete and
+  the scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. The
+  primary evaluator, discovery runner, five-seed lineage collector, source
+  pins, and contract tooling are implemented. The canonical primary protocol
+  and Phase 12 launch evidence still need to be frozen and validated.
 
 ## Next
 
-1. Resolve every Phase 0 decision using `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and the Phase 0 section of `TODO.md`.
-2. Freeze the final protocol, source/configuration pins, common initial-program digest, resume/failure rules, budgets, and analysis requirements.
-3. Verify the canonical protocol hash and all launch checks before Phase 12; keep the official test split disabled.
+1. Finish source review, targeted validation, and the focused implementation
+   commit.
+2. Generate the versioned primary protocol with implementation/configuration
+   hashes and the common initial-program digest; keep the historical pilot
+   protocol unchanged.
+3. Pass the 21-check sandbox preflight and the Phase 12 native lineage fixture,
+   freeze one contract for each preregistered seed, and run all contracts in
+   validate-only mode before launch.
 
 ## Known issues and boundaries
 
@@ -27,6 +36,8 @@ Updated: 2026-10-15
 - Pilot `-04` emitted nonfatal macOS `xcode-select` errors from worker `git status`/`git diff` calls and denied shell here-document temporary-file attempts. Candidate completion patches remained limited to the two permitted files, and the runtime boundary scan passed. Preserve this environment diagnostic if worker inspection changes are made.
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
 - Never access official test data before the applicable frozen-language evaluation gate.
+- Launch guidance does not require account-usage snapshots or Plus allowance
+  checks; do not upgrade or use paid credits.
 
 ## Validation
 
@@ -37,3 +48,6 @@ Updated: 2026-10-15
 - The frozen evaluator returned only `stage_one_only` scores with `discovery_ready=false`; no discovery fitness or official-test result exists.
 - The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
 - Do not upgrade or use paid credits.
+- Current-turn implementation validation: Ruff clean; compileall clean; all
+  148 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+- `graphify update .` completed; generated `graphify-out/` remains ignored.
