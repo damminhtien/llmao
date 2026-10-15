@@ -19,10 +19,11 @@ mode, and the remote plugin catalog. Use an isolated Codex home without a
 custom model provider. Require the automated sandbox preflight and native
 fixture evidence described in `V4_SANDBOX_REPAIR.md`, then bind the final
 sources, policy, and runtime into the contract before scientific launch.
-Do not use Pro, paid credits, plan upgrades, or rate-limit resets.
-Before each worker launch, verify the active plan is Plus and check its current
-ordinary allowance; pause at the account limit instead of changing plans or
-buying credits.
+Do not use Pro, paid credits, plan upgrades, or rate-limit resets. The user has
+confirmed sufficient resources; do not require a live Plus usage snapshot or
+allowance check before a worker launch. If a service limit is reached, preserve
+durable state and report the run as incomplete without changing plans or buying
+credits.
 
 Use the same EvE workspace/example selection machinery and a cap of 32
 read-only solver examples across conditions. Pin the selection code and
@@ -63,8 +64,8 @@ Each run has a **500,000,000 total reported model-token cap**, counting input
 plus output across solver and optimizer activity. Cached input remains part
 of input; do not add cache-read tokens a second time. Record cache usage
 separately. Seed evaluations consume no model tokens. All conditions use the
-same cap and accounting. The token limit is a resource bound, not a promise
-that a Plus allowance can execute the run continuously.
+same cap and accounting. The token limit is a resource bound, not a forecast of
+account-level usage.
 
 Each proposal receives at most **80 native turns and 3,600 seconds**. Zero
 automatic boundary repairs. Structural checks consume the same allowance.

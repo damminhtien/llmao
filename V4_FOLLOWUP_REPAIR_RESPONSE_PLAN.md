@@ -27,10 +27,10 @@ pilot artifacts. Do not reuse, repair, rescore, or replace any proposal.
    contract. Keep the original ten proposals, eight-valid, eight-distinct,
    macro-use, descendant-use, resource, and zero-boundary-violation gates.
 4. **Use a new contract and unused paths if a later pilot is authorized.** Pin
-   every changed source and fixture, use fresh macro-free G0, verify Plus
-   ordinary usage, zero paid credits, and no reset-credit use immediately
-   before launch. Do not continue this run or draw discovery conclusions from
-   it.
+   every changed source and fixture and use fresh macro-free G0. Do not require
+   a live Plus usage snapshot before launch. The contract must continue to
+   prohibit paid credits and rate-limit resets. Do not continue this run or draw
+   discovery conclusions from it.
 
 ## Stop point
 

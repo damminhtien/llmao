@@ -67,8 +67,9 @@ proposal is repaired, replaced, or counted as discovery evidence.
    or imported prior program, macros, guidance, or population.
 
 Run any future pilot using the ChatGPT Plus plan (not Pro) and its ordinary
-allowance. Verify the active plan and available usage before launch; pause at
-the limit without upgrading or using paid credits.
+allowance. Do not require a live Plus usage snapshot before launch. If a service
+limit is reached, preserve the run and pause without upgrading or using paid
+credits.
 
 Primary discovery remains closed until a pilot satisfies the gates and the
 final primary implementation, configuration, and canonical protocol are frozen.

@@ -51,7 +51,8 @@ expanded representations among the ten proposals. This is an additional gate;
 the original pilot is not reassessed against it.
 
 Before launch, pin the changed guidance and tooling commits, hash the follow-up
-contract, verify the Plus allowance, and validate the isolated EvE configuration.
+contract, and validate the isolated EvE configuration. A live Plus usage
+snapshot is not required before launch.
 Do not launch a new pilot until these implementation and configuration checks
 are complete. Full Phase 0 preregistration is required before Phase 12 discovery
 and primary evaluation; it is separate from an exploratory pilot contract.
@@ -172,10 +173,9 @@ parent states, artifact digest tampering, path escapes/symlinks, repeated score
 preservation, forged parent rejection, and explicit independence declarations.
 The 86 protected V3-family artifact digests remain unchanged.
 
-The launch command is `experiments/v4_launch_followup.py`, with a fresh
-`--usage-snapshot` and new `--record` path. `--validate-only` checks the frozen
-contract, source/file pins, clean evaluator/EvE checkouts, and ordinary Plus
-allowance without starting a worker. The supervisor records the owned runner
+The launch command is `experiments/v4_launch_followup.py`, with a new
+`--record` path. `--validate-only` checks the frozen contract, source/file pins,
+and clean evaluator/EvE checkouts without starting a worker. The supervisor records the owned runner
 PID and terminal status, watches EvE forbidden-change artifacts and pinned
 worker checker sources, and stops only its owned process group on a detected
 boundary failure. This operational guard does not alter the EvE algorithm or

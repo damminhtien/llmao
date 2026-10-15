@@ -63,24 +63,6 @@ def _git(checkout: Path, *arguments: str) -> str:
     ).strip()
 
 
-def _validate_usage(usage: dict) -> None:
-    checked = datetime.strptime(
-        usage["checked_at_utc"], "%Y-%m-%d %H:%M:%S UTC"
-    ).replace(tzinfo=UTC)
-    age = (datetime.now(UTC) - checked).total_seconds()
-    if not 0 <= age <= 600:
-        raise ValueError("Plus usage snapshot must be less than ten minutes old")
-    if usage["plan"] != "plus" or usage["ordinary_usage_allowed"] is not True:
-        raise ValueError("follow-up requires available ordinary ChatGPT Plus usage")
-    for key in ("five_hour_window_used_percent", "weekly_window_used_percent"):
-        if type(usage[key]) not in (int, float) or not 0 <= usage[key] < 100:
-            raise ValueError("ordinary usage must be available in both windows")
-    if usage.get("paid_credits_balance") != "0":
-        raise ValueError("follow-up may not use paid credits")
-    if usage.get("rate_limit_reset_credits_used") is not False:
-        raise ValueError("follow-up may not use rate-limit reset credits")
-
-
 def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     """Verify the independent repair contract, fixture, launcher, and G0 seed."""
     if (
@@ -117,7 +99,7 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
         or account.get("use_rate_limit_resets") is not False
         or account.get("stop_on_ordinary_rate_limit") is not True
     ):
-        raise ValueError("repair contract must remain within ordinary Plus usage")
+        raise ValueError("repair contract must retain its declared account restrictions")
     if (
         budget.get("submitted_proposals") != 10
         or budget.get("replacement_proposals") != 0
@@ -403,7 +385,6 @@ def main() -> int:
     parser.add_argument(
         "--contract", type=Path, default=DEFAULT_CONTRACT
     )
-    parser.add_argument("--usage-snapshot", type=Path, required=True)
     parser.add_argument("--record", type=Path, required=True)
     parser.add_argument("--eve-root", type=Path, default=ROOT.parent / "eve")
     parser.add_argument("--validate-only", action="store_true")
@@ -414,8 +395,6 @@ def main() -> int:
         raise ValueError("follow-up contract digest mismatch")
     contract = json.loads(content)
     _validate_repair_contract(contract, args.eve_root.resolve())
-    usage = json.loads(args.usage_snapshot.read_text())
-    _validate_usage(usage)
     launch = contract["launch"]
     checkout = Path(launch["evaluator_checkout"])
     for path, expected in (
@@ -474,7 +453,6 @@ def main() -> int:
     record = {
         "status": "launching",
         "contract_sha256": digest,
-        "usage_snapshot": usage,
         "run_root": str(run_root),
         "command": command,
     }

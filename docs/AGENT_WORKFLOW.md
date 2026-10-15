@@ -72,7 +72,7 @@ After two or more compactions in one task, checkpoint the state and start a fres
 
 ## Repository-specific continuation
 
-For LLMAO V4, use `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and `TODO.md` as the scientific contract. A pilot is not primary discovery evidence. Preserve all frozen artifacts, respect the official-test boundary, and verify live account and usage conditions immediately before any future model run.
+For LLMAO V4, use `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and `TODO.md` as the scientific contract. A pilot is not primary discovery evidence. Preserve all frozen artifacts and respect the official-test boundary. Do not require a live Plus usage check before a run; do not upgrade or use paid credits.
 
 ## V4 native worker launch and sandbox
 

@@ -53,8 +53,8 @@ wrapper, and isolated-config digests. Existing candidate probe paths are never
 overwritten. Only fixture-owned canaries are cleaned up.
 
 `experiments/v4_native_check_fixture.py` runs this gate before creating tmux or
-starting a model, then revalidates the fresh ordinary Plus-usage snapshot. Native
-tool outputs, transcripts, candidate hashes, bundle inventory, and Git status
+starting a model. It does not read or revalidate Plus account usage. Native tool
+outputs, transcripts, candidate hashes, bundle inventory, and Git status
 provide separate postconditions. An automated regression test ensures a failed
 preflight prevents worker creation.
 
@@ -71,8 +71,7 @@ run_id="sandbox-$(date -u +%Y%m%dT%H%M%SZ)"
   --evidence "results/v4/phase10_followup/native_worker_integration/$run_id.json"
 ```
 
-The native fixture additionally requires `--usage-snapshot` containing a freshly
-checked ordinary Plus allowance with zero paid-credit balance. Run it with
+The native fixture does not require a usage snapshot. Run
 `python -m experiments.v4_native_check_fixture --help` for its arguments. The
 fixture remains data-free and does not authorize a scientific launch.
 

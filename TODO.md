@@ -41,8 +41,7 @@ has run; preregistered Phase 12 discovery and primary evaluation have not.
 - [x] Clone/pin `scaling-group/eve` at a specific commit.
 - [x] Record EvE commit in `results/v4/environment.json`.
 - [x] Verify the installed Codex CLI supports the selected GPT-6 model.
-- [x] Verify ChatGPT Plus authentication using `codex` and the account usage
-  status.
+- [x] Verify ChatGPT Plus authentication using `codex`.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
 - [x] Verify `max` reasoning is available for that model using an isolated

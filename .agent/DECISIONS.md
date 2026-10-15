@@ -21,3 +21,7 @@ After two or more compactions, or when a thread repeats the same reads without c
 ## 2026-10-15 — Require the V4 native sandbox launch path
 
 Every V4 native Codex worker must use `scripts/codex-v4-sandbox` through the approved contract-backed launch or fixture entrypoint. The worker's model prompt is too late to enforce launch configuration. A passing OS-level preflight must precede a model worker; tmux provides session management, not filesystem or network isolation. Preserve failed attempts and do not infer a timeout's cause without logs.
+
+## 2026-10-15 — Remove live Plus usage gates
+
+The user confirmed sufficient resources and requested removal of Plus usage checks. Launchers, fixtures, and active run guidance must not require account-usage snapshots or allowance checks. Keep the existing restrictions against plan upgrades, paid credits, and rate-limit resets, and preserve completed-run usage snapshots as historical evidence.

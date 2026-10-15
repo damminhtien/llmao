@@ -11,7 +11,6 @@ import runpy
 import shutil
 import subprocess
 import sys
-from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -30,36 +29,6 @@ def _sha256(path: Path) -> str:
 def _write_json(path: Path, value: object) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(value, indent=2, sort_keys=True) + "\n")
-
-
-def _validate_usage(snapshot: dict) -> None:
-    timestamp = snapshot.get("checked_at_utc")
-    try:
-        if isinstance(timestamp, str) and timestamp.endswith(" UTC"):
-            checked_at = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S UTC").replace(
-                tzinfo=UTC
-            )
-        elif isinstance(timestamp, str):
-            checked_at = datetime.fromisoformat(timestamp)
-        else:
-            raise ValueError("timestamp must be a string")
-    except ValueError as exc:
-        raise ValueError("usage timestamp must be a UTC ISO 8601 value") from exc
-    if checked_at.tzinfo is None or checked_at.utcoffset() != UTC.utcoffset(checked_at):
-        raise ValueError("usage timestamp must include a UTC timezone")
-    checked_at = checked_at.astimezone(UTC)
-    age = (datetime.now(UTC) - checked_at).total_seconds()
-    if not 0 <= age <= 600:
-        raise ValueError("Plus usage snapshot must be less than ten minutes old")
-    if (
-        snapshot.get("plan") != "plus"
-        or snapshot.get("ordinary_usage_allowed") is not True
-    ):
-        raise ValueError("fixture requires available ordinary ChatGPT Plus usage")
-    if snapshot.get("paid_credits_balance") != "0":
-        raise ValueError("fixture must run without paid credits")
-    if snapshot.get("rate_limit_reset_credits_used") is not False:
-        raise ValueError("fixture must run without rate-limit reset credits")
 
 
 def _run_git(workspace: Path, *args: str) -> str:
@@ -341,16 +310,13 @@ def _build_workspace(workspace: Path, run_id: str) -> dict:
     }
 
 
-def run_fixture(run_id: str, usage_path: Path, workspace: Path, evidence: Path) -> dict:
+def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", run_id):
         raise ValueError(
             "run id must contain only letters, digits, hyphens, and underscores"
         )
-    usage_path = usage_path.expanduser().absolute()
     workspace = workspace.expanduser().absolute()
     evidence = evidence.expanduser().absolute()
-    usage = json.loads(usage_path.read_text(encoding="utf-8"))
-    _validate_usage(usage)
     if not workspace.is_relative_to(FIXTURE_CACHE) or workspace.exists():
         raise ValueError(
             "workspace must be a new fixture under the dedicated cache root"
@@ -370,14 +336,12 @@ def run_fixture(run_id: str, usage_path: Path, workspace: Path, evidence: Path) 
         raise ValueError("unique outside-read probe path unexpectedly exists")
 
     evidence.mkdir(parents=True)
-    _write_json(evidence / "plus_usage_snapshot.json", usage)
     workspace_info = _build_workspace(workspace, run_id)
     from experiments.v4_sandbox_preflight import run_preflight
 
     preflight = run_preflight(workspace, evidence / "sandbox_preflight.json")
     if not preflight["passed"]:
         raise RuntimeError("sandbox preflight failed; native worker was not started")
-    _validate_usage(json.loads(usage_path.read_text(encoding="utf-8")))
     (evidence / "initial_prompt.md").write_text(
         _fixture_instruction(workspace_info["probe_name"]), encoding="utf-8"
     )
@@ -533,7 +497,6 @@ def run_fixture(run_id: str, usage_path: Path, workspace: Path, evidence: Path) 
         "schema_version": 1,
         "run_id": run_id,
         "purpose": "data-free native structural checker and workspace-only filesystem verification",
-        "plan": usage["plan"],
         "model": "gpt-6-luna",
         "reasoning_effort": "max",
         "sandbox": {
@@ -579,13 +542,10 @@ def run_fixture(run_id: str, usage_path: Path, workspace: Path, evidence: Path) 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--run-id", required=True)
-    parser.add_argument("--usage-snapshot", required=True, type=Path)
     parser.add_argument("--workspace", required=True, type=Path)
     parser.add_argument("--evidence", required=True, type=Path)
     args = parser.parse_args()
-    result = run_fixture(
-        args.run_id, args.usage_snapshot, args.workspace, args.evidence
-    )
+    result = run_fixture(args.run_id, args.workspace, args.evidence)
     print(
         json.dumps(
             {

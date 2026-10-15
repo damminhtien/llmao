@@ -170,7 +170,6 @@ def collect(
         "execution.json",
         "evaluator_source_snapshot.json",
         "configuration_validation.json",
-        "prelaunch_usage.json",
         "collector_contract_pinned.py",
         contract_path.with_suffix(".sha256").name,
     ):

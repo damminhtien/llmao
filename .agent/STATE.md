@@ -20,7 +20,7 @@ Updated: 2026-10-15
 1. Read `V4_FOLLOWUP_REPAIR_REPORT.md` and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`; keep the archived run immutable.
 2. Clarify that `parent_language_hash` must equal the selected prefill's `lineage_state.json["language_hash"]`, then add a data-free context-construction check for that handoff.
 3. Reproduce two sequential native driver launches in a data-free fixture, capture the exact `tmux respawn-pane` failure details, and require one JSONL transcript per invocation before considering another pilot.
-4. Do not launch another scientific pilot automatically. A later run needs all response-plan gates, a new contract, unused paths, and fresh ordinary-allowance verification.
+4. Do not launch another scientific pilot automatically. A later run needs all response-plan gates, a new contract, and unused paths; no live Plus usage check is required.
 5. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
 
 ## Known issues
@@ -37,4 +37,4 @@ Updated: 2026-10-15
 - The data-free native fixture passed all 21 preflight and 15 native checks. The failed pilot archive has 211 manifest-referenced records whose sizes and SHA-256 hashes were verified.
 - For M1, correct the exact lineage handoff and resolve sequential tmux launch plus transcript capture in a data-free fixture before freezing another pilot contract.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
-- Recheck live account, allowance, usage, run estimate, and cleanup reserve immediately before any future model run; stop at the ordinary allowance limit.
+- The user confirmed sufficient resources. Do not require a live Plus usage snapshot or allowance check; retain the no-upgrade/no-paid-credit policy.

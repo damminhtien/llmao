@@ -79,12 +79,10 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
     result_path = evidence_root / "result.json"
     preflight_path = evidence_root / "sandbox_preflight.json"
     transcript_path = evidence_root / "native_transcript.jsonl"
-    usage_path = evidence_root / "plus_usage_snapshot.json"
     paths = {
         "result.json": result_path,
         "sandbox_preflight.json": preflight_path,
         "native_transcript.jsonl": transcript_path,
-        "plus_usage_snapshot.json": usage_path,
         "structural_check/manifest.json": evidence_root
         / "structural_check/manifest.json",
     }
@@ -94,13 +92,6 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
 
     result = json.loads(result_path.read_text())
     preflight = json.loads(preflight_path.read_text())
-    usage = json.loads(usage_path.read_text())
-    if usage.get("plan") != "plus" or usage.get("ordinary_usage_allowed") is not True:
-        raise ValueError("native fixture did not use ordinary Plus allowance")
-    if usage.get("paid_credits_balance") != "0":
-        raise ValueError("native fixture snapshot shows paid credits")
-    if usage.get("rate_limit_reset_credits_used") is not False:
-        raise ValueError("native fixture snapshot used rate-limit reset credits")
     if result.get("preflight", {}).get("contract_sha256") != old_contract_digest:
         raise ValueError("native fixture structural source was not bound to the old contract")
     if (

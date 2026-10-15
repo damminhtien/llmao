@@ -1,57 +1,13 @@
-"""The follow-up supervisor checks ordinary Plus usage and immutable sources."""
+"""The follow-up supervisor checks pinned sources and protected boundaries."""
 
 import hashlib
 import json
 import runpy
-from datetime import UTC, datetime, timedelta
 from pathlib import Path
-
-import pytest
 
 MODULE = runpy.run_path(
     str(Path(__file__).resolve().parents[2] / "experiments/v4_launch_followup.py")
 )
-
-
-def _usage() -> dict:
-    return {
-        "checked_at_utc": datetime.now(UTC).strftime("%Y-%m-%d %H:%M:%S UTC"),
-        "plan": "plus",
-        "ordinary_usage_allowed": True,
-        "five_hour_window_used_percent": 39,
-        "weekly_window_used_percent": 23,
-        "paid_credits_balance": "0",
-        "rate_limit_reset_credits_used": False,
-    }
-
-
-@pytest.mark.parametrize(
-    "key,value",
-    [
-        ("plan", "pro"),
-        ("ordinary_usage_allowed", False),
-        ("ordinary_usage_allowed", 1),
-        ("five_hour_window_used_percent", 100),
-        ("weekly_window_used_percent", None),
-        ("paid_credits_balance", "10"),
-        ("rate_limit_reset_credits_used", True),
-    ],
-)
-def test_usage_rejects_unavailable_or_wrong_plan(key, value) -> None:
-    usage = _usage()
-    usage[key] = value
-    with pytest.raises(ValueError):
-        MODULE["_validate_usage"](usage)
-
-
-def test_usage_requires_a_fresh_plus_snapshot() -> None:
-    usage = _usage()
-    MODULE["_validate_usage"](usage)
-    usage["checked_at_utc"] = (datetime.now(UTC) - timedelta(minutes=11)).strftime(
-        "%Y-%m-%d %H:%M:%S UTC"
-    )
-    with pytest.raises(ValueError, match="ten minutes"):
-        MODULE["_validate_usage"](usage)
 
 
 def test_boundary_monitor_waits_for_materialization_then_checks_sources(
