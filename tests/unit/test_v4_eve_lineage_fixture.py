@@ -1,6 +1,7 @@
 import json
 
 from experiments.v4_eve_lineage_fixture import (
+    _apply_primary_fixture_config,
     _language_only_preflight_passed,
     _render_lineage_fixture_prompt,
     _write_fixture_manifest,
@@ -60,3 +61,21 @@ def test_lineage_fixture_prompt_only_requests_the_selected_parent_handoff():
     assert "Keep `solver/candidate/program.json` byte-for-byte identical" in prompt
     assert "Do not read data, run a model evaluator, change the program" in prompt
     assert "solver_examples/selected-prefill/" in prompt
+
+
+def test_primary_fixture_config_uses_mapping_key_for_workers_items(tmp_path):
+    config = {
+        "application": {"path": "old-task"},
+        "optimizer": {"workers": {"items": [{"immutable": "old-bundle"}]}},
+    }
+
+    _apply_primary_fixture_config(
+        config,
+        task_root=tmp_path / "task",
+        immutable_root=tmp_path / "bundle",
+    )
+
+    assert config["application"]["path"] == str(tmp_path / "task")
+    assert config["optimizer"]["workers"]["items"][0]["immutable"] == str(
+        tmp_path / "bundle"
+    )

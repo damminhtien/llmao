@@ -16,25 +16,29 @@ Updated: 2026-10-15
 - **M2 — Final preregistration and implementation pins.** M1 is complete and
   the scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. The
   primary evaluator, discovery runner, five-seed lineage collector, source
-  pins, and contract tooling are implemented. The canonical primary protocol
-  and Phase 12 launch evidence still need to be frozen and validated.
+  pins, and contract tooling are implemented. Protocol v1 and its passing
+  sandbox preflight were retained after the native fixture exposed a startup
+  configuration-key bug before workspace creation or any model/data access.
+  The fix is committed; protocol v2 and fresh v2 launch evidence remain to be
+  frozen and validated.
 
 ## Next
 
-1. Finish source review, targeted validation, and the focused implementation
-   commit.
-2. Generate the versioned primary protocol with implementation/configuration
-   hashes and the common initial-program digest; keep the historical pilot
-   protocol unchanged.
-3. Pass the 21-check sandbox preflight and the Phase 12 native lineage fixture,
-   freeze one contract for each preregistered seed, and run all contracts in
-   validate-only mode before launch.
+1. Preserve protocol v1 and its evidence as a prelaunch superseded record.
+2. Generate versioned protocol v2 with implementation/configuration hashes,
+   its common initial-program digest, and an explicit supersedes link.
+3. Pass fresh v2 sandbox and native-fixture gates, freeze one contract for
+   each preregistered seed, and validate all contracts before launch.
 
 ## Known issues and boundaries
 
 - Earlier Phase 10 attempts and contract `-02` remain failed exploratory evidence; contract `-03` remains a pre-worker startup failure. Contract `-04` does not replace or rewrite them.
 - Pilot `-04` emitted nonfatal macOS `xcode-select` errors from worker `git status`/`git diff` calls and denied shell here-document temporary-file attempts. Candidate completion patches remained limited to the two permitted files, and the runtime boundary scan passed. Preserve this environment diagnostic if worker inspection changes are made.
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
+- Protocol v1 digest `ac70e832f6475f134f390bf2ac8fb64ea0814becbb71380d46277db56f4200c4`
+  is retained with its passing preflight. The native fixture failed before
+  creating an output/cache workspace because OmegaConf's `.items` method
+  shadowed the config key; no worker/model call or dataset access occurred.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
@@ -49,5 +53,5 @@ Updated: 2026-10-15
 - The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
-  148 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+  152 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.

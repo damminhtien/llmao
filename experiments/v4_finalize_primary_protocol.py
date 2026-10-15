@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
@@ -65,7 +66,35 @@ def _require_clean_commits() -> tuple[str, str]:
     return git_value(ROOT, "rev-parse", "HEAD"), git_value(EVE_ROOT, "rev-parse", "HEAD")
 
 
-def finalize_protocol(destination: Path) -> dict[str, Any]:
+def _supersedes_record(path: Path, *, root: Path = ROOT) -> dict[str, str]:
+    root = root.resolve(strict=True)
+    source = Path(path)
+    if not source.is_absolute():
+        source = root / source
+    source = source.resolve(strict=True)
+    if root not in source.parents:
+        raise ValueError("superseded protocol must be inside the repository")
+    raw = source.read_bytes()
+    digest = hashlib.sha256(raw).hexdigest()
+    sidecar = source.with_suffix(source.suffix + ".sha256")
+    fields = sidecar.read_text(encoding="utf-8").split()
+    if not fields or fields[0] != digest:
+        raise ValueError("superseded protocol digest does not verify")
+    previous = json.loads(raw)
+    version = previous.get("version")
+    if previous.get("status") != "finalized_primary" or not isinstance(version, str):
+        raise ValueError("superseded protocol is not a finalized primary protocol")
+    return {"path": source.relative_to(root).as_posix(), "version": version, "sha256": digest}
+
+
+def finalize_protocol(
+    destination: Path,
+    *,
+    version: str = "v4-primary-1",
+    supersedes: Path | None = None,
+) -> dict[str, Any]:
+    if not re.fullmatch(r"v4-primary-[1-9][0-9]*", version):
+        raise ValueError("primary protocol version must look like v4-primary-N")
     llmao_commit, eve_commit = _require_clean_commits()
     historical_path = ROOT / "results/v4/protocol.json"
     historical_sha = sha256_file(historical_path)
@@ -80,7 +109,7 @@ def finalize_protocol(destination: Path) -> dict[str, Any]:
     protocol = json.loads(historical_path.read_text(encoding="utf-8"))
     protocol.update(
         status="finalized_primary",
-        version="v4-primary-1",
+        version=version,
         finalized_at_utc=datetime.now(UTC).isoformat(),
         historical_pilot_protocol={
             "path": "results/v4/protocol.json",
@@ -235,6 +264,8 @@ def finalize_protocol(destination: Path) -> dict[str, Any]:
         },
         source_pins=_source_pins(),
     )
+    if supersedes is not None:
+        protocol["supersedes"] = _supersedes_record(supersedes)
     protocol["primary_design"].update(
         {
             "source_pins_sha256": hashlib.sha256(
@@ -263,8 +294,15 @@ def main() -> int:
         type=Path,
         default=ROOT / "results/v4/primary_protocol.json",
     )
+    parser.add_argument("--version", default="v4-primary-1")
+    parser.add_argument("--supersedes", type=Path)
     args = parser.parse_args()
-    print(json.dumps(finalize_protocol(args.output), sort_keys=True))
+    print(
+        json.dumps(
+            finalize_protocol(args.output, version=args.version, supersedes=args.supersedes),
+            sort_keys=True,
+        )
+    )
     return 0
 
 

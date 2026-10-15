@@ -231,6 +231,14 @@ def _load_pinned_config(contract_path: Path, eve_root: Path) -> tuple[dict, Any]
     return contract, config
 
 
+def _apply_primary_fixture_config(
+    config: Any, *, task_root: Path, immutable_root: Path
+) -> None:
+    """Override primary fixture paths through mapping keys, including `items`."""
+    config["application"]["path"] = str(task_root)
+    config["optimizer"]["workers"]["items"][0]["immutable"] = str(immutable_root)
+
+
 def _verify_tmux_failure_capture(output: Path, eve_root: Path) -> dict[str, Any]:
     """Make a fake tmux fail once and verify exact subprocess evidence is captured."""
     eve_src = str(eve_root / "src")
@@ -715,8 +723,11 @@ def run_fixture(
             raise ValueError("primary checker bundle source commit differs from LLMAO")
         if bundle_manifest.get("protocol_sha256") != _sha256(resolved_protocol):
             raise ValueError("primary checker bundle protocol digest differs")
-        config.application.path = str(ROOT / "configs/v4/phase12_primary/task")
-        config.optimizer.workers.items[0].immutable = str(checker_bundle_path.parent)
+        _apply_primary_fixture_config(
+            config,
+            task_root=ROOT / "configs/v4/phase12_primary/task",
+            immutable_root=checker_bundle_path.parent,
+        )
         reference = ROOT / "configs/v4/phase12_primary/task/g0_reference.json"
         immutable_reference = checker_bundle_path.parent / "g0_reference.json"
         if immutable_reference.exists() and _sha256(immutable_reference) != _sha256(reference):
