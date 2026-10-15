@@ -30,9 +30,8 @@ Do not edit, rescore, replace, or discard its ten proposals.
    and archive paths.
 5. **Freeze a new contract only after the data-free gates pass.** Pin all
    changed source, runtime, sandbox, prompt, fixture, and archive evidence.
-   Do not launch another pilot automatically from this response plan. No live
-   Plus usage snapshot or allowance check is required; keep the prohibition on
-   paid credits, plan upgrades, and rate-limit resets.
+   Do not launch another pilot automatically from this response plan. Keep the
+   prohibition on paid credits, plan upgrades, and rate-limit resets.
 
 ## Stop point
 

@@ -574,17 +574,16 @@ Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` is now frozen at SHA-256
 `17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6` and passed
 `--validate-only`. It pins the -03 pre-worker failure, all 208 records of the
 failed -02 archive, the 21-check native preflight, 44 native checks, and the
-real-runner fixture. The contract has no current account or usage snapshot
-artifact requirement. M1 remains active until its ten-proposal pilot passes all
-gates and is archived; this exploratory result cannot count as Phase 12 evidence.
+real-runner fixture. At contract freeze, M1 remained active pending this
+ten-proposal pilot; the result cannot count as Phase 12 evidence.
 
 - [x] Preserve all ten submissions, driver artifacts, evaluation failures,
   telemetry, contract, and data-free fixture in the finalized archive.
 - [x] Mark the run failed regardless of runner exit code 0; keep it exploratory
   feasibility evidence only.
-- [ ] Trace the selected-prefill handoff through a data-free fixture using the
+- [x] Trace the selected-prefill handoff through a data-free fixture using the
   actual EvE runner and capture one worker JSONL transcript per invocation.
-- [ ] Capture exact tmux command, exit code, stdout, and stderr on a failed
+- [x] Capture exact tmux command, exit code, stdout, and stderr on a failed
   `respawn-pane` before freezing another contract.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
@@ -599,6 +598,42 @@ language's own `parent_language_hash` or `base_language_hash`. The EvE prefill
 entry ID remains a separate field for audit.
 
 ---
+
+### Follow-up repair pilot 20261015-04 — passed exploratory gates
+
+The contract-frozen run completed its ten proposal slots without replacements
+and exited normally. The gate audit passed: 10/10 valid stage-one proposals,
+10 distinct expanded-program hashes, 10/10 selected-prefill lineage links,
+all three introduced macros used by their introducers, and the inherited
+`path_length_histogram` macro used by descendants in iterations 5, 8, and 10.
+Maximum expansion was depth 6, 31 nodes, and 44 features. All ten proposals
+have one parseable native JSONL transcript. The runtime monitor observed ten
+structural bundles, no tmux failure, no fresh-G0 mismatch, and no protected
+boundary violation. The archived completion patches list only the two
+permitted candidate files.
+
+The immutable exploratory archive is
+`results/v4/phase10_followup/archive/repair_followup_20261015-04/`. Its final
+manifest SHA-256 is
+`d135dbf93ba84ed255c5b9f5c235253e9d50c3cbd708eb324430e9700b741e6b`; the
+gate-audit JSON SHA-256 is
+`d9ebea417087d2d4d8a321fc2f07af0b99fd818bd56ad50225b59df201e75612`.
+The original collector manifest is separately preserved as
+`collection_manifest.json`. All 257 collector-referenced records passed hash
+and size verification before finalization. Full findings are in
+`V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md`.
+
+The run used only the draft V3.2 stage-one evaluator; every score has
+`discovery_ready=false`. It produced no discovery fitness or official-test
+result and remains exploratory feasibility evidence only. The historical
+failed pilots and the pre-worker -03 startup failure remain unchanged.
+
+- [x] Complete the separately frozen ten-proposal pilot without replacements.
+- [x] Audit validity, expanded-program uniqueness, lineage, macro use, resource
+  limits, transcripts, tmux evidence, and protected boundaries.
+- [x] Preserve the original collector manifest and finalized gate-audit
+  manifest with SHA-256 sidecars.
+- [x] Mark M1 complete without promoting the pilot to discovery evidence.
 
 # Phase 11 — Add language lineage archive
 

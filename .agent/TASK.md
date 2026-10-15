@@ -9,7 +9,7 @@ Complete the LLMAO V4 research program through its preregistered discovery, eval
 - Bind verified source, launcher, runtime, sandbox policy, preflight, and initial-program digests into each new contract before launch.
 - Do not access official test data before the frozen-language evaluation gate in the protocol.
 - Preserve frozen V3, V3.1, and V3.2 artifacts and their conclusions.
-- Use the authorized account without a live Plus usage check before runs. Do not upgrade or use paid credits.
+- Do not upgrade or use paid credits.
 - Report fixture, smoke, exploratory, partial, and primary evidence as distinct levels of evidence.
 
 # Acceptance

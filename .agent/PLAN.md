@@ -8,8 +8,8 @@ The detailed requirements remain in `TODO.md`. Each milestone below ends at an i
 
 ## M1 — Respond to the failed exploratory follow-up
 
-**Status: active.** The 2026-10-15 repair attempt failed; follow
-`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md` and retain its archive unchanged.
+**Status: complete.** Earlier repair attempts remain failed and immutable; the
+documented response and separately contracted 20261015-04 pilot are complete.
 
 - Clarify Scalar/Vector contracts and require genuine inherited-macro use by a descendant.
 - Make checker failure guidance explicit; workers must report infrastructure failure and stay within the original proposal budget. Do not create environments or modify files outside the candidate boundary.
@@ -47,7 +47,6 @@ Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` is frozen at SHA-256
 fixture and both immutable failed archives. Freezing and validation launched no
 worker. The passing fixture does not reproduce the original pilot's nine
 `tmux respawn-pane` failures; retain those as failed historical evidence. No
-live Plus usage check is required or performed.
 
 The separately contracted pilot then ran ten proposals with no replacements
 and failed 0/10 candidate-context validations. All ten candidates retained
@@ -62,19 +61,25 @@ Details and new required data-free checks are in
 `V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md` and
 `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md`.
 
-M1 remains active. Fixture `20261015-real-runner-lineage-04` now passes through
+M1 is complete after pilot `20261015-04` passed the separately contracted
+exploratory gates. Fixture `20261015-real-runner-lineage-04` passes through
 the real EvE runner with seven lineage/context gates, a hashed JSONL transcript,
 a strict language-only sandbox probe, and a successful tmux stdout/stderr capture
 probe. Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` passed
 `--validate-only` and pins both the immutable failed -02 pilot archive and the
 pre-worker Hydra startup failure from contract -03. The -03 attempt created no
-run directory or worker proposals. Next, run contract -04's original
-ten-proposal budget and audit every transcript and boundary result. Do not reuse
-proposals from either failed scientific pilot.
+run directory or worker proposals. Pilot -04 completed its original
+ten-proposal budget without replacements and passed the gate audit in
+`V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md`. Its archive manifest SHA-256 is
+`d135dbf93ba84ed255c5b9f5c235253e9d50c3cbd708eb324430e9700b741e6b`; the
+result remains exploratory feasibility evidence only.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 
 ## M2 — Final preregistration and implementation pins
+
+**Status: active.** Resolve the remaining Phase 0 decisions and freeze the
+canonical V4 protocol before Phase 12 discovery.
 
 Resolve every remaining Phase 0 decision. Integrate the primary design, objective, budgets, seed set, source/configuration pins, common initial-program digest, resume/failure rules, and analysis requirements into a versioned canonical protocol.
 
