@@ -2,9 +2,54 @@
 
 from __future__ import annotations
 
+import subprocess
+
 import pytest
 
-from experiments.v4_native_check_fixture import _verify_native_outputs
+from experiments.v4_native_check_fixture import (
+    _failure_details,
+    _uses_pinned_native_command,
+    _verify_native_outputs,
+)
+
+
+def test_failure_details_preserves_tmux_exit_evidence() -> None:
+    error = subprocess.CalledProcessError(
+        1,
+        ["tmux", "respawn-pane", "-t", "%4"],
+        output="tmux stdout",
+        stderr="can't find pane: %4",
+    )
+
+    details = _failure_details(error)
+
+    assert details["command"] == error.cmd
+    assert details["return_code"] == 1
+    assert details["stdout"] == "tmux stdout"
+    assert details["stderr"] == "can't find pane: %4"
+
+
+def test_native_command_requires_wrapper_and_workspace_scope(tmp_path) -> None:
+    from experiments.v4_native_check_fixture import ROOT
+
+    workspace = tmp_path / "workspace"
+    wrapper = str((ROOT / "scripts/codex-v4-sandbox").resolve())
+    invocation = {
+        "native_driver_execution": {
+            "command": [
+                wrapper,
+                "--no-alt-screen",
+                "-s",
+                "workspace-write",
+                "-C",
+                str(workspace),
+            ]
+        }
+    }
+
+    assert _uses_pinned_native_command(invocation, workspace)
+    invocation["native_driver_execution"]["command"][0] = "codex"
+    assert not _uses_pinned_native_command(invocation, workspace)
 
 
 def test_native_fixture_requires_all_structural_and_sandbox_checks() -> None:

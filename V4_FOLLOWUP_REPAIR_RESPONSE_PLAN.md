@@ -32,6 +32,47 @@ pilot artifacts. Do not reuse, repair, rescore, or replace any proposal.
    prohibit paid credits and rate-limit resets. Do not continue this run or draw
    discovery conclusions from it.
 
+## Data-free response evidence — 2026-10-15
+
+- The worker instructions now copy
+  `selected_prefill/logs/evaluate/lineage_state.json["language_hash"]` exactly.
+  The focused data-free context check passes for the matching parent and rejects
+  the G0 seed's older `parent_language_hash`.
+- Fixture `20261015-native-sequential-03` passes all 21 no-model preflight
+  checks and all 44 native postconditions. One fixture-created tmux session,
+  one pane, and one `CodexTmuxSessionDriver` instance served two sequential
+  native launches. Each launch used the workspace-only wrapper and the pinned
+  system-prompt-file route, produced its own JSONL transcript, passed the
+  checker and denial probes, and left candidate/workspace files unchanged.
+- The contract-fixture validator accepts the result and independently checks
+  transcript hashes and tool-call summaries. Result SHA-256 is
+  `131c032afae48aee8dc30c076be8315f215327f60d5eb10677dd247b4fc4f5f8`;
+  preflight SHA-256 is
+  `0ac56dfb6779c6ac3d968b944c62237fba7fde578b1e3cbdcad0bbcca6a95069`.
+  Transcript SHA-256 values are `72676b37badefad74a81b1eb9d51d5b67b876480b937eebdc2a5b0074e67926e`
+  and `27f0cd07d3b63cb70cca94b847fc7714e700b9e9edeefc6556ecabe6f5fa32a2`.
+- Setup attempt `20261015-native-sequential-01` used direct-file invocation
+  instead of the documented `python -m` form; it stopped before preflight and
+  did not create a native worker. Its `setup_failure.json` is retained with
+  SHA-256 `cba8949828e79d3ea87bdeba7095cf8a0e2f3aa95fbbd25b12866f04dd5253b2`.
+- Attempt `20261015-native-sequential-02` passed preflight but exposed that the
+  wrapper allowed only the production prompt path. Inspection of the exact
+  launch command and wrapper allowlist diagnosed rejection of the fixture's
+  separate prompt; the wrapper's error text was not captured. No JSONL
+  transcript was created and the detached tmux session disappeared. The result
+  and both invocation failure records remain preserved. The wrapper now accepts
+  only a workspace copy whose bytes
+  match the checked-in data-free fixture prompt; arbitrary prompt overrides
+  remain rejected. The successful sequential fixture above uses that exact
+  route. No `respawn-pane` error occurred in the passing fixture, so it supplies
+  no new stderr for the original failed pilot's nine `respawn-pane` failures;
+  those historical failures remain unchanged.
+- Before a later contract is frozen, the freezer now verifies the previous
+  repair contract and rehashes all 211 records in its failed archive, in
+  addition to the 218 records in the earlier follow-up archive. It pins both
+  failure histories and the passing fixture. This remains fixture and audit
+  evidence only; it is not a scientific pilot result.
+
 ## Stop point
 
 This plan records the failure and the work required to make another run

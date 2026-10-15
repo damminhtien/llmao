@@ -12,11 +12,60 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+PRIOR_REPAIR_ARCHIVE_MANIFEST = (
+    ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json"
+)
 
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _verify_sha256_sidecar(path: Path) -> str:
+    sidecar = path.with_suffix(".sha256")
+    if (
+        path.is_symlink()
+        or not path.is_file()
+        or sidecar.is_symlink()
+        or not sidecar.is_file()
+    ):
+        raise ValueError(f"historical artifact or SHA-256 sidecar is missing: {path}")
+    digest = _sha256(path)
+    if digest != sidecar.read_text(encoding="ascii").split()[0]:
+        raise ValueError(f"historical artifact digest changed: {path}")
+    return digest
+
+
+def _verify_manifest_records(value: object) -> int:
+    checked = 0
+    if isinstance(value, dict):
+        if {"path", "sha256", "size_bytes"} <= value.keys():
+            relative = Path(str(value["path"]))
+            path = ROOT / relative
+            resolved = path.resolve(strict=False)
+            if (
+                relative.is_absolute()
+                or ".." in relative.parts
+                or not resolved.is_relative_to(ROOT.resolve())
+                or path.is_symlink()
+                or not resolved.is_file()
+            ):
+                raise ValueError(f"protected prior artifact is missing: {path}")
+            content = resolved.read_bytes()
+            if (
+                len(content) != value["size_bytes"]
+                or hashlib.sha256(content).hexdigest() != value["sha256"]
+            ):
+                raise ValueError(f"protected prior artifact changed: {path}")
+            return 1
+        for child in value.values():
+            checked += _verify_manifest_records(child)
+    elif isinstance(value, list):
+        for child in value:
+            checked += _verify_manifest_records(child)
+    return checked
 
 
 def _runtime_snapshot(python_entrypoint: Path) -> dict:
@@ -63,10 +112,17 @@ def _git(checkout: Path, *arguments: str) -> str:
     ).strip()
 
 
+def _has_command_pair(command: list[str], option: str, value: str) -> bool:
+    return any(
+        command[index] == option and command[index + 1] == value
+        for index in range(len(command) - 1)
+    )
+
+
 def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     """Verify the independent repair contract, fixture, launcher, and G0 seed."""
     if (
-        contract.get("schema_version") != 2
+        contract.get("schema_version") != 3
         or contract.get("phase") != "10_followup_boundary_repair"
         or contract.get("status") != "frozen_before_repair_launch"
     ):
@@ -85,6 +141,24 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
         if _sha256(path) != expected:
             raise ValueError(f"pinned host source changed: {relative}")
 
+    prior_repair_digest = _verify_sha256_sidecar(PRIOR_REPAIR_CONTRACT)
+    prior_repair_manifest_digest = _verify_sha256_sidecar(
+        PRIOR_REPAIR_ARCHIVE_MANIFEST
+    )
+    prior_repair_manifest = json.loads(PRIOR_REPAIR_ARCHIVE_MANIFEST.read_text())
+    prior_repair_record_count = _verify_manifest_records(prior_repair_manifest)
+    if (
+        source_pins.get("previous_repair_contract_sha256") != prior_repair_digest
+        or source_pins.get("previous_repair_archive_manifest_sha256")
+        != prior_repair_manifest_digest
+        or source_pins.get("previous_repair_archive_records_verified")
+        != prior_repair_record_count
+        or prior_repair_record_count != 211
+        or prior_repair_manifest.get("phase") != 10
+        or prior_repair_manifest.get("pilot_status") != "failed"
+    ):
+        raise ValueError("the previous failed repair archive no longer matches its pins")
+
     prompt_path = str((ROOT / "configs/v4/phase10_followup_worker.md").resolve())
     wrapper_path = str((ROOT / "scripts/codex-v4-sandbox").resolve())
     launch = contract["launch"]
@@ -94,6 +168,7 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     initialization = contract["initialization"]
     if (
         account.get("required_plan") != "ChatGPT Plus"
+        or "verify_before_worker_launch" in account
         or account.get("use_ordinary_codex_allowance_only") is not True
         or account.get("use_paid_credits") is not False
         or account.get("use_rate_limit_resets") is not False
@@ -220,6 +295,10 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
         raise ValueError("worker bundle does not pin the current project runtime")
 
     fixture = contract["native_fixture_evidence"]
+    if fixture.get("worker_prompt_source_sha256") != source_pins[
+        "host_files_sha256"
+    ].get("configs/v4/native_fixture_worker.md"):
+        raise ValueError("native fixture worker prompt source differs from its pin")
     evidence_root = Path(fixture["directory"])
     evidence_paths = {
         name: evidence_root / name for name in fixture["files_sha256"]
@@ -264,10 +343,85 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
         or result.get("candidate_contents_unchanged") is not True
     ):
         raise ValueError("native worker verification or workspace audit failed")
-    if result.get("transcript_sha256") != fixture["files_sha256"][
-        "native_transcript.jsonl"
-    ]:
-        raise ValueError("native transcript digest differs from the fixture report")
+    invocations = result.get("native_invocations")
+    lifecycle = result.get("native_run_lifecycle")
+    session_cleanup = lifecycle.get("session_cleanup") if isinstance(lifecycle, dict) else None
+    transcript_names = {
+        name
+        for name in fixture["files_sha256"]
+        if name.startswith("native_transcripts/") and name.endswith(".jsonl")
+    }
+    if (
+        not isinstance(invocations, list)
+        or len(invocations) != 2
+        or not isinstance(lifecycle, dict)
+        or lifecycle.get("session_created_by") != "fixture"
+        or not isinstance(lifecycle.get("session_name"), str)
+        or lifecycle.get("session_create_command")
+        != [
+            "tmux",
+            "new-session",
+            "-d",
+            "-s",
+            lifecycle.get("session_name"),
+            "-c",
+            str(Path(result["workspace"]).resolve()),
+            "-P",
+            "-F",
+            "#{pane_id}",
+        ]
+        or lifecycle.get("driver_class") != "CodexTmuxSessionDriver"
+        or lifecycle.get("driver_instance_count") != 1
+        or lifecycle.get("requested_invocations") != 2
+        or not isinstance(session_cleanup, dict)
+        or session_cleanup.get("command")
+        != ["tmux", "kill-session", "-t", lifecycle.get("session_name")]
+        or session_cleanup.get("return_code") != 0
+    ):
+        raise ValueError("native fixture does not prove two sequential driver launches")
+    reported_transcripts = set()
+    for expected_number, invocation in enumerate(invocations, start=1):
+        name = invocation.get("transcript")
+        reported_transcripts.add(name)
+        execution = invocation.get("native_driver_execution", {})
+        command = execution.get("command") if isinstance(execution, dict) else None
+        system_prompt = lifecycle.get("system_prompt_file")
+        workspace_path = str(Path(result["workspace"]).resolve())
+        if (
+            invocation.get("invocation") != expected_number
+            or invocation.get("status") != "completed"
+            or invocation.get("pane_id") != lifecycle.get("pane_id")
+            or invocation.get("pane_id_before") != lifecycle.get("pane_id")
+            or invocation.get("pane_id_after") != lifecycle.get("pane_id")
+            or invocation.get("verification", {}).get("passed") is not True
+            or not all(
+                invocation.get("verification", {}).get("checks", {}).values()
+            )
+            or not isinstance(name, str)
+            or name not in transcript_names
+            or fixture["files_sha256"].get(name)
+            != invocation.get("transcript_sha256")
+            or not isinstance(command, list)
+            or not command
+            or not all(isinstance(argument, str) for argument in command)
+            or command[0] != wrapper_path
+            or system_prompt
+            != str(Path(workspace_path) / "native_system_prompt.md")
+            or not _has_command_pair(command, "-s", "workspace-write")
+            or not _has_command_pair(command, "-C", workspace_path)
+            or not any(
+                isinstance(argument, str)
+                and "model_instructions_file=" in argument
+                and isinstance(system_prompt, str)
+                and system_prompt in argument
+                for argument in command
+            )
+        ):
+            raise ValueError(
+                "native fixture transcript, pane reuse, or sandbox command changed"
+            )
+    if reported_transcripts != transcript_names or len(transcript_names) != 2:
+        raise ValueError("native fixture must pin one transcript per invocation")
     runtime = contract["runtime"]
     if (
         fixture.get("runtime_sha256") != runtime.get("sha256")

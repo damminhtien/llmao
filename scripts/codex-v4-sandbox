@@ -15,6 +15,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MODEL_INSTRUCTIONS_FILE = str(
     (ROOT / "configs/v4/phase10_followup_worker.md").resolve()
 )
+FIXTURE_INSTRUCTIONS_FILE = ROOT / "configs/v4/native_fixture_worker.md"
+FIXTURE_WORKSPACE_INSTRUCTIONS_NAME = "native_system_prompt.md"
 
 
 def _profile_text() -> str:
@@ -96,8 +98,32 @@ def _install_profile(config_path: Path) -> None:
     config_path.write_text(updated, encoding="utf-8")
 
 
-def _strip_legacy_sandbox(args: list[str]) -> list[str]:
+def _approved_fixture_prompt(value: str, workspace: Path) -> bool:
+    try:
+        configured_path = json.loads(value)
+    except json.JSONDecodeError:
+        return False
+    if not isinstance(configured_path, str):
+        return False
+
+    requested = Path(configured_path).expanduser()
+    workspace_prompt = workspace / FIXTURE_WORKSPACE_INSTRUCTIONS_NAME
+    if (
+        requested.is_symlink()
+        or not requested.is_file()
+        or requested.resolve() != workspace_prompt.resolve()
+        or FIXTURE_INSTRUCTIONS_FILE.is_symlink()
+        or not FIXTURE_INSTRUCTIONS_FILE.is_file()
+    ):
+        return False
+    return requested.read_bytes() == FIXTURE_INSTRUCTIONS_FILE.read_bytes()
+
+
+def _strip_legacy_sandbox(
+    args: list[str], *, workspace: Path | None = None
+) -> list[str]:
     filtered: list[str] = []
+    workspace_root = (workspace or Path.cwd()).resolve()
     index = 0
     while index < len(args):
         item = args[index]
@@ -163,7 +189,14 @@ def _strip_legacy_sandbox(args: list[str]) -> list[str]:
                 "features.multi_agent": {"false"},
                 "model_instructions_file": {json.dumps(MODEL_INSTRUCTIONS_FILE)},
             }
-            if value.strip() not in safe_overrides.get(key.strip(), set()):
+            allowed_fixture_prompt = (
+                key.strip() == "model_instructions_file"
+                and _approved_fixture_prompt(value.strip(), workspace_root)
+            )
+            if (
+                value.strip() not in safe_overrides.get(key.strip(), set())
+                and not allowed_fixture_prompt
+            ):
                 raise ValueError(
                     "legacy sandbox overrides or policy overrides are forbidden"
                 )
@@ -237,6 +270,8 @@ def _workspace_from_args(args: list[str]) -> Path:
     workspace = Path.cwd()
     for index, item in enumerate(args):
         if item in {"-C", "--cd"}:
+            if index + 1 >= len(args):
+                raise ValueError("missing driver option value")
             workspace = Path(args[index + 1])
         elif item.startswith("--cd="):
             workspace = Path(item.partition("=")[2])
@@ -252,8 +287,9 @@ def main() -> int:
         raise ValueError(
             "V4 Codex wrapper will not modify the user's global Codex config"
         )
-    args = _strip_legacy_sandbox(sys.argv[1:])
-    _validate_workspace(_workspace_from_args(args))
+    workspace = _workspace_from_args(sys.argv[1:])
+    args = _strip_legacy_sandbox(sys.argv[1:], workspace=workspace)
+    _validate_workspace(workspace)
     _install_profile(code_home / "config.toml")
     if args and args[0] == "sandbox":
         args[1:1] = ["--permission-profile", PROFILE]

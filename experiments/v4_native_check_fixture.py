@@ -144,6 +144,45 @@ def _tool_calls(transcript: Path) -> list[dict[str, str]]:
     return calls
 
 
+def _failure_details(exc: Exception) -> dict[str, object]:
+    details: dict[str, object] = {
+        "exception_type": type(exc).__name__,
+        "message": str(exc),
+    }
+    if isinstance(exc, subprocess.CalledProcessError):
+        details.update(
+            command=exc.cmd,
+            return_code=exc.returncode,
+            stdout=exc.stdout,
+            stderr=exc.stderr,
+        )
+    return details
+
+
+def _uses_pinned_native_command(
+    invocation: dict[str, object], workspace: Path
+) -> bool:
+    execution = invocation.get("native_driver_execution")
+    command = execution.get("command") if isinstance(execution, dict) else None
+    if not isinstance(command, list) or not all(
+        isinstance(argument, str) for argument in command
+    ):
+        return False
+
+    def has_option_value(option: str, value: str) -> bool:
+        return any(
+            command[index] == option and command[index + 1] == value
+            for index in range(len(command) - 1)
+        )
+
+    return (
+        bool(command)
+        and command[0] == str((ROOT / "scripts/codex-v4-sandbox").resolve())
+        and has_option_value("-s", "workspace-write")
+        and has_option_value("-C", str(workspace.resolve()))
+    )
+
+
 def _verify_native_outputs(
     outputs: list[str],
     *,
@@ -274,6 +313,10 @@ def _build_workspace(workspace: Path, run_id: str) -> dict:
         ".codex-driver-home/\n.codex-driver-transcripts/\n",
         encoding="utf-8",
     )
+    system_prompt = workspace / "native_system_prompt.md"
+    system_prompt.write_bytes(
+        (ROOT / "configs/v4/native_fixture_worker.md").read_bytes()
+    )
 
     eve_src = str(EVE_ROOT / "src")
     if eve_src not in sys.path:
@@ -302,6 +345,7 @@ def _build_workspace(workspace: Path, run_id: str) -> dict:
         "python_is_symlink": PROJECT_PYTHON.is_symlink(),
         "bundle_manifest_sha256": _sha256(bundle / "manifest.json"),
         "bundle_file_count": len(manifest["files"]),
+        "system_prompt_sha256": _sha256(system_prompt),
         "candidate_hashes": {
             str(path.relative_to(workspace)): _sha256(path)
             for path in sorted(candidates.rglob("*.json"))
@@ -358,95 +402,164 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
     )
 
     session_name = f"llmao-v4-native-{run_id}"
-    pane = subprocess.check_output(
-        [
-            "tmux",
-            "new-session",
-            "-d",
-            "-s",
-            session_name,
-            "-c",
-            str(workspace),
-            "-P",
-            "-F",
-            "#{pane_id}",
-        ],
-        text=True,
-    ).strip()
-    driver = CodexTmuxSessionDriver(
-        pane_id=pane,
-        run_root=evidence / "driver_run",
-        executable=str(ROOT / "scripts/codex-v4-sandbox"),
-        model="gpt-6-luna",
-        reasoning_effort="max",
-        rollout_max_turns=6,
-        timeout_seconds=240,
-        enable_multi_agent=False,
-        approval_policy="never",
-        sandbox_mode="workspace-write",
-        web_search="disabled",
-        provider_env={
-            "FIXTURE_SLASH_TMP": "/tmp",
-            "FIXTURE_OUTSIDE_READ": str(outside_read_probe),
-        },
-    )
-    outside_read_probe.write_text("v4-native-outside-read-canary\n", encoding="utf-8")
+    session_create_command = [
+        "tmux",
+        "new-session",
+        "-d",
+        "-s",
+        session_name,
+        "-c",
+        str(workspace),
+        "-P",
+        "-F",
+        "#{pane_id}",
+    ]
+    pane = subprocess.check_output(session_create_command, text=True).strip()
     outside_read_probe_unchanged = False
     outside_read_probe_cleaned = False
+    transcript_dir = evidence / "native_transcripts"
+    invocations: list[dict[str, object]] = []
+    session_cleanup: dict[str, object] = {}
     try:
-        try:
-            rollout = driver.spawn(
-                SessionSeed(
-                    instruction=_fixture_instruction(workspace_info["probe_name"]),
-                    workspace=SessionWorkspaceLease(
-                        workspace_id=run_id,
-                        target_repo_root=str(workspace),
-                        workspace_root=str(workspace),
-                        session_cwd=str(workspace),
+        driver = CodexTmuxSessionDriver(
+            pane_id=pane,
+            run_root=evidence / "driver_run",
+            executable=str(ROOT / "scripts/codex-v4-sandbox"),
+            model="gpt-6-luna",
+            reasoning_effort="max",
+            rollout_max_turns=6,
+            timeout_seconds=240,
+            enable_multi_agent=False,
+            approval_policy="never",
+            sandbox_mode="workspace-write",
+            web_search="disabled",
+            codex_system_prompt_file=str(workspace / "native_system_prompt.md"),
+            provider_env={
+                "FIXTURE_SLASH_TMP": "/tmp",
+                "FIXTURE_OUTSIDE_READ": str(outside_read_probe),
+            },
+        )
+        outside_read_probe.write_text(
+            "v4-native-outside-read-canary\n", encoding="utf-8"
+        )
+        transcript_dir.mkdir()
+        for invocation_number in (1, 2):
+            invocation: dict[str, object] = {
+                "invocation": invocation_number,
+                "pane_id": pane,
+                "pane_id_before": None,
+            }
+            try:
+                pane_before = subprocess.run(
+                    ["tmux", "display-message", "-p", "-t", pane, "#{pane_id}"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
+                invocation["pane_id_before"] = pane_before.stdout.strip()
+                rollout = driver.spawn(
+                    SessionSeed(
+                        instruction=_fixture_instruction(workspace_info["probe_name"]),
+                        workspace=SessionWorkspaceLease(
+                            workspace_id=run_id,
+                            target_repo_root=str(workspace),
+                            workspace_root=str(workspace),
+                            session_cwd=str(workspace),
+                        ),
+                    )
+                )
+                metadata = rollout.state.metadata
+                invocation.update(
+                    native_summary=rollout.summary,
+                    native_usage=(
+                        rollout.usage.model_dump(mode="json") if rollout.usage else None
+                    ),
+                    native_driver_execution=metadata.get("driver_execution"),
+                    changed_paths=rollout.changed_paths,
+                    candidate_hashes_after={
+                        str(path.relative_to(workspace)): _sha256(path)
+                        for path in sorted((workspace / "candidate").rglob("*.json"))
+                    },
+                    git_status_after=_run_git(
+                        workspace, "status", "--porcelain", "--untracked-files=all"
                     ),
                 )
-            )
-        except Exception as exc:
-            captured = subprocess.run(
-                ["tmux", "capture-pane", "-p", "-S", "-200", "-t", pane],
-                check=False,
-                capture_output=True,
-                text=True,
-            )
-            _write_json(
-                evidence / "native_worker_failure.json",
-                {
-                    "exception_type": type(exc).__name__,
-                    "message": str(exc),
-                    "pane_capture_exit_code": captured.returncode,
-                    "pane_capture": captured.stdout,
-                },
-            )
-            raise
+                transcript_value = metadata.get("provider_transcript_path")
+                if not isinstance(transcript_value, str):
+                    raise TypeError("native worker transcript path was not recorded")
+                transcript_source = Path(transcript_value)
+                if transcript_source.is_symlink() or not transcript_source.is_file():
+                    raise ValueError(
+                        "native worker transcript is missing or not a regular file"
+                    )
+                transcript = transcript_dir / f"invocation-{invocation_number:02d}.jsonl"
+                shutil.copyfile(transcript_source, transcript)
+                pane_after = subprocess.run(
+                    ["tmux", "display-message", "-p", "-t", pane, "#{pane_id}"],
+                    check=True,
+                    capture_output=True,
+                    text=True,
+                )
+                invocation.update(
+                    status="completed",
+                    pane_id_after=pane_after.stdout.strip(),
+                    transcript=transcript.relative_to(evidence).as_posix(),
+                    transcript_sha256=_sha256(transcript),
+                    native_tool_calls=_tool_calls(transcript),
+                    native_tool_outputs=_tool_output_texts(transcript),
+                )
+            except Exception as exc:  # noqa: BLE001 - retain every invocation failure.
+                captured = subprocess.run(
+                    ["tmux", "capture-pane", "-p", "-S", "-200", "-t", pane],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+                pane_after = subprocess.run(
+                    ["tmux", "display-message", "-p", "-t", pane, "#{pane_id}"],
+                    check=False,
+                    capture_output=True,
+                    text=True,
+                )
+                failure = _failure_details(exc)
+                invocation.update(
+                    status="failed",
+                    pane_id_after=pane_after.stdout.strip()
+                    if pane_after.returncode == 0
+                    else None,
+                    failure=failure,
+                    pane_capture_exit_code=captured.returncode,
+                    pane_capture_stdout=captured.stdout,
+                    pane_capture_stderr=captured.stderr,
+                )
+                _write_json(
+                    evidence / f"native_worker_failure_{invocation_number:02d}.json",
+                    invocation,
+                )
+            invocations.append(invocation)
     finally:
-        subprocess.run(
+        cleanup = subprocess.run(
             ["tmux", "kill-session", "-t", session_name],
             check=False,
             capture_output=True,
             text=True,
         )
-        outside_read_probe_unchanged = (
-            outside_read_probe.is_file()
-            and outside_read_probe.read_text(encoding="utf-8")
-            == "v4-native-outside-read-canary\n"
-        )
-        if outside_read_probe_unchanged:
-            outside_read_probe.unlink()
+        session_cleanup = {
+            "command": ["tmux", "kill-session", "-t", session_name],
+            "return_code": cleanup.returncode,
+            "stdout": cleanup.stdout,
+            "stderr": cleanup.stderr,
+        }
+        if outside_read_probe.exists():
+            outside_read_probe_unchanged = (
+                outside_read_probe.is_file()
+                and outside_read_probe.read_text(encoding="utf-8")
+                == "v4-native-outside-read-canary\n"
+            )
+            if outside_read_probe_unchanged:
+                outside_read_probe.unlink()
         outside_read_probe_cleaned = not outside_read_probe.exists()
 
-    metadata = rollout.state.metadata
-    transcript_source = Path(metadata["provider_transcript_path"])
-    if transcript_source.is_symlink() or not transcript_source.is_file():
-        raise ValueError("native worker transcript is missing or not a regular file")
-    transcript = evidence / "native_transcript.jsonl"
-    shutil.copyfile(transcript_source, transcript)
-    tool_outputs = _tool_output_texts(transcript)
-    tool_calls = _tool_calls(transcript)
     git_status = _run_git(workspace, "status", "--porcelain", "--untracked-files=all")
     bundle = workspace / "structural_check"
     manifest = json.loads((bundle / "manifest.json").read_text(encoding="utf-8"))
@@ -471,6 +584,7 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
         ".codex/config.toml",
         ".sandbox_config.json",
         "AGENTS.md",
+        "native_system_prompt.md",
         "candidate/valid/language.json",
         "candidate/valid/program.json",
         "candidate/invalid/language.json",
@@ -483,20 +597,110 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
     candidate_contents_unchanged = (
         post_candidate_hashes == workspace_info["candidate_hashes"]
     )
-    verification = _verify_native_outputs(
-        tool_outputs,
-        slash_tmp_probe_exists=slash_probe_written,
-        tmpdir_probe_exists=tmpdir_probe_written,
-        outside_read_probe_unchanged=outside_read_probe_unchanged,
-        outside_read_probe_cleaned=outside_read_probe_cleaned,
-        candidate_contents_unchanged=candidate_contents_unchanged,
-        changed_paths=rollout.changed_paths,
-        git_status=git_status,
+    system_prompt_path = workspace / "native_system_prompt.md"
+    system_prompt_unchanged = (
+        _sha256(system_prompt_path) == workspace_info["system_prompt_sha256"]
     )
+    all_checks: dict[str, bool] = {}
+    all_tool_calls: list[dict[str, str]] = []
+    all_tool_outputs: list[str] = []
+    all_changed_paths: set[str] = set()
+    for invocation in invocations:
+        number = invocation["invocation"]
+        prefix = f"invocation_{number:02d}"
+        transcript_relative = invocation.get("transcript")
+        transcript_path = (
+            evidence / transcript_relative
+            if isinstance(transcript_relative, str)
+            else None
+        )
+        transcript_captured = bool(
+            transcript_path
+            and transcript_path.is_file()
+            and not transcript_path.is_symlink()
+            and _sha256(transcript_path) == invocation.get("transcript_sha256")
+        )
+        same_pane_reused = (
+            invocation.get("pane_id_before") == pane
+            and invocation.get("pane_id_after") == pane
+        )
+        driver_execution = invocation.get("native_driver_execution")
+        driver_command = (
+            driver_execution.get("command")
+            if isinstance(driver_execution, dict)
+            else None
+        )
+        prompt_file_route_used = isinstance(driver_command, list) and any(
+            isinstance(argument, str)
+            and "model_instructions_file=" in argument
+            and str(system_prompt_path) in argument
+            for argument in driver_command
+        )
+        pinned_native_command = _uses_pinned_native_command(invocation, workspace)
+        completed = invocation.get("status") == "completed"
+        all_checks[f"{prefix}_completed"] = completed
+        all_checks[f"{prefix}_transcript_captured"] = transcript_captured
+        all_checks[f"{prefix}_same_pane_reused"] = same_pane_reused
+        all_checks[f"{prefix}_system_prompt_file_route"] = prompt_file_route_used
+        all_checks[f"{prefix}_uses_pinned_sandbox_command"] = pinned_native_command
+        if completed:
+            invocation_outputs = invocation.get("native_tool_outputs", [])
+            invocation_calls = invocation.get("native_tool_calls", [])
+            changed_paths = invocation.get("changed_paths", [])
+            invocation_status = invocation.get("git_status_after", "")
+            invocation_candidates = invocation.get("candidate_hashes_after", {})
+            check = _verify_native_outputs(
+                invocation_outputs,
+                slash_tmp_probe_exists=slash_probe_written,
+                tmpdir_probe_exists=tmpdir_probe_written,
+                outside_read_probe_unchanged=outside_read_probe_unchanged,
+                outside_read_probe_cleaned=outside_read_probe_cleaned,
+                candidate_contents_unchanged=(
+                    invocation_candidates == workspace_info["candidate_hashes"]
+                ),
+                changed_paths=changed_paths,
+                git_status=invocation_status,
+            )
+            invocation["verification"] = check
+            for name, passed in check["checks"].items():
+                all_checks[f"{prefix}_{name}"] = passed
+            all_tool_calls.extend(invocation_calls)
+            all_tool_outputs.extend(invocation_outputs)
+            all_changed_paths.update(changed_paths)
+        else:
+            invocation["verification"] = {
+                "passed": False,
+                "checks": {"invocation_completed": False},
+            }
+            all_checks[f"{prefix}_invocation_completed"] = False
+
+    all_checks["two_sequential_invocations"] = len(invocations) == 2
+    all_checks["same_driver_instance_reused_pane"] = (
+        len(invocations) == 2
+        and all(
+            item.get("pane_id") == pane
+            and item.get("pane_id_before") == pane
+            and item.get("pane_id_after") == pane
+            for item in invocations
+        )
+    )
+    all_checks["tmux_session_cleanup_succeeded"] = (
+        session_cleanup.get("return_code") == 0
+    )
+    all_checks["fixture_system_prompt_unchanged"] = system_prompt_unchanged
+    verification = {
+        "passed": bool(all_checks) and all(all_checks.values()),
+        "checks": all_checks,
+    }
+    native_summaries = [
+        item.get("native_summary")
+        for item in invocations
+        if isinstance(item.get("native_summary"), str)
+    ]
     result = {
-        "schema_version": 1,
+        "schema_version": 2,
         "run_id": run_id,
-        "purpose": "data-free native structural checker and workspace-only filesystem verification",
+        "purpose": "two sequential data-free native structural and workspace-only checks",
         "model": "gpt-6-luna",
         "reasoning_effort": "max",
         "sandbox": {
@@ -518,14 +722,36 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
         "evidence": str(evidence),
         "preflight": workspace_info,
         "sandbox_preflight": preflight,
-        "native_summary": rollout.summary,
-        "native_changed_paths": rollout.changed_paths,
-        "native_tool_calls": tool_calls,
-        "native_usage": rollout.usage.model_dump(mode="json")
-        if rollout.usage
-        else None,
-        "native_driver_execution": metadata.get("driver_execution"),
-        "native_tool_outputs": tool_outputs,
+        "native_run_lifecycle": {
+            "session_created_by": "fixture",
+            "session_create_command": session_create_command,
+            "session_name": session_name,
+            "pane_id": pane,
+            "driver_class": "CodexTmuxSessionDriver",
+            "driver_instance_count": 1,
+            "requested_invocations": 2,
+            "session_cleanup": session_cleanup,
+            "system_prompt_file": str(system_prompt_path),
+            "system_prompt_sha256": workspace_info["system_prompt_sha256"],
+        },
+        "native_invocations": invocations,
+        "native_summary": "\n".join(native_summaries),
+        "native_changed_paths": sorted(all_changed_paths),
+        "native_tool_calls": all_tool_calls,
+        "native_tool_outputs": all_tool_outputs,
+        "native_usage_by_invocation": [
+            {"invocation": item["invocation"], "usage": item.get("native_usage")}
+            for item in invocations
+            if item.get("status") == "completed"
+        ],
+        "native_driver_execution_by_invocation": [
+            {
+                "invocation": item["invocation"],
+                "execution": item.get("native_driver_execution"),
+            }
+            for item in invocations
+            if item.get("status") == "completed"
+        ],
         "git_status_after": git_status,
         "candidate_hashes_after": post_candidate_hashes,
         "candidate_contents_unchanged": candidate_contents_unchanged,
@@ -533,7 +759,6 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
         "tmpdir_probe_still_exists_before_cleanup": tmpdir_probe_written,
         "outside_read_probe_unchanged": outside_read_probe_unchanged,
         "native_check_verification": verification,
-        "transcript_sha256": _sha256(transcript),
     }
     _write_json(evidence / "result.json", result)
     return result
@@ -551,7 +776,14 @@ def main() -> int:
             {
                 "run_id": result["run_id"],
                 "summary": result["native_summary"],
-                "native_usage": result["native_usage"],
+                "invocations": [
+                    {
+                        "invocation": item["invocation"],
+                        "status": item["status"],
+                        "transcript": item.get("transcript"),
+                    }
+                    for item in result["native_invocations"]
+                ],
                 "git_status_after": result["git_status_after"],
                 "slash_tmp_probe_still_exists": result[
                     "slash_tmp_probe_still_exists_before_cleanup"

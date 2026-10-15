@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import runpy
 import tomllib
 from pathlib import Path
@@ -135,6 +136,24 @@ def test_wrapper_rejects_unpinned_model_instructions_file():
         WRAPPER["_strip_legacy_sandbox"](
             ["-c", 'model_instructions_file="/tmp/prompt.md"']
         )
+
+
+def test_wrapper_accepts_only_the_pinned_fixture_prompt_copy(tmp_path):
+    workspace = tmp_path.resolve()
+    prompt = workspace / "native_system_prompt.md"
+    prompt.write_bytes((ROOT / "configs/v4/native_fixture_worker.md").read_bytes())
+    args = [
+        "-C",
+        str(workspace),
+        "-c",
+        f"model_instructions_file={json.dumps(str(prompt))}",
+    ]
+
+    assert WRAPPER["_strip_legacy_sandbox"](args, workspace=workspace) == args
+
+    prompt.write_text("changed fixture instructions\n", encoding="utf-8")
+    with pytest.raises(ValueError, match="policy overrides are forbidden"):
+        WRAPPER["_strip_legacy_sandbox"](args, workspace=workspace)
 
 
 def test_wrapper_rejects_legacy_workspace_config(tmp_path):

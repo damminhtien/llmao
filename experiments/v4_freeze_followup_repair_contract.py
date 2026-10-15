@@ -13,14 +13,24 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 OLD_CONTRACT = ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
 OLD_ARCHIVE_MANIFEST = ROOT / "results/v4/phase10_followup/archive_verified/manifest.json"
+PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+PRIOR_REPAIR_ARCHIVE = (
+    ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01"
+)
+PRIOR_REPAIR_ARCHIVE_MANIFEST = PRIOR_REPAIR_ARCHIVE / "manifest.json"
 PROMPT = ROOT / "configs/v4/phase10_followup_worker.md"
 WRAPPER = ROOT / "scripts/codex-v4-sandbox"
 HOST_FILES = (
     "V4_FOLLOWUP_PILOT_CONTRACT.json",
     "V4_FOLLOWUP_PILOT_CONTRACT.sha256",
+    "V4_FOLLOWUP_REPAIR_CONTRACT.json",
+    "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+    "V4_FOLLOWUP_REPAIR_REPORT.md",
+    "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
     "V4_FOLLOWUP_RESPONSE_PLAN.md",
     "V4_PHASE10_FOLLOWUP_REPORT.md",
     "V4_SANDBOX_REPAIR.md",
+    "configs/v4/native_fixture_worker.md",
     "configs/v4/phase10_followup_worker.md",
     "experiments/v4_build_check_bundle.py",
     "experiments/v4_collect_followup.py",
@@ -30,6 +40,8 @@ HOST_FILES = (
     "experiments/v4_native_check_fixture.py",
     "experiments/v4_sandbox_preflight.py",
     "results/v4/phase10_followup/archive_verified/manifest.json",
+    "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json",
+    "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256",
     "results/v4/protocol.json",
     "scripts/codex-v4-sandbox",
 )
@@ -37,6 +49,28 @@ HOST_FILES = (
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _verify_sha256_sidecar(path: Path) -> str:
+    sidecar = path.with_suffix(".sha256")
+    if (
+        path.is_symlink()
+        or not path.is_file()
+        or sidecar.is_symlink()
+        or not sidecar.is_file()
+    ):
+        raise ValueError(f"historical artifact or SHA-256 sidecar is missing: {path}")
+    digest = _sha256(path)
+    if digest != sidecar.read_text(encoding="ascii").split()[0]:
+        raise ValueError(f"historical artifact digest changed: {path}")
+    return digest
+
+
+def _has_command_pair(command: list[str], option: str, value: str) -> bool:
+    return any(
+        command[index] == option and command[index + 1] == value
+        for index in range(len(command) - 1)
+    )
 
 
 def _git(root: Path, *args: str) -> str:
@@ -57,10 +91,18 @@ def _verify_manifest_records(value: object) -> int:
     checked = 0
     if isinstance(value, dict):
         if {"path", "sha256", "size_bytes"} <= value.keys():
-            path = ROOT / str(value["path"])
-            if path.is_symlink() or not path.is_file():
+            relative = Path(str(value["path"]))
+            path = ROOT / relative
+            resolved = path.resolve(strict=False)
+            if (
+                relative.is_absolute()
+                or ".." in relative.parts
+                or not resolved.is_relative_to(ROOT.resolve())
+                or path.is_symlink()
+                or not resolved.is_file()
+            ):
                 raise ValueError(f"protected prior artifact is missing: {path}")
-            content = path.read_bytes()
+            content = resolved.read_bytes()
             if (
                 len(content) != value["size_bytes"]
                 or hashlib.sha256(content).hexdigest() != value["sha256"]
@@ -78,13 +120,13 @@ def _verify_manifest_records(value: object) -> int:
 def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
     result_path = evidence_root / "result.json"
     preflight_path = evidence_root / "sandbox_preflight.json"
-    transcript_path = evidence_root / "native_transcript.jsonl"
     paths = {
         "result.json": result_path,
         "sandbox_preflight.json": preflight_path,
-        "native_transcript.jsonl": transcript_path,
         "structural_check/manifest.json": evidence_root
         / "structural_check/manifest.json",
+        "workspace/native_system_prompt.md": evidence_root
+        / "workspace/native_system_prompt.md",
     }
     for name, path in paths.items():
         if path.is_symlink() or not path.is_file():
@@ -92,6 +134,123 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
 
     result = json.loads(result_path.read_text())
     preflight = json.loads(preflight_path.read_text())
+    invocations = result.get("native_invocations")
+    lifecycle = result.get("native_run_lifecycle")
+    session_cleanup = lifecycle.get("session_cleanup") if isinstance(lifecycle, dict) else None
+    if not isinstance(invocations, list) or len(invocations) != 2:
+        raise ValueError("native fixture must contain two sequential invocations")
+    if (
+        not isinstance(lifecycle, dict)
+        or lifecycle.get("session_created_by") != "fixture"
+        or not isinstance(lifecycle.get("session_name"), str)
+        or lifecycle.get("session_create_command")
+        != [
+            "tmux",
+            "new-session",
+            "-d",
+            "-s",
+            lifecycle.get("session_name"),
+            "-c",
+            str(Path(result["workspace"]).resolve()),
+            "-P",
+            "-F",
+            "#{pane_id}",
+        ]
+        or lifecycle.get("driver_class") != "CodexTmuxSessionDriver"
+        or lifecycle.get("driver_instance_count") != 1
+        or lifecycle.get("requested_invocations") != 2
+        or not isinstance(session_cleanup, dict)
+        or session_cleanup.get("command")
+        != ["tmux", "kill-session", "-t", lifecycle.get("session_name")]
+        or session_cleanup.get("return_code") != 0
+    ):
+        raise ValueError(
+            "native fixture did not document reusable single-driver pane ownership"
+        )
+    for expected_number, invocation in enumerate(invocations, start=1):
+        if (
+            invocation.get("invocation") != expected_number
+            or invocation.get("status") != "completed"
+            or invocation.get("pane_id") != lifecycle.get("pane_id")
+            or invocation.get("pane_id_before") != lifecycle.get("pane_id")
+            or invocation.get("pane_id_after") != lifecycle.get("pane_id")
+            or invocation.get("verification", {}).get("passed") is not True
+            or not all(invocation.get("verification", {}).get("checks", {}).values())
+        ):
+            raise ValueError("native fixture invocation did not complete on the reused pane")
+        relative = Path(invocation.get("transcript", ""))
+        transcript_candidate = evidence_root / relative
+        transcript_path = transcript_candidate.resolve(strict=False)
+        if (
+            relative.is_absolute()
+            or ".." in relative.parts
+            or not transcript_path.is_relative_to(evidence_root.resolve())
+            or transcript_candidate.is_symlink()
+            or not transcript_path.is_file()
+            or _sha256(transcript_path) != invocation.get("transcript_sha256")
+        ):
+            raise ValueError("native fixture transcript is missing or changed")
+        if relative.as_posix() in paths:
+            raise ValueError("native fixture transcript path is duplicated")
+        paths[relative.as_posix()] = transcript_path
+
+        transcript_calls = []
+        for line in transcript_path.read_text(encoding="utf-8").splitlines():
+            try:
+                item = json.loads(line)
+            except json.JSONDecodeError:
+                continue
+            payload = item.get("payload")
+            if (
+                item.get("type") == "response_item"
+                and isinstance(payload, dict)
+                and payload.get("type") in {"custom_tool_call", "function_call"}
+            ):
+                transcript_calls.append(payload)
+        recorded_calls = invocation.get("native_tool_calls", [])
+        normalized_calls = [
+            {
+                "id": str(call.get("call_id", call.get("id", ""))),
+                "name": str(call.get("name", "")),
+                "input": str(call.get("input", call.get("arguments", ""))),
+            }
+            for call in transcript_calls
+        ]
+        if normalized_calls != recorded_calls:
+            raise ValueError("native tool-call summary differs from its transcript")
+        if not transcript_calls or any(call.get("name") != "exec" for call in transcript_calls):
+            raise ValueError("native fixture used an unexpected tool path")
+        execution = invocation.get("native_driver_execution", {})
+        command = execution.get("command") if isinstance(execution, dict) else None
+        prompt_path = lifecycle.get("system_prompt_file")
+        workspace_path = str(Path(result["workspace"]).resolve())
+        if (
+            prompt_path != str(Path(workspace_path) / "native_system_prompt.md")
+            or invocation.get("verification", {}).get("passed") is not True
+            or not isinstance(command, list)
+            or not command
+            or not all(isinstance(argument, str) for argument in command)
+            or command[0] != str(WRAPPER.resolve())
+            or not _has_command_pair(command, "-s", "workspace-write")
+            or not _has_command_pair(command, "-C", workspace_path)
+            or not any(
+                "model_instructions_file=" in argument
+                and isinstance(prompt_path, str)
+                and prompt_path in argument
+                for argument in command
+            )
+        ):
+            raise ValueError("native fixture did not use the system prompt-file route")
+
+    prompt_evidence = paths["workspace/native_system_prompt.md"]
+    fixture_prompt_source = ROOT / "configs/v4/native_fixture_worker.md"
+    if (
+        _sha256(prompt_evidence) != lifecycle.get("system_prompt_sha256")
+        or lifecycle.get("system_prompt_sha256")
+        != result.get("preflight", {}).get("system_prompt_sha256")
+        or _sha256(prompt_evidence) != _sha256(fixture_prompt_source)
+    ):
+        raise ValueError("native fixture system prompt differs from its recorded pin")
     if result.get("preflight", {}).get("contract_sha256") != old_contract_digest:
         raise ValueError("native fixture structural source was not bound to the old contract")
     if (
@@ -116,9 +275,8 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
         or result.get("native_changed_paths") != []
         or result.get("git_status_after") != ""
         or result.get("candidate_contents_unchanged") is not True
-        or result.get("transcript_sha256") != _sha256(transcript_path)
     ):
-        raise ValueError("native fixture transcript or filesystem audit failed")
+        raise ValueError("native fixture sequential-run or filesystem audit failed")
     if (
         result.get("sandbox", {}).get("permission_profile")
         != "llmao-v4-workspace-only"
@@ -126,25 +284,6 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
         or result.get("sandbox", {}).get("remote_plugin_catalog") is not False
     ):
         raise ValueError("native fixture did not use the pinned isolated policy")
-
-    transcript_calls = []
-    for line in transcript_path.read_text(encoding="utf-8").splitlines():
-        try:
-            item = json.loads(line)
-        except json.JSONDecodeError:
-            continue
-        payload = item.get("payload")
-        if (
-            item.get("type") == "response_item"
-            and isinstance(payload, dict)
-            and payload.get("type") in {"custom_tool_call", "function_call"}
-        ):
-            transcript_calls.append(payload)
-    if len(transcript_calls) != len(result.get("native_tool_calls", [])):
-        raise ValueError("native tool-call summary differs from its transcript")
-    if not transcript_calls or any(call.get("name") != "exec" for call in transcript_calls):
-        raise ValueError("native fixture used an unexpected tool path")
-
     return {
         "run_id": result["run_id"],
         "directory": str(evidence_root.resolve()),
@@ -152,6 +291,7 @@ def _validate_fixture(evidence_root: Path, old_contract_digest: str) -> dict:
         "permission_profile": preflight["permission_profile"],
         "preflight_check_count": len(preflight["checks"]),
         "native_check_count": len(result["native_check_verification"]["checks"]),
+        "worker_prompt_source_sha256": _sha256(fixture_prompt_source),
         "bundle_manifest_sha256": preflight["bundle_manifest_sha256"],
         "wrapper_sha256": preflight["wrapper_sha256"],
         "runtime_manifest": structural_manifest,
@@ -245,9 +385,14 @@ def freeze(
     if _git(runtime_checkout, "status", "--porcelain", "--untracked-files=all"):
         raise ValueError("runtime checkout must be clean")
     original = json.loads(OLD_CONTRACT.read_text())
-    old_digest = _sha256(OLD_CONTRACT)
-    if old_digest != OLD_CONTRACT.with_suffix(".sha256").read_text().split()[0]:
-        raise ValueError("original failed-pilot contract digest changed")
+    old_digest = _verify_sha256_sidecar(OLD_CONTRACT)
+    prior_repair_digest = _verify_sha256_sidecar(PRIOR_REPAIR_CONTRACT)
+    prior_repair_contract = json.loads(PRIOR_REPAIR_CONTRACT.read_text())
+    if (
+        prior_repair_contract.get("phase") != "10_followup_boundary_repair"
+        or prior_repair_contract.get("status") != "frozen_before_repair_launch"
+    ):
+        raise ValueError("previous repair contract is not the preserved failed contract")
     if _git(eve_root, "rev-parse", "HEAD") != original["source_pins"]["eve_commit"]:
         raise ValueError("EvE checkout differs from the preserved pilot pin")
     if _git(eve_root, "status", "--porcelain", "--untracked-files=all"):
@@ -260,6 +405,18 @@ def freeze(
     protected_record_count = _verify_manifest_records(archive_manifest)
     if protected_record_count != 218:
         raise ValueError("protected failed-pilot archive record count changed")
+    prior_repair_manifest_digest = _verify_sha256_sidecar(
+        PRIOR_REPAIR_ARCHIVE_MANIFEST
+    )
+    prior_repair_manifest = json.loads(PRIOR_REPAIR_ARCHIVE_MANIFEST.read_text())
+    if (
+        prior_repair_manifest.get("phase") != 10
+        or prior_repair_manifest.get("pilot_status") != "failed"
+    ):
+        raise ValueError("previous repair archive no longer records a failed pilot")
+    prior_repair_record_count = _verify_manifest_records(prior_repair_manifest)
+    if prior_repair_record_count != 211:
+        raise ValueError("protected prior repair archive record count changed")
     fixture = _validate_fixture(evidence_root, old_digest)
     if fixture["wrapper_sha256"] != _sha256(WRAPPER):
         raise ValueError("native fixture did not verify the current launcher")
@@ -391,9 +548,10 @@ def freeze(
     _write_exclusive(snapshot_path, evaluator_snapshot)
 
     contract = json.loads(json.dumps(original))
+    contract["account"].pop("verify_before_worker_launch", None)
     contract.update(
         {
-            "schema_version": 2,
+            "schema_version": 3,
             "phase": "10_followup_boundary_repair",
             "status": "frozen_before_repair_launch",
         }
@@ -455,6 +613,9 @@ def freeze(
             "host_files_sha256": host_hashes,
             "failed_followup_contract_sha256": old_digest,
             "failed_followup_archive_manifest_sha256": _sha256(OLD_ARCHIVE_MANIFEST),
+            "previous_repair_contract_sha256": prior_repair_digest,
+            "previous_repair_archive_manifest_sha256": prior_repair_manifest_digest,
+            "previous_repair_archive_records_verified": prior_repair_record_count,
             "initial_program_sha256": contract["initialization"]["seed_program_sha256"],
             "native_fixture_bundle_manifest_sha256": fixture[
                 "bundle_manifest_sha256"
@@ -476,6 +637,7 @@ def freeze(
         "contract": str(contract_path),
         "contract_sha256": digest,
         "protected_archive_records_verified": protected_record_count,
+        "previous_repair_archive_records_verified": prior_repair_record_count,
         "native_fixture_run_id": fixture["run_id"],
         "native_fixture_preflight_checks": fixture["preflight_check_count"],
         "native_fixture_checks": fixture["native_check_count"],
@@ -496,7 +658,9 @@ def main() -> int:
     parser.add_argument("--execution-record", type=Path, required=True)
     parser.add_argument("--label", required=True)
     parser.add_argument(
-        "--contract", type=Path, default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+        "--contract",
+        type=Path,
+        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
     )
     args = parser.parse_args()
     result = freeze(

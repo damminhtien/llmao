@@ -39,9 +39,19 @@ proposal because a check failed.
 ## Language inheritance and reuse
 
 Preserve the G0 hash, resource limits, and every inherited macro definition.
-Set `parent_language_hash` to the last validated ancestor recorded in the
-selected prefill's evaluator-owned `lineage_state.json`. If the prefilled
-language differs from that snapshot, restore the exact snapshot before
+Read the selected prefill's evaluator-owned
+`solver_examples/<prefill-id>/logs/evaluate/lineage_state.json` and set the
+candidate language's `parent_language_hash` to that file's `language_hash`
+exactly:
+
+```text
+candidate.language.parent_language_hash = selected_prefill.lineage_state.language_hash
+```
+
+This is the selected prefill's current language hash. Do not copy the G0
+candidate's `parent_language_hash` or `base_language_hash`; those name its own
+parent and caused the previous repair pilot's ten validation failures. If the
+prefilled language differs from the snapshot, restore the exact snapshot before
 editing. Add no more than one new macro per proposal and keep the full language
 at eight macros or fewer. Every newly introduced macro must be used by the
 candidate that introduces it.
@@ -52,6 +62,18 @@ macro solely to rename it or rewrite an equivalent computation. Reuse must be
 a real contribution to the submitted program: do not add dead calls or unused
 definitions to satisfy the descendant-use gate. Leave inherited definitions
 unchanged and sort the macro list and `introduced_macros` list by name.
+
+Before submission, run the pinned structural checker with the same selected
+prefill state:
+
+```sh
+sh structural_check/run_check.sh solver/candidate \
+  --parent-state solver_examples/<prefill-id>/logs/evaluate/lineage_state.json
+```
+
+Replace `<prefill-id>` with the example explicitly marked as the selected
+prefill. Require a valid result before submission; the checker verifies that
+`parent_language_hash` matches the state's `language_hash`.
 
 Respect maximum expanded depth 6, 127 expanded AST nodes, and 128 output
 features. Compare expanded-program hashes against candidates in this run and

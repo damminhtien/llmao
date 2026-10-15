@@ -12,16 +12,15 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M1 — Respond to the failed exploratory follow-up.** Contract and native fixture gates passed, but the new pilot failed 0/10 proposal validations and did not capture pilot JSONL transcripts. See `V4_FOLLOWUP_REPAIR_REPORT.md` and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`. M1 remains open.
+- **M1 — Respond to the failed exploratory follow-up.** The selected-prefill lineage check and sequential native fixture now pass. The fixture uses one tmux pane and one driver for two calls, captures both JSONL transcripts, and passes 21 preflight plus 44 native checks. The freezer and launcher now pin this fixture and verify both immutable failed archives. The new contract has not yet been frozen; no new scientific pilot has been launched. Keep both historical pilots failed and unchanged.
 - Phase 0 final preregistration is incomplete. The canonical protocol remains a draft; Phase 12 discovery and primary evaluation have not run.
 
 ## Next
 
-1. Read `V4_FOLLOWUP_REPAIR_REPORT.md` and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`; keep the archived run immutable.
-2. Clarify that `parent_language_hash` must equal the selected prefill's `lineage_state.json["language_hash"]`, then add a data-free context-construction check for that handoff.
-3. Reproduce two sequential native driver launches in a data-free fixture, capture the exact `tmux respawn-pane` failure details, and require one JSONL transcript per invocation before considering another pilot.
-4. Do not launch another scientific pilot automatically. A later run needs all response-plan gates, a new contract, and unused paths; no live Plus usage check is required.
-5. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
+1. Freeze a new, separately hashed contract from the committed source, passing native fixture, and fresh unused paths; do not run a scientific pilot as part of freezing.
+2. Preserve the original repair pilot's nine `tmux respawn-pane` failures as unresolved historical evidence; the passing fixture did not reproduce them.
+3. After contract freeze, request explicit authorization before any separately contracted exploratory pilot. Do not require live Plus usage checks or use paid credits, plan upgrades, or rate-limit resets.
+4. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
 
 ## Known issues
 
@@ -33,8 +32,8 @@ Updated: 2026-10-15
 
 ## Validation
 
-- Repair-contract source changes passed Ruff, `py_compile`, `git diff --check`, Hydra resolved-config validation, and the launcher's `--validate-only` gate. The unit suite was not run in this pass.
-- The data-free native fixture passed all 21 preflight and 15 native checks. The failed pilot archive has 211 manifest-referenced records whose sizes and SHA-256 hashes were verified.
-- For M1, correct the exact lineage handoff and resolve sequential tmux launch plus transcript capture in a data-free fixture before freezing another pilot contract.
+- The focused lineage, fixture, and sandbox tests pass (26 tests); Ruff, `py_compile`, and `git diff --check` pass.
+- Data-free fixture `20261015-native-sequential-03` passes 21 preflight and 44 native checks and records two sequential transcripts. The earlier failed archive has 218 verified records; the failed repair archive has 211 verified records. Escaping manifest paths are rejected.
+- Freeze the new contract only after the implementation commit; this operation resolves configuration and evidence but does not launch a worker or access official test data.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
-- The user confirmed sufficient resources. Do not require a live Plus usage snapshot or allowance check; retain the no-upgrade/no-paid-credit policy.
+- The user confirmed sufficient resources. No live Plus usage check has been performed or is required; retain the no-upgrade/no-paid-credit policy.

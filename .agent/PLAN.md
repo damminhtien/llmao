@@ -29,9 +29,23 @@ Latest attempt evidence:
   JSONL transcripts, so the boundary gate cannot be established. The final
   archive manifest is pinned at
   `results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256`.
-- No further scientific pilot is part of this active response. First fix the
-  lineage handoff and verify repeated native-driver launches plus transcript
-  capture in a data-free fixture.
+- No further scientific pilot is part of this active response. The passing
+  response gates are recorded below; freeze a new contract first, then request
+  explicit authorization before a separate pilot.
+
+Response gates now pass in data-free evidence. The lineage regression rejects
+the old G0 parent hash. Fixture `20261015-native-sequential-03` passed 21/21
+preflight and 44/44 native checks with two sequential calls through one
+fixture-created pane and one driver; each call has a JSONL transcript. The
+freezer and launcher rehash all 218 earlier archive records and all 211 repair
+archive records, pin the passing fixture, and require unused paths for the new
+contract. Ruff, `py_compile`, `git diff --check`, and 26 focused tests pass.
+
+Next, commit the response implementation and freeze the new contract. Freezing
+does not launch a worker. Then stop for explicit authorization before any
+separately contracted exploratory pilot. The passing fixture does not reproduce
+the original pilot's nine `tmux respawn-pane` failures; retain those as failed
+historical evidence. No live Plus usage check is required or performed.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 

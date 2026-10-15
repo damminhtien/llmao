@@ -521,10 +521,13 @@ driver/transcript capture are resolved in a data-free fixture.
 - [x] Preserve the complete available run, fixture, contract, overlay, and
   post-run usage evidence; record missing pilot transcripts explicitly.
 - [x] Write a new failure report and response plan.
-- [ ] Make the selected-prefill lineage hash explicit and verify it with a
-  data-free context-construction check.
-- [ ] Resolve repeated `tmux respawn-pane` failures and capture a native JSONL
-  transcript for each worker invocation in a data-free fixture.
+- [x] Make the selected-prefill lineage hash explicit and verify it with a
+  data-free context-construction check; the focused lineage test passes.
+- [x] Reproduce two sequential native driver launches under the strict wrapper
+  and capture one JSONL transcript per invocation in the data-free fixture
+  `20261015-native-sequential-03` (21/21 preflight, 44/44 native checks). The
+  fixture passed without a `respawn-pane` error; the nine failures in the
+  historical repair pilot remain unchanged.
 - [ ] Only after those gates pass, freeze a new contract before any separately
   authorized scientific pilot.
 

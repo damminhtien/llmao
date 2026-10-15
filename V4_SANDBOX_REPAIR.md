@@ -99,6 +99,38 @@ Full local evidence is retained under the ignored directory
 `results/v4/phase10_followup/native_worker_integration/`. Authentication files
 are not part of the evidence or this commit.
 
+## Sequential native-driver fixture — 2026-10-15
+
+`20261015-native-sequential-03` passed the 21-check no-model preflight and 44
+native postconditions. The fixture created one tmux session and pane, then used
+one `CodexTmuxSessionDriver` instance for two sequential launches. Both launches
+used `scripts/codex-v4-sandbox`, the `workspace-write` driver setting consumed
+by that wrapper, and the system-prompt-file route. Each produced a separate
+JSONL transcript. The contract-fixture validator reconciled transcript hashes
+and tool-call summaries with the copied evidence. Both calls passed valid and
+invalid structural checks, temporary-root write denials, the outside-canary
+read denial, unchanged candidate hashes, and clean Git status. The tmux session
+was cleaned up successfully.
+
+The wrapper accepts the fixture prompt only when it is the workspace file
+`native_system_prompt.md` and its bytes match
+`configs/v4/native_fixture_worker.md`. All other unpinned
+`model_instructions_file` overrides remain rejected. Attempts
+`20261015-native-sequential-01` and `20261015-native-sequential-02` are retained
+as setup/lifecycle failures; their details are recorded in
+`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`. The second attempt did not capture a
+`respawn-pane` error, and the original pilot's nine such failures remain
+historical failed evidence.
+
+Successful fixture evidence SHA-256 values:
+
+| Artifact | SHA-256 |
+| --- | --- |
+| `20261015-native-sequential-03/result.json` | `131c032afae48aee8dc30c076be8315f215327f60d5eb10677dd247b4fc4f5f8` |
+| `20261015-native-sequential-03/sandbox_preflight.json` | `0ac56dfb6779c6ac3d968b944c62237fba7fde578b1e3cbdcad0bbcca6a95069` |
+| `20261015-native-sequential-03/native_transcripts/invocation-01.jsonl` | `72676b37badefad74a81b1eb9d51d5b67b876480b937eebdc2a5b0074e67926e` |
+| `20261015-native-sequential-03/native_transcripts/invocation-02.jsonl` | `27f0cd07d3b63cb70cca94b847fc7714e700b9e9edeefc6556ecabe6f5fa32a2` |
+
 ## Remaining scientific gates
 
 Bind final launcher/runtime/profile/source digests and this verification into a

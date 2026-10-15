@@ -64,6 +64,18 @@ def test_check_accepts_an_evaluator_lineage_parent(candidate_files) -> None:
     state = build_candidate_lineage_state(directory, context=context)
     parent = extend_macro_language(G0_LANGUAGE, [])
     child = extend_macro_language(parent, [])
+
+    assert state["language_hash"] == parent.sha256
+    assert child.parent_language_hash == state["language_hash"]
+    wrong_parent = child.to_dict()
+    wrong_parent["parent_language_hash"] = parent.parent_language_hash
+    (directory / "language.json").write_text(json.dumps(wrong_parent))
+    invalid = check_candidate_directory(
+        directory, parent_state=state, protocol_path=protocol
+    )
+    assert invalid["status"] == "invalid"
+    assert "parent hash does not match" in invalid["validation_error"]
+
     (directory / "language.json").write_text(json.dumps(child.to_dict()))
     result = check_candidate_directory(
         directory, parent_state=state, protocol_path=protocol
