@@ -17,6 +17,7 @@ from v4_primary_contract import (
     primary_run_root,
     sha256_file,
     tracked_tree_is_clean,
+    venv_python_path,
     verify_source_paths,
 )
 
@@ -139,8 +140,8 @@ def freeze_contract(
     if sandbox_payload.get("wrapper_sha256") != wrapper_sha256:
         raise ValueError("sandbox preflight used a different wrapper revision")
 
-    python = (ROOT / ".venv/bin/python").resolve(strict=True)
-    eve_python = (EVE_ROOT / ".venv/bin/python").resolve(strict=True)
+    python = venv_python_path(ROOT)
+    eve_python = venv_python_path(EVE_ROOT)
     codex = _command_output("which", "codex")
     codex_version = _command_output(codex, "--version")
     runtime = {

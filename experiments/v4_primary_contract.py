@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import hashlib
 import json
+import os
 import re
 import subprocess
 from pathlib import Path
@@ -38,6 +39,14 @@ def primary_run_root(seed: int, protocol_sha256: str, *, root: Path = ROOT) -> P
     return Path(root).resolve(strict=True) / "results/v4/phase12/runs" / (
         f"discovery-{seed}-{protocol_sha256[:12]}"
     )
+
+
+def venv_python_path(root: Path) -> Path:
+    """Return the venv launcher path without resolving away its environment."""
+    path = Path(root).absolute() / ".venv/bin/python"
+    if not path.is_file() or not os.access(path, os.X_OK):
+        raise FileNotFoundError(f"project venv Python is not executable: {path}")
+    return path
 
 
 def git_value(repo: Path, *args: str) -> str:
