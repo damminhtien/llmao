@@ -13,27 +13,27 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M2 — Final preregistration and implementation pins (reopened for v8).**
-  Scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. Protocol v7
-  (`fa35b0e744a659d670e73a130a871d7c0fc17411ca12e5155bd2cab06813b276`), its
+- **M2 — Final preregistration and implementation pins (reopened for v9).**
+  Scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. Protocol v8
+  (`01197b83b8f945e685e91c76f3c1f0049b6797260a7c0ad602ec952857efc4bc`), its
   fresh 21/21 sandbox preflight, 7/7 native fixture, and five validated seed
-  contracts passed. Seed 1101 then exposed a runner configuration defect:
-  the actual Phase 2 workspaces had the task README only under `solver/`, while
-  the evaluator requires the rendered root `README.md` to identify the selected
-  prefill. Two adaptive proposals failed before context validation or scoring;
-  a third partial proposal was stopped after the same terminal infrastructure
-  failure. The v7 run remains incomplete and immutable under its protocol-scoped
-  run root. Commit `f95fa0a` fixes the runner by materializing README, AGENTS,
-  G0, and the pinned checker into a hashed per-run immutable overlay. Freeze v8
-  and repeat fresh launch gates/contracts before discovery resumes.
+  contracts passed. Seed 1101 scored the common 20-program G0 set. Adaptive
+  proposals 1 and 2 then failed before context creation or primary scoring:
+  `evaluate.py` resolved the contract-pinned `.venv/bin/python` symlink to base
+  Python, which lacks `networkx`. Proposal 3 was stopped as a partial attempt.
+  The v8 run is preserved as incomplete under its protocol-scoped run root with
+  590,544 reported input-plus-output tokens. Commit `8e61a41` changes the
+  adapter to validate and retain the lexical launcher path; a focused symlink
+  regression test passes. Freeze v9 and repeat fresh launch gates/contracts.
 
 ## Next
 
-1. Preserve protocols v1-v7, all contracts, the two failed v7 proposals, and
-   the partial third-proposal transcript and token record.
-2. Generate protocol v8 superseding v7 and pin the committed overlay fix.
-3. Pass fresh sandbox/native-fixture gates, freeze all five seed contracts,
-   and validate them before launch.
+1. Preserve protocols v1-v8, their contracts and launch evidence, and all
+   failed/interrupted attempts; v8 must not be resumed.
+2. Generate protocol v9 superseding v8 and pin the committed interpreter-path
+   fix.
+3. Pass fresh sandbox/native-fixture gates, freeze all five v9 seed contracts,
+   and validate them before starting a fresh seed-1101 run.
 
 ## Known issues and boundaries
 
@@ -61,6 +61,24 @@ Updated: 2026-10-15
   failure; the checkpoint remains at completed iteration 2, and the official
   test partition was not accessed. Protocol v7 cannot be resumed after the
   pinned source change; v8 is required for a new, separately versioned run.
+- Protocol v8 SHA-256 is
+  `01197b83b8f945e685e91c76f3c1f0049b6797260a7c0ad602ec952857efc4bc`; its
+  fresh 21/21 sandbox preflight, 7/7 native fixture, and five seed contracts
+  passed. Seed 1101's v8 run root is
+  `results/v4/phase12/runs/discovery-1101-01197b83b8f9/`. Its common initial
+  set contains 20 G0 candidates. Adaptive attempts 1 and 2 failed context
+  validation with `ModuleNotFoundError: No module named 'networkx'`: the
+  evaluator resolved the pinned `.venv/bin/python` symlink to base Python.
+  Attempt 1 consumed 314,577 and attempt 2 consumed 236,422 reported
+  input-plus-output tokens. Attempt 3 was interrupted after 38,500 input and
+  1,045 output tokens; transcript SHA-256 is
+  `a4bb394c941a95b6057597245b36ee50e5a5dfb4c81d3fcb7621e7d34c417650`.
+  Total usage is 590,544 tokens across three consumed attempts, with two
+  completed infrastructure failures and one partial attempt. The checkpoint
+  remains at two completed iterations. No adaptive candidate produced a
+  context or primary score, and the official test partition was not accessed.
+  Commit `8e61a41` fixes the adapter and adds a symlink-preservation regression
+  test; v8 cannot be resumed after that pinned source change.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
@@ -78,4 +96,8 @@ Updated: 2026-10-15
   158 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
 - Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
-  Ruff and `compileall` passed. A fresh v8 native fixture remains pending.
+  Ruff and `compileall` passed. v8's fresh fixture and five contracts then
+  passed before its interpreter-path failure.
+- Evaluator launcher fix `8e61a41`: all 8 focused primary-runner tests passed;
+  Ruff, `compileall`, `git diff --check`, and `graphify update .` passed. A fresh
+  v9 sandbox preflight/native fixture and contracts remain pending.

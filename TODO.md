@@ -726,9 +726,26 @@ and no language may be selected as \(G^*\) from this run.
 Runner correction `f95fa0a` supplies and hashes a per-run immutable overlay
 with rendered task README, AGENTS guidance, G0 reference, and pinned structural
 checker; its seven focused primary-runner tests, Ruff, and compileall passed.
-Freeze it in a new protocol amendment, pass fresh gates and contracts, then
-start protocol-scoped discovery runs. Protocol v7 and its failed evidence
-remain preserved.
+Protocol v8 froze that overlay, passed a fresh 21/21 sandbox preflight, a 7/7
+native lineage fixture, and all five seed-contract validation gates. Its fresh
+seed-1101 run scored the common G0 set of 20 programs, then proposals 1 and 2
+failed before context creation or primary scoring. The evaluator resolved the
+contract-pinned `.venv/bin/python` symlink to base Python, which lacks
+`networkx`. Attempt 1 consumed 314,577 reported input-plus-output tokens;
+attempt 2 consumed 236,422. Attempt 3 was interrupted and preserved with 38,500
+input and 1,045 output tokens; its transcript SHA-256 is
+`a4bb394c941a95b6057597245b36ee50e5a5dfb4c81d3fcb7621e7d34c417650`. The
+protocol-scoped v8 run root records 590,544 total tokens across three consumed
+attempts, two completed infrastructure failures, and one partial attempt. Its
+checkpoint remains at iteration 2. No adaptive candidate received a primary
+score, and no official test data was accessed.
+
+Commit `8e61a41` fixes the adapter to retain the pinned lexical interpreter
+launcher, with a symlink regression test (8 focused tests pass; Ruff and
+compileall pass). Freeze this change in protocol v9 superseding v8, repeat fresh
+sandbox/native-fixture gates, freeze and validate all five v9 seed contracts,
+then start a separate protocol-scoped run. Do not resume or pool v8 evidence.
+The v7 and v8 protocols and their incomplete evidence remain preserved.
 
 ---
 
