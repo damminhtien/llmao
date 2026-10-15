@@ -43,13 +43,6 @@ has run; preregistered Phase 12 discovery and primary evaluation have not.
 - [x] Verify the installed Codex CLI supports the selected GPT-6 model.
 - [x] Verify ChatGPT Plus authentication using `codex` and the account usage
   status.
-- [x] Confirm the account plan is ChatGPT Plus (not Pro) and use its ordinary
-  Codex allowance; the 2026-10-14 09:50:21 UTC pre-worker usage snapshot showed
-  41% used in the five-hour window, 12% in the weekly window, and no paid
-  credits.
-- [ ] Before each future primary worker launch, verify the active account is
-  still on Plus and record its ordinary allowance; pause at the limit without
-  switching to Pro, upgrading, or using paid credits.
 - [x] Verify exact GPT-6 Luna model identifier exposed by the CLI:
   `gpt-6-luna`.
 - [x] Verify `max` reasoning is available for that model using an isolated
