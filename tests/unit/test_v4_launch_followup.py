@@ -25,7 +25,7 @@ def test_runner_command_uses_external_failure_capture_bootstrap(tmp_path):
 
 
 def test_default_contract_targets_the_next_frozen_repair():
-    assert MODULE["DEFAULT_CONTRACT"].name == "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+    assert MODULE["DEFAULT_CONTRACT"].name == "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
 
 
 def test_latest_failed_repair_contract_and_archive_remain_pinned():
@@ -35,6 +35,14 @@ def test_latest_failed_repair_contract_and_archive_remain_pinned():
     assert evidence["latest_failed_repair_archive_manifest_sha256"] == "cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08"
     assert evidence["latest_failed_repair_archive_records_verified"] == 208
     assert evidence["latest_failed_repair_wrapper_sha256"] == "c130fefd1527414ff3f0989a3ebe491d2a2e268b558ddb256716734fef01982a"
+
+
+def test_pre_worker_hydra_startup_failure_is_preserved():
+    evidence = MODULE["_verify_failed_startup_contract_03"]()
+
+    assert evidence["failed_startup_contract_20261015_03_sha256"] == "84df233e5cfc16b8fc8223fd609c0a7ad8322839184f5a1b6d2074daed2ad465"
+    assert len(evidence["failed_startup_execution_record_sha256"]) == 64
+    assert len(evidence["failed_startup_console_output_sha256"]) == 64
 
 
 def test_tmux_failure_trace_summary_preserves_exact_subprocess_details(tmp_path):

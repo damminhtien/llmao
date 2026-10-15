@@ -25,7 +25,7 @@ def collector(tmp_path, monkeypatch):
 
 def test_collection_rejects_live_run_before_writing(collector) -> None:
     namespace, root, metadata = collector
-    contract = root / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+    contract = root / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
     contract.write_text("{}")
     digest = hashlib.sha256(contract.read_bytes()).hexdigest()
     contract.with_suffix(".sha256").write_text(digest + "  contract.json\n")
@@ -78,7 +78,7 @@ def test_collection_verifies_the_execution_tmux_failure_trace(collector) -> None
     supervisor = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
     summary = supervisor["_tmux_failure_trace_summary"](trace)
     contract = {
-        "schema_version": 4,
+        "schema_version": 5,
         "launch": {"tmux_failure_trace": str(trace)},
     }
 

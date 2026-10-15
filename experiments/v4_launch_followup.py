@@ -12,11 +12,14 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
 PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
 PRIOR_REPAIR_ARCHIVE_MANIFEST = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json"
 )
+FAILED_STARTUP_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+FAILED_STARTUP_RECORD = ROOT / "results/v4/phase10_followup/evidence/repair_followup_20261015-03/execution.json"
+FAILED_STARTUP_OUTPUT = ROOT / "results/v4/phase10_followup/evidence/repair_followup_20261015-03/launcher_combined_output.txt"
 LATEST_FAILED_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
 LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.json"
@@ -95,6 +98,56 @@ def _verify_latest_failed_repair_artifacts() -> dict:
         "latest_failed_repair_archive_manifest_sha256": archive_digest,
         "latest_failed_repair_archive_records_verified": record_count,
         "latest_failed_repair_wrapper_sha256": wrapper_digest,
+    }
+
+
+def _verify_failed_startup_contract_03() -> dict:
+    contract_digest = _verify_sha256_sidecar(FAILED_STARTUP_CONTRACT)
+    contract = json.loads(FAILED_STARTUP_CONTRACT.read_text())
+    launch = contract.get("launch", {})
+    record_path = Path(launch.get("execution_record", ""))
+    configuration_path = Path(launch.get("configuration_validation", ""))
+    if (
+        contract.get("schema_version") != 4
+        or contract.get("status") != "frozen_before_repair_launch"
+        or record_path.resolve(strict=False) != FAILED_STARTUP_RECORD.resolve()
+        or configuration_path.resolve(strict=False)
+        != (FAILED_STARTUP_RECORD.parent / "configuration_validation.json").resolve()
+        or record_path.is_symlink()
+        or not record_path.is_file()
+        or configuration_path.is_symlink()
+        or not configuration_path.is_file()
+        or FAILED_STARTUP_OUTPUT.is_symlink()
+        or not FAILED_STARTUP_OUTPUT.is_file()
+    ):
+        raise ValueError("failed startup contract evidence is missing or inconsistent")
+    record = json.loads(record_path.read_text())
+    console_output = FAILED_STARTUP_OUTPUT.read_text(encoding="utf-8")
+    configuration = json.loads(configuration_path.read_text(encoding="utf-8"))
+    try:
+        console_header = json.loads(console_output.splitlines()[0])
+    except (IndexError, json.JSONDecodeError) as exc:
+        raise ValueError("failed startup console evidence is malformed") from exc
+    if (
+        record.get("contract_sha256") != contract_digest
+        or record.get("status") != "runner_exited"
+        or record.get("exit_code") != 1
+        or record.get("runner_pid") != console_header.get("runner_pid")
+        or record.get("run_root") != launch.get("run_root")
+        or Path(launch["run_root"]).exists()
+        or record.get("structural_bundles_observed") != 0
+        or record.get("tmux_failure_trace", {}).get("exists") is not False
+        or "Primary config module 'configs.eve' not found." not in console_output
+        or configuration.get("status") != "resolved_without_worker_launch"
+        or _sha256(configuration_path)
+        != contract.get("source_pins", {}).get("configuration_validation_sha256")
+    ):
+        raise ValueError("contract 20261015-03 is not a preserved pre-worker startup failure")
+    return {
+        "failed_startup_contract_20261015_03_sha256": contract_digest,
+        "failed_startup_execution_record_sha256": _sha256(record_path),
+        "failed_startup_console_output_sha256": _sha256(FAILED_STARTUP_OUTPUT),
+        "failed_startup_configuration_sha256": _sha256(configuration_path),
     }
 
 
@@ -368,7 +421,7 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     """Verify the independent repair contract, fixture, launcher, and G0 seed."""
     schema_version = contract.get("schema_version")
     if (
-        schema_version not in {3, 4}
+        schema_version not in {3, 4, 5}
         or contract.get("phase") != "10_followup_boundary_repair"
         or contract.get("status") != "frozen_before_repair_launch"
     ):
@@ -412,7 +465,7 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     account = contract["account"]
     budget = contract["budget"]
     initialization = contract["initialization"]
-    if schema_version == 4:
+    if schema_version in {4, 5}:
         latest_failed_repair = _verify_latest_failed_repair_artifacts()
         if any(
             source_pins.get(key) != value
@@ -443,6 +496,12 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
             or launch.get("tmux_failure_trace") != expected_trace
         ):
             raise ValueError("repair contract does not pin the failure-capture runner")
+    if schema_version == 5:
+        failed_startup = _verify_failed_startup_contract_03()
+        if any(
+            source_pins.get(key) != value for key, value in failed_startup.items()
+        ):
+            raise ValueError("failed startup contract evidence no longer matches its pins")
     if (
         account.get("required_plan") != "ChatGPT Plus"
         or "verify_before_worker_launch" in account
@@ -516,6 +575,11 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
         != configuration.get("resolved_config_sha256")
     ):
         raise ValueError("resolved launch configuration is incomplete or inconsistent")
+    if schema_version == 5 and configuration.get("runner_command") != _eve_runner_command(
+        eve_root,
+        [*launch["hydra_arguments"], "--cfg", "job", "--resolve"],
+    ):
+        raise ValueError("configuration was not resolved through the traced runner")
     snapshot_path = Path(launch["evaluator_source_snapshot"])
     if (
         snapshot_path.is_symlink()
@@ -870,6 +934,10 @@ def main() -> int:
     ):
         raise ValueError("runtime protocol digest mismatch")
     run_root = Path(launch["run_root"])
+    if contract.get("schema_version") == 5 and args.record.resolve(strict=False) != Path(
+        launch["execution_record"]
+    ).resolve(strict=False):
+        raise ValueError("execution record path differs from the frozen contract")
     if run_root.exists() or args.record.exists():
         raise ValueError("new follow-up requires unused run and execution-record paths")
     if args.validate_only:
@@ -877,7 +945,7 @@ def main() -> int:
             json.dumps({"status": "validated_before_launch", "contract_sha256": digest})
         )
         return 0
-    if contract.get("schema_version") != 4:
+    if contract.get("schema_version") != 5:
         raise ValueError("legacy repair contracts cannot be launched by the traced runner")
     environment = os.environ.copy()
     for key in (

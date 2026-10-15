@@ -46,7 +46,7 @@ def _copy(source: Path, destination: Path) -> dict:
 
 
 def _verify_tmux_failure_trace(contract: dict, execution: dict, supervisor: dict):
-    if contract.get("schema_version") != 4:
+    if contract.get("schema_version") not in {4, 5}:
         return None, None
     trace_path = Path(contract["launch"]["tmux_failure_trace"])
     summary = supervisor["_tmux_failure_trace_summary"](trace_path)
@@ -65,7 +65,7 @@ def collect(
     destination = destination.resolve()
     if not destination.is_relative_to(ROOT) or destination.exists():
         raise ValueError("archive must be a new directory inside the repository")
-    contract_path = contract_path or ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+    contract_path = contract_path or ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
     if not contract_path.is_absolute():
         contract_path = ROOT / contract_path
     contract_path = contract_path.resolve()

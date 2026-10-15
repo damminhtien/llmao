@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import runpy
 import shutil
 import subprocess
@@ -27,6 +28,8 @@ HOST_FILES = (
     "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
     "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
     "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
     "V4_FOLLOWUP_REPAIR_REPORT.md",
     "V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
     "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
@@ -51,6 +54,9 @@ HOST_FILES = (
     "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256",
     "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.json",
     "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.sha256",
+    "results/v4/phase10_followup/evidence/repair_followup_20261015-03/configuration_validation.json",
+    "results/v4/phase10_followup/evidence/repair_followup_20261015-03/execution.json",
+    "results/v4/phase10_followup/evidence/repair_followup_20261015-03/launcher_combined_output.txt",
     "results/v4/protocol.json",
     "scripts/codex-v4-sandbox",
 )
@@ -351,25 +357,39 @@ def _build_immutable_overlay(
     return hashes
 
 
-def _render_config(eve_root: Path, arguments: list[str]) -> str:
+def _render_config(
+    eve_root: Path,
+    arguments: list[str],
+    *,
+    project_root: Path,
+    trace_path: Path,
+) -> tuple[str, list[str]]:
     command = [
         str(eve_root / ".venv/bin/python"),
         "-u",
-        "-m",
-        "scaling_evolve.algorithms.eve.runner",
+        str((ROOT / "experiments/v4_eve_runner.py").resolve()),
         *arguments,
         "--cfg",
         "job",
         "--resolve",
     ]
+    environment = os.environ.copy()
+    environment.update(
+        {
+            "LLMAO_PROJECT_ROOT": str(project_root.resolve(strict=True)),
+            "LLMAO_EVE_SOURCE_ROOT": str((eve_root / "src").resolve(strict=True)),
+            "LLMAO_V4_TMUX_TRACE_PATH": str(trace_path),
+        }
+    )
     completed = subprocess.run(
         command,
         cwd=eve_root,
+        env=environment,
         check=True,
         capture_output=True,
         text=True,
     )
-    return completed.stdout
+    return completed.stdout, command
 
 
 def freeze(
@@ -431,6 +451,7 @@ def freeze(
     fixture = _validate_fixture(evidence_root, old_digest)
     launcher = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
     latest_failed_repair = launcher["_verify_latest_failed_repair_artifacts"]()
+    failed_startup = launcher["_verify_failed_startup_contract_03"]()
     previous_wrapper_sha256 = latest_failed_repair[
         "latest_failed_repair_wrapper_sha256"
     ]
@@ -550,10 +571,16 @@ def freeze(
         "label=" + label,
         "run_root=" + str(run_root),
     ]
-    config_text = _render_config(eve_root, hydra_arguments)
+    config_text, config_command = _render_config(
+        eve_root,
+        hydra_arguments,
+        project_root=runtime_checkout,
+        trace_path=evidence_dir / "config_validation_tmux_failures.jsonl",
+    )
     configuration = {
         "status": "resolved_without_worker_launch",
         "command_arguments": hydra_arguments,
+        "runner_command": config_command,
         "resolved_config_sha256": hashlib.sha256(config_text.encode()).hexdigest(),
         "resolved_config": config_text,
     }
@@ -584,7 +611,7 @@ def freeze(
     ]
     contract.update(
         {
-            "schema_version": 4,
+            "schema_version": 5,
             "phase": "10_followup_boundary_repair",
             "status": "frozen_before_repair_launch",
         }
@@ -658,6 +685,7 @@ def freeze(
             "previous_repair_archive_manifest_sha256": prior_repair_manifest_digest,
             "previous_repair_archive_records_verified": prior_repair_record_count,
             **latest_failed_repair,
+            **failed_startup,
             "initial_program_sha256": contract["initialization"]["seed_program_sha256"],
             "native_fixture_bundle_manifest_sha256": fixture[
                 "bundle_manifest_sha256"
@@ -682,6 +710,7 @@ def freeze(
         "protected_archive_records_verified": protected_record_count,
         "previous_repair_archive_records_verified": prior_repair_record_count,
         **latest_failed_repair,
+        **failed_startup,
         "native_fixture_run_id": fixture["run_id"],
         "native_fixture_preflight_checks": fixture["preflight_check_count"],
         "native_fixture_checks": fixture["native_check_count"],
@@ -707,7 +736,7 @@ def main() -> int:
     parser.add_argument(
         "--contract",
         type=Path,
-        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
     )
     args = parser.parse_args()
     result = freeze(
