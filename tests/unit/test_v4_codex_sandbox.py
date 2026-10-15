@@ -124,8 +124,17 @@ def test_wrapper_accepts_actual_eve_driver_overrides():
         'web_search="disabled"',
         "-c",
         "features.multi_agent=false",
+        "-c",
+        f'model_instructions_file="{ROOT / "configs/v4/phase10_followup_worker.md"}"',
     ]
     assert WRAPPER["_strip_legacy_sandbox"](args) == args
+
+
+def test_wrapper_rejects_unpinned_model_instructions_file():
+    with pytest.raises(ValueError, match="policy overrides are forbidden"):
+        WRAPPER["_strip_legacy_sandbox"](
+            ["-c", 'model_instructions_file="/tmp/prompt.md"']
+        )
 
 
 def test_wrapper_rejects_legacy_workspace_config(tmp_path):

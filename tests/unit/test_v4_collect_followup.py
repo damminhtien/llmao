@@ -25,7 +25,7 @@ def collector(tmp_path, monkeypatch):
 
 def test_collection_rejects_live_run_before_writing(collector) -> None:
     namespace, root, metadata = collector
-    contract = root / "V4_FOLLOWUP_PILOT_CONTRACT.json"
+    contract = root / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
     contract.write_text("{}")
     digest = hashlib.sha256(contract.read_bytes()).hexdigest()
     contract.with_suffix(".sha256").write_text(digest + "  contract.json\n")

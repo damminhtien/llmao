@@ -15,6 +15,7 @@ def test_usage_snapshot_accepts_recent_utc_iso_timestamp() -> None:
         "plan": "plus",
         "ordinary_usage_allowed": True,
         "paid_credits_balance": "0",
+        "rate_limit_reset_credits_used": False,
     }
 
     _validate_usage(snapshot)
@@ -25,6 +26,7 @@ def test_usage_snapshot_rejects_stale_and_local_timestamps() -> None:
         "plan": "plus",
         "ordinary_usage_allowed": True,
         "paid_credits_balance": "0",
+        "rate_limit_reset_credits_used": False,
     }
     stale = dict(
         base,
@@ -105,6 +107,7 @@ def test_failed_preflight_prevents_worker_creation(tmp_path, monkeypatch):
                 "plan": "plus",
                 "ordinary_usage_allowed": True,
                 "paid_credits_balance": "0",
+                "rate_limit_reset_credits_used": False,
             }
         )
     )

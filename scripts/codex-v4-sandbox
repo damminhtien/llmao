@@ -12,6 +12,9 @@ from pathlib import Path
 
 PROFILE = "llmao-v4-workspace-only"
 ROOT = Path(__file__).resolve().parents[1]
+MODEL_INSTRUCTIONS_FILE = str(
+    (ROOT / "configs/v4/phase10_followup_worker.md").resolve()
+)
 
 
 def _profile_text() -> str:
@@ -158,6 +161,7 @@ def _strip_legacy_sandbox(args: list[str]) -> list[str]:
                 "model_reasoning_effort": {"max", '"max"'},
                 "web_search": {"disabled", '"disabled"'},
                 "features.multi_agent": {"false"},
+                "model_instructions_file": {json.dumps(MODEL_INSTRUCTIONS_FILE)},
             }
             if value.strip() not in safe_overrides.get(key.strip(), set()):
                 raise ValueError(

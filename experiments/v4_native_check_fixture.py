@@ -58,6 +58,8 @@ def _validate_usage(snapshot: dict) -> None:
         raise ValueError("fixture requires available ordinary ChatGPT Plus usage")
     if snapshot.get("paid_credits_balance") != "0":
         raise ValueError("fixture must run without paid credits")
+    if snapshot.get("rate_limit_reset_credits_used") is not False:
+        raise ValueError("fixture must run without rate-limit reset credits")
 
 
 def _run_git(workspace: Path, *args: str) -> str:

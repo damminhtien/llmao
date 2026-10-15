@@ -20,6 +20,8 @@ def _usage() -> dict:
         "ordinary_usage_allowed": True,
         "five_hour_window_used_percent": 39,
         "weekly_window_used_percent": 23,
+        "paid_credits_balance": "0",
+        "rate_limit_reset_credits_used": False,
     }
 
 
@@ -31,6 +33,8 @@ def _usage() -> dict:
         ("ordinary_usage_allowed", 1),
         ("five_hour_window_used_percent", 100),
         ("weekly_window_used_percent", None),
+        ("paid_credits_balance", "10"),
+        ("rate_limit_reset_credits_used", True),
     ],
 )
 def test_usage_rejects_unavailable_or_wrong_plan(key, value) -> None:
@@ -87,3 +91,25 @@ def test_boundary_monitor_stops_on_eve_forbidden_change(tmp_path) -> None:
     marker.parent.mkdir(parents=True)
     marker.write_text("README.md changed\n")
     assert "forbidden" in MODULE["_boundary_violation"](tmp_path, "0" * 64, set())
+
+
+def test_seed_monitor_accepts_only_the_pinned_fresh_g0(tmp_path) -> None:
+    seed = tmp_path / "evaluation_workspaces/seed_1_seed/solver/candidate"
+    seed.mkdir(parents=True)
+    language = seed / "language.json"
+    program = seed / "program.json"
+    language.write_text('{"macros": [], "introduced_macros": []}\n')
+    program.write_text('{"op": "image"}\n')
+    expected = {
+        "seed_files_sha256": {
+            "examples/task/candidate/language.json": hashlib.sha256(
+                language.read_bytes()
+            ).hexdigest(),
+            "examples/task/candidate/program.json": hashlib.sha256(
+                program.read_bytes()
+            ).hexdigest(),
+        }
+    }
+    assert MODULE["_initial_seed_violation"](tmp_path, expected) is None
+    program.write_text('{"op": "different"}\n')
+    assert "fresh G0" in MODULE["_initial_seed_violation"](tmp_path, expected)

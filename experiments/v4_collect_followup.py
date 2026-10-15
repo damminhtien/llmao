@@ -45,17 +45,34 @@ def _copy(source: Path, destination: Path) -> dict:
     return _record(destination)
 
 
-def collect(destination: Path) -> dict:
+def collect(
+    destination: Path,
+    *,
+    contract_path: Path | None = None,
+    execution_path: Path | None = None,
+) -> dict:
     """Require terminal completion and preserve raw evidence plus replay inputs."""
     destination = destination.resolve()
     if not destination.is_relative_to(ROOT) or destination.exists():
         raise ValueError("archive must be a new directory inside the repository")
-    contract_path = ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
+    contract_path = contract_path or ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+    if not contract_path.is_absolute():
+        contract_path = ROOT / contract_path
+    contract_path = contract_path.resolve()
+    if not contract_path.is_relative_to(ROOT.resolve()):
+        raise ValueError("contract must be inside the repository")
     contract = _json(contract_path)
     digest = hashlib.sha256(contract_path.read_bytes()).hexdigest()
     if digest != contract_path.with_suffix(".sha256").read_text().split()[0]:
         raise ValueError("follow-up contract digest changed")
-    execution = _json(METADATA / "execution.json")
+    execution_path = execution_path or METADATA / "execution.json"
+    if not execution_path.is_absolute():
+        execution_path = ROOT / execution_path
+    execution_path = execution_path.resolve()
+    if not execution_path.is_relative_to(ROOT.resolve()):
+        raise ValueError("execution record must be inside the repository")
+    metadata_root = execution_path.parent
+    execution = _json(execution_path)
     if (
         execution["status"] != "runner_exited"
         or execution["exit_code"] != 0
@@ -66,7 +83,7 @@ def collect(destination: Path) -> dict:
     run_root = Path(execution["run_root"])
     if str(run_root) != contract["launch"]["run_root"]:
         raise ValueError("executed run root differs from frozen contract")
-    source = _json(METADATA / "evaluator_source_snapshot.json")
+    source = _json(metadata_root / "evaluator_source_snapshot.json")
     if source["sha256"] != contract["source_pins"]["evaluator_source_sha256"]:
         raise ValueError("evaluator source snapshot differs from the frozen contract")
     if (
@@ -94,6 +111,38 @@ def collect(destination: Path) -> dict:
     seed_workspaces = list((run_root / "evaluation_workspaces").glob("*_seed"))
     if len(seed_workspaces) != 1:
         raise ValueError("run must have one separate seed evaluation")
+
+    overlay = Path(contract["launch"]["immutable_overlay"])
+    overlay_files = contract["source_pins"]["worker_immutable_files_sha256"]
+    if overlay.is_symlink() or not overlay.is_dir():
+        raise ValueError("frozen worker immutable overlay is missing or unsafe")
+    overlay_paths = list(overlay.rglob("*"))
+    if any(path.is_symlink() for path in overlay_paths):
+        raise ValueError("frozen worker immutable overlay contains a symlink")
+    overlay_actual = {
+        path.relative_to(overlay).as_posix()
+        for path in overlay_paths
+        if path.is_file()
+    }
+    if overlay_actual != set(overlay_files):
+        raise ValueError("frozen worker immutable overlay inventory changed")
+    overlay_sources = {}
+    for relative, expected in overlay_files.items():
+        source_path = overlay / relative
+        if _record(source_path)["sha256"] != expected:
+            raise ValueError(f"frozen worker immutable file changed: {relative}")
+        overlay_sources[relative] = source_path
+
+    native_fixture = contract["native_fixture_evidence"]
+    native_sources = {}
+    for name, expected in native_fixture["files_sha256"].items():
+        source_path = Path(native_fixture["directory"]) / name
+        if source_path.is_symlink() or not source_path.is_file():
+            raise ValueError(f"native fixture evidence is missing: {name}")
+        if _record(source_path)["sha256"] != expected:
+            raise ValueError(f"native fixture evidence changed before collection: {name}")
+        native_sources[name] = source_path
+
     destination.mkdir(parents=True)
     evidence = {}
     for relative in (
@@ -111,11 +160,28 @@ def collect(destination: Path) -> dict:
         "evaluator_source_snapshot.json",
         "configuration_validation.json",
         "prelaunch_usage.json",
+        contract_path.with_suffix(".sha256").name,
     ):
-        evidence[name] = _copy(METADATA / name, destination / "run_evidence" / name)
+        source_path = (
+            execution_path
+            if name == "execution.json"
+            else contract_path.with_suffix(".sha256")
+            if name.endswith(".sha256")
+            else metadata_root / name
+        )
+        evidence[name] = _copy(source_path, destination / "run_evidence" / name)
     evidence[contract_path.name] = _copy(
         contract_path, destination / "run_evidence" / contract_path.name
     )
+    for name, fixture_path in native_sources.items():
+        evidence[f"native_fixture/{name}"] = _copy(
+            fixture_path, destination / "run_evidence" / "native_fixture" / name
+        )
+    for relative, overlay_path in overlay_sources.items():
+        evidence[f"worker_immutable_overlay/{relative}"] = _copy(
+            overlay_path,
+            destination / "run_evidence" / "worker_immutable_overlay" / relative,
+        )
     observations = []
     for index, row in enumerate([None, *rows]):
         workspace = (
@@ -133,6 +199,13 @@ def collect(destination: Path) -> dict:
         files = {}
         for name in ("language.json", "program.json"):
             files[name] = _copy(workspace / "solver/candidate" / name, target / name)
+        if row is None:
+            expected_seed = {
+                "language.json": contract["initialization"]["seed_language_sha256"],
+                "program.json": contract["initialization"]["seed_program_sha256"],
+            }
+            if any(files[name]["sha256"] != expected_seed[name] for name in expected_seed):
+                raise ValueError("archived seed differs from the fresh G0 contract")
         for name in ("lineage_parent.json", "lineage_state.json"):
             files[name] = _copy(logs / name, target / name)
         error = (
@@ -199,8 +272,14 @@ def collect(destination: Path) -> dict:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("destination", type=Path)
+    parser.add_argument("--contract", type=Path)
+    parser.add_argument("--record", type=Path)
     args = parser.parse_args()
-    manifest = collect(args.destination)
+    manifest = collect(
+        args.destination,
+        contract_path=args.contract,
+        execution_path=args.record,
+    )
     print(
         json.dumps(
             {

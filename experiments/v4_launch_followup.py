@@ -12,6 +12,48 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+
+
+def _sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _runtime_snapshot(python_entrypoint: Path) -> dict:
+    """Identify the project interpreter, resolved binary, package root, and versions."""
+    entrypoint = python_entrypoint.expanduser().absolute()
+    probe = subprocess.check_output(
+        [
+            str(entrypoint),
+            "-IB",
+            "-c",
+            (
+                "import json,sys,sysconfig; from importlib.metadata import version; "
+                "print(json.dumps({'version':list(sys.version_info[:3]), "
+                "'site_packages':sysconfig.get_path('purelib'), 'dependencies':{"
+                "name:version(name) for name in "
+                "('networkx','numpy','scipy','scikit-image')}}))"
+            ),
+        ],
+        text=True,
+    )
+    info = json.loads(probe)
+    resolved = entrypoint.resolve(strict=True)
+    runtime = {
+        "project_python_entrypoint": str(entrypoint),
+        "entrypoint_is_symlink": entrypoint.is_symlink(),
+        "entrypoint_link_target": (
+            str(entrypoint.readlink()) if entrypoint.is_symlink() else None
+        ),
+        "resolved_python_executable": str(resolved),
+        "python_executable_sha256": _sha256(resolved),
+        "site_packages": str(Path(info["site_packages"]).resolve(strict=True)),
+        "python_version": info["version"],
+        "dependencies": info["dependencies"],
+    }
+    canonical = json.dumps(runtime, sort_keys=True, separators=(",", ":"))
+    runtime["sha256"] = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    return runtime
 
 
 def _git(checkout: Path, *arguments: str) -> str:
@@ -33,6 +75,275 @@ def _validate_usage(usage: dict) -> None:
     for key in ("five_hour_window_used_percent", "weekly_window_used_percent"):
         if type(usage[key]) not in (int, float) or not 0 <= usage[key] < 100:
             raise ValueError("ordinary usage must be available in both windows")
+    if usage.get("paid_credits_balance") != "0":
+        raise ValueError("follow-up may not use paid credits")
+    if usage.get("rate_limit_reset_credits_used") is not False:
+        raise ValueError("follow-up may not use rate-limit reset credits")
+
+
+def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
+    """Verify the independent repair contract, fixture, launcher, and G0 seed."""
+    if (
+        contract.get("schema_version") != 2
+        or contract.get("phase") != "10_followup_boundary_repair"
+        or contract.get("status") != "frozen_before_repair_launch"
+    ):
+        raise ValueError("launch requires a separately frozen repair contract")
+
+    source_pins = contract["source_pins"]
+    for relative, expected in source_pins["host_files_sha256"].items():
+        candidate = ROOT / relative
+        path = candidate.resolve()
+        if (
+            not path.is_relative_to(ROOT.resolve())
+            or candidate.is_symlink()
+            or not path.is_file()
+        ):
+            raise ValueError(f"pinned host source is missing or unsafe: {relative}")
+        if _sha256(path) != expected:
+            raise ValueError(f"pinned host source changed: {relative}")
+
+    prompt_path = str((ROOT / "configs/v4/phase10_followup_worker.md").resolve())
+    wrapper_path = str((ROOT / "scripts/codex-v4-sandbox").resolve())
+    launch = contract["launch"]
+    driver = contract["driver"]
+    account = contract["account"]
+    budget = contract["budget"]
+    initialization = contract["initialization"]
+    if (
+        account.get("required_plan") != "ChatGPT Plus"
+        or account.get("use_ordinary_codex_allowance_only") is not True
+        or account.get("use_paid_credits") is not False
+        or account.get("use_rate_limit_resets") is not False
+        or account.get("stop_on_ordinary_rate_limit") is not True
+    ):
+        raise ValueError("repair contract must remain within ordinary Plus usage")
+    if (
+        budget.get("submitted_proposals") != 10
+        or budget.get("replacement_proposals") != 0
+        or budget.get("workers") != 1
+        or budget.get("parallel_workers") != 1
+    ):
+        raise ValueError("repair contract changed the original proposal budget")
+    if (
+        initialization.get("resume_previous_run") is not False
+        or initialization.get("import_prior_program") is not False
+        or initialization.get("import_prior_macros") is not False
+        or initialization.get("import_prior_guidance_state") is not False
+        or initialization.get("import_prior_population") is not False
+        or initialization.get("import_prior_winner") is not False
+    ):
+        raise ValueError("repair contract must start from fresh G0 state")
+    gates = contract["gates"]
+    if (
+        gates.get("minimum_valid_stage_one_proposals") != 8
+        or gates.get("minimum_distinct_valid_expanded_program_hashes") != 8
+        or gates.get("at_least_one_macro_used_by_descendant") is not True
+        or gates.get("maximum_protected_boundary_violations") != 0
+    ):
+        raise ValueError("repair contract changed the original validity gates")
+    if driver.get("executable") != wrapper_path:
+        raise ValueError("repair contract must route Codex through the pinned wrapper")
+    if driver.get("system_prompt_file") != prompt_path:
+        raise ValueError("repair contract must use the pinned worker instructions")
+    if driver.get("sandbox_profile") != "llmao-v4-workspace-only":
+        raise ValueError("repair contract must pin the workspace-only profile")
+    if (
+        driver.get("driver") != "codex_tmux"
+        or driver.get("allow_network") is not False
+        or driver.get("web_search") != "disabled"
+        or driver.get("enable_multi_agent") is not False
+    ):
+        raise ValueError("repair worker configuration weakens the required policy")
+    required_overrides = {
+        f"driver.executable={wrapper_path}",
+        f"driver.system_prompt_file={prompt_path}",
+        "driver.allow_network=false",
+        "driver.web_search=disabled",
+        "driver.enable_multi_agent=false",
+        f"optimizer.workers.items.0.immutable={launch['immutable_overlay']}",
+    }
+    if not required_overrides.issubset(set(launch["hydra_arguments"])):
+        raise ValueError("repair launch arguments do not match the pinned policy")
+    configuration_path = Path(launch["configuration_validation"])
+    if (
+        configuration_path.is_symlink()
+        or not configuration_path.is_file()
+        or _sha256(configuration_path)
+        != source_pins["configuration_validation_sha256"]
+    ):
+        raise ValueError("resolved launch configuration differs from its contract pin")
+    configuration = json.loads(configuration_path.read_text())
+    resolved_config = configuration.get("resolved_config", "")
+    if (
+        configuration.get("status") != "resolved_without_worker_launch"
+        or configuration.get("command_arguments") != launch["hydra_arguments"]
+        or hashlib.sha256(resolved_config.encode()).hexdigest()
+        != configuration.get("resolved_config_sha256")
+    ):
+        raise ValueError("resolved launch configuration is incomplete or inconsistent")
+    snapshot_path = Path(launch["evaluator_source_snapshot"])
+    if (
+        snapshot_path.is_symlink()
+        or not snapshot_path.is_file()
+        or _sha256(snapshot_path)
+        != source_pins["evaluator_source_snapshot_file_sha256"]
+    ):
+        raise ValueError("evaluator source snapshot differs from its contract pin")
+    snapshot = json.loads(snapshot_path.read_text())
+    if snapshot.get("sha256") != source_pins["evaluator_source_sha256"]:
+        raise ValueError("evaluator runtime digest differs from its source snapshot")
+    runtime = _runtime_snapshot(Path(launch["python"]))
+    if runtime != contract["runtime"] or runtime["sha256"] != source_pins[
+        "runtime_sha256"
+    ]:
+        raise ValueError("project Python runtime differs from its contract pin")
+    overlay_path = Path(launch["immutable_overlay"])
+    if overlay_path.is_symlink():
+        raise ValueError("repair worker immutable overlay may not be a symlink")
+    overlay = overlay_path.resolve()
+    if not overlay.is_relative_to(ROOT.resolve()) or not overlay.is_dir():
+        raise ValueError("repair worker immutable overlay is missing or unsafe")
+    expected_overlay = source_pins["worker_immutable_files_sha256"]
+    if any(path.is_symlink() for path in overlay.rglob("*")):
+        raise ValueError("repair worker immutable overlay contains a symlink")
+    actual_overlay = {
+        path.relative_to(overlay).as_posix()
+        for path in overlay.rglob("*")
+        if path.is_file()
+    }
+    if actual_overlay != set(expected_overlay):
+        raise ValueError("repair worker immutable overlay inventory changed")
+    for relative, expected in expected_overlay.items():
+        path = overlay / relative
+        if path.is_symlink() or _sha256(path) != expected:
+            raise ValueError(f"repair worker immutable file changed: {relative}")
+    structural_manifest_path = overlay / "structural_check/manifest.json"
+    structural_manifest = json.loads(structural_manifest_path.read_text())
+    if (
+        _sha256(structural_manifest_path)
+        != source_pins["structural_bundle_manifest_sha256"]
+        or structural_manifest.get("source_commit")
+        != source_pins["structural_bundle_source_commit"]
+        or structural_manifest.get("python_executable")
+        != runtime["project_python_entrypoint"]
+        or structural_manifest.get("launcher_python_executable")
+        != runtime["resolved_python_executable"]
+        or structural_manifest.get("python_site_packages") != runtime["site_packages"]
+        or structural_manifest.get("python_runtime", {}).get("version")
+        != runtime["python_version"]
+        or structural_manifest.get("python_runtime", {}).get("dependencies")
+        != runtime["dependencies"]
+    ):
+        raise ValueError("worker bundle does not pin the current project runtime")
+
+    fixture = contract["native_fixture_evidence"]
+    evidence_root = Path(fixture["directory"])
+    evidence_paths = {
+        name: evidence_root / name for name in fixture["files_sha256"]
+    }
+    for name, path in evidence_paths.items():
+        if path.is_symlink() or not path.is_file():
+            raise ValueError(f"native fixture evidence is missing: {name}")
+        if _sha256(path) != fixture["files_sha256"][name]:
+            raise ValueError(f"native fixture evidence changed: {name}")
+    result = json.loads(evidence_paths["result.json"].read_text())
+    preflight = json.loads(evidence_paths["sandbox_preflight.json"].read_text())
+    structural_manifest = json.loads(
+        evidence_paths["structural_check/manifest.json"].read_text()
+    )
+    if result.get("run_id") != fixture["run_id"]:
+        raise ValueError("native fixture run ID does not match the contract")
+    if (
+        preflight.get("permission_profile") != "llmao-v4-workspace-only"
+        or preflight.get("passed") is not True
+        or not preflight.get("checks")
+        or not all(preflight["checks"].values())
+        or len(preflight["checks"]) != 21
+        or result.get("sandbox_preflight", {}).get("checks") != preflight["checks"]
+        or result.get("preflight", {}).get("bundle_manifest_sha256")
+        != preflight.get("bundle_manifest_sha256")
+        or _sha256(evidence_paths["structural_check/manifest.json"])
+        != preflight.get("bundle_manifest_sha256")
+    ):
+        raise ValueError("native sandbox preflight did not pass every check")
+    wrapper_digest = source_pins["host_files_sha256"]["scripts/codex-v4-sandbox"]
+    if preflight.get("wrapper_sha256") != wrapper_digest:
+        raise ValueError("native preflight did not exercise the pinned launcher")
+    if preflight.get("command", [None])[0] != wrapper_path:
+        raise ValueError("native preflight did not use the pinned sandbox wrapper")
+    native_checks = result.get("native_check_verification", {})
+    if (
+        native_checks.get("passed") is not True
+        or not native_checks.get("checks")
+        or not all(native_checks["checks"].values())
+        or result.get("native_changed_paths") != []
+        or result.get("git_status_after") != ""
+        or result.get("candidate_contents_unchanged") is not True
+    ):
+        raise ValueError("native worker verification or workspace audit failed")
+    if result.get("transcript_sha256") != fixture["files_sha256"][
+        "native_transcript.jsonl"
+    ]:
+        raise ValueError("native transcript digest differs from the fixture report")
+    runtime = contract["runtime"]
+    if (
+        fixture.get("runtime_sha256") != runtime.get("sha256")
+        or structural_manifest.get("python_executable")
+        != runtime.get("project_python_entrypoint")
+        or structural_manifest.get("launcher_python_executable")
+        != runtime.get("resolved_python_executable")
+        or structural_manifest.get("python_site_packages") != runtime.get("site_packages")
+        or structural_manifest.get("python_runtime", {}).get("version")
+        != runtime.get("python_version")
+        or structural_manifest.get("python_runtime", {}).get("dependencies")
+        != runtime.get("dependencies")
+    ):
+        raise ValueError("native fixture runtime differs from the pinned checker runtime")
+
+    seed_files = initialization["seed_files_sha256"]
+    for relative, expected in seed_files.items():
+        candidate = eve_root / relative
+        path = candidate.resolve()
+        if not path.is_relative_to(eve_root.resolve()) or candidate.is_symlink():
+            raise ValueError(f"G0 seed path is unsafe: {relative}")
+        if _sha256(path) != expected:
+            raise ValueError(f"fresh G0 seed changed: {relative}")
+    language_path = eve_root / next(
+        relative for relative in seed_files if relative.endswith("/language.json")
+    )
+    language = json.loads(language_path.read_text())
+    if language.get("macros") != [] or language.get("introduced_macros") != []:
+        raise ValueError("repair pilot must initialize from macro-free G0")
+    if language.get("base_language_hash") != language.get("parent_language_hash"):
+        raise ValueError("fresh G0 seed must have no prior language parent")
+
+
+def _initial_seed_violation(run_root: Path, initialization: dict) -> str | None:
+    """Stop if EvE materializes a starting candidate other than the pinned G0."""
+    workspaces = run_root / "evaluation_workspaces"
+    if not workspaces.is_dir():
+        return None
+    seeds = list(workspaces.glob("*_seed"))
+    if not seeds:
+        return None
+    if len(seeds) != 1:
+        return "repair run did not initialize exactly one fresh G0 seed"
+    expected = {
+        Path(relative).name: digest
+        for relative, digest in initialization["seed_files_sha256"].items()
+        if relative.endswith(("/language.json", "/program.json"))
+    }
+    candidate_dir = seeds[0] / "solver/candidate"
+    paths = {name: candidate_dir / name for name in expected}
+    if not all(path.is_file() for path in paths.values()):
+        return None
+    if any(
+        path.is_symlink() or _sha256(path) != expected[name]
+        for name, path in paths.items()
+    ):
+        return "repair run seed differs from the pinned fresh G0 candidate"
+    return None
 
 
 def _boundary_violation(
@@ -90,7 +401,7 @@ def _stop_runner(process: subprocess.Popen) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
-        "--contract", type=Path, default=ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
+        "--contract", type=Path, default=DEFAULT_CONTRACT
     )
     parser.add_argument("--usage-snapshot", type=Path, required=True)
     parser.add_argument("--record", type=Path, required=True)
@@ -102,6 +413,7 @@ def main() -> int:
     if digest != args.contract.with_suffix(".sha256").read_text().split()[0]:
         raise ValueError("follow-up contract digest mismatch")
     contract = json.loads(content)
+    _validate_repair_contract(contract, args.eve_root.resolve())
     usage = json.loads(args.usage_snapshot.read_text())
     _validate_usage(usage)
     launch = contract["launch"]
@@ -192,6 +504,10 @@ def main() -> int:
                     contract["source_pins"]["structural_bundle_manifest_sha256"],
                     seen,
                 )
+                if violation is None:
+                    violation = _initial_seed_violation(
+                        run_root, contract["initialization"]
+                    )
                 if violation:
                     record["stop_reason"] = violation
                     code = _stop_runner(process)
