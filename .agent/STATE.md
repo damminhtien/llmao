@@ -12,27 +12,31 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M1 — Respond to the failed exploratory follow-up.** The selected-prefill lineage check and sequential native fixture pass. The fixture uses one tmux pane and one driver for two calls, captures both JSONL transcripts, and passes 21 preflight plus 44 native checks. New contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` is frozen at SHA-256 `7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`; `--validate-only` passes. No scientific pilot has been launched. Keep both historical pilots failed and unchanged; a separate exploratory pilot awaits explicit authorization.
+- **M1 — Respond to the failed exploratory follow-up.** The 20261015-02 contract was frozen and validated, then its ten-proposal exploratory pilot ran without replacements and failed 0/10 candidate-context validations. All ten candidates kept G0's parent hash. Nine later attempts failed at `tmux respawn-pane`; no pilot JSONL transcripts were captured and the error artifacts omit stdout/stderr. A post-run scan found no monitored boundary violation across ten structural bundles and no fresh-G0 mismatch, but the boundary gate remains incomplete without transcripts. The finalized archive is `results/v4/phase10_followup/archive/repair_followup_20261015-02/`; its manifest SHA-256 is `cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08`. Both earlier failed pilots remain unchanged.
 - Phase 0 final preregistration is incomplete. The canonical protocol remains a draft; Phase 12 discovery and primary evaluation have not run.
 
 ## Next
 
-1. Wait for explicit authorization before launching the separately contracted exploratory pilot at the frozen unused paths. Do not run live Plus usage checks or use paid credits, plan upgrades, or rate-limit resets.
-2. Preserve the original repair pilot's nine `tmux respawn-pane` failures as unresolved historical evidence; the passing fixture did not reproduce them.
-3. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
+1. Follow `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md`: exercise the lineage handoff through the real EvE runner in a data-free fixture, preserve one JSONL transcript per invocation, and capture stdout/stderr for each tmux failure.
+2. Preserve the nine `tmux respawn-pane` failures in the 20261015-02 archive; do not infer their cause or reuse its proposals.
+3. Freeze another contract only after the new data-free gates pass. No live Plus usage check is required; do not use paid credits, plan upgrades, or rate-limit resets.
+4. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
 
 ## Known issues
 
 - No pilot has established genuine macro reuse by descendants under the follow-up contract.
 - The latest repair attempt had 0/10 valid proposals: its candidates kept the G0 seed's parent hash instead of the selected prefill's language hash.
-- Attempts 2–10 failed in `tmux respawn-pane`; no pilot JSONL transcripts were captured, so the protected-boundary gate is incomplete despite no supervisor-reported forbidden marker.
+- The 20261015-01 repair attempt's attempts 2–10 failed in `tmux respawn-pane` and had no pilot JSONL transcripts; its protected-boundary gate remains incomplete.
+- The latest run repeats the parent-hash mismatch: ten archived candidates have parent hash `34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f`, while the selected lineage state hash is `5ba1e2f9e0b1d45a4e0c6fa9825491f83e169bae43bde63fe03863008315e765`.
+- The nine archived tmux errors retain the failing command and exit status but no stdout/stderr; the root cause remains unknown.
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
 - Never access official test data before the applicable frozen-language evaluation gate.
 
 ## Validation
 
 - The focused lineage, fixture, and sandbox tests pass (26 tests); Ruff, `py_compile`, and `git diff --check` pass.
-- Data-free fixture `20261015-native-sequential-03` passes 21 preflight and 44 native checks and records two sequential transcripts. The earlier failed archive has 218 verified records; the failed repair archive has 211 verified records. Escaping manifest paths are rejected.
-- Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` passes `--validate-only`; its frozen run and execution-record paths remain unused. Freezing/validation did not launch a worker or access official test data.
+- Data-free fixture `20261015-native-sequential-03` passes 21 preflight and 44 native checks and records two sequential transcripts. The earlier failed archives have 218 and 211 verified records. The 20261015-02 pilot archive has 208 verified records and a matching manifest sidecar.
+- Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` passed `--validate-only`; it pinned the fresh run paths and was used for the ten-proposal run. The official test split remained disabled by the pinned evaluator.
+- Post-run boundary audit checked ten structural bundles and returned no violation; fresh G0 also matched its contract. Missing pilot transcripts leave the full boundary gate incomplete.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
-- The user confirmed sufficient resources. No live Plus usage check has been performed or is required; retain the no-upgrade/no-paid-credit policy.
+- The user confirmed sufficient resources. No live Plus usage check was performed or required; retain the no-upgrade/no-paid-credit policy.

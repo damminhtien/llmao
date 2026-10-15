@@ -534,6 +534,34 @@ driver/transcript capture are resolved in a data-free fixture.
   `7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`;
   its `--validate-only` gate passes. Freezing and validation launched no worker.
 
+### Follow-up repair pilot attempt 20261015-02 — 2026-10-15
+
+The separately contracted run completed ten proposal slots with no replacements
+but **failed**: 0/10 candidates passed context validation. Every candidate kept
+G0's parent hash instead of the selected prefill's language hash. Attempts 2–10
+failed at `tmux respawn-pane` with exit status 1; the archived error records do
+not include stdout or stderr. No native worker JSONL transcript was captured.
+Post-run checks found no monitored boundary violation across ten structural
+bundles and no fresh-G0 mismatch, but transcript loss leaves the full
+protected-boundary gate incomplete.
+
+The finalized failed archive is
+`results/v4/phase10_followup/archive/repair_followup_20261015-02/`; its manifest
+SHA-256 is
+`cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08` and its
+208 referenced file records verify. `V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md`
+and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md` record the audit and next
+data-free requirements. Do not replace, repair, or rescore any proposal.
+
+- [x] Preserve all ten submissions, driver artifacts, evaluation failures,
+  telemetry, contract, and data-free fixture in the finalized archive.
+- [x] Mark the run failed regardless of runner exit code 0; keep it exploratory
+  feasibility evidence only.
+- [ ] Trace the selected-prefill handoff through a data-free fixture using the
+  actual EvE runner and capture one worker JSONL transcript per invocation.
+- [ ] Capture exact tmux command, exit code, stdout, and stderr on a failed
+  `respawn-pane` before freezing another contract.
+
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
 `evaluate/lineage_state.json`.

@@ -16,7 +16,7 @@ The detailed requirements remain in `TODO.md`. Each milestone below ends at an i
 - Bound the verified launcher, runtime, strict workspace-only policy, preflight, source digests, and native fixture evidence into a new, separately hashed contract.
 - Use a fresh G0 initialization and preserve the original ten-proposal budget and all validity, eight-distinct-representation, macro-use, descendant, resource, and boundary gates.
 
-Latest attempt evidence:
+The 20261015-01 repair attempt evidence:
 
 - Contract `V4_FOLLOWUP_REPAIR_CONTRACT.json` was hashed before launch and
   pinned the passing `20261015-native-boundary-05` fixture, exact worker
@@ -29,9 +29,9 @@ Latest attempt evidence:
   JSONL transcripts, so the boundary gate cannot be established. The final
   archive manifest is pinned at
   `results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256`.
-- No further scientific pilot is part of this active response. The response
-  gates and new contract are recorded below; wait for explicit authorization
-  before a separate pilot.
+- That response plan did not authorize a pilot on its own. After the user
+  requested the next phase, the data-free gates and new contract below were
+  completed and the separately contracted 20261015-02 pilot was run.
 
 Response gates now pass in data-free evidence. The lineage regression rejects
 the old G0 parent hash. Fixture `20261015-native-sequential-03` passed 21/21
@@ -49,9 +49,23 @@ worker. The passing fixture does not reproduce the original pilot's nine
 `tmux respawn-pane` failures; retain those as failed historical evidence. No
 live Plus usage check is required or performed.
 
-Next, request explicit authorization before a separately contracted
-exploratory pilot. M1 remains active until that pilot has passed every gate; do
-not launch it automatically.
+The separately contracted pilot then ran ten proposals with no replacements
+and failed 0/10 candidate-context validations. All ten candidates retained
+G0's parent hash rather than the selected prefill's current language hash.
+Attempts 2–10 have `tmux respawn-pane` exit-status-1 errors. No per-worker JSONL
+transcript was archived, and the failure files omit stdout/stderr. A post-run
+scan checked ten structural bundles and found no monitored boundary change or
+fresh-G0 mismatch, but the missing transcripts leave that gate incomplete.
+The archived manifest is marked `failed`, has 208 verified entries, and hashes
+to `cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08`.
+Details and new required data-free checks are in
+`V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md` and
+`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md`.
+
+M1 remains active. First complete the new plan's real-runner lineage fixture,
+transcript capture, and tmux stderr capture. Do not launch another pilot from
+this failed run or reuse its proposals; any later run needs a new contract and
+unused paths.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 
