@@ -34,6 +34,7 @@ def test_latest_failed_repair_contract_and_archive_remain_pinned():
     assert evidence["latest_failed_repair_contract_sha256"] == "7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e"
     assert evidence["latest_failed_repair_archive_manifest_sha256"] == "cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08"
     assert evidence["latest_failed_repair_archive_records_verified"] == 208
+    assert evidence["latest_failed_repair_wrapper_sha256"] == "c130fefd1527414ff3f0989a3ebe491d2a2e268b558ddb256716734fef01982a"
 
 
 def test_tmux_failure_trace_summary_preserves_exact_subprocess_details(tmp_path):

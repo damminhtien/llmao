@@ -430,12 +430,12 @@ def freeze(
         raise ValueError("protected prior repair archive record count changed")
     fixture = _validate_fixture(evidence_root, old_digest)
     launcher = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
-    previous_wrapper_sha256 = prior_repair_contract["source_pins"][
-        "host_files_sha256"
-    ]["scripts/codex-v4-sandbox"]
-    if fixture["wrapper_sha256"] != previous_wrapper_sha256:
-        raise ValueError("historical native fixture no longer matches its wrapper pin")
     latest_failed_repair = launcher["_verify_latest_failed_repair_artifacts"]()
+    previous_wrapper_sha256 = latest_failed_repair[
+        "latest_failed_repair_wrapper_sha256"
+    ]
+    if fixture["wrapper_sha256"] != previous_wrapper_sha256:
+        raise ValueError("native fixture no longer matches the latest failed contract")
     lineage_fixture = launcher["_verify_real_runner_lineage_fixture"](
         {"directory": str(lineage_evidence_root)},
         expected_wrapper_sha256=_sha256(WRAPPER),
@@ -445,7 +445,9 @@ def freeze(
     )
     if (
         lineage_result.get("previous_sandbox_wrapper_sha256")
-        != previous_wrapper_sha256
+        != prior_repair_contract["source_pins"]["host_files_sha256"][
+            "scripts/codex-v4-sandbox"
+        ]
         or lineage_result.get("sandbox_wrapper_sha256") != _sha256(WRAPPER)
     ):
         raise ValueError("real-runner fixture wrapper lineage is inconsistent")

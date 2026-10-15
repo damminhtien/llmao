@@ -78,9 +78,13 @@ def _verify_latest_failed_repair_artifacts() -> dict:
     archive_digest = _verify_sha256_sidecar(LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST)
     archive_manifest = json.loads(LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST.read_text())
     record_count = _verify_manifest_records(archive_manifest)
+    wrapper_digest = failed_contract.get("source_pins", {}).get(
+        "host_files_sha256", {}
+    ).get("scripts/codex-v4-sandbox")
     if (
         failed_contract.get("phase") != "10_followup_boundary_repair"
         or failed_contract.get("status") != "frozen_before_repair_launch"
+        or not isinstance(wrapper_digest, str)
         or archive_manifest.get("phase") != 10
         or archive_manifest.get("pilot_status") != "failed"
         or record_count != 208
@@ -90,6 +94,7 @@ def _verify_latest_failed_repair_artifacts() -> dict:
         "latest_failed_repair_contract_sha256": contract_digest,
         "latest_failed_repair_archive_manifest_sha256": archive_digest,
         "latest_failed_repair_archive_records_verified": record_count,
+        "latest_failed_repair_wrapper_sha256": wrapper_digest,
     }
 
 
