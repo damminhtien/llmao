@@ -700,6 +700,36 @@ EvE
 
 Do not access official test results.
 
+### Protocol v7 launch result — incomplete infrastructure failure
+
+Protocol v7 SHA-256 is
+`fa35b0e744a659d670e73a130a871d7c0fc17411ca12e5155bd2cab06813b276`. Its fresh
+sandbox preflight passed 21/21 checks, the native lineage fixture passed 7/7
+checks, all five seed contracts validated, and seed 1101's common initial set
+contained 20 scored G0 candidates. The first two adaptive proposals both
+failed before candidate-context validation or primary scoring because the
+actual Phase 2 workspace lacked the rendered root `README.md` used to identify
+the selected prefill. This was a runner overlay configuration defect; it was
+not a candidate score or a data-boundary violation.
+
+After the repeated failure, the third proposal was stopped before completion.
+Its partial transcript and candidate workspace are retained under
+`results/v4/phase12/runs/discovery-1101-fa35b0e744a6/`; it consumed 163,548 input
+and 2,321 output tokens. The partial transcript SHA-256 is
+`a06b99819bcb15f94bb303be05c227e6c7ca4a6cbc85f01ee962bb4a0f879c57`. The run
+records three consumed attempts and 1,471,505 total reported input-plus-output
+tokens, with two completed failures and one interrupted attempt. It remains
+incomplete; do not resume or pool it with another implementation. No official
+test partition was accessed, no adaptive candidate received a primary score,
+and no language may be selected as \(G^*\) from this run.
+
+Runner correction `f95fa0a` supplies and hashes a per-run immutable overlay
+with rendered task README, AGENTS guidance, G0 reference, and pinned structural
+checker; its seven focused primary-runner tests, Ruff, and compileall passed.
+Freeze it in a new protocol amendment, pass fresh gates and contracts, then
+start protocol-scoped discovery runs. Protocol v7 and its failed evidence
+remain preserved.
+
 ---
 
 # Phase 13 — Select and freeze \(G^*\)

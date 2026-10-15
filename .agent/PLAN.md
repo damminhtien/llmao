@@ -78,15 +78,21 @@ result remains exploratory feasibility evidence only.
 
 ## M2 — Final preregistration and implementation pins
 
-**Status: active.** Scientific Phase 0 choices are fixed in
-`V4_PRIMARY_DESIGN.md`; finish implementation pins, canonical protocol
-finalization, and launch evidence before Phase 12 discovery.
+**Status: active (v8 amendment).** Scientific Phase 0 choices are fixed in
+`V4_PRIMARY_DESIGN.md`. Protocol v7 and all five contracts passed their launch
+gates, but seed 1101 revealed that the actual EvE Phase 2 workspace omitted the
+rendered root README required by lineage evaluation. The v7 run is preserved as
+incomplete after two identical pre-scoring failures and one interrupted partial
+proposal. The runner now builds a per-run immutable overlay containing the task
+README and AGENTS, G0 reference, and pinned structural checker; freeze this
+implementation in v8 and verify it with a fresh native fixture before launch.
 
 Integrate the primary design, objective, budgets, seed set,
 source/configuration pins, common initial-program digest, resume/failure
-rules, and analysis requirements into a versioned canonical protocol. Verify
-the data-free sandbox preflight and native lineage fixture, then validate a
-seed-specific contract for every discovery seed.
+rules, and analysis requirements into a versioned canonical protocol. Retain
+v7 and its incomplete seed-1101 run. Verify the new overlay with a data-free
+sandbox preflight and native lineage fixture, then validate a seed-specific
+contract for every discovery seed under v8.
 
 **Done when:** the final protocol is complete, its hash verifies, all pinned implementations and configurations match it, and the launch checks in `V4_PRIMARY_DESIGN.md` pass.
 
