@@ -26,6 +26,7 @@ def _parser() -> argparse.ArgumentParser:
     parser.add_argument("--generation", type=int, default=0)
     parser.add_argument("--eve-agent-id")
     parser.add_argument("--guidance-hash")
+    parser.add_argument("--protocol", type=Path)
     parser.add_argument("--lineage-state-output", type=Path)
     return parser
 
@@ -42,6 +43,7 @@ def main() -> int:
         generation=args.generation,
         eve_agent_id=args.eve_agent_id,
         guidance_hash=args.guidance_hash,
+        protocol_path=args.protocol,
     )
     output = args.output.resolve(strict=False)
     if output.is_relative_to(args.candidate_directory.resolve(strict=True)):

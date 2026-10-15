@@ -10,13 +10,22 @@ from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any
 
-from v4_primary_contract import (
-    EVE_ROOT,
-    ROOT,
-    git_value,
-    sha256_file,
-    tracked_tree_is_clean,
-)
+if __package__:
+    from .v4_primary_contract import (
+        EVE_ROOT,
+        ROOT,
+        git_value,
+        sha256_file,
+        tracked_tree_is_clean,
+    )
+else:
+    from v4_primary_contract import (
+        EVE_ROOT,
+        ROOT,
+        git_value,
+        sha256_file,
+        tracked_tree_is_clean,
+    )
 
 
 def _write_exclusive(path: Path, payload: bytes) -> None:

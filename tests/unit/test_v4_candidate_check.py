@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import copy
 import json
+import sys
 from pathlib import Path
 
 import pytest
@@ -19,6 +20,7 @@ from bias_optimizer.v4.candidate.context import (
 )
 from bias_optimizer.v4.candidate.provenance import CandidateValidationError
 from bias_optimizer.v4.language import G0_LANGUAGE, extend_macro_language
+from experiments.v4_build_candidate_context import main as build_context_main
 
 
 @pytest.fixture
@@ -82,6 +84,32 @@ def test_check_accepts_an_evaluator_lineage_parent(candidate_files) -> None:
     )
     assert result["status"] == "valid"
     assert result["language_hash"] != parent.sha256
+
+
+def test_context_builder_cli_uses_the_requested_protocol(candidate_files, monkeypatch):
+    directory, protocol = candidate_files
+    protocol_payload = json.loads(protocol.read_text())
+    protocol_payload["primary_design"]["exact_cli_model_identifier"] = "fixture-model"
+    protocol_payload["primary_design"]["requested_reasoning_effort"] = "fixture-effort"
+    protocol.write_text(json.dumps(protocol_payload))
+    context_path = protocol.parent / "context.json"
+    monkeypatch.setattr(
+        sys,
+        "argv",
+        [
+            "v4_build_candidate_context.py",
+            str(directory),
+            str(context_path),
+            "--protocol",
+            str(protocol),
+        ],
+    )
+
+    assert build_context_main() == 0
+
+    context = json.loads(context_path.read_text())
+    assert context["provenance"]["model_backend"]["model_identifier"] == "fixture-model"
+    assert context["provenance"]["model_backend"]["reasoning_effort"] == "fixture-effort"
 
 
 @pytest.mark.parametrize(
