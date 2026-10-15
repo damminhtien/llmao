@@ -62,10 +62,15 @@ Details and new required data-free checks are in
 `V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md` and
 `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md`.
 
-M1 remains active. First complete the new plan's real-runner lineage fixture,
-transcript capture, and tmux stderr capture. Do not launch another pilot from
-this failed run or reuse its proposals; any later run needs a new contract and
-unused paths.
+M1 remains active. Fixture `20261015-real-runner-lineage-04` now passes through
+the real EvE runner with seven lineage/context gates, a hashed JSONL transcript,
+a strict language-only sandbox probe, and a successful tmux stdout/stderr capture
+probe. Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` passed
+`--validate-only` and pins both the immutable failed -02 pilot archive and the
+pre-worker Hydra startup failure from contract -03. The -03 attempt created no
+run directory or worker proposals. Next, run contract -04's original
+ten-proposal budget and audit every transcript and boundary result. Do not reuse
+proposals from either failed scientific pilot.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 

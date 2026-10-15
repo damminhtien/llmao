@@ -553,6 +553,31 @@ SHA-256 is
 and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md` record the audit and next
 data-free requirements. Do not replace, repair, or rescore any proposal.
 
+### Phase 10 response continuation — 2026-10-15
+
+The new data-free real-runner fixture `20261015-real-runner-lineage-04` passed
+all seven lineage/context gates through EvE's `Phase2Runner`, preserved one
+hashed JSONL transcript, proved that the fixture can write only
+`solver/candidate/language.json`, and verified exact stdout/stderr capture for a
+synthetic tmux failure. Its manifest SHA-256 is
+`eb3f1b9715f7584f44ccb0e81b6e0c6e4d5f6a71ec9666a9f4492ffc0f88c005`.
+
+Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json` was frozen and validated,
+but its traced runner exited before EvE created the run directory or started a
+worker. Hydra resolved `configs.eve` against the wrong module path. The contract,
+execution record, configuration resolution, and combined console output are
+preserved; the attempt submitted zero proposals and produced zero structural
+bundles. The failure was fixed by preserving EvE's module context in the traced
+runner and validating configuration through that same entrypoint.
+
+Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` is now frozen at SHA-256
+`17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6` and passed
+`--validate-only`. It pins the -03 pre-worker failure, all 208 records of the
+failed -02 archive, the 21-check native preflight, 44 native checks, and the
+real-runner fixture. The contract has no current account or usage snapshot
+artifact requirement. M1 remains active until its ten-proposal pilot passes all
+gates and is archived; this exploratory result cannot count as Phase 12 evidence.
+
 - [x] Preserve all ten submissions, driver artifacts, evaluation failures,
   telemetry, contract, and data-free fixture in the finalized archive.
 - [x] Mark the run failed regardless of runner exit code 0; keep it exploratory

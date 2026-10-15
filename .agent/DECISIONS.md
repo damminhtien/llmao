@@ -25,3 +25,7 @@ Every V4 native Codex worker must use `scripts/codex-v4-sandbox` through the app
 ## 2026-10-15 — Remove live Plus usage gates
 
 The user confirmed sufficient resources and requested removal of Plus usage checks. Launchers, fixtures, and active run guidance must not require account-usage snapshots or allowance checks. Keep the existing restrictions against plan upgrades, paid credits, and rate-limit resets, and preserve completed-run usage snapshots as historical evidence.
+
+## 2026-10-15 — Preserve EvE's Hydra context in the traced runner
+
+The external tmux-capture bootstrap must put the EvE checkout ahead of the LLMAO checkout on `sys.path` and run `scaling_evolve.algorithms.eve.runner` as `__main__`. Calling its decorated entrypoint from the bootstrap changes Hydra's config-module resolution. Resolve the frozen pilot configuration through this same external entrypoint before launch.
