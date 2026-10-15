@@ -742,10 +742,16 @@ score, and no official test data was accessed.
 
 Commit `8e61a41` fixes the adapter to retain the pinned lexical interpreter
 launcher, with a symlink regression test (8 focused tests pass; Ruff and
-compileall pass). Freeze this change in protocol v9 superseding v8, repeat fresh
-sandbox/native-fixture gates, freeze and validate all five v9 seed contracts,
-then start a separate protocol-scoped run. Do not resume or pool v8 evidence.
-The v7 and v8 protocols and their incomplete evidence remain preserved.
+compileall pass). Protocol v9 was generated at SHA-256
+`d907ed68bd1e14e6b49bfe8e5c91a67620ab675f60768505d978c2ce2cb98fb6`, but it
+retained six stale `pending_preregistration_decisions` labels from the
+historical pilot draft. No v9 contracts or workers were launched. Commit
+`da29fcb` makes protocol finalization verify the known Phase 0 decision list,
+ensure its choices are populated in the primary fields, and clear the resolved
+list. Generate protocol v10 superseding v9, repeat fresh sandbox/native-fixture
+gates, freeze and validate all five v10 seed contracts, then start a separate
+protocol-scoped run. Do not resume or pool v8 evidence. Protocols v7-v9 and
+their evidence remain preserved.
 
 ---
 

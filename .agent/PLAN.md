@@ -78,21 +78,25 @@ result remains exploratory feasibility evidence only.
 
 ## M2 — Final preregistration and implementation pins
 
-**Status: active (v9 amendment).** Scientific Phase 0 choices are fixed in
+**Status: active (v10 amendment).** Scientific Phase 0 choices are fixed in
 `V4_PRIMARY_DESIGN.md`. Protocol v8 and all five contracts passed their launch
 gates, but seed 1101 exposed that the evaluator resolved the contract-pinned
 `.venv/bin/python` symlink to base Python, which lacks `networkx`. Two adaptive
 proposals failed before context creation/scoring; a third partial proposal was
 interrupted. Preserve the incomplete v8 run and all 590,544 reported tokens.
 Commit `8e61a41` validates and retains the lexical launcher path, with a
-focused symlink regression test.
+focused symlink regression test. Protocol v9 was written but kept all six
+historical `pending_preregistration_decisions`, so it was not used for
+contracts or launch. Commit `da29fcb` makes the finalizer check the known
+decision inventory, integrate the frozen fields, and clear the resolved list.
 
 Integrate the primary design, objective, budgets, seed set,
 source/configuration pins, common initial-program digest, resume/failure
-rules, and analysis requirements into protocol v9 superseding v8. Retain all
+rules, and analysis requirements into protocol v10 superseding v9. Retain all
 earlier protocols and incomplete run roots. Verify the interpreter-path fix
-with fresh data-free sandbox/native-lineage gates, then validate a seed-specific
-contract for every discovery seed under v9 before a fresh run.
+with fresh data-free sandbox/native-lineage gates, confirm no pending Phase 0
+decisions remain, then validate a seed-specific contract for every discovery
+seed under v10 before a fresh run.
 
 **Done when:** the final protocol is complete, its hash verifies, all pinned implementations and configurations match it, and the launch checks in `V4_PRIMARY_DESIGN.md` pass.
 

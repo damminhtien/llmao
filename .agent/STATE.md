@@ -13,7 +13,7 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M2 — Final preregistration and implementation pins (reopened for v9).**
+- **M2 — Final preregistration and implementation pins (reopened for v10).**
   Scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. Protocol v8
   (`01197b83b8f945e685e91c76f3c1f0049b6797260a7c0ad602ec952857efc4bc`), its
   fresh 21/21 sandbox preflight, 7/7 native fixture, and five validated seed
@@ -24,16 +24,22 @@ Updated: 2026-10-15
   The v8 run is preserved as incomplete under its protocol-scoped run root with
   590,544 reported input-plus-output tokens. Commit `8e61a41` changes the
   adapter to validate and retain the lexical launcher path; a focused symlink
-  regression test passes. Freeze v9 and repeat fresh launch gates/contracts.
+  regression test passes. Protocol v9 was generated with SHA-256
+  `d907ed68bd1e14e6b49bfe8e5c91a67620ab675f60768505d978c2ce2cb98fb6`, but
+  still carried six stale `pending_preregistration_decisions` entries from the
+  historical pilot draft. No v9 contract or worker was launched. Commit
+  `da29fcb` makes the finalizer verify the known decision inventory and remove
+  it only after the final choices are integrated. Generate v10 superseding v9,
+  verify an empty pending list, then repeat fresh launch gates/contracts.
 
 ## Next
 
-1. Preserve protocols v1-v8, their contracts and launch evidence, and all
-   failed/interrupted attempts; v8 must not be resumed.
-2. Generate protocol v9 superseding v8 and pin the committed interpreter-path
-   fix.
-3. Pass fresh sandbox/native-fixture gates, freeze all five v9 seed contracts,
-   and validate them before starting a fresh seed-1101 run.
+1. Preserve protocols v1-v9, their contracts and launch evidence, and all
+   failed/interrupted attempts; neither v8 nor v9 may be resumed/launched.
+2. Generate protocol v10 superseding v9, pinning both committed fixes and
+   clearing the resolved Phase 0 decision inventory.
+3. Pass fresh sandbox/native-fixture gates, freeze all five v10 seed
+   contracts, and validate them before starting a fresh seed-1101 run.
 
 ## Known issues and boundaries
 
@@ -79,6 +85,16 @@ Updated: 2026-10-15
   context or primary score, and the official test partition was not accessed.
   Commit `8e61a41` fixes the adapter and adds a symlink-preservation regression
   test; v8 cannot be resumed after that pinned source change.
+- Protocol v9 SHA-256 is
+  `d907ed68bd1e14e6b49bfe8e5c91a67620ab675f60768505d978c2ce2cb98fb6`; it
+  supersedes v8 but retained six stale pending-decision labels from the
+  historical pilot draft. The scientific choices and implementation are
+  present in the protocol, but the version does not meet Phase 0's explicit
+  pending-decision acceptance gate. It is preserved unchanged and was never
+  used to freeze contracts or launch workers. Commit `da29fcb` corrects the
+  finalizer and adds coverage that the generated protocol clears the resolved
+  inventory while retaining the frozen seeds, initial-program hash, selection
+  rule, AUC bounds, and primary statistics. Protocol v10 is required.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
@@ -100,4 +116,7 @@ Updated: 2026-10-15
   passed before its interpreter-path failure.
 - Evaluator launcher fix `8e61a41`: all 8 focused primary-runner tests passed;
   Ruff, `compileall`, `git diff --check`, and `graphify update .` passed. A fresh
-  v9 sandbox preflight/native fixture and contracts remain pending.
+  v10 sandbox preflight/native fixture and contracts remain pending.
+- Preregistration finalizer fix `da29fcb`: 12 focused finalizer/runner tests
+  passed; Ruff, `compileall`, `git diff --check`, and `graphify update .`
+  passed. Protocol v10 has not yet been generated.
