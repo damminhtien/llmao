@@ -588,12 +588,32 @@ test data
 
 must receive a hard failure.
 
-V4 Codex workers use EvE's `codex_tmux` driver with `workspace-write`
-sandboxing, agent-shell network access disabled, web search disabled, and
-multi-agent mode disabled. Do not use `codex_exec` for scientific workers: its
-runtime passes `--dangerously-bypass-approvals-and-sandbox`. EvE creates a
-per-workspace Codex home, so the worker uses the pinned model and reasoning
-settings without loading the user's global Codex configuration.
+V4 Codex workers use EvE's `codex_tmux` driver through
+`scripts/codex-v4-sandbox`. The wrapper removes the driver's legacy
+`-s workspace-write` argument and installs the named
+`llmao-v4-workspace-only` permission profile in the isolated Codex home.
+The profile denies root access except the minimal system runtime, grants
+read access to the workspace and pinned Python/runtime dependencies, permits
+writes only to the four declared candidate JSON paths, and denies shell
+network access, `/tmp`, and `$TMPDIR`. Workspace legacy sandbox configuration
+and CLI policy overrides are rejected. Hooks, web search, multi-agent mode,
+and the remote plugin catalog are disabled for the fixture. Do not use
+`codex_exec` for scientific workers: its runtime bypasses the sandbox.
+
+`experiments/v4_sandbox_preflight.py` checks actual OS enforcement without a
+model. The native fixture runs this gate before creating a tmux worker and
+rechecks the fresh Plus allowance snapshot before launching it. The checker
+launcher first probes the project venv, then runs its resolved Python binary
+with explicit venv site-packages; macOS denied traversal through the venv's
+Homebrew interpreter symlink under the strict read policy.
+
+The data-free `20261015-native-boundary-04` fixture passed the automated
+preflight and all fifteen native postconditions, including valid/invalid
+checker feedback, temporary-write denials, outside-read denial, unchanged
+candidates, and a clean workspace. The earlier `native-boundary-02` verified
+temporary writes under the legacy policy only. These fixtures do not establish
+scientific-worker enforcement across a complete pilot. See
+`V4_SANDBOX_REPAIR.md` for commands, evidence, and remaining contract gates.
 
 The Phase 9 EvE smoke snapshots only the candidate JSON and the pinned G0
 manifest. Its evaluator uses a separately configured, clean LLMAO checkout at

@@ -52,6 +52,15 @@ has run; preregistered Phase 12 discovery and primary evaluation have not.
 - [x] Configure `codex_tmux` with `workspace-write`, no agent-shell network,
   disabled web search, and disabled multi-agent mode. Do not use `codex_exec`
   for scientific workers because it bypasses the Codex sandbox.
+- [x] Verify temporary-write denials through the data-free native fixture
+  `20261015-native-boundary-02` under the legacy policy.
+- [x] Replace the V4 fixture policy with the named workspace-only profile;
+  reject legacy configuration conflicts and CLI overrides. Add a no-model
+  preflight that must pass before worker creation. The full preflight and
+  fifteen native postconditions pass in `20261015-native-boundary-04`; see
+  `V4_SANDBOX_REPAIR.md` for reproducible commands and evidence.
+- [ ] Bind the repaired launcher, sandbox profile, runtime, and preflight
+  evidence into a new scientific contract before the next pilot.
 - [x] Verify the scientific worker config pins `codex_tmux`, disables network,
   web search, and multi-agent mode, and uses the isolated Codex home.
 - [x] Verify EvE can launch Codex workers using ChatGPT-account authentication.
@@ -458,10 +467,11 @@ another exploratory pilot; resolve and hash Phase 0 before Phase 12 discovery.
 - [x] Implement a hashed project-interpreter launcher for future bundles;
   four focused tests pass with the interpreter variable absent, system-only
   PATH, and paths containing spaces.
-- [ ] Demonstrate a successful
-  structural checker call through native worker tools; the first follow-up
-  worker received no `LLMAO_PYTHON` shell variable and bare Python lacked
-  dependencies. Preserve its failed proposal and frozen run.
+- [x] Demonstrate a successful structural checker call through native worker
+  tools. The follow-up pilot lacked `LLMAO_PYTHON` and its alternative Python
+  lacked dependencies. A later data-free native attempt timed out; its legacy
+  retry and strict-profile fixture `20261015-native-boundary-04` passed. Preserve
+  the failed pilot and every integration attempt.
 
 The follow-up completed all ten proposals and **failed its gate**: eight
 valid scores and eight distinct expanded ASTs passed those thresholds, but
@@ -472,8 +482,10 @@ artifacts remain in the ignored `results/v4/phase10_followup/archive_verified/`.
 - [x] Preserve and hash terminal candidates, failures, lineage, telemetry,
   evaluator logs, and all ten native transcripts.
 - [x] Document the follow-up failure response before changing its interface.
-- [ ] Verify the interpreter launcher and stricter temporary-write policy
-  through native worker tools before another separately pinned pilot.
+- [x] Verify the interpreter launcher and stricter temporary-write policy
+  through native worker tools before another separately pinned pilot. The
+  valid/invalid checker results and both temporary-root denials are recorded
+  in `results/v4/phase10_followup/native_worker_integration/20261015-native-boundary-02/`.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in

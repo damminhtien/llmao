@@ -50,6 +50,7 @@ def test_pinned_bundle_runs_without_data_or_scoring_modules(tmp_path, inputs) ->
     manifest = BUILDER["build_bundle"](destination, **inputs)
     assert len(manifest["files"]) == 22
     assert manifest["python_executable"] == str(Path(sys.executable).absolute())
+    assert manifest["launcher_python_executable"] == str(Path(sys.executable).resolve())
     assert manifest["python_runtime"]["version"][:2] == [3, 14]
     for relative, record in manifest["files"].items():
         assert (

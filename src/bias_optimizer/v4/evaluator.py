@@ -25,6 +25,7 @@ def evaluator_source_snapshot(repo_root: Path) -> dict[str, Any]:
         *sorted((root / "src/bias_optimizer").rglob("*.py")),
         root / "experiments/v4_evaluate_candidate.py",
         root / "experiments/v4_build_candidate_context.py",
+        root / "scripts/codex-v4-sandbox",
         root / "results/v4/protocol.json",
         root / "results/v4/environment.json",
         root / "results/v4/languages/g0.json",

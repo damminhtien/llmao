@@ -1,0 +1,274 @@
+#!/usr/bin/env python3
+"""Run Codex with V4's isolated workspace permission profile."""
+
+from __future__ import annotations
+
+import json
+import os
+import shutil
+import sys
+import tomllib
+from pathlib import Path
+
+PROFILE = "llmao-v4-workspace-only"
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def _profile_text() -> str:
+    python_entrypoint = ROOT / ".venv/bin/python"
+    python_executable = python_entrypoint.resolve()
+    if python_executable.parent.name != "bin":
+        raise ValueError("pinned project Python must live in a bin directory")
+    read_roots = sorted(
+        {
+            str((ROOT / ".venv").resolve()),
+            str(python_executable.parent.parent),
+        }
+    )
+    lines = [
+        f"[permissions.{PROFILE}]",
+        'extends = ":workspace"',
+        "",
+        f"[permissions.{PROFILE}.filesystem]",
+        '":root" = "deny"',
+        '":minimal" = "read"',
+        '":tmpdir" = "deny"',
+        '":slash_tmp" = "deny"',
+    ]
+    lines.extend(f'{json.dumps(path)} = "read"' for path in read_roots)
+    lines.extend(
+        [
+            "",
+            f'[permissions.{PROFILE}.filesystem.":workspace_roots"]',
+            '"." = "read"',
+            '"candidate/language.json" = "write"',
+            '"candidate/program.json" = "write"',
+            '"solver/candidate/language.json" = "write"',
+            '"solver/candidate/program.json" = "write"',
+            "",
+            f"[permissions.{PROFILE}.network]",
+            "enabled = false",
+            "",
+        ]
+    )
+    return "\n".join(lines)
+
+
+def _install_profile(config_path: Path) -> None:
+    if config_path.is_symlink() or not config_path.is_file():
+        raise ValueError("Codex must use the isolated EvE CODEX_HOME config")
+    text = config_path.read_text(encoding="utf-8")
+    config = tomllib.loads(text)
+    if "sandbox_mode" in config or "sandbox_workspace_write" in config:
+        raise ValueError(
+            "permission profiles cannot be combined with legacy sandbox settings"
+        )
+    current_default = config.get("default_permissions")
+    if current_default not in (None, PROFILE):
+        raise ValueError("isolated Codex config selects a different permission profile")
+
+    profile_config = tomllib.loads(_profile_text())["permissions"][PROFILE]
+    current_profile = config.get("permissions", {}).get(PROFILE)
+    if current_profile not in (None, profile_config):
+        raise ValueError(
+            "isolated Codex config contains a different V4 permission profile"
+        )
+
+    lines = text.splitlines()
+    if current_default is None:
+        first_table = next(
+            (
+                index
+                for index, line in enumerate(lines)
+                if line.lstrip().startswith("[")
+            ),
+            len(lines),
+        )
+        lines.insert(first_table, f'default_permissions = "{PROFILE}"')
+    updated = "\n".join(lines).rstrip()
+    if current_profile is None:
+        updated = f"{updated}\n\n{_profile_text().rstrip()}"
+    updated += "\n"
+    tomllib.loads(updated)
+    config_path.write_text(updated, encoding="utf-8")
+
+
+def _strip_legacy_sandbox(args: list[str]) -> list[str]:
+    filtered: list[str] = []
+    index = 0
+    while index < len(args):
+        item = args[index]
+        if item == "--":
+            filtered.extend(args[index:])
+            break
+        if item in {"-s", "--sandbox"}:
+            if index + 1 >= len(args) or args[index + 1] != "workspace-write":
+                raise ValueError(
+                    "V4 Codex wrapper accepts only workspace-write driver settings"
+                )
+            index += 2
+            continue
+        if item.startswith("--sandbox="):
+            if item.partition("=")[2] != "workspace-write":
+                raise ValueError(
+                    "V4 Codex wrapper accepts only workspace-write driver settings"
+                )
+            index += 1
+            continue
+        if item in {
+            "--yolo",
+            "--full-auto",
+            "--approve-for-me",
+            "--dangerously-bypass-approvals-and-sandbox",
+            "--dangerously-bypass-hook-trust",
+            "--add-dir",
+            "--remote",
+            "-p",
+            "--profile",
+            "--permission-profile",
+            "-P",
+            "--sandbox-state-json",
+            "--sandbox-state-readable-root",
+            "--allow-unix-socket",
+            "--worktree",
+            "--search",
+        } or item.startswith(
+            (
+                "--add-dir=",
+                "--remote=",
+                "--profile=",
+                "--permission-profile=",
+                "--sandbox-state-",
+                "--allow-unix-socket=",
+            )
+        ):
+            raise ValueError("V4 sandbox policy override is forbidden")
+        override = None
+        if item in {"-c", "--config"}:
+            if index + 1 >= len(args):
+                raise ValueError("missing config override")
+            override = args[index + 1]
+        elif item.startswith("--config="):
+            override = item.partition("=")[2]
+        elif item.startswith("-c") and item != "-c":
+            override = item[2:]
+        if override is not None:
+            key, _, value = override.partition("=")
+            safe_overrides = {
+                "model_reasoning_effort": {"max", '"max"'},
+                "web_search": {"disabled", '"disabled"'},
+                "features.multi_agent": {"false"},
+            }
+            if value.strip() not in safe_overrides.get(key.strip(), set()):
+                raise ValueError(
+                    "legacy sandbox overrides or policy overrides are forbidden"
+                )
+        if item in {"-a", "--ask-for-approval"} and (
+            index + 1 >= len(args) or args[index + 1] != "never"
+        ):
+            raise ValueError("V4 requires approval_policy=never")
+        if item.startswith(("--enable", "--disable", "--ask-for-approval=")):
+            raise ValueError("V4 sandbox policy override is forbidden")
+        if (
+            item.startswith("-")
+            and item
+            not in {
+                "--no-alt-screen",
+                "-C",
+                "--cd",
+                "-m",
+                "--model",
+                "-a",
+                "--ask-for-approval",
+                "-c",
+                "--config",
+            }
+            and not item.startswith(("--cd=", "--config=", "-c"))
+        ):
+            raise ValueError("unsupported V4 driver option")
+        filtered.append(item)
+        if item in {
+            "-c",
+            "--config",
+            "-C",
+            "--cd",
+            "-m",
+            "--model",
+            "-a",
+            "--ask-for-approval",
+        }:
+            if index + 1 >= len(args):
+                raise ValueError("missing driver option value")
+            index += 1
+            filtered.append(args[index])
+        index += 1
+    return filtered
+
+
+def _validate_workspace(workspace: Path) -> None:
+    """Reject policy changes from any project config Codex could load."""
+    for parent in (workspace, *workspace.parents):
+        config_path = parent / ".codex/config.toml"
+        if config_path.exists():
+            config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+            forbidden = {
+                "sandbox_mode",
+                "sandbox_workspace_write",
+                "sandbox_permissions",
+                "permissions",
+                "default_permissions",
+                "profiles",
+                "profile",
+            }
+            if forbidden.intersection(config):
+                raise ValueError(
+                    f"workspace config overrides sandbox policy: {config_path}"
+                )
+        if (parent / ".git").exists():
+            return
+    raise ValueError("V4 workspace must belong to a Git repository")
+
+
+def _workspace_from_args(args: list[str]) -> Path:
+    workspace = Path.cwd()
+    for index, item in enumerate(args):
+        if item in {"-C", "--cd"}:
+            workspace = Path(args[index + 1])
+        elif item.startswith("--cd="):
+            workspace = Path(item.partition("=")[2])
+    return workspace.resolve()
+
+
+def main() -> int:
+    code_home_raw = os.environ.get("CODEX_HOME")
+    if not code_home_raw:
+        raise ValueError("V4 Codex wrapper requires an isolated CODEX_HOME")
+    code_home = Path(code_home_raw).expanduser().resolve()
+    if code_home.parent.name != ".codex-driver-home":
+        raise ValueError(
+            "V4 Codex wrapper will not modify the user's global Codex config"
+        )
+    args = _strip_legacy_sandbox(sys.argv[1:])
+    _validate_workspace(_workspace_from_args(args))
+    _install_profile(code_home / "config.toml")
+    if args and args[0] == "sandbox":
+        args[1:1] = ["--permission-profile", PROFILE]
+    executable = shutil.which("codex")
+    if not executable:
+        raise FileNotFoundError("Codex CLI is not available on PATH")
+    os.execv(
+        executable,
+        [
+            executable,
+            "-c",
+            "features.remote_plugin=false",
+            "-c",
+            "features.hooks=false",
+            *args,
+        ],
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

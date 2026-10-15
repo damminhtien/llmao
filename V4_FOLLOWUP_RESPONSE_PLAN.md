@@ -35,17 +35,26 @@ proposal is repaired, replaced, or counted as discovery evidence.
 
 1. Use the existing interpreter-bound `run_check.sh` bundle in a separate,
    data-free native-worker integration fixture. Pin the absolute project Python
-   entrypoint without resolving its virtualenv symlink. Demonstrate valid and
-   invalid structural feedback with no inherited variable. No extra scientific
-   score or pilot proposal is permitted in this fixture.
+   entrypoint for dependency validation, then invoke its resolved runtime with
+   explicit venv site-packages to avoid blocked macOS symlink traversal. Record
+   both identities. Demonstrate valid and invalid feedback without an inherited
+   interpreter variable. No extra scientific score or pilot proposal is
+   permitted in this fixture.
 2. Give workers an explicit failure rule: if the pinned checker cannot run,
    report the infrastructure failure and submit under the original budget.
    Never create a virtual environment, install dependencies, search outside
    the supplied workspace for interpreters, or modify unrelated files.
-3. Configure and verify the native sandbox to exclude host temporary-write
-   exceptions where supported. Audit actual tool effects and transcript writes,
-   including helper temporary files. Bind the boundary policy and its verification
-   evidence into the next contract; do not infer enforcement from config alone.
+3. Launch the isolated native Codex worker through
+   `scripts/codex-v4-sandbox` with its named workspace-only permission profile.
+   Reject mixed legacy sandbox configuration and CLI policy overrides. Deny
+   shell network access, external dataset reads, and temporary writes; disable
+   web search, multi-agent mode, hooks, and the remote plugin catalog in the
+   fixture. The automated no-model preflight must pass before the native
+   fixture creates a worker. Verify the native tool path and audit transcripts
+   as well as file effects. The `20261015-native-boundary-04` data-free fixture
+   passed both gates; see `V4_SANDBOX_REPAIR.md`. Bind the launcher digest,
+   policy, and verification evidence into the next contract before a new
+   scientific pilot; config alone is insufficient enforcement evidence.
 4. Clarify type contracts, especially Scalar versus Vector arguments. Prefer
    the working structural checker over manually estimated dimensions/types.
 5. Clarify inherited macro reuse: retain useful inherited calls when changing

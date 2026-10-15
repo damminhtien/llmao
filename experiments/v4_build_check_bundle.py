@@ -55,7 +55,7 @@ def build_bundle(
     if hashlib.sha256(protocol).hexdigest() != protocol_sha256:
         raise ValueError("checker protocol digest mismatch")
     json.loads(protocol)
-    # Resolving this symlink would select the base interpreter and lose the venv.
+    # Probe the venv first; launch its resolved runtime with explicit package roots.
     python = Path(python_executable or sys.executable).expanduser().absolute()
     if not python.is_file() or not os.access(python, os.X_OK):
         raise ValueError("structural checker needs an executable project Python")
@@ -65,9 +65,10 @@ def build_bundle(
             "-IB",
             "-c",
             (
-                "import json,sys,networkx,numpy,scipy,skimage; "
+                "import json,sys,sysconfig,networkx,numpy,scipy,skimage; "
                 "from importlib.metadata import version; "
                 "print(json.dumps({'version':list(sys.version_info[:3]), "
+                "'site_packages':sysconfig.get_path('purelib'), "
                 "'dependencies':{name:version(name) for name in "
                 "('networkx','numpy','scipy','scikit-image')}}))"
             ),
@@ -84,6 +85,10 @@ def build_bundle(
     runtime = json.loads(probe.stdout)
     if runtime["version"][:2] != [3, 14]:
         raise ValueError("structural checker requires project Python 3.14")
+    launcher_python = python.resolve()
+    site_packages = Path(runtime["site_packages"]).resolve()
+    if not site_packages.is_dir():
+        raise ValueError("project Python site-packages directory is unavailable")
     contents = {}
     for relative in SOURCE_PATHS:
         result = subprocess.run(
@@ -98,10 +103,21 @@ def build_bundle(
             "package_initializer_shim",
         )
     contents["results/v4/protocol.json"] = (protocol, "checker_protocol")
+    bootstrap = (
+        "import runpy,sys;"
+        f"sys.path.insert(0,{str(site_packages)!r});"
+        "script=sys.argv[1];"
+        "sys.argv=sys.argv[1:];"
+        "runpy.run_path(script,run_name='__main__')"
+    )
+    launcher_command = (
+        f"exec {shlex.quote(str(launcher_python))} -IB -c "
+        f"{shlex.quote(bootstrap)} "
+        '"$bundle_root/experiments/v4_check_candidate.py" "$@"\n'
+    )
     launcher = (
         "#!/bin/sh\nset -eu\n"
-        'bundle_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)\n'
-        f'exec {shlex.quote(str(python))} -IB "$bundle_root/experiments/v4_check_candidate.py" "$@"\n'
+        'bundle_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)\n' + launcher_command
     )
     contents["run_check.sh"] = (launcher.encode(), "interpreter_launcher")
     manifest = {
@@ -109,6 +125,8 @@ def build_bundle(
         "source_commit": commit,
         "protocol_sha256": protocol_sha256,
         "python_executable": str(python),
+        "launcher_python_executable": str(launcher_python),
+        "python_site_packages": str(site_packages),
         "python_runtime": runtime,
         "worker_command": "sh structural_check/run_check.sh",
         "purpose": "data-free structural validation; no accuracy evaluation",

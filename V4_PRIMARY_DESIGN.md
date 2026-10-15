@@ -10,10 +10,16 @@ document and record any later change as a versioned amendment.
 ## Account and execution
 
 Use the ChatGPT Plus plan (not Pro) and its ordinary Codex allowance. Run
-`gpt-6-luna` with max reasoning through `codex_tmux`, one worker,
-workspace-write sandboxing, disabled shell network, disabled web search, and
-disabled multi-agent mode. Use an isolated Codex home without a custom model
-provider. Do not use Pro, paid credits, plan upgrades, or rate-limit resets.
+`gpt-6-luna` with max reasoning through `codex_tmux`, one worker. Set EvE's
+`driver.executable` to `scripts/codex-v4-sandbox`, which installs the named
+`llmao-v4-workspace-only` permission profile. Deny external dataset reads,
+undeclared writes, shell network access, `/tmp`, and `$TMPDIR`; reject legacy
+sandbox settings that override the profile. Disable web search, multi-agent
+mode, and the remote plugin catalog. Use an isolated Codex home without a
+custom model provider. Require the automated sandbox preflight and native
+fixture evidence described in `V4_SANDBOX_REPAIR.md`, then bind the final
+sources, policy, and runtime into the contract before scientific launch.
+Do not use Pro, paid credits, plan upgrades, or rate-limit resets.
 Before each worker launch, verify the active plan is Plus and check its current
 ordinary allowance; pause at the account limit instead of changing plans or
 buying credits.
