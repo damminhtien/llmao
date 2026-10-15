@@ -18,6 +18,20 @@ class TerminalContractError(RuntimeError):
     """Stop a seed when its pinned source, runtime, or data boundary breaks."""
 
 
+def _configured_python() -> Path:
+    """Return the pinned launcher path without resolving its venv symlink."""
+    configured = os.environ.get("LLMAO_PYTHON", "")
+    python = Path(configured)
+    if (
+        not configured
+        or not python.is_absolute()
+        or not python.is_file()
+        or not os.access(python, os.X_OK)
+    ):
+        raise TerminalContractError("LLMAO_PYTHON must be an absolute executable interpreter")
+    return python
+
+
 def _write_json(path: Path, payload: Any) -> None:
     path.write_text(json.dumps(payload, indent=2, sort_keys=True) + "\n", encoding="utf-8")
 
@@ -120,11 +134,9 @@ def _evaluate(
     evaluator = Path(os.environ["LLMAO_PHASE12_EVALUATOR"]).resolve(strict=True)
     expected_protocol_sha = os.environ["LLMAO_PHASE12_PROTOCOL_SHA256"]
     data_dir = Path(os.environ["LLMAO_DATA_DIR"]).resolve()
-    python = Path(os.environ["LLMAO_PYTHON"]).resolve(strict=True)
+    python = _configured_python()
     if len(expected_commit) != 40 or any(c not in "0123456789abcdef" for c in expected_commit):
         raise TerminalContractError("LLMAO_EXPECTED_COMMIT must be a full lowercase Git SHA")
-    if not python.is_file() or not os.access(python, os.X_OK):
-        raise TerminalContractError("LLMAO_PYTHON must be an executable interpreter")
     for name, path in (("context builder", context_builder), ("primary evaluator", evaluator)):
         if not path.is_file():
             raise TerminalContractError(f"primary {name} is missing: {path}")

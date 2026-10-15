@@ -3,8 +3,10 @@
 from __future__ import annotations
 
 import copy
+import importlib.util
 import json
 import sys
+from pathlib import Path
 
 import pytest
 
@@ -15,6 +17,17 @@ from experiments.v4_run_primary_discovery import (
 from experiments.v4_run_primary_discovery import (
     _run as run_subprocess,
 )
+
+_EVALUATOR_PATH = (
+    Path(__file__).resolve().parents[2] / "configs/v4/phase12_primary/evaluate.py"
+)
+_EVALUATOR_SPEC = importlib.util.spec_from_file_location(
+    "phase12_primary_evaluate", _EVALUATOR_PATH
+)
+assert _EVALUATOR_SPEC is not None and _EVALUATOR_SPEC.loader is not None
+_EVALUATOR_MODULE = importlib.util.module_from_spec(_EVALUATOR_SPEC)
+_EVALUATOR_SPEC.loader.exec_module(_EVALUATOR_MODULE)
+_configured_python = _EVALUATOR_MODULE._configured_python
 
 
 @pytest.fixture
@@ -69,6 +82,22 @@ def test_runner_subprocess_helper_remains_callable(tmp_path):
 
     assert result.returncode == 0
     assert result.stdout == "primary-runner-helper\n"
+
+
+def test_evaluator_preserves_pinned_venv_launcher_symlink(tmp_path, monkeypatch) -> None:
+    target = tmp_path / "python"
+    target.write_text("#!/bin/sh\n", encoding="utf-8")
+    target.chmod(0o755)
+    launcher = tmp_path / ".venv/bin/python"
+    launcher.parent.mkdir(parents=True)
+    launcher.symlink_to(target)
+    monkeypatch.setenv("LLMAO_PYTHON", str(launcher))
+
+    configured_python = _configured_python()
+
+    assert configured_python == launcher
+    assert configured_python != target
+    assert configured_python.resolve() == target
 
 
 @pytest.mark.parametrize(
