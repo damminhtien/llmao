@@ -13,7 +13,7 @@ The detailed requirements remain in `TODO.md`. Each milestone below ends at an i
 
 - Clarify Scalar/Vector contracts and require genuine inherited-macro use by a descendant.
 - Make checker failure guidance explicit; workers must report infrastructure failure and stay within the original proposal budget. Do not create environments or modify files outside the candidate boundary.
-- Bind the verified launcher, runtime, strict workspace-only policy, preflight, source digests, and native fixture evidence into a new, separately hashed contract.
+- Bound the verified launcher, runtime, strict workspace-only policy, preflight, source digests, and native fixture evidence into a new, separately hashed contract.
 - Use a fresh G0 initialization and preserve the original ten-proposal budget and all validity, eight-distinct-representation, macro-use, descendant, resource, and boundary gates.
 
 Latest attempt evidence:
@@ -29,9 +29,9 @@ Latest attempt evidence:
   JSONL transcripts, so the boundary gate cannot be established. The final
   archive manifest is pinned at
   `results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256`.
-- No further scientific pilot is part of this active response. The passing
-  response gates are recorded below; freeze a new contract first, then request
-  explicit authorization before a separate pilot.
+- No further scientific pilot is part of this active response. The response
+  gates and new contract are recorded below; wait for explicit authorization
+  before a separate pilot.
 
 Response gates now pass in data-free evidence. The lineage regression rejects
 the old G0 parent hash. Fixture `20261015-native-sequential-03` passed 21/21
@@ -41,11 +41,17 @@ freezer and launcher rehash all 218 earlier archive records and all 211 repair
 archive records, pin the passing fixture, and require unused paths for the new
 contract. Ruff, `py_compile`, `git diff --check`, and 26 focused tests pass.
 
-Next, commit the response implementation and freeze the new contract. Freezing
-does not launch a worker. Then stop for explicit authorization before any
-separately contracted exploratory pilot. The passing fixture does not reproduce
-the original pilot's nine `tmux respawn-pane` failures; retain those as failed
-historical evidence. No live Plus usage check is required or performed.
+Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` is frozen at SHA-256
+`7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`, and its
+`--validate-only` gate passes. The contract pins the successful data-free
+fixture and both immutable failed archives. Freezing and validation launched no
+worker. The passing fixture does not reproduce the original pilot's nine
+`tmux respawn-pane` failures; retain those as failed historical evidence. No
+live Plus usage check is required or performed.
+
+Next, request explicit authorization before a separately contracted
+exploratory pilot. M1 remains active until that pilot has passed every gate; do
+not launch it automatically.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 

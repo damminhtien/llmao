@@ -528,8 +528,11 @@ driver/transcript capture are resolved in a data-free fixture.
   `20261015-native-sequential-03` (21/21 preflight, 44/44 native checks). The
   fixture passed without a `respawn-pane` error; the nine failures in the
   historical repair pilot remain unchanged.
-- [ ] Only after those gates pass, freeze a new contract before any separately
-  authorized scientific pilot.
+- [x] Freeze a new contract only after those gates pass and before any separately
+  authorized scientific pilot. Contract
+  `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` has SHA-256
+  `7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`;
+  its `--validate-only` gate passes. Freezing and validation launched no worker.
 
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in

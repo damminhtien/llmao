@@ -12,15 +12,14 @@ Updated: 2026-10-15
 
 ## Current
 
-- **M1 — Respond to the failed exploratory follow-up.** The selected-prefill lineage check and sequential native fixture now pass. The fixture uses one tmux pane and one driver for two calls, captures both JSONL transcripts, and passes 21 preflight plus 44 native checks. The freezer and launcher now pin this fixture and verify both immutable failed archives. The new contract has not yet been frozen; no new scientific pilot has been launched. Keep both historical pilots failed and unchanged.
+- **M1 — Respond to the failed exploratory follow-up.** The selected-prefill lineage check and sequential native fixture pass. The fixture uses one tmux pane and one driver for two calls, captures both JSONL transcripts, and passes 21 preflight plus 44 native checks. New contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` is frozen at SHA-256 `7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`; `--validate-only` passes. No scientific pilot has been launched. Keep both historical pilots failed and unchanged; a separate exploratory pilot awaits explicit authorization.
 - Phase 0 final preregistration is incomplete. The canonical protocol remains a draft; Phase 12 discovery and primary evaluation have not run.
 
 ## Next
 
-1. Freeze a new, separately hashed contract from the committed source, passing native fixture, and fresh unused paths; do not run a scientific pilot as part of freezing.
+1. Wait for explicit authorization before launching the separately contracted exploratory pilot at the frozen unused paths. Do not run live Plus usage checks or use paid credits, plan upgrades, or rate-limit resets.
 2. Preserve the original repair pilot's nine `tmux respawn-pane` failures as unresolved historical evidence; the passing fixture did not reproduce them.
-3. After contract freeze, request explicit authorization before any separately contracted exploratory pilot. Do not require live Plus usage checks or use paid credits, plan upgrades, or rate-limit resets.
-4. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
+3. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
 
 ## Known issues
 
@@ -34,6 +33,6 @@ Updated: 2026-10-15
 
 - The focused lineage, fixture, and sandbox tests pass (26 tests); Ruff, `py_compile`, and `git diff --check` pass.
 - Data-free fixture `20261015-native-sequential-03` passes 21 preflight and 44 native checks and records two sequential transcripts. The earlier failed archive has 218 verified records; the failed repair archive has 211 verified records. Escaping manifest paths are rejected.
-- Freeze the new contract only after the implementation commit; this operation resolves configuration and evidence but does not launch a worker or access official test data.
+- Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` passes `--validate-only`; its frozen run and execution-record paths remain unused. Freezing/validation did not launch a worker or access official test data.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
 - The user confirmed sufficient resources. No live Plus usage check has been performed or is required; retain the no-upgrade/no-paid-credit policy.
