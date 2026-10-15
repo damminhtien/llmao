@@ -73,3 +73,18 @@ After two or more compactions in one task, checkpoint the state and start a fres
 ## Repository-specific continuation
 
 For LLMAO V4, use `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and `TODO.md` as the scientific contract. A pilot is not primary discovery evidence. Preserve all frozen artifacts, respect the official-test boundary, and verify live account and usage conditions immediately before any future model run.
+
+## V4 native worker launch and sandbox
+
+These rules apply to every V4 native Codex worker, including exploratory pilots and data-free native fixtures.
+
+- Set EvE's `driver.executable` to the absolute path of `scripts/codex-v4-sandbox`. Keep `driver.driver=codex_tmux`. Do not launch a V4 worker with raw `codex`, the EvE default executable, or `codex_exec`.
+- Use the approved V4 launch/fixture entrypoint and its frozen contract. The contract must pin the wrapper, worker instructions, project Python runtime and dependency versions, structural checker bundle, permission profile, and passing native preflight evidence. Validate the contract before launching; do not assemble a one-off Hydra or CLI command that bypasses it.
+- Run `experiments/v4_sandbox_preflight.py` before a new native fixture/model launch or whenever the wrapper, Codex CLI, Python runtime, permission profile, or checker bundle changes. Require `passed: true` and every recorded check to be true. The current contract expects 21 checks. On any failure, stop before starting a model worker, retain the evidence, inspect the exact command and stderr, and fix the failed boundary before retrying.
+- The wrapper must use an isolated `CODEX_HOME`, install `llmao-v4-workspace-only`, and reject legacy `sandbox_mode` settings and policy-changing CLI overrides. Never weaken the profile to make an interpreter or command work; do not edit the user's global Codex configuration.
+- Build checker bundles with the project venv entrypoint. Use the bundle's resolved Python binary and recorded `python_site_packages` path under the strict profile. Do not substitute system Python, make another venv, install dependencies, or create speculative symlink/runtime workarounds.
+- Keep tmux for the long-running native worker session. The Codex/macOS permission profile enforces filesystem and network access; tmux only manages the session. The deterministic no-model preflight runs as a direct sandboxed subprocess and must pass before tmux creates a model worker.
+- Treat configuration parsing as configuration evidence, not enforcement evidence. A legacy-policy run proves only the restrictions it actually exercised. A timeout is an observed timeout until logs establish a cause; do not attribute it to a catalog, sandbox rule, or interpreter without evidence.
+- Avoid repeated manual variants. Preserve each failed attempt and its exact command, CLI/runtime identity, stdout/stderr, and policy digest. Change one diagnosed cause at a time, rerun the bounded preflight, and record the result before proceeding.
+
+The canonical implementation and verified boundary are documented in `V4_SANDBOX_REPAIR.md`. Keep the numeric preflight count synchronized with its tests and every contract validator if the probe set changes.

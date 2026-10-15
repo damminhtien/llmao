@@ -8,6 +8,7 @@ Updated: 2026-10-15
 - V4 baseline, candidate/evaluator boundaries, Phase 9 smoke, and Phase 11 lineage tooling are recorded as complete in `TODO.md`.
 - The Phase 10 exploratory pilot failed its valid-candidate gate (6/10 valid; 8/10 required). The follow-up pilot also failed: it had no descendant macro use and included noncandidate temporary writes. Both outcomes remain failed exploratory evidence.
 - The data-free native checker and sandbox fixture `20261015-native-boundary-04` passed. It does not prove enforcement during a later scientific pilot. Digests and limits are recorded in `V4_SANDBOX_REPAIR.md`.
+- Added durable root-agent and workflow instructions requiring the V4 wrapper, pinned contract, and passing preflight before native model workers; retained timeout-cause uncertainty and the distinction between tmux and the OS sandbox.
 
 ## Current
 
@@ -32,6 +33,7 @@ Updated: 2026-10-15
 ## Validation
 
 - This documentation-only workflow change passed `git diff --cached --check`; no tests were run because no code changed.
+- The V4 worker instruction update is documentation-only; `git diff --check` passed. No tests or model fixtures were rerun for prose.
 - For M1, use the data-free native integration and preflight procedure documented in `V4_SANDBOX_REPAIR.md`, then independently audit the full native transcripts and filesystem effects.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
 - Recheck live account, allowance, usage, run estimate, and cleanup reserve immediately before any future model run; stop at the ordinary allowance limit.

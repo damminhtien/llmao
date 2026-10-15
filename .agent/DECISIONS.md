@@ -17,3 +17,7 @@ Keep both Phase 10 pilot outcomes failed. A later data-free fixture cannot turn 
 ## 2026-10-15 — Fresh-thread checkpoint heuristic
 
 After two or more compactions, or when a thread repeats the same reads without completing a milestone, update `STATE.md` and continue in a fresh thread. This changes context only; it never resets experiment budgets or failure history.
+
+## 2026-10-15 — Require the V4 native sandbox launch path
+
+Every V4 native Codex worker must use `scripts/codex-v4-sandbox` through the approved contract-backed launch or fixture entrypoint. The worker's model prompt is too late to enforce launch configuration. A passing OS-level preflight must precede a model worker; tmux provides session management, not filesystem or network isolation. Preserve failed attempts and do not infer a timeout's cause without logs.

@@ -12,6 +12,7 @@
 - Preserve frozen V3/V3.1/V3.2 artifacts and failed pilot records. Never access official test data before the protocol's freeze and evaluation gates.
 - Before any future paid-model run, verify the current account, ordinary allowance, pending usage, run estimate, and cleanup reserve. Do not upgrade or use paid credits.
 - Keep code small, readable, typed, and covered by focused regression checks when behavior changes. Never silently swallow exceptions.
+- Always route V4 native Codex workers through `scripts/codex-v4-sandbox`; follow the mandatory preflight and launch procedure in [`docs/AGENT_WORKFLOW.md`](docs/AGENT_WORKFLOW.md#v4-native-worker-launch-and-sandbox).
 
 ## Repository workflow
 
