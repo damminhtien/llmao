@@ -16,20 +16,20 @@ Updated: 2026-10-15
 - **M2 — Final preregistration and implementation pins.** M1 is complete and
   the scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. The
   primary evaluator, discovery runner, five-seed lineage collector, source
-  pins, and contract tooling are implemented. Protocols v1 and v2 and their
+  pins, and contract tooling are implemented. Protocols v1-v3 and their
   prelaunch evidence are retained. V1 exposed an OmegaConf configuration-key
-  collision; v2 passed preflight but exposed a missing `--protocol` option in
-  the context-builder CLI, both before worker/model/data access. The fixes are
-  in the current implementation; protocol v3 and fresh launch evidence remain
-  to be frozen and validated.
+  collision; v2 passed preflight but exposed a missing `--protocol` option;
+  v3 passed preflight but the fixture discarded the pinned README/AGENTS
+  overlay when replacing the checker. All three stopped before worker/model or
+  data access. The fixes are in the current implementation; protocol v4 and
+  fresh launch evidence remain to be frozen and validated.
 
 ## Next
 
-1. Preserve protocols v1 and v2 and their evidence as prelaunch superseded
-   records.
-2. Generate versioned protocol v3 with implementation/configuration hashes,
+1. Preserve protocols v1-v3 and their evidence as prelaunch superseded records.
+2. Generate versioned protocol v4 with implementation/configuration hashes,
    its common initial-program digest, and an explicit supersedes link.
-3. Pass fresh v3 sandbox and native-fixture gates, freeze one contract for
+3. Pass fresh v4 sandbox and native-fixture gates, freeze one contract for
    each preregistered seed, and validate all contracts before launch.
 
 ## Known issues and boundaries
@@ -39,10 +39,12 @@ Updated: 2026-10-15
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
 - Protocol v1 digest `ac70e832f6475f134f390bf2ac8fb64ea0814becbb71380d46277db56f4200c4`
   and v2 digest `a84839af3984b232485ed00e3d27e6d8d844ffd1cdd089fef7f3733802fc7c69`
-  are retained. V1's native fixture stopped on OmegaConf's `.items` attribute
-  collision. V2 passed 21/21 sandbox checks but its native fixture stopped
-  while building initial G0 context because the CLI rejected `--protocol`;
-  neither attempt started a worker/model call or accessed data.
+  and v3 digest `c694fc27634a93a0096581f4631ce8b3893d22830bc719495b415ebd5c9967f6`
+  are retained. V1 stopped on OmegaConf's `.items` collision; v2 passed 21/21
+  sandbox checks but its fixture hit the missing context-builder `--protocol`
+  option; v3 passed 21/21 but its fixture lacked the root README because the
+  primary override dropped the pinned worker overlay. All stopped before a
+  worker/model call or data access.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.

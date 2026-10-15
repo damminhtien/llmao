@@ -11,6 +11,7 @@ import runpy
 import shutil
 import subprocess
 import sys
+from dataclasses import replace
 from pathlib import Path
 from types import ModuleType
 from typing import Any
@@ -232,11 +233,32 @@ def _load_pinned_config(contract_path: Path, eve_root: Path) -> tuple[dict, Any]
 
 
 def _apply_primary_fixture_config(
-    config: Any, *, task_root: Path, immutable_root: Path
+    config: Any, *, task_root: Path
 ) -> None:
-    """Override primary fixture paths through mapping keys, including `items`."""
+    """Select the Phase 12 task while retaining the pinned worker overlay."""
     config["application"]["path"] = str(task_root)
-    config["optimizer"]["workers"]["items"][0]["immutable"] = str(immutable_root)
+
+
+def _primary_fixture_immutable_files(
+    base_files: dict[str, str],
+    *,
+    checker_bundle_path: Path,
+    g0_reference_path: Path,
+) -> dict[str, str]:
+    """Keep pinned worker guidance while replacing only its checker and G0 asset."""
+    result = {
+        relative: content
+        for relative, content in base_files.items()
+        if relative != "structural_check" and not relative.startswith("structural_check/")
+    }
+    for path in sorted(checker_bundle_path.rglob("*")):
+        if path.is_symlink():
+            raise ValueError(f"primary checker bundle contains a symlink: {path}")
+        if path.is_file():
+            relative = path.relative_to(checker_bundle_path).as_posix()
+            result[f"structural_check/{relative}"] = path.read_text(encoding="utf-8")
+    result["g0_reference.json"] = g0_reference_path.read_text(encoding="utf-8")
+    return result
 
 
 def _verify_tmux_failure_capture(output: Path, eve_root: Path) -> dict[str, Any]:
@@ -726,7 +748,6 @@ def run_fixture(
         _apply_primary_fixture_config(
             config,
             task_root=ROOT / "configs/v4/phase12_primary/task",
-            immutable_root=checker_bundle_path.parent,
         )
         reference = ROOT / "configs/v4/phase12_primary/task/g0_reference.json"
         immutable_reference = checker_bundle_path.parent / "g0_reference.json"
@@ -773,6 +794,18 @@ def run_fixture(
         search_root=eve_root,
     )
     worker_configs = _load_solver_worker_configs(config, search_root=eve_root)
+    if checker_bundle_path is not None:
+        worker_configs = [
+            replace(
+                worker_config,
+                immutable_files=_primary_fixture_immutable_files(
+                    worker_config.immutable_files,
+                    checker_bundle_path=checker_bundle_path,
+                    g0_reference_path=checker_bundle_path.parent / "g0_reference.json",
+                ),
+            )
+            for worker_config in worker_configs
+        ]
     selector = instantiate(config.optimizer.workers.selection, _convert_="all")
     builder = SolverWorkspaceBuilder(
         cache_run / "solver_workspaces",

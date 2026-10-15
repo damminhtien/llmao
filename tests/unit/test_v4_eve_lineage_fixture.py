@@ -1,8 +1,10 @@
 import json
+from pathlib import Path
 
 from experiments.v4_eve_lineage_fixture import (
     _apply_primary_fixture_config,
     _language_only_preflight_passed,
+    _primary_fixture_immutable_files,
     _render_lineage_fixture_prompt,
     _write_fixture_manifest,
 )
@@ -63,19 +65,46 @@ def test_lineage_fixture_prompt_only_requests_the_selected_parent_handoff():
     assert "solver_examples/selected-prefill/" in prompt
 
 
-def test_primary_fixture_config_uses_mapping_key_for_workers_items(tmp_path):
+def test_primary_fixture_config_keeps_the_pinned_worker_overlay():
     config = {
         "application": {"path": "old-task"},
-        "optimizer": {"workers": {"items": [{"immutable": "old-bundle"}]}},
+        "optimizer": {"workers": {"items": [{"immutable": "pinned-overlay"}]}},
     }
 
     _apply_primary_fixture_config(
         config,
-        task_root=tmp_path / "task",
-        immutable_root=tmp_path / "bundle",
+        task_root=Path("/primary/task"),
     )
 
-    assert config["application"]["path"] == str(tmp_path / "task")
-    assert config["optimizer"]["workers"]["items"][0]["immutable"] == str(
-        tmp_path / "bundle"
+    assert config["application"]["path"] == "/primary/task"
+    assert (
+        config["optimizer"]["workers"]["items"][0]["immutable"]
+        == "pinned-overlay"
     )
+
+
+def test_primary_fixture_replaces_checker_but_preserves_pinned_guidance(tmp_path):
+    bundle = tmp_path / "bundle"
+    bundle.mkdir()
+    (bundle / "manifest.json").write_text('{"version":2}')
+    (bundle / "run_check.sh").write_text("#!/bin/sh\nexit 0\n")
+    reference = tmp_path / "g0_reference.json"
+    reference.write_text('{"primitive":"g0"}')
+
+    immutable = _primary_fixture_immutable_files(
+        {
+            "README.md": "pinned task template",
+            "AGENTS.md": "pinned boundary guidance",
+            "structural_check/manifest.json": '{"version":1}',
+            "structural_check/old.py": "stale checker",
+        },
+        checker_bundle_path=bundle,
+        g0_reference_path=reference,
+    )
+
+    assert immutable["README.md"] == "pinned task template"
+    assert immutable["AGENTS.md"] == "pinned boundary guidance"
+    assert immutable["structural_check/manifest.json"] == '{"version":2}'
+    assert immutable["structural_check/run_check.sh"] == "#!/bin/sh\nexit 0\n"
+    assert "structural_check/old.py" not in immutable
+    assert immutable["g0_reference.json"] == '{"primitive":"g0"}'
