@@ -16,20 +16,21 @@ Updated: 2026-10-15
 - **M2 — Final preregistration and implementation pins.** M1 is complete and
   the scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. The
   primary evaluator, discovery runner, five-seed lineage collector, source
-  pins, and contract tooling are implemented. Protocols v1-v3 and their
-  prelaunch evidence are retained. V1 exposed an OmegaConf configuration-key
-  collision; v2 passed preflight but exposed a missing `--protocol` option;
-  v3 passed preflight but the fixture discarded the pinned README/AGENTS
-  overlay when replacing the checker. All three stopped before worker/model or
-  data access. The fixes are in the current implementation; protocol v4 and
-  fresh launch evidence remain to be frozen and validated.
+  pins, and contract tooling are implemented. Protocols v1-v4 and their
+  evidence are retained. V1 exposed an OmegaConf configuration-key collision;
+  v2 exposed a missing context-builder `--protocol` option; v3 lost the pinned
+  README/AGENTS overlay. Those three stopped before worker/model or data
+  access. V4 passed both 21-check preflight and the native lineage fixture
+  (7/7 checks); contract freezing then exposed an assumption that `uv.lock`
+  exists. The optional-lock fix is in the current implementation; protocol v5
+  and fresh contract-launch evidence remain to be frozen and validated.
 
 ## Next
 
-1. Preserve protocols v1-v3 and their evidence as prelaunch superseded records.
-2. Generate versioned protocol v4 with implementation/configuration hashes,
+1. Preserve protocols v1-v4 and their evidence as versioned records.
+2. Generate versioned protocol v5 with implementation/configuration hashes,
    its common initial-program digest, and an explicit supersedes link.
-3. Pass fresh v4 sandbox and native-fixture gates, freeze one contract for
+3. Pass fresh v5 sandbox and native-fixture gates, freeze one contract for
    each preregistered seed, and validate all contracts before launch.
 
 ## Known issues and boundaries
@@ -40,11 +41,12 @@ Updated: 2026-10-15
 - Protocol v1 digest `ac70e832f6475f134f390bf2ac8fb64ea0814becbb71380d46277db56f4200c4`
   and v2 digest `a84839af3984b232485ed00e3d27e6d8d844ffd1cdd089fef7f3733802fc7c69`
   and v3 digest `c694fc27634a93a0096581f4631ce8b3893d22830bc719495b415ebd5c9967f6`
-  are retained. V1 stopped on OmegaConf's `.items` collision; v2 passed 21/21
-  sandbox checks but its fixture hit the missing context-builder `--protocol`
-  option; v3 passed 21/21 but its fixture lacked the root README because the
-  primary override dropped the pinned worker overlay. All stopped before a
-  worker/model call or data access.
+  and v4 digest `f50e59920eccb66527ad9847c4485b7796d0b58533149f76ef3cd04686a12ed6`
+  are retained. V1-v3 stopped before a native worker/model call. V4 passed
+  21/21 sandbox checks and all 7 lineage checks with a single synthetic native
+  handoff and no dataset evaluation. Contract freezing created no contracts:
+  it stopped because this repository has no `uv.lock`, which the freezer
+  incorrectly treated as required.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
@@ -59,5 +61,5 @@ Updated: 2026-10-15
 - The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
-  153 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+  155 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.

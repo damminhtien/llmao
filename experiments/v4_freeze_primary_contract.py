@@ -13,6 +13,7 @@ from v4_primary_contract import (
     EVE_ROOT,
     ROOT,
     git_value,
+    optional_sha256_file,
     sha256_file,
     tracked_tree_is_clean,
     verify_source_paths,
@@ -149,7 +150,7 @@ def freeze_contract(
         "codex_executable": codex,
         "codex_cli_version": codex_version,
         "tmux_version": _command_output("tmux", "-V"),
-        "llmao_dependency_lock_sha256": sha256_file(ROOT / "uv.lock"),
+        "llmao_dependency_lock_sha256": optional_sha256_file(ROOT / "uv.lock"),
     }
     output = output.expanduser()
     if not output.is_absolute():

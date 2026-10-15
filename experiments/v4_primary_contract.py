@@ -19,6 +19,17 @@ def sha256_file(path: Path) -> str:
     return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 
 
+def optional_sha256_file(path: Path) -> str | None:
+    path = Path(path)
+    if path.is_symlink():
+        raise ValueError(f"expected a regular optional file, got symlink: {path}")
+    if not path.exists():
+        return None
+    if not path.is_file():
+        raise ValueError(f"expected a regular optional file: {path}")
+    return sha256_file(path)
+
+
 def git_value(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", "-C", str(repo), *args],
