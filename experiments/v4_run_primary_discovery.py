@@ -18,7 +18,10 @@ EVE_ROOT = ROOT.parent / "eve"
 sys.path.insert(0, str(EVE_ROOT / "src"))
 sys.path.insert(0, str(ROOT / "experiments"))
 
-from v4_primary_contract import validate_contract
+if __package__:
+    from .v4_primary_contract import validate_contract
+else:
+    from v4_primary_contract import validate_contract
 
 MAX_ATTEMPTS = 540
 UNIQUE_TARGET = 200
@@ -671,7 +674,7 @@ def _phase2_runner(factory: Any, *, step: int, proposal: int):
     )
 
 
-def _run(
+def _run_primary(
     *,
     contract: dict[str, Any],
     seed: int,
@@ -1087,7 +1090,7 @@ def main() -> int:
         expected_seed=args.seed,
         allow_existing_run_root=args.resume,
     )
-    return _run(
+    return _run_primary(
         contract=contract,
         seed=int(contract["seed"]),
         resume=args.resume,

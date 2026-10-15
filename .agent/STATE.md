@@ -16,21 +16,21 @@ Updated: 2026-10-15
 - **M2 — Final preregistration and implementation pins.** M1 is complete and
   the scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. The
   primary evaluator, discovery runner, five-seed lineage collector, source
-  pins, and contract tooling are implemented. Protocols v1-v4 and their
-  evidence are retained. V1 exposed an OmegaConf configuration-key collision;
-  v2 exposed a missing context-builder `--protocol` option; v3 lost the pinned
-  README/AGENTS overlay. Those three stopped before worker/model or data
-  access. V4 passed both 21-check preflight and the native lineage fixture
-  (7/7 checks); contract freezing then exposed an assumption that `uv.lock`
-  exists. The optional-lock fix is in the current implementation; protocol v5
-  and fresh contract-launch evidence remain to be frozen and validated.
+  pins, and contract tooling are implemented. Protocols v1-v5 and their
+  evidence are retained. V1-v3 exposed fixture setup bugs and stopped before a
+  native worker. V4 passed preflight and the lineage fixture, then contract
+  freezing exposed the absent-`uv.lock` assumption. V5 passed preflight and
+  fixture checks, and all five contracts froze and validated. Seed 1101 then
+  hit a subprocess-helper name collision before candidate context/evaluation.
+  The current fix separates the helper and gives each protocol an isolated run
+  root. Protocol v6 and its fresh gates/contracts remain to be frozen.
 
 ## Next
 
-1. Preserve protocols v1-v4 and their evidence as versioned records.
-2. Generate versioned protocol v5 with implementation/configuration hashes,
-   its common initial-program digest, and an explicit supersedes link.
-3. Pass fresh v5 sandbox and native-fixture gates, freeze one contract for
+1. Preserve protocols v1-v5, contracts, and the seed-1101 startup failure.
+2. Generate versioned protocol v6 with implementation/configuration hashes
+   and protocol-specific run roots.
+3. Pass fresh v6 sandbox and native-fixture gates, freeze one contract for
    each preregistered seed, and validate all contracts before launch.
 
 ## Known issues and boundaries
@@ -38,15 +38,13 @@ Updated: 2026-10-15
 - Earlier Phase 10 attempts and contract `-02` remain failed exploratory evidence; contract `-03` remains a pre-worker startup failure. Contract `-04` does not replace or rewrite them.
 - Pilot `-04` emitted nonfatal macOS `xcode-select` errors from worker `git status`/`git diff` calls and denied shell here-document temporary-file attempts. Candidate completion patches remained limited to the two permitted files, and the runtime boundary scan passed. Preserve this environment diagnostic if worker inspection changes are made.
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
-- Protocol v1 digest `ac70e832f6475f134f390bf2ac8fb64ea0814becbb71380d46277db56f4200c4`
-  and v2 digest `a84839af3984b232485ed00e3d27e6d8d844ffd1cdd089fef7f3733802fc7c69`
-  and v3 digest `c694fc27634a93a0096581f4631ce8b3893d22830bc719495b415ebd5c9967f6`
-  and v4 digest `f50e59920eccb66527ad9847c4485b7796d0b58533149f76ef3cd04686a12ed6`
-  are retained. V1-v3 stopped before a native worker/model call. V4 passed
-  21/21 sandbox checks and all 7 lineage checks with a single synthetic native
-  handoff and no dataset evaluation. Contract freezing created no contracts:
-  it stopped because this repository has no `uv.lock`, which the freezer
-  incorrectly treated as required.
+- Protocol v1-v5 are retained in versioned files with their preflight,
+  fixture, or contract evidence. V5 digest is
+  `eccb03b493192d05cb05fd33c83568f7b13476adc2745f2382733de5f100127d`.
+  Its five contracts were validated before launch. Seed 1101's run root records
+  a `TypeError` from `_run` shadowing the subprocess helper; it has no initial
+  candidate context, proposal, or discovery evaluation. The fixed launcher
+  uses protocol-scoped run roots so the failed startup remains preserved.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
@@ -61,5 +59,5 @@ Updated: 2026-10-15
 - The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
-  155 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+  157 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.

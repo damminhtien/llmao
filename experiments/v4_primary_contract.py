@@ -30,6 +30,16 @@ def optional_sha256_file(path: Path) -> str | None:
     return sha256_file(path)
 
 
+def primary_run_root(seed: int, protocol_sha256: str, *, root: Path = ROOT) -> Path:
+    if type(seed) is not int or seed < 0:
+        raise ValueError("primary run seed must be a non-negative integer")
+    if not _SHA256.fullmatch(protocol_sha256):
+        raise ValueError("primary run protocol digest must be a lowercase SHA-256")
+    return Path(root).resolve(strict=True) / "results/v4/phase12/runs" / (
+        f"discovery-{seed}-{protocol_sha256[:12]}"
+    )
+
+
 def git_value(repo: Path, *args: str) -> str:
     result = subprocess.run(
         ["git", "-C", str(repo), *args],
@@ -190,9 +200,7 @@ def validate_contract(
         raise ValueError("MNIST cache must be outside the LLMAO checkout")
 
     run_root = Path(contract["run_root"]).expanduser().resolve(strict=False)
-    expected_run_root = (
-        ROOT / "results/v4/phase12/runs" / f"discovery-{seed}"
-    ).resolve(strict=False)
+    expected_run_root = primary_run_root(seed, protocol_sha256)
     if run_root != expected_run_root:
         raise ValueError("primary contract run root is outside its seed-specific path")
     if run_root.exists() and not allow_existing_run_root:

@@ -14,6 +14,7 @@ from v4_primary_contract import (
     ROOT,
     git_value,
     optional_sha256_file,
+    primary_run_root,
     sha256_file,
     tracked_tree_is_clean,
     verify_source_paths,
@@ -155,7 +156,7 @@ def freeze_contract(
     output = output.expanduser()
     if not output.is_absolute():
         output = ROOT / output
-    run_root = ROOT / "results/v4/phase12/runs" / f"discovery-{seed}"
+    run_root = primary_run_root(seed, protocol_sha256)
     if run_root.exists():
         raise FileExistsError(f"primary run root already exists: {run_root}")
     contract_source_paths = (

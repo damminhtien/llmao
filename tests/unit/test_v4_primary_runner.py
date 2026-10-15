@@ -3,10 +3,16 @@
 from __future__ import annotations
 
 import copy
+import sys
 
 import pytest
 
-from experiments.v4_run_primary_discovery import _verify_protocol_matches_runner
+from experiments.v4_run_primary_discovery import (
+    _run as run_subprocess,
+)
+from experiments.v4_run_primary_discovery import (
+    _verify_protocol_matches_runner,
+)
 
 
 @pytest.fixture
@@ -51,6 +57,16 @@ def protocol() -> dict:
 
 def test_runner_accepts_the_frozen_phase12_settings(protocol: dict) -> None:
     _verify_protocol_matches_runner(protocol, 1101)
+
+
+def test_runner_subprocess_helper_remains_callable(tmp_path):
+    result = run_subprocess(
+        [sys.executable, "-c", "print('primary-runner-helper')"],
+        cwd=tmp_path,
+    )
+
+    assert result.returncode == 0
+    assert result.stdout == "primary-runner-helper\n"
 
 
 @pytest.mark.parametrize(
