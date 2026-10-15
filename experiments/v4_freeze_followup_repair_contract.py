@@ -337,6 +337,13 @@ def freeze(
     overlay_hashes = _build_immutable_overlay(
         eve_root, evidence_root, immutable_overlay
     )
+    pinned_collector = evidence_dir / "collector_contract_pinned.py"
+    collector_bytes = (ROOT / "experiments/v4_collect_followup.py").read_bytes()
+    collector_digest = hashlib.sha256(collector_bytes).hexdigest()
+    if collector_digest != host_hashes["experiments/v4_collect_followup.py"]:
+        raise ValueError("collector source changed while freezing its evidence")
+    with pinned_collector.open("xb") as stream:
+        stream.write(collector_bytes)
     overlay_manifest_path = immutable_overlay / "structural_check/manifest.json"
     overlay_manifest = json.loads(overlay_manifest_path.read_text())
     if (

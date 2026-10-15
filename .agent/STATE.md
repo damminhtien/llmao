@@ -7,33 +7,34 @@ Updated: 2026-10-15
 - The coding-agent workflow was externalized to `.agent/` and documented in `docs/AGENT_WORKFLOW.md`.
 - V4 baseline, candidate/evaluator boundaries, Phase 9 smoke, and Phase 11 lineage tooling are recorded as complete in `TODO.md`.
 - The Phase 10 exploratory pilot failed its valid-candidate gate (6/10 valid; 8/10 required). The follow-up pilot also failed: it had no descendant macro use and included noncandidate temporary writes. Both outcomes remain failed exploratory evidence.
-- The data-free native checker and sandbox fixture `20261015-native-boundary-04` passed. It does not prove enforcement during a later scientific pilot. Digests and limits are recorded in `V4_SANDBOX_REPAIR.md`.
-- Added durable root-agent and workflow instructions requiring the V4 wrapper, pinned contract, and passing preflight before native model workers; retained timeout-cause uncertainty and the distinction between tmux and the OS sandbox.
+- The data-free native checker and sandbox fixtures `20261015-native-boundary-04` and `20261015-native-boundary-05` passed. They prove their own checker and OS-denial behavior, not enforcement in a later scientific pilot.
+- Added a separately hashed repair contract, exact worker guidance, runtime-bound immutable overlay, G0 seed monitoring, and post-run collector evidence. The 2026-10-15 repair pilot completed ten proposal slots but failed all ten candidate-context validations; its archive and final report remain failed evidence.
 
 ## Current
 
-- **M1 — Respond to the failed exploratory follow-up.** The fixture passed, but its launcher/runtime/profile/source digests and evidence still need to be bound into a new pilot contract. The Scalar/Vector and descendant-reuse requirements in `V4_FOLLOWUP_RESPONSE_PLAN.md` also remain launch work.
+- **M1 — Respond to the failed exploratory follow-up.** Contract and native fixture gates passed, but the new pilot failed 0/10 proposal validations and did not capture pilot JSONL transcripts. See `V4_FOLLOWUP_REPAIR_REPORT.md` and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`. M1 remains open.
 - Phase 0 final preregistration is incomplete. The canonical protocol remains a draft; Phase 12 discovery and primary evaluation have not run.
 
 ## Next
 
-1. Read `V4_FOLLOWUP_RESPONSE_PLAN.md` and the remaining-gates section of `V4_SANDBOX_REPAIR.md`.
-2. Resolve the listed checker type contracts and descendant-reuse guidance without changing either failed pilot or its records.
-3. Add the required worker instruction for checker failures and create a new, separate exploratory contract binding the native fixture evidence and exact launcher/runtime/profile/source digests; verify its hash and fresh G0 initialization before any run.
-4. Require a successful ten-proposal pilot with at least eight distinct valid expanded ASTs, genuine descendant macro use, all other original gates, and zero noncandidate writes. Do not replace proposals. If it fails, preserve the result and write a new response plan.
+1. Read `V4_FOLLOWUP_REPAIR_REPORT.md` and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md`; keep the archived run immutable.
+2. Clarify that `parent_language_hash` must equal the selected prefill's `lineage_state.json["language_hash"]`, then add a data-free context-construction check for that handoff.
+3. Reproduce two sequential native driver launches in a data-free fixture, capture the exact `tmux respawn-pane` failure details, and require one JSONL transcript per invocation before considering another pilot.
+4. Do not launch another scientific pilot automatically. A later run needs all response-plan gates, a new contract, unused paths, and fresh ordinary-allowance verification.
 5. Resolve all Phase 0 decisions and produce a verified final protocol hash before Phase 12.
 
 ## Known issues
 
 - No pilot has established genuine macro reuse by descendants under the follow-up contract.
-- Native transcripts from the follow-up recorded writes outside the candidate-file boundary; the later data-free fixture is a remediation check, not pilot evidence.
+- The latest repair attempt had 0/10 valid proposals: its candidates kept the G0 seed's parent hash instead of the selected prefill's language hash.
+- Attempts 2–10 failed in `tmux respawn-pane`; no pilot JSONL transcripts were captured, so the protected-boundary gate is incomplete despite no supervisor-reported forbidden marker.
 - No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
 - Never access official test data before the applicable frozen-language evaluation gate.
 
 ## Validation
 
-- This documentation-only workflow change passed `git diff --cached --check`; no tests were run because no code changed.
-- The V4 worker instruction update is documentation-only; `git diff --check` passed. No tests or model fixtures were rerun for prose.
-- For M1, use the data-free native integration and preflight procedure documented in `V4_SANDBOX_REPAIR.md`, then independently audit the full native transcripts and filesystem effects.
+- Repair-contract source changes passed Ruff, `py_compile`, `git diff --check`, Hydra resolved-config validation, and the launcher's `--validate-only` gate. The unit suite was not run in this pass.
+- The data-free native fixture passed all 21 preflight and 15 native checks. The failed pilot archive has 211 manifest-referenced records whose sizes and SHA-256 hashes were verified.
+- For M1, correct the exact lineage handoff and resolve sequential tmux launch plus transcript capture in a data-free fixture before freezing another pilot contract.
 - For preregistration, verify the pinned sources/configuration, canonical protocol contents, common initial-program digest, and protocol SHA-256 before discovery.
 - Recheck live account, allowance, usage, run estimate, and cleanup reserve immediately before any future model run; stop at the ordinary allowance limit.

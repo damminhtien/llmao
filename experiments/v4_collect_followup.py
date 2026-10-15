@@ -1,4 +1,4 @@
-"""Collect the terminal frozen follow-up without rescoring any proposal."""
+"""Archive a terminal frozen follow-up without rescoring any proposal."""
 
 from __future__ import annotations
 
@@ -91,6 +91,17 @@ def collect(
         != contract["source_pins"]["base_protocol_sha256"]
     ):
         raise ValueError("pilot protocol differs from the frozen contract")
+    pinned_collector = metadata_root / "collector_contract_pinned.py"
+    if pinned_collector.is_symlink() or not pinned_collector.is_file():
+        raise ValueError("contract-pinned collector source is missing or unsafe")
+    pinned_collector_digest = hashlib.sha256(pinned_collector.read_bytes()).hexdigest()
+    if (
+        pinned_collector_digest
+        != contract["source_pins"]["host_files_sha256"][
+            "experiments/v4_collect_followup.py"
+        ]
+    ):
+        raise ValueError("archived collector source differs from the frozen contract")
     checkpoint = _json(run_root / "checkpoint.json")
     budget = contract["budget"]["submitted_proposals"]
     if (
@@ -160,6 +171,7 @@ def collect(
         "evaluator_source_snapshot.json",
         "configuration_validation.json",
         "prelaunch_usage.json",
+        "collector_contract_pinned.py",
         contract_path.with_suffix(".sha256").name,
     ):
         source_path = (
@@ -172,6 +184,9 @@ def collect(
         evidence[name] = _copy(source_path, destination / "run_evidence" / name)
     evidence[contract_path.name] = _copy(
         contract_path, destination / "run_evidence" / contract_path.name
+    )
+    evidence["archive_collector_current.py"] = _copy(
+        Path(__file__), destination / "run_evidence" / "archive_collector_current.py"
     )
     for name, fixture_path in native_sources.items():
         evidence[f"native_fixture/{name}"] = _copy(
@@ -222,14 +237,21 @@ def collect(
                 )
         if row is not None:
             worker = run_root / "solver_workspaces" / row["workspace_id"]
-            transcripts = sorted((worker / ".codex-driver-transcripts").glob("*"))
-            if not any(path.suffix == ".jsonl" for path in transcripts):
-                raise ValueError("completed worker has no archived native transcript")
+            transcript_root = worker / ".codex-driver-transcripts"
+            transcripts = sorted(
+                path for path in transcript_root.rglob("*") if path.is_file()
+            )
+            has_native_transcript = any(path.suffix == ".jsonl" for path in transcripts)
             for path in transcripts:
-                if path.is_file():
-                    raw[f"native/{path.name}"] = _copy(
-                        path, target / "raw/native" / path.name
-                    )
+                relative = path.relative_to(transcript_root)
+                raw[f"native/{relative.as_posix()}"] = _copy(
+                    path, target / "raw/native" / relative
+                )
+            agent_error = worker / "logs/optimize/agent_error.txt"
+            if agent_error.is_file() and not agent_error.is_symlink():
+                raw["native_launch_error.txt"] = _copy(
+                    agent_error, target / "raw/native_launch_error.txt"
+                )
             for relative in (
                 "README.md",
                 ".scaling_evolve/worker.yaml",
@@ -244,6 +266,15 @@ def collect(
                 "workspace_id": workspace.name,
                 "files": files,
                 "raw_files": raw,
+                "native_transcript_status": (
+                    "captured"
+                    if has_native_transcript
+                    else "driver_artifacts_only"
+                    if transcripts
+                    else "missing"
+                )
+                if row is not None
+                else "not_applicable",
             }
         )
     manifest = {
@@ -261,6 +292,10 @@ def collect(
             "protocol_sha256": contract["source_pins"]["base_protocol_sha256"],
             "llmao_commit": contract["source_pins"]["llmao_runtime_commit"],
             "evaluator_version_sha256": source["sha256"],
+            "collector_contract_pinned_sha256": pinned_collector_digest,
+            "archive_collector_current_sha256": hashlib.sha256(
+                Path(__file__).read_bytes()
+            ).hexdigest(),
         },
         "seed": observations[0],
         "attempts": observations[1:],

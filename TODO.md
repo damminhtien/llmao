@@ -487,14 +487,58 @@ artifacts remain in the ignored `results/v4/phase10_followup/archive_verified/`.
   valid/invalid checker results and both temporary-root denials are recorded
   in `results/v4/phase10_followup/native_worker_integration/20261015-native-boundary-02/`.
 
+### Phase 10 repair attempt result — 2026-10-15
+
+The separate repair contract
+`V4_FOLLOWUP_REPAIR_CONTRACT.json` (SHA-256
+`536d83a06baabe4acac3f91b58e6fb6512fb453d567286c1843e900ea05b3040`) pinned
+native fixture `20261015-native-boundary-05`, the runtime-bound worker overlay,
+and fresh macro-free G0. The fixture passed 21/21 preflight checks and 15/15
+native checks.
+
+The scientific run reached its full ten-proposal checkpoint with no replacements
+but **failed**: 0/10 proposals passed candidate-context validation. Every
+attempt retained the G0 seed's `parent_language_hash` instead of the selected
+prefill's `lineage_state.json["language_hash"]`. Attempts 2–10 also failed at
+`tmux respawn-pane`; the run captured no native JSONL transcripts. The
+supervisor reported no forbidden-change marker, but without per-worker native
+transcripts the protected-boundary gate remains incomplete.
+
+All attempt candidates, evaluation logs, telemetry, available native-driver
+completion/error artifacts, run log, contract, usage snapshots, fixture, and
+worker overlay are preserved in
+`results/v4/phase10_followup/archive/repair_followup_20261015-01/`. Its final
+manifest SHA-256 is
+`b0ba212c44917c4f880be859a911175dae82d7603fdc277056338f19097200d7`.
+`V4_FOLLOWUP_REPAIR_REPORT.md` records the gate audit;
+`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md` records the required next work. Do not
+run another scientific pilot until the lineage handoff and sequential native
+driver/transcript capture are resolved in a data-free fixture.
+
+- [x] Pin a new, independent contract and verify its hash and fresh G0.
+- [x] Pass a new data-free native checker and sandbox fixture.
+- [x] Execute one ten-proposal attempt without replacements; retain the failed
+  status rather than treating the normal runner exit as scientific success.
+- [x] Preserve the complete available run, fixture, contract, overlay, and
+  post-run usage evidence; record missing pilot transcripts explicitly.
+- [x] Write a new failure report and response plan.
+- [ ] Make the selected-prefill lineage hash explicit and verify it with a
+  data-free context-construction check.
+- [ ] Resolve repeated `tmux respawn-pane` failures and capture a native JSONL
+  transcript for each worker invocation in a data-free fixture.
+- [ ] Only after those gates pass, freeze a new contract before any separately
+  authorized scientific pilot.
+
 Lineage handoff: the pilot evaluator stores the last valid candidate ID,
 generation, canonical language hash, and ordered language snapshots in
 `evaluate/lineage_state.json`.
 EvE carries this evaluator log with its solver entry. Each evaluation reads the
 state from the selected prefill example and appends the current language only
 after candidate-context validation succeeds; context failures preserve the
-last valid state. The V4 parent ID refers to that last valid language ancestor,
-and the EvE prefill entry ID is stored separately for audit.
+last valid state. Set a child language's `parent_language_hash` to the selected
+prefill's `lineage_state.json["language_hash"]`. Do not copy the ancestor
+language's own `parent_language_hash` or `base_language_hash`. The EvE prefill
+entry ID remains a separate field for audit.
 
 ---
 

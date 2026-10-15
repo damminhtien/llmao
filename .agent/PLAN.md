@@ -8,12 +8,30 @@ The detailed requirements remain in `TODO.md`. Each milestone below ends at an i
 
 ## M1 — Respond to the failed exploratory follow-up
 
-**Status: active.** Follow `V4_FOLLOWUP_RESPONSE_PLAN.md` and `V4_SANDBOX_REPAIR.md`.
+**Status: active.** The 2026-10-15 repair attempt failed; follow
+`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md` and retain its archive unchanged.
 
 - Clarify Scalar/Vector contracts and require genuine inherited-macro use by a descendant.
 - Make checker failure guidance explicit; workers must report infrastructure failure and stay within the original proposal budget. Do not create environments or modify files outside the candidate boundary.
 - Bind the verified launcher, runtime, strict workspace-only policy, preflight, source digests, and native fixture evidence into a new, separately hashed contract.
 - Use a fresh G0 initialization and preserve the original ten-proposal budget and all validity, eight-distinct-representation, macro-use, descendant, resource, and boundary gates.
+
+Latest attempt evidence:
+
+- Contract `V4_FOLLOWUP_REPAIR_CONTRACT.json` was hashed before launch and
+  pinned the passing `20261015-native-boundary-05` fixture, exact worker
+  overlay/runtime, and fresh macro-free G0.
+- The run reached 10/10 checkpoint iterations but all ten proposals failed
+  candidate-context validation. Each candidate retained the seed's
+  `parent_language_hash` instead of the selected prefill's
+  `lineage_state.json["language_hash"]`.
+- Attempts 2–10 report `tmux respawn-pane` exit 1. The pilot captured zero
+  JSONL transcripts, so the boundary gate cannot be established. The final
+  archive manifest is pinned at
+  `results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256`.
+- No further scientific pilot is part of this active response. First fix the
+  lineage handoff and verify repeated native-driver launches plus transcript
+  capture in a data-free fixture.
 
 **Done when:** a separately contracted exploratory pilot passes every gate, all proposals and native transcripts are preserved, and there are no candidate-boundary deviations. Do not replace invalid, failed, or repeated proposals. A failed gate remains failed and requires a separately documented response.
 
