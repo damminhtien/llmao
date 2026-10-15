@@ -82,7 +82,7 @@ def _run(command: list[str], *, cwd: Path, timeout: int = 120) -> subprocess.Com
     )
 
 
-def _compose_config(*, run_root: Path, seed: int, checker_bundle: Path, run_id: str):
+def _compose_config(*, run_root: Path, seed: int, run_id: str):
     from hydra import compose, initialize_config_dir
     from omegaconf import OmegaConf
 
@@ -106,7 +106,7 @@ def _compose_config(*, run_root: Path, seed: int, checker_bundle: Path, run_id: 
         "application.editable.folders": [],
         "optimizer.initial_guidance": str(GUIDANCE_ROOT),
         "optimizer.workers.items.0.name": "v4-primary-discovery",
-        "optimizer.workers.items.0.immutable": str(checker_bundle.parent),
+        "optimizer.workers.items.0.immutable": str(run_root / "worker_immutable"),
         "optimizer.workers.items.0.prompt": str(PROMPT_ROOT),
         "evaluation.steps": [str(EVALUATION_STEP)],
         "evaluation.failure_score": {
@@ -147,6 +147,95 @@ def _compose_config(*, run_root: Path, seed: int, checker_bundle: Path, run_id: 
     for key, value in updates.items():
         OmegaConf.update(config, key, value, merge=True, force_add=True)
     return config
+
+
+def _primary_worker_immutable_files(
+    *,
+    task_root: Path,
+    checker_bundle: Path,
+) -> dict[str, str]:
+    """Combine the rendered-task inputs and pinned checker for Phase 2."""
+    files: dict[str, str] = {}
+    for name in ("README.md", "AGENTS.md", "g0_reference.json"):
+        source = task_root / name
+        if source.is_symlink() or not source.is_file():
+            raise FileNotFoundError(f"primary immutable task asset is missing or unsafe: {source}")
+        files[name] = source.read_text(encoding="utf-8")
+
+    if checker_bundle.is_symlink() or not checker_bundle.is_dir():
+        raise FileNotFoundError(f"primary checker bundle is missing or unsafe: {checker_bundle}")
+    checker_files = sorted(checker_bundle.rglob("*"))
+    if not checker_files:
+        raise ValueError("primary checker bundle is empty")
+    for source in checker_files:
+        if source.is_symlink():
+            raise ValueError(f"primary checker bundle contains a symlink: {source}")
+        if source.is_file():
+            relative = source.relative_to(checker_bundle).as_posix()
+            files[f"structural_check/{relative}"] = source.read_text(encoding="utf-8")
+    return files
+
+
+def _prepare_primary_worker_immutable(
+    *,
+    run_root: Path,
+    checker_bundle: Path,
+    protocol_sha256: str,
+    resume: bool,
+    task_root: Path = TASK_ROOT,
+) -> Path:
+    """Materialize and verify the exact immutable Phase 2 worker overlay."""
+    overlay_root = run_root / "worker_immutable"
+    manifest_path = run_root / "worker_immutable_manifest.json"
+    files = _primary_worker_immutable_files(
+        task_root=task_root,
+        checker_bundle=checker_bundle,
+    )
+    manifest = {
+        "schema_version": 1,
+        "protocol_sha256": protocol_sha256,
+        "files": {
+            relative: {
+                "sha256": _digest(content.encode("utf-8")),
+                "size_bytes": len(content.encode("utf-8")),
+            }
+            for relative, content in sorted(files.items())
+        },
+    }
+    manifest["manifest_sha256"] = _digest(_json_bytes(manifest))
+
+    if resume:
+        if (
+            overlay_root.is_symlink()
+            or not overlay_root.is_dir()
+            or manifest_path.is_symlink()
+            or not manifest_path.is_file()
+        ):
+            raise FileNotFoundError("primary resume is missing its frozen worker immutable overlay")
+        if _json(manifest_path) != manifest:
+            raise ValueError("primary resume worker immutable manifest differs from its contract inputs")
+        actual_paths = sorted(
+            path.relative_to(overlay_root).as_posix()
+            for path in overlay_root.rglob("*")
+            if path.is_file() or path.is_symlink()
+        )
+        if actual_paths != sorted(files):
+            raise ValueError("primary resume worker immutable files differ from the frozen manifest")
+        for relative, content in files.items():
+            path = overlay_root / relative
+            if path.is_symlink() or path.read_text(encoding="utf-8") != content:
+                raise ValueError(f"primary resume worker immutable file changed: {relative}")
+        return overlay_root
+
+    if overlay_root.exists() or manifest_path.exists():
+        raise FileExistsError("primary worker immutable overlay already exists")
+    overlay_root.mkdir(parents=True)
+    for relative, content in files.items():
+        path = overlay_root / relative
+        path.parent.mkdir(parents=True, exist_ok=True)
+        path.write_text(content, encoding="utf-8")
+    _write_atomic(manifest_path, _json_bytes(manifest))
+    return overlay_root
 
 
 def _configure_evaluator_environment(contract: dict[str, Any]) -> None:
@@ -703,7 +792,6 @@ def _run_primary(
     cfg = _compose_config(
         run_root=run_root,
         seed=seed,
-        checker_bundle=checker_bundle,
         run_id=run_id,
     )
     if validate_only:
@@ -716,6 +804,7 @@ def _run_primary(
             "application_path": str(cfg.application.path),
             "evaluation_step": str(cfg.evaluation.steps[0]),
             "checker_bundle": str(checker_bundle),
+            "worker_immutable": str(run_root / "worker_immutable"),
             "max_iterations": cfg.loop.max_iterations,
             "workers": cfg.loop.n_workers_phase2,
             "parallel_workers": cfg.loop.n_parallel_phase2,
@@ -748,6 +837,13 @@ def _run_primary(
         state = None
         pending_usage = []
         run_root.mkdir(parents=True, exist_ok=False)
+
+    _prepare_primary_worker_immutable(
+        run_root=run_root,
+        checker_bundle=checker_bundle,
+        protocol_sha256=contract["protocol_sha256"],
+        resume=resume,
+    )
 
     _configure_evaluator_environment(contract)
     app_config = OmegaConf.to_container(cfg.application, resolve=True)

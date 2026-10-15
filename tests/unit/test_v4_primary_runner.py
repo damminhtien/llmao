@@ -3,15 +3,17 @@
 from __future__ import annotations
 
 import copy
+import json
 import sys
 
 import pytest
 
 from experiments.v4_run_primary_discovery import (
-    _run as run_subprocess,
+    _prepare_primary_worker_immutable,
+    _verify_protocol_matches_runner,
 )
 from experiments.v4_run_primary_discovery import (
-    _verify_protocol_matches_runner,
+    _run as run_subprocess,
 )
 
 
@@ -89,3 +91,45 @@ def test_runner_rejects_protocol_runner_drift(
 def test_runner_rejects_non_preregistered_seed(protocol: dict) -> None:
     with pytest.raises(ValueError, match="differ from the Phase 12 runner"):
         _verify_protocol_matches_runner(protocol, 9999)
+
+
+def test_primary_worker_overlay_renders_task_guidance_and_checker(tmp_path) -> None:
+    task_root = tmp_path / "task"
+    checker_bundle = tmp_path / "checker"
+    run_root = tmp_path / "run"
+    task_root.mkdir()
+    checker_bundle.mkdir()
+    (task_root / "README.md").write_text("{solver_examples_block}\n", encoding="utf-8")
+    (task_root / "AGENTS.md").write_text("candidate-only\n", encoding="utf-8")
+    (task_root / "g0_reference.json").write_text('{"version": 1}\n', encoding="utf-8")
+    (checker_bundle / "manifest.json").write_text('{"version": 2}\n', encoding="utf-8")
+    (checker_bundle / "run_check.sh").write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+    run_root.mkdir()
+
+    overlay = _prepare_primary_worker_immutable(
+        run_root=run_root,
+        checker_bundle=checker_bundle,
+        protocol_sha256="a" * 64,
+        resume=False,
+        task_root=task_root,
+    )
+
+    assert (overlay / "README.md").read_text(encoding="utf-8") == "{solver_examples_block}\n"
+    assert (overlay / "AGENTS.md").read_text(encoding="utf-8") == "candidate-only\n"
+    assert (overlay / "g0_reference.json").read_text(encoding="utf-8") == '{"version": 1}\n'
+    assert (overlay / "structural_check/manifest.json").is_file()
+    manifest = json.loads((run_root / "worker_immutable_manifest.json").read_text())
+    assert set(manifest["files"]) == {
+        "README.md",
+        "AGENTS.md",
+        "g0_reference.json",
+        "structural_check/manifest.json",
+        "structural_check/run_check.sh",
+    }
+    assert _prepare_primary_worker_immutable(
+        run_root=run_root,
+        checker_bundle=checker_bundle,
+        protocol_sha256="a" * 64,
+        resume=True,
+        task_root=task_root,
+    ) == overlay
