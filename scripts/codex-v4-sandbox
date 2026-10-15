@@ -19,7 +19,7 @@ FIXTURE_INSTRUCTIONS_FILE = ROOT / "configs/v4/native_fixture_worker.md"
 FIXTURE_WORKSPACE_INSTRUCTIONS_NAME = "native_system_prompt.md"
 
 
-def _profile_text() -> str:
+def _profile_text(*, language_only: bool = False) -> str:
     python_entrypoint = ROOT / ".venv/bin/python"
     python_executable = python_entrypoint.resolve()
     if python_executable.parent.name != "bin":
@@ -41,25 +41,25 @@ def _profile_text() -> str:
         '":slash_tmp" = "deny"',
     ]
     lines.extend(f'{json.dumps(path)} = "read"' for path in read_roots)
-    lines.extend(
-        [
-            "",
-            f'[permissions.{PROFILE}.filesystem.":workspace_roots"]',
-            '"." = "read"',
-            '"candidate/language.json" = "write"',
-            '"candidate/program.json" = "write"',
-            '"solver/candidate/language.json" = "write"',
-            '"solver/candidate/program.json" = "write"',
-            "",
-            f"[permissions.{PROFILE}.network]",
-            "enabled = false",
-            "",
-        ]
+    workspace_writes = (
+        ("solver/candidate/language.json",)
+        if language_only
+        else (
+            "candidate/language.json",
+            "candidate/program.json",
+            "solver/candidate/language.json",
+            "solver/candidate/program.json",
+        )
     )
+    lines.extend(
+        ["", f'[permissions.{PROFILE}.filesystem.":workspace_roots"]', '"." = "read"']
+    )
+    lines.extend(f'{json.dumps(path)} = "write"' for path in workspace_writes)
+    lines.extend(["", f"[permissions.{PROFILE}.network]", "enabled = false", ""])
     return "\n".join(lines)
 
 
-def _install_profile(config_path: Path) -> None:
+def _install_profile(config_path: Path, *, language_only: bool = False) -> None:
     if config_path.is_symlink() or not config_path.is_file():
         raise ValueError("Codex must use the isolated EvE CODEX_HOME config")
     text = config_path.read_text(encoding="utf-8")
@@ -72,7 +72,9 @@ def _install_profile(config_path: Path) -> None:
     if current_default not in (None, PROFILE):
         raise ValueError("isolated Codex config selects a different permission profile")
 
-    profile_config = tomllib.loads(_profile_text())["permissions"][PROFILE]
+    profile_config = tomllib.loads(
+        _profile_text(language_only=language_only)
+    )["permissions"][PROFILE]
     current_profile = config.get("permissions", {}).get(PROFILE)
     if current_profile not in (None, profile_config):
         raise ValueError(
@@ -92,7 +94,7 @@ def _install_profile(config_path: Path) -> None:
         lines.insert(first_table, f'default_permissions = "{PROFILE}"')
     updated = "\n".join(lines).rstrip()
     if current_profile is None:
-        updated = f"{updated}\n\n{_profile_text().rstrip()}"
+        updated = f"{updated}\n\n{_profile_text(language_only=language_only).rstrip()}"
     updated += "\n"
     tomllib.loads(updated)
     config_path.write_text(updated, encoding="utf-8")
@@ -263,6 +265,21 @@ def _validate_workspace(workspace: Path) -> None:
                 )
         if (parent / ".git").exists():
             return
+        scaling_evolve = parent / ".scaling_evolve"
+        structural_check = parent / "structural_check"
+        eve_markers = (
+            scaling_evolve / "worker.yaml",
+            structural_check / "manifest.json",
+            parent / "README.md",
+        )
+        if (
+            scaling_evolve.is_dir()
+            and not scaling_evolve.is_symlink()
+            and structural_check.is_dir()
+            and not structural_check.is_symlink()
+            and all(path.is_file() and not path.is_symlink() for path in eve_markers)
+        ):
+            return
     raise ValueError("V4 workspace must belong to a Git repository")
 
 
@@ -290,7 +307,13 @@ def main() -> int:
     workspace = _workspace_from_args(sys.argv[1:])
     args = _strip_legacy_sandbox(sys.argv[1:], workspace=workspace)
     _validate_workspace(workspace)
-    _install_profile(code_home / "config.toml")
+    fixture_language_only = os.environ.get("LLMAO_V4_FIXTURE_LANGUAGE_ONLY", "0")
+    if fixture_language_only not in {"0", "1"}:
+        raise ValueError("invalid LLMAO_V4_FIXTURE_LANGUAGE_ONLY value")
+    _install_profile(
+        code_home / "config.toml",
+        language_only=fixture_language_only == "1",
+    )
     if args and args[0] == "sandbox":
         args[1:1] = ["--permission-profile", PROFILE]
     executable = shutil.which("codex")

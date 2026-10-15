@@ -25,8 +25,12 @@ HOST_FILES = (
     "V4_FOLLOWUP_PILOT_CONTRACT.sha256",
     "V4_FOLLOWUP_REPAIR_CONTRACT.json",
     "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
     "V4_FOLLOWUP_REPAIR_REPORT.md",
+    "V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
     "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+    "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
     "V4_FOLLOWUP_RESPONSE_PLAN.md",
     "V4_PHASE10_FOLLOWUP_REPORT.md",
     "V4_SANDBOX_REPAIR.md",
@@ -34,14 +38,19 @@ HOST_FILES = (
     "configs/v4/phase10_followup_worker.md",
     "experiments/v4_build_check_bundle.py",
     "experiments/v4_collect_followup.py",
+    "experiments/v4_eve_lineage_fixture.py",
+    "experiments/v4_eve_runner.py",
     "experiments/v4_evaluate_candidate.py",
     "experiments/v4_freeze_followup_repair_contract.py",
     "experiments/v4_launch_followup.py",
     "experiments/v4_native_check_fixture.py",
     "experiments/v4_sandbox_preflight.py",
+    "experiments/v4_tmux_failure_capture.py",
     "results/v4/phase10_followup/archive_verified/manifest.json",
     "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json",
     "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.sha256",
+    "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.json",
+    "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.sha256",
     "results/v4/protocol.json",
     "scripts/codex-v4-sandbox",
 )
@@ -368,6 +377,7 @@ def freeze(
     eve_root: Path,
     runtime_checkout: Path,
     evidence_root: Path,
+    lineage_evidence_root: Path,
     run_root: Path,
     execution_record: Path,
     label: str,
@@ -377,6 +387,7 @@ def freeze(
     eve_root = eve_root.resolve(strict=True)
     runtime_checkout = runtime_checkout.resolve(strict=True)
     evidence_root = evidence_root.resolve(strict=True)
+    lineage_evidence_root = lineage_evidence_root.resolve(strict=True)
     if _git(ROOT, "status", "--porcelain", "--untracked-files=all"):
         raise ValueError("freeze from a clean, committed LLMAO source tree")
     runtime_commit = _git(ROOT, "rev-parse", "HEAD")
@@ -418,10 +429,26 @@ def freeze(
     if prior_repair_record_count != 211:
         raise ValueError("protected prior repair archive record count changed")
     fixture = _validate_fixture(evidence_root, old_digest)
-    if fixture["wrapper_sha256"] != _sha256(WRAPPER):
-        raise ValueError("native fixture did not verify the current launcher")
-
     launcher = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
+    previous_wrapper_sha256 = prior_repair_contract["source_pins"][
+        "host_files_sha256"
+    ]["scripts/codex-v4-sandbox"]
+    if fixture["wrapper_sha256"] != previous_wrapper_sha256:
+        raise ValueError("historical native fixture no longer matches its wrapper pin")
+    latest_failed_repair = launcher["_verify_latest_failed_repair_artifacts"]()
+    lineage_fixture = launcher["_verify_real_runner_lineage_fixture"](
+        {"directory": str(lineage_evidence_root)},
+        expected_wrapper_sha256=_sha256(WRAPPER),
+    )
+    lineage_result = json.loads(
+        (lineage_evidence_root / "result.json").read_text(encoding="utf-8")
+    )
+    if (
+        lineage_result.get("previous_sandbox_wrapper_sha256")
+        != previous_wrapper_sha256
+        or lineage_result.get("sandbox_wrapper_sha256") != _sha256(WRAPPER)
+    ):
+        raise ValueError("real-runner fixture wrapper lineage is inconsistent")
     runtime = launcher["_runtime_snapshot"](ROOT / ".venv/bin/python")
     runtime_manifest = fixture["runtime_manifest"]
     if (
@@ -549,9 +576,15 @@ def freeze(
 
     contract = json.loads(json.dumps(original))
     contract["account"].pop("verify_before_worker_launch", None)
+    contract["artifact_requirements"] = [
+        requirement
+        for requirement in contract.get("artifact_requirements", [])
+        if "current account snapshot" not in str(requirement).lower()
+        and "usage snapshot" not in str(requirement).lower()
+    ]
     contract.update(
         {
-            "schema_version": 3,
+            "schema_version": 4,
             "phase": "10_followup_boundary_repair",
             "status": "frozen_before_repair_launch",
         }
@@ -579,6 +612,10 @@ def freeze(
             "evaluator_source_snapshot": str(snapshot_path),
             "execution_record": str(execution_record),
             "immutable_overlay": str(immutable_overlay),
+            "runner_entrypoint": str(
+                (ROOT / "experiments/v4_eve_runner.py").resolve()
+            ),
+            "tmux_failure_trace": str(run_root / "tmux_failures.jsonl"),
         }
     )
     contract["initialization"].update(
@@ -611,11 +648,16 @@ def freeze(
             "structural_bundle_manifest_sha256": _sha256(overlay_manifest_path),
             "structural_bundle_source_commit": overlay_manifest["source_commit"],
             "host_files_sha256": host_hashes,
+            "previous_sandbox_wrapper_sha256": previous_wrapper_sha256,
+            "real_runner_lineage_fixture_manifest_sha256": lineage_fixture[
+                "manifest_sha256"
+            ],
             "failed_followup_contract_sha256": old_digest,
             "failed_followup_archive_manifest_sha256": _sha256(OLD_ARCHIVE_MANIFEST),
             "previous_repair_contract_sha256": prior_repair_digest,
             "previous_repair_archive_manifest_sha256": prior_repair_manifest_digest,
             "previous_repair_archive_records_verified": prior_repair_record_count,
+            **latest_failed_repair,
             "initial_program_sha256": contract["initialization"]["seed_program_sha256"],
             "native_fixture_bundle_manifest_sha256": fixture[
                 "bundle_manifest_sha256"
@@ -623,6 +665,7 @@ def freeze(
         }
     )
     contract["native_fixture_evidence"] = fixture
+    contract["real_runner_lineage_fixture_evidence"] = lineage_fixture
     contract["runtime"] = runtime
     contract["stop_rules"].append(
         "verify the fresh G0 seed immediately after run initialization and stop on any mismatch"
@@ -638,9 +681,12 @@ def freeze(
         "contract_sha256": digest,
         "protected_archive_records_verified": protected_record_count,
         "previous_repair_archive_records_verified": prior_repair_record_count,
+        **latest_failed_repair,
         "native_fixture_run_id": fixture["run_id"],
         "native_fixture_preflight_checks": fixture["preflight_check_count"],
         "native_fixture_checks": fixture["native_check_count"],
+        "real_runner_fixture_id": lineage_fixture["run_id"],
+        "real_runner_fixture_manifest_sha256": lineage_fixture["manifest_sha256"],
         "runtime_commit": runtime_commit,
         "run_root": str(run_root),
         "configuration_validation_sha256": contract["source_pins"][
@@ -654,19 +700,21 @@ def main() -> int:
     parser.add_argument("--eve-root", type=Path, default=ROOT.parent / "eve")
     parser.add_argument("--runtime-checkout", type=Path, required=True)
     parser.add_argument("--native-evidence", type=Path, required=True)
+    parser.add_argument("--lineage-evidence", type=Path, required=True)
     parser.add_argument("--run-root", type=Path, required=True)
     parser.add_argument("--execution-record", type=Path, required=True)
     parser.add_argument("--label", required=True)
     parser.add_argument(
         "--contract",
         type=Path,
-        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
     )
     args = parser.parse_args()
     result = freeze(
         eve_root=args.eve_root,
         runtime_checkout=args.runtime_checkout,
         evidence_root=args.native_evidence,
+        lineage_evidence_root=args.lineage_evidence,
         run_root=args.run_root,
         execution_record=args.execution_record,
         label=args.label,

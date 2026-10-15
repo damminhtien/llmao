@@ -12,10 +12,14 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
 PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
 PRIOR_REPAIR_ARCHIVE_MANIFEST = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json"
+)
+LATEST_FAILED_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST = (
+    ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.json"
 )
 
 
@@ -68,6 +72,27 @@ def _verify_manifest_records(value: object) -> int:
     return checked
 
 
+def _verify_latest_failed_repair_artifacts() -> dict:
+    contract_digest = _verify_sha256_sidecar(LATEST_FAILED_REPAIR_CONTRACT)
+    failed_contract = json.loads(LATEST_FAILED_REPAIR_CONTRACT.read_text())
+    archive_digest = _verify_sha256_sidecar(LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST)
+    archive_manifest = json.loads(LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST.read_text())
+    record_count = _verify_manifest_records(archive_manifest)
+    if (
+        failed_contract.get("phase") != "10_followup_boundary_repair"
+        or failed_contract.get("status") != "frozen_before_repair_launch"
+        or archive_manifest.get("phase") != 10
+        or archive_manifest.get("pilot_status") != "failed"
+        or record_count != 208
+    ):
+        raise ValueError("latest failed repair contract or archive changed")
+    return {
+        "latest_failed_repair_contract_sha256": contract_digest,
+        "latest_failed_repair_archive_manifest_sha256": archive_digest,
+        "latest_failed_repair_archive_records_verified": record_count,
+    }
+
+
 def _runtime_snapshot(python_entrypoint: Path) -> dict:
     """Identify the project interpreter, resolved binary, package root, and versions."""
     entrypoint = python_entrypoint.expanduser().absolute()
@@ -105,6 +130,221 @@ def _runtime_snapshot(python_entrypoint: Path) -> dict:
     return runtime
 
 
+def _eve_runner_command(eve_root: Path, arguments: list[str]) -> list[str]:
+    return [
+        str(eve_root / ".venv/bin/python"),
+        "-u",
+        str(ROOT / "experiments/v4_eve_runner.py"),
+        *arguments,
+    ]
+
+
+def _tmux_failure_trace_summary(path: Path) -> dict:
+    if path.is_symlink():
+        raise ValueError("tmux failure trace may not be a symlink")
+    if not path.exists():
+        return {
+            "path": str(path),
+            "exists": False,
+            "record_count": 0,
+            "sha256": None,
+            "records": [],
+        }
+    if not path.is_file():
+        raise ValueError("tmux failure trace must be a regular file")
+    records = []
+    for line_number, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1):
+        try:
+            record = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ValueError(f"invalid tmux trace JSONL at line {line_number}") from exc
+        if not isinstance(record, dict) or not {
+            "command",
+            "return_code",
+            "stdout",
+            "stderr",
+            "cwd",
+            "pane_id",
+        }.issubset(record):
+            raise ValueError(f"incomplete tmux trace record at line {line_number}")
+        if (
+            not isinstance(record["command"], list)
+            or not all(isinstance(argument, str) for argument in record["command"])
+            or not isinstance(record["return_code"], int)
+            or any(
+                record[key] is not None and not isinstance(record[key], str)
+                for key in ("stdout", "stderr")
+            )
+            or not isinstance(record["cwd"], str)
+            or not isinstance(record["pane_id"], str)
+        ):
+            raise ValueError(f"invalid tmux trace field at line {line_number}")
+        records.append(record)
+    if not records:
+        raise ValueError("tmux failure trace exists but contains no records")
+    return {
+        "path": str(path),
+        "exists": True,
+        "record_count": len(records),
+        "sha256": _sha256(path),
+        "records": records,
+    }
+
+
+def _verify_real_runner_lineage_fixture(
+    fixture: dict,
+    *,
+    expected_wrapper_sha256: str,
+) -> dict:
+    evidence_root = Path(fixture["directory"]).resolve(strict=True)
+    manifest_path = evidence_root / "manifest.json"
+    sidecar_path = evidence_root / "manifest.sha256"
+    for path in (manifest_path, sidecar_path):
+        if path.is_symlink() or not path.is_file():
+            raise ValueError("real-runner lineage fixture manifest is missing")
+    manifest_sha256 = _sha256(manifest_path)
+    if sidecar_path.read_text(encoding="ascii").split()[0] != manifest_sha256:
+        raise ValueError("real-runner lineage fixture manifest digest mismatch")
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if manifest.get("schema_version") != 1 or manifest.get("status") != "passed":
+        raise ValueError("real-runner lineage fixture manifest is not a passing fixture")
+    files = manifest.get("files")
+    if not isinstance(files, dict) or not files:
+        raise ValueError("real-runner lineage fixture manifest has no files")
+    files_sha256 = {}
+    for relative, record in files.items():
+        path = evidence_root / relative
+        resolved = path.resolve(strict=False)
+        if (
+            Path(relative).is_absolute()
+            or ".." in Path(relative).parts
+            or not resolved.is_relative_to(evidence_root)
+            or path.is_symlink()
+            or not path.is_file()
+            or _sha256(path) != record.get("sha256")
+            or path.stat().st_size != record.get("size_bytes")
+        ):
+            raise ValueError(f"real-runner fixture evidence changed: {relative}")
+        files_sha256[relative] = record["sha256"]
+    actual_files = {
+        path.relative_to(evidence_root).as_posix()
+        for path in evidence_root.rglob("*")
+        if path.is_file() and path.name not in {"manifest.json", "manifest.sha256"}
+    }
+    if actual_files != set(files):
+        raise ValueError("real-runner fixture evidence inventory changed")
+    result_path = evidence_root / "result.json"
+    if "result.json" not in files:
+        raise ValueError("real-runner fixture result is not manifested")
+    result = json.loads(result_path.read_text(encoding="utf-8"))
+    required_checks = {
+        "candidate_language_unchanged_except_parent",
+        "candidate_parent_matches_selected_language_hash",
+        "candidate_program_unchanged",
+        "real_context_builder_recorded_lineage",
+        "real_context_builder_validated_candidate",
+        "selected_prefill_rendered_in_readme",
+        "selected_state_read_from_evE_workspace",
+    }
+    checks = result.get("candidate_validation", {}).get("checks", {})
+    if (
+        result.get("status") != "passed"
+        or manifest.get("run_id") != result.get("run_id")
+        or result.get("scope")
+        != "data-free Phase2Runner integration; evaluator context only; no dataset scoring"
+        or not required_checks.issubset(checks)
+        or not all(checks[name] is True for name in required_checks)
+        or result.get("candidate_parent_language_hash")
+        != result.get("selected_language_hash")
+        or result.get("sandbox_wrapper_sha256") != expected_wrapper_sha256
+    ):
+        raise ValueError("real-runner lineage fixture did not pass its gates")
+    rollout = result.get("native_rollout", {})
+    transcript_relative = Path(rollout.get("transcript", ""))
+    transcript_path = (evidence_root / transcript_relative).resolve(strict=False)
+    if (
+        transcript_relative.is_absolute()
+        or ".." in transcript_relative.parts
+        or not transcript_path.is_relative_to(evidence_root)
+        or transcript_path.is_symlink()
+        or not transcript_path.is_file()
+        or files_sha256.get(transcript_relative.as_posix())
+        != rollout.get("transcript_sha256")
+        or _sha256(transcript_path) != rollout.get("transcript_sha256")
+    ):
+        raise ValueError("real-runner fixture transcript is missing or unpinned")
+    completed = False
+    for line in transcript_path.read_text(encoding="utf-8").splitlines():
+        item = json.loads(line)
+        payload = item.get("payload")
+        if (
+            item.get("type") == "event_msg"
+            and isinstance(payload, dict)
+            and payload.get("type") == "task_complete"
+        ):
+            completed = True
+            break
+    if not completed:
+        raise ValueError("real-runner fixture transcript has no task-complete event")
+    preflight = result.get("workspace_preflight", {}).get(
+        "sandbox_profile_preflight", {}
+    )
+    expected_permission_checks = {
+        "solver/candidate/language.json": True,
+        "solver/candidate/program.json": True,
+    }
+    if (
+        result.get("workspace_preflight", {}).get("passed") is not True
+        or preflight.get("passed") is not True
+        or preflight.get("checks") != expected_permission_checks
+    ):
+        raise ValueError("real-runner language-only sandbox preflight failed")
+    failures = rollout.get("tmux_failures")
+    if not isinstance(failures, list):
+        raise TypeError("real-runner fixture tmux failures are malformed")
+    required_failure_fields = {
+        "command",
+        "return_code",
+        "stdout",
+        "stderr",
+        "cwd",
+        "pane_id",
+    }
+    if any(
+        not isinstance(failure, dict)
+        or not required_failure_fields.issubset(failure)
+        for failure in failures
+    ):
+        raise ValueError("real-runner fixture omitted tmux failure details")
+    probe_path = evidence_root / "tmux_failure_probe.json"
+    probe_trace = evidence_root / "tmux_failure_probe.jsonl"
+    if not {"tmux_failure_probe.json", "tmux_failure_probe.jsonl"}.issubset(files):
+        raise ValueError("real-runner fixture omitted its tmux capture probe")
+    probe = json.loads(probe_path.read_text(encoding="utf-8"))
+    probe_record = json.loads(probe_trace.read_text(encoding="utf-8").splitlines()[0])
+    if (
+        probe.get("passed") is not True
+        or probe.get("failure") != probe_record
+        or probe_record.get("return_code") != 37
+        or "fixture stdout marker" not in (probe_record.get("stdout") or "")
+        or "fixture stderr marker" not in (probe_record.get("stderr") or "")
+    ):
+        raise ValueError("tmux capture probe did not retain exact subprocess output")
+    return {
+        "run_id": result["run_id"],
+        "directory": str(evidence_root),
+        "manifest_sha256": manifest_sha256,
+        "files_sha256": files_sha256,
+        "sandbox_wrapper_sha256": expected_wrapper_sha256,
+        "selected_language_hash": result["selected_language_hash"],
+        "candidate_parent_language_hash": result["candidate_parent_language_hash"],
+        "transcript": transcript_relative.as_posix(),
+        "transcript_sha256": rollout["transcript_sha256"],
+        "preflight_checks": len(preflight["checks"]),
+        "tmux_failure_probe": probe_record,
+    }
+
+
 def _git(checkout: Path, *arguments: str) -> str:
     return subprocess.check_output(
         ["git", "-C", str(checkout), *arguments],
@@ -121,8 +361,9 @@ def _has_command_pair(command: list[str], option: str, value: str) -> bool:
 
 def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     """Verify the independent repair contract, fixture, launcher, and G0 seed."""
+    schema_version = contract.get("schema_version")
     if (
-        contract.get("schema_version") != 3
+        schema_version not in {3, 4}
         or contract.get("phase") != "10_followup_boundary_repair"
         or contract.get("status") != "frozen_before_repair_launch"
     ):
@@ -166,6 +407,37 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     account = contract["account"]
     budget = contract["budget"]
     initialization = contract["initialization"]
+    if schema_version == 4:
+        latest_failed_repair = _verify_latest_failed_repair_artifacts()
+        if any(
+            source_pins.get(key) != value
+            for key, value in latest_failed_repair.items()
+        ):
+            raise ValueError("latest failed repair archive no longer matches its pins")
+        required_runner_sources = {
+            "experiments/v4_eve_runner.py",
+            "experiments/v4_tmux_failure_capture.py",
+            "experiments/v4_eve_lineage_fixture.py",
+        }
+        requirements = contract.get("artifact_requirements", [])
+        if (
+            not required_runner_sources.issubset(source_pins["host_files_sha256"])
+            or any(
+                "account snapshot" in str(requirement).lower()
+                or "usage snapshot" in str(requirement).lower()
+                for requirement in requirements
+            )
+        ):
+            raise ValueError(
+                "repair contract must pin transcript capture without account usage snapshots"
+            )
+        runner_entrypoint = str((ROOT / "experiments/v4_eve_runner.py").resolve())
+        expected_trace = str(Path(launch["run_root"]) / "tmux_failures.jsonl")
+        if (
+            launch.get("runner_entrypoint") != runner_entrypoint
+            or launch.get("tmux_failure_trace") != expected_trace
+        ):
+            raise ValueError("repair contract does not pin the failure-capture runner")
     if (
         account.get("required_plan") != "ChatGPT Plus"
         or "verify_before_worker_launch" in account
@@ -329,8 +601,27 @@ def _validate_repair_contract(contract: dict, eve_root: Path) -> None:
     ):
         raise ValueError("native sandbox preflight did not pass every check")
     wrapper_digest = source_pins["host_files_sha256"]["scripts/codex-v4-sandbox"]
-    if preflight.get("wrapper_sha256") != wrapper_digest:
-        raise ValueError("native preflight did not exercise the pinned launcher")
+    if schema_version == 3:
+        if preflight.get("wrapper_sha256") != wrapper_digest:
+            raise ValueError("native preflight did not exercise the pinned launcher")
+    else:
+        previous_wrapper_digest = source_pins.get(
+            "previous_sandbox_wrapper_sha256"
+        )
+        if (
+            fixture.get("wrapper_sha256") != previous_wrapper_digest
+            or preflight.get("wrapper_sha256") != previous_wrapper_digest
+        ):
+            raise ValueError("historical native fixture no longer matches its wrapper pin")
+        lineage_fixture = contract.get("real_runner_lineage_fixture_evidence")
+        if not isinstance(lineage_fixture, dict):
+            raise ValueError("repair contract omitted the real-runner lineage fixture")
+        verified_lineage_fixture = _verify_real_runner_lineage_fixture(
+            lineage_fixture,
+            expected_wrapper_sha256=wrapper_digest,
+        )
+        if verified_lineage_fixture != lineage_fixture:
+            raise ValueError("real-runner lineage fixture differs from its contract pin")
     if preflight.get("command", [None])[0] != wrapper_path:
         raise ValueError("native preflight did not use the pinned sandbox wrapper")
     native_checks = result.get("native_check_verification", {})
@@ -548,11 +839,12 @@ def main() -> int:
     if digest != args.contract.with_suffix(".sha256").read_text().split()[0]:
         raise ValueError("follow-up contract digest mismatch")
     contract = json.loads(content)
-    _validate_repair_contract(contract, args.eve_root.resolve())
+    eve_root = args.eve_root.resolve(strict=True)
+    _validate_repair_contract(contract, eve_root)
     launch = contract["launch"]
     checkout = Path(launch["evaluator_checkout"])
     for path, expected in (
-        (args.eve_root, contract["source_pins"]["eve_commit"]),
+        (eve_root, contract["source_pins"]["eve_commit"]),
         (checkout, contract["source_pins"]["llmao_runtime_commit"]),
     ):
         if _git(path, "rev-parse", "HEAD") != expected or _git(
@@ -580,6 +872,8 @@ def main() -> int:
             json.dumps({"status": "validated_before_launch", "contract_sha256": digest})
         )
         return 0
+    if contract.get("schema_version") != 4:
+        raise ValueError("legacy repair contracts cannot be launched by the traced runner")
     environment = os.environ.copy()
     for key in (
         "OPENAI_API_KEY",
@@ -594,15 +888,12 @@ def main() -> int:
             "LLMAO_EXPECTED_COMMIT": contract["source_pins"]["llmao_runtime_commit"],
             "LLMAO_PYTHON": launch["python"],
             "LLMAO_DATA_DIR": launch["data_dir"],
+            "LLMAO_EVE_SOURCE_ROOT": str((eve_root / "src").resolve(strict=True)),
+            "LLMAO_V4_TMUX_TRACE_PATH": launch["tmux_failure_trace"],
+            "LLMAO_V4_FIXTURE_LANGUAGE_ONLY": "0",
         }
     )
-    command = [
-        str(args.eve_root / ".venv/bin/python"),
-        "-u",
-        "-m",
-        "scaling_evolve.algorithms.eve.runner",
-        *launch["hydra_arguments"],
-    ]
+    command = _eve_runner_command(eve_root, launch["hydra_arguments"])
     args.record.parent.mkdir(parents=True, exist_ok=True)
     record = {
         "status": "launching",
@@ -613,7 +904,7 @@ def main() -> int:
     with args.record.open("x") as stream:
         json.dump(record, stream, indent=2, sort_keys=True, allow_nan=False)
     process = subprocess.Popen(
-        command, cwd=args.eve_root, env=environment, start_new_session=True
+        command, cwd=eve_root, env=environment, start_new_session=True
     )
     record.update(
         status="running",
@@ -650,6 +941,13 @@ def main() -> int:
             _stop_runner(process)
         raise
     finally:
+        try:
+            record["tmux_failure_trace"] = _tmux_failure_trace_summary(
+                Path(launch["tmux_failure_trace"])
+            )
+        except (OSError, TypeError, ValueError) as exc:
+            record["tmux_failure_trace_error"] = f"{type(exc).__name__}: {exc}"
+            record.setdefault("stop_reason", "tmux failure trace was invalid")
         record.update(
             status="stopped" if record.get("stop_reason") else "runner_exited",
             exit_code=process.poll(),

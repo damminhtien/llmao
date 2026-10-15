@@ -45,6 +45,16 @@ def _copy(source: Path, destination: Path) -> dict:
     return _record(destination)
 
 
+def _verify_tmux_failure_trace(contract: dict, execution: dict, supervisor: dict):
+    if contract.get("schema_version") != 4:
+        return None, None
+    trace_path = Path(contract["launch"]["tmux_failure_trace"])
+    summary = supervisor["_tmux_failure_trace_summary"](trace_path)
+    if execution.get("tmux_failure_trace") != summary:
+        raise ValueError("execution record differs from captured tmux failures")
+    return trace_path, summary
+
+
 def collect(
     destination: Path,
     *,
@@ -55,7 +65,7 @@ def collect(
     destination = destination.resolve()
     if not destination.is_relative_to(ROOT) or destination.exists():
         raise ValueError("archive must be a new directory inside the repository")
-    contract_path = contract_path or ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+    contract_path = contract_path or ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
     if not contract_path.is_absolute():
         contract_path = ROOT / contract_path
     contract_path = contract_path.resolve()
@@ -114,6 +124,11 @@ def collect(
     if [int(row["iteration"]) for row in rows] != list(range(1, budget + 1)):
         raise ValueError("telemetry does not cover each proposal exactly once")
     supervisor = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
+    tmux_failure_trace_path, tmux_failure_trace = _verify_tmux_failure_trace(
+        contract,
+        execution,
+        supervisor,
+    )
     violation = supervisor["_boundary_violation"](
         run_root, contract["source_pins"]["structural_bundle_manifest_sha256"], set()
     )
@@ -184,6 +199,11 @@ def collect(
     evidence[contract_path.name] = _copy(
         contract_path, destination / "run_evidence" / contract_path.name
     )
+    if tmux_failure_trace is not None and tmux_failure_trace["exists"]:
+        evidence["tmux_failures.jsonl"] = _copy(
+            tmux_failure_trace_path,
+            destination / "run_evidence" / "tmux_failures.jsonl",
+        )
     evidence["archive_collector_current.py"] = _copy(
         Path(__file__), destination / "run_evidence" / "archive_collector_current.py"
     )
@@ -295,6 +315,7 @@ def collect(
             "archive_collector_current_sha256": hashlib.sha256(
                 Path(__file__).read_bytes()
             ).hexdigest(),
+            "tmux_failure_trace": tmux_failure_trace,
         },
         "seed": observations[0],
         "attempts": observations[1:],

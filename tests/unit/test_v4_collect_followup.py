@@ -25,7 +25,7 @@ def collector(tmp_path, monkeypatch):
 
 def test_collection_rejects_live_run_before_writing(collector) -> None:
     namespace, root, metadata = collector
-    contract = root / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+    contract = root / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
     contract.write_text("{}")
     digest = hashlib.sha256(contract.read_bytes()).hexdigest()
     contract.with_suffix(".sha256").write_text(digest + "  contract.json\n")
@@ -61,3 +61,39 @@ def test_copy_preserves_bytes_and_rejects_replacement_or_symlink(collector) -> N
     linked.symlink_to(source)
     with pytest.raises(ValueError, match="regular file"):
         namespace["_copy"](linked, root / "other.json")
+
+
+def test_collection_verifies_the_execution_tmux_failure_trace(collector) -> None:
+    namespace, root, _ = collector
+    trace = root / "tmux_failures.jsonl"
+    failure = {
+        "command": ["tmux", "respawn-pane"],
+        "return_code": 37,
+        "stdout": "out\n",
+        "stderr": "err\n",
+        "cwd": str(root),
+        "pane_id": "%1",
+    }
+    trace.write_text(json.dumps(failure) + "\n")
+    supervisor = runpy.run_path(str(ROOT / "experiments/v4_launch_followup.py"))
+    summary = supervisor["_tmux_failure_trace_summary"](trace)
+    contract = {
+        "schema_version": 4,
+        "launch": {"tmux_failure_trace": str(trace)},
+    }
+
+    path, verified = namespace["_verify_tmux_failure_trace"](
+        contract,
+        {"tmux_failure_trace": summary},
+        supervisor,
+    )
+
+    assert path == trace
+    assert verified == summary
+
+    with pytest.raises(ValueError, match="differs from captured tmux failures"):
+        namespace["_verify_tmux_failure_trace"](
+            contract,
+            {"tmux_failure_trace": {**summary, "record_count": 0}},
+            supervisor,
+        )

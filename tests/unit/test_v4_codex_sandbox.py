@@ -85,6 +85,22 @@ def test_wrapper_installs_and_preserves_workspace_only_profile(tmp_path: Path) -
     assert config_path.read_bytes() == first_write
 
 
+def test_wrapper_installs_a_language_only_fixture_profile(tmp_path: Path) -> None:
+    code_home = tmp_path / ".codex-driver-home" / ".codex"
+    code_home.mkdir(parents=True)
+    config_path = code_home / "config.toml"
+    config_path.write_text('model = "gpt-6-luna"\n', encoding="utf-8")
+
+    WRAPPER["_install_profile"](config_path, language_only=True)
+    config = tomllib.loads(config_path.read_text(encoding="utf-8"))
+    profile = config["permissions"]["llmao-v4-workspace-only"]
+
+    assert profile["filesystem"][":workspace_roots"] == {
+        ".": "read",
+        "solver/candidate/language.json": "write",
+    }
+
+
 def test_wrapper_rejects_a_mixed_legacy_sandbox_config(tmp_path: Path) -> None:
     code_home = tmp_path / ".codex-driver-home" / ".codex"
     code_home.mkdir(parents=True)
@@ -162,4 +178,36 @@ def test_wrapper_rejects_legacy_workspace_config(tmp_path):
     config.parent.mkdir()
     config.write_text('sandbox_mode="workspace-write"\n')
     with pytest.raises(ValueError, match="workspace config overrides"):
+        WRAPPER["_validate_workspace"](tmp_path)
+
+
+def test_wrapper_accepts_complete_eve_workspace_without_git(tmp_path):
+    (tmp_path / ".scaling_evolve").mkdir()
+    (tmp_path / ".scaling_evolve/worker.yaml").write_text("role: solver\n")
+    (tmp_path / "structural_check").mkdir()
+    (tmp_path / "structural_check/manifest.json").write_text('{"files": {}}\n')
+    (tmp_path / "README.md").write_text("synthetic EvE worker prompt\n")
+
+    WRAPPER["_validate_workspace"](tmp_path)
+
+
+def test_wrapper_rejects_partial_eve_workspace_without_git(tmp_path):
+    (tmp_path / ".scaling_evolve").mkdir()
+    (tmp_path / ".scaling_evolve/worker.yaml").write_text("role: solver\n")
+    (tmp_path / "README.md").write_text("synthetic EvE worker prompt\n")
+
+    with pytest.raises(ValueError, match="must belong to a Git repository"):
+        WRAPPER["_validate_workspace"](tmp_path)
+
+
+def test_wrapper_rejects_symlinked_eve_marker_without_git(tmp_path):
+    source = tmp_path / "worker.yaml"
+    source.write_text("role: solver\n")
+    (tmp_path / ".scaling_evolve").mkdir()
+    (tmp_path / ".scaling_evolve/worker.yaml").symlink_to(source)
+    (tmp_path / "structural_check").mkdir()
+    (tmp_path / "structural_check/manifest.json").write_text('{"files": {}}\n')
+    (tmp_path / "README.md").write_text("synthetic EvE worker prompt\n")
+
+    with pytest.raises(ValueError, match="must belong to a Git repository"):
         WRAPPER["_validate_workspace"](tmp_path)
