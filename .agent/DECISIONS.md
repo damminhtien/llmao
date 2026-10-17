@@ -58,3 +58,14 @@ the separate OS-level preflight already performs that probe. Keep the finalized
 artifact unchanged, correct the validator to use the recorded preflight, and
 issue protocol revision v12 with the same V11 scientific scope before any
 contract freeze or model worker.
+
+## 2026-10-17 — Supersede V12 after the first path-layout startup failure
+
+Protocol v12 and its five contracts passed preflight, fixture, and validate-only
+gates, but seed 1101 failed while building the first initial-candidate context:
+the contract's repo-relative protocol path was resolved from the run root. No
+candidate was scored and no native discovery worker started. Preserve the V12
+contract set and failed seed-1101 root without resuming it. Normalize validated
+protocol and checker-bundle paths to absolute checkout paths in the runner, then
+freeze protocol revision v13 and five fresh contracts before restarting Phase
+12.

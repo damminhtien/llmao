@@ -87,7 +87,7 @@ The runs remain incomplete and are documented in `STATE.md` and `TODO.md`.
 
 ## M2.1 — Contain V4 outputs under the LLMAO checkout
 
-**Status: implementation complete; live sandbox and fixture gates pending.**
+**Status: implementation complete; fresh protocol-v13 gates pending.**
 The audit and target storage layout are documented in
 `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`. New persistent outputs, scratch,
 and the MNIST cache must resolve under `results/v4/`; the sandbox must deny
@@ -117,18 +117,18 @@ reuse, structural human-language comparison, and optimizer interaction are
 secondary analyses of existing runs and add no searches. Preserve protocol
 v10 and all its partial run evidence unchanged.
 
-**Done when:** the path cutover is committed, protocol revision v12 supersedes
-the unused prelaunch v11 artifact with the reduced condition matrix and
+**Done when:** the path cutover and absolute-path runner fix are committed,
+protocol revision v13 supersedes v12 with the reduced condition matrix and
 storage-layout version 2, and five fresh seed contracts validate before Phase
 12 launch.
 
 ## M3 — Phase 12 language discovery
 
-Run five matched independent searches only under protocol revision v12 and the
-contracted storage layout. Preserve the v10 attempts as incomplete historical
-evidence; do not resume or pool them with v11. Preserve every candidate,
-language, guidance revision, token record, trajectory, and lineage artifact.
-Do not access official test data.
+Run five matched independent searches only under protocol revision v13 and the
+contracted storage layout. Preserve the failed v12 seed-1101 startup and the
+v10 attempts as incomplete historical evidence; do not resume or pool them
+with v13. Preserve every candidate, language, guidance revision, token record,
+trajectory, and lineage artifact. Do not access official test data.
 
 **Done when:** the preregistered runs and manifests reconcile with their budgets and hashes, and the lineage archive is complete.
 

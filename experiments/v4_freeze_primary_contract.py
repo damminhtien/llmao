@@ -9,21 +9,32 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
-try:
+if __package__:
     from .v4_artifact_paths import resolve_v4_output_path, v4_repo_relative_path
-except ImportError:
+    from .v4_primary_contract import (
+        EVE_ROOT,
+        ROOT,
+        git_value,
+        optional_sha256_file,
+        primary_run_root,
+        sha256_file,
+        tracked_tree_is_clean,
+        venv_python_path,
+        verify_source_paths,
+    )
+else:
     from v4_artifact_paths import resolve_v4_output_path, v4_repo_relative_path
-from v4_primary_contract import (
-    EVE_ROOT,
-    ROOT,
-    git_value,
-    optional_sha256_file,
-    primary_run_root,
-    sha256_file,
-    tracked_tree_is_clean,
-    venv_python_path,
-    verify_source_paths,
-)
+    from v4_primary_contract import (
+        EVE_ROOT,
+        ROOT,
+        git_value,
+        optional_sha256_file,
+        primary_run_root,
+        sha256_file,
+        tracked_tree_is_clean,
+        venv_python_path,
+        verify_source_paths,
+    )
 
 
 def _command_output(*args: str) -> str:

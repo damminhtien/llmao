@@ -1,6 +1,7 @@
 """Primary launch provenance handles repositories without a uv lock file."""
 
 import hashlib
+import subprocess
 import sys
 from pathlib import Path
 
@@ -9,6 +10,7 @@ import pytest
 from experiments.v4_primary_contract import (
     optional_sha256_file,
     primary_run_root,
+    resolve_contract_artifact_path,
     venv_python_path,
     verify_v2_mnist_cache_preflight,
 )
@@ -66,3 +68,41 @@ def test_v2_cache_access_requires_a_denied_read_check(tmp_path):
 
     with pytest.raises(ValueError, match="did not deny"):
         verify_v2_mnist_cache_preflight(payload, cache_path, repo_root=tmp_path)
+
+
+def test_v2_contract_paths_resolve_from_the_repository_root(tmp_path):
+    artifact = tmp_path / "results/v4/primary_protocol.json"
+    artifact.parent.mkdir(parents=True)
+    artifact.write_text("{}\n", encoding="utf-8")
+
+    resolved = resolve_contract_artifact_path(
+        "results/v4/primary_protocol.json",
+        schema_version=2,
+        repo_root=tmp_path,
+    )
+
+    assert resolved == artifact.resolve()
+
+
+def test_v2_contract_paths_reject_external_artifacts(tmp_path):
+    outside = tmp_path.parent / "outside.json"
+    outside.write_text("{}\n", encoding="utf-8")
+
+    with pytest.raises(ValueError, match="escapes results/v4"):
+        resolve_contract_artifact_path(
+            outside,
+            schema_version=2,
+            repo_root=tmp_path,
+        )
+
+
+def test_contract_freezer_module_cli_imports_its_contract_helpers():
+    result = subprocess.run(
+        [sys.executable, "-m", "experiments.v4_freeze_primary_contract", "--help"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+
+    assert result.returncode == 0
+    assert "--seed" in result.stdout

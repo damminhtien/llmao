@@ -757,6 +757,22 @@ primary launch, implement the storage boundary in
 `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md` and freeze a new contract/layout
 version. Protocols v7-v10 and their evidence remain preserved.
 
+### Protocol v12 launch result — initial-context path failure
+
+Protocol v12 SHA-256 is
+`5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00`. Its
+22/22 sandbox preflight, data-free EvE lineage fixture, five contract freezes,
+and five validate-only checks passed. Seed 1101 then failed while constructing
+the first initial-candidate context: the schema-v2 contract stored a repository-
+relative protocol path, but the child process resolved it from the protocol-
+scoped run root. No candidate received a primary score, no native discovery
+worker started, and official test data was not accessed. The failed run root
+and exact traceback are preserved at
+`results/v4/phase12/runs/discovery-1101-5099f6f85d34/` and
+`results/v4/phase12/evidence/v4-primary-12/seed-1101-context-path-failure.json`.
+Do not resume this run under changed source. Protocol v13 must use verified
+absolute paths and fresh contracts before discovery resumes.
+
 ---
 
 # Phase 13 — Select and freeze \(G^*\)

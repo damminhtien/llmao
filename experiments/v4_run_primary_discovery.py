@@ -238,8 +238,15 @@ def _prepare_primary_worker_immutable(
     return overlay_root
 
 
+def _verified_protocol_path(contract: dict[str, Any]) -> Path:
+    path = Path(contract["verified_protocol_path"])
+    if not path.is_absolute():
+        raise ValueError("validated protocol path must be absolute")
+    return path.resolve(strict=True)
+
+
 def _configure_evaluator_environment(contract: dict[str, Any]) -> None:
-    protocol_path = Path(contract["protocol_path"]).resolve(strict=True)
+    protocol_path = _verified_protocol_path(contract)
     data_dir = Path(contract["verified_data_dir"])
     env = {
         "LLMAO_EXPECTED_COMMIT": contract["llmao_commit"],
@@ -291,7 +298,7 @@ def _initial_entries(
                 str(candidate_dir),
                 str(context_path),
                 "--protocol",
-                str(contract["protocol_path"]),
+                str(_verified_protocol_path(contract)),
                 "--generation",
                 "0",
                 "--lineage-state-output",
@@ -311,7 +318,7 @@ def _initial_entries(
                 "--context",
                 str(context_path),
                 "--protocol",
-                str(contract["protocol_path"]),
+                str(_verified_protocol_path(contract)),
                 "--protocol-sha256",
                 contract["protocol_sha256"],
                 "--data-dir",
@@ -787,7 +794,7 @@ def _run_primary(
     from scaling_evolve.algorithms.eve.workflow.phase3 import score_optimizers
 
     run_root = Path(contract["verified_run_root"])
-    checker_bundle = Path(contract["checker_bundle_path"]).resolve(strict=True)
+    checker_bundle = Path(contract["verified_checker_bundle_path"]).resolve(strict=True)
     run_id = f"v4_primary_discovery_{seed}_{contract['protocol_sha256'][:10]}"
     cfg = _compose_config(
         run_root=run_root,

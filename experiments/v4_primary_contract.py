@@ -160,6 +160,22 @@ def verify_v2_mnist_cache_preflight(
     return cache_path
 
 
+def resolve_contract_artifact_path(
+    path: str | Path,
+    *,
+    schema_version: int,
+    repo_root: Path = ROOT,
+) -> Path:
+    """Resolve contract artifact paths independent of the process working directory."""
+    if schema_version == 2:
+        resolved = resolve_v4_repo_path(path, repo_root=repo_root)
+    elif schema_version == 1:
+        resolved = Path(path).expanduser().resolve(strict=False)
+    else:
+        raise ValueError("unsupported primary discovery contract version")
+    return resolved.resolve(strict=True)
+
+
 def validate_contract(
     contract_path: Path,
     *,
@@ -174,11 +190,9 @@ def validate_contract(
     if type(seed) is not int or (expected_seed is not None and seed != expected_seed):
         raise ValueError("primary discovery contract seed mismatch")
 
-    protocol_path = (
-        resolve_v4_repo_path(contract["protocol_path"])
-        if schema_version == 2
-        else Path(contract["protocol_path"]).resolve(strict=True)
-    ).resolve(strict=True)
+    protocol_path = resolve_contract_artifact_path(
+        contract["protocol_path"], schema_version=schema_version
+    )
     protocol, protocol_sha256 = read_hashed_json(protocol_path)
     if protocol_sha256 != contract.get("protocol_sha256"):
         raise ValueError("primary discovery protocol differs from its contract")
@@ -229,11 +243,9 @@ def validate_contract(
     preflight_payload = json.loads(preflight_path.read_text(encoding="utf-8"))
     if preflight_payload.get("wrapper_sha256") != contract.get("sandbox_wrapper_sha256"):
         raise ValueError("sandbox preflight used a different wrapper revision")
-    bundle_path = (
-        resolve_v4_repo_path(contract["checker_bundle_path"])
-        if schema_version == 2
-        else Path(contract["checker_bundle_path"]).resolve(strict=True)
-    ).resolve(strict=True)
+    bundle_path = resolve_contract_artifact_path(
+        contract["checker_bundle_path"], schema_version=schema_version
+    )
     bundle_manifest_path = bundle_path / "manifest.json"
     bundle_manifest = json.loads(bundle_manifest_path.read_text(encoding="utf-8"))
     if bundle_manifest.get("protocol_sha256") != protocol_sha256:
@@ -288,10 +300,12 @@ def validate_contract(
     if run_root.exists() and not allow_existing_run_root:
         raise FileExistsError(f"primary run root already exists: {run_root}")
     contract["verified_protocol"] = protocol
+    contract["verified_protocol_path"] = str(protocol_path)
     contract["verified_protocol_sha256"] = protocol_sha256
     contract["verified_contract_sha256"] = contract_sha256
     contract["verified_preflight_path"] = str(preflight_path)
     contract["verified_native_fixture_path"] = str(native_path)
+    contract["verified_checker_bundle_path"] = str(bundle_path)
     contract["verified_run_root"] = str(run_root)
     contract["verified_data_dir"] = str(data_dir)
     return contract

@@ -12,21 +12,21 @@ Updated: 2026-10-17
 - Pilot `20261015-04` passed every contracted exploratory gate: 10/10 valid stage-one proposals, 10 distinct expanded programs, 10/10 correct lineage links, all 3 introduced macros used by their introducers, and `path_length_histogram` used by descendants 5, 8, and 10. All ten native transcripts and 257 collector-referenced archive files verify. Runtime and post-run boundary checks found no violation. This is feasibility evidence only; it is not discovery or primary evidence.
 - Protocol v10 (SHA-256 `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`) and five seed contracts were frozen; the five Phase 12 runs were started.
 - The V4 artifact-storage audit and target design are documented in `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
-- `V4_PRIMARY_DESIGN_V11.md` reduces the planned search count from 135 to 25 while retaining five independent seeds and existing per-run budgets. It omits semantic ablation, cross-dataset transfer, and Level B synthesis; protocol/contracts are still pending.
-- The shared V4 artifact-path resolver now constrains the V4 writer CLIs and fixture entry points; new fixture scratch and the V11 MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths. Live sandbox and native-fixture evidence is still pending.
-- Protocol artifact v11 (`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`) was finalized from commit `530d99e`, then superseded before any contract or worker launch. Contract review found that the schema-v2 validator incorrectly demanded a second MNIST-cache probe from the EvE fixture; the standalone OS preflight already performs and records that probe. The correction now passes validation; preserve the v11 artifact unchanged and supersede it with protocol revision v12.
+- `V4_PRIMARY_DESIGN_V11.md` reduces the planned search count from 135 to 25 while retaining five independent seeds and existing per-run budgets. It omits semantic ablation, cross-dataset transfer, and Level B synthesis.
+- The shared V4 artifact-path resolver constrains V4 writer CLIs and fixture entry points; new fixture scratch and the MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths.
+- Protocol v11 (`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`) was superseded before contracts because the schema-v2 validator wrongly required a second cache-read probe in the EvE fixture. Protocol v12 (`5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00`) then passed its 22/22 OS preflight, data-free EvE lineage fixture, five contract freezes, and five `--validate-only` checks. Its seed-1101 run failed before candidate scoring because the runner passed a repo-relative protocol path to a subprocess running from the run root. No native discovery worker, primary score, or official-test access occurred. Preserve the v12 contracts and failed run root; use protocol v13 with validated absolute paths for any new run.
+- The first V12 fixture invocation used the LLMAO Python and failed before creating output because that runtime has no `omegaconf`; it is recorded at `results/v4/phase12/native_worker_integration/v4-primary-12/attempts/attempt-01-runtime-mismatch.json`. The retry used the pinned EvE Python and passed.
 
 ## Current
 
-- **M2.1 — V4 artifact storage cutover (implementation complete; live sandbox
-  and fixture gates pending).** Primary Phase 12 run roots, contracts, and
-  evidence are under the LLMAO checkout. Historical native checker/EvE fixture
-  caches and the v10 MNIST cache remain in place. New fixture scratch,
-  persistent V4 outputs, and the V11 MNIST cache use `results/v4/`; the
-  sandbox must prove that workers cannot read the dataset. The pinned EvE
-  checkout/runtime and user-managed credentials remain external inputs. See
-  `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md` for the path contract.
-- **M2.2 — Reduced V11 scope (design complete; protocol/contracts pending).**
+- **M2.1 — V4 artifact storage cutover (implementation complete; fresh V13
+  evidence pending).** The V12 OS preflight and EvE fixture passed with outputs
+  under `results/v4/`, including a denied read from the repo-local MNIST cache.
+  Historical external caches remain untouched. Repeat evidence against V13's
+  checker bundle after the runner correction. See
+  `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
+- **M2.2 — Reduced V11 scope (design complete; V13 protocol/contracts
+  pending).**
   Keep five discovery seeds and the original per-run budgets; run four matched
   Phase 14 conditions across five seeds. The total falls from 135 to 25 search
   runs. Semantic ablation, transfer, and Level B are omitted; Phases 16, 18,
@@ -40,13 +40,13 @@ Updated: 2026-10-17
 
 ## Next
 
-1. Commit the corrected schema-v2 contract gate after unit, lint, compile,
-   Graphify, and diff checks.
-2. Generate protocol v12 from the clean commit, superseding unused artifact
-   v11; build its checker bundle and run the 22-check preflight plus the
-   data-free EvE lineage fixture.
-3. Freeze and validate five new V11-scope seed contracts, then launch Phase 12
-   under protocol-scoped roots. Do not resume or pool incomplete v10 runs.
+1. Finish and commit the absolute-path correction in contract validation and
+   the Phase 12 runner after unit, lint, compile, Graphify, and diff checks.
+2. Generate protocol v13 from the clean commit, superseding v12; build its
+   checker bundle, rerun the 22-check preflight and EvE lineage fixture, then
+   freeze and validate five fresh V11-scope contracts.
+3. Launch Phase 12 from new v13 roots. Preserve the failed v12 seed-1101 root;
+   do not resume or pool it or any incomplete v10 runs.
 
 ## Known issues and boundaries
 
@@ -126,9 +126,9 @@ Updated: 2026-10-17
   MNIST cache outside the checkout. New fixtures and MNIST cache use
   `results/v4/`; no historical cache contents were moved or deleted.
 - Do not upgrade or use paid credits.
-- Current-turn implementation validation: Ruff clean; compileall clean; all
-  170 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean;
-  Graphify code index updated after both implementation commits.
+- Current-turn implementation validation: all 175 `tests/unit/test_v4_*.py`
+  checks passed; Ruff, compileall, `git diff --check`, Graphify, and the
+  contract-freezer module `--help` check passed.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
 - Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
   Ruff and `compileall` passed. v8's fresh fixture and five contracts then

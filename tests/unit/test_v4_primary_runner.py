@@ -12,6 +12,7 @@ import pytest
 
 from experiments.v4_run_primary_discovery import (
     _prepare_primary_worker_immutable,
+    _verified_protocol_path,
     _verify_protocol_matches_runner,
 )
 from experiments.v4_run_primary_discovery import (
@@ -82,6 +83,25 @@ def test_runner_subprocess_helper_remains_callable(tmp_path):
 
     assert result.returncode == 0
     assert result.stdout == "primary-runner-helper\n"
+
+
+def test_runner_uses_the_contract_validated_absolute_protocol_path(tmp_path):
+    protocol = tmp_path / "primary_protocol.json"
+    protocol.write_text("{}\n", encoding="utf-8")
+
+    resolved = _verified_protocol_path(
+        {
+            "protocol_path": "results/v4/primary_protocol.json",
+            "verified_protocol_path": str(protocol),
+        }
+    )
+
+    assert resolved == protocol.resolve()
+
+
+def test_runner_rejects_unresolved_relative_protocol_paths():
+    with pytest.raises(ValueError, match="must be absolute"):
+        _verified_protocol_path({"verified_protocol_path": "results/v4/protocol.json"})
 
 
 def test_evaluator_preserves_pinned_venv_launcher_symlink(tmp_path, monkeypatch) -> None:
