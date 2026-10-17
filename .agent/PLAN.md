@@ -78,31 +78,40 @@ result remains exploratory feasibility evidence only.
 
 ## M2 — Final preregistration and implementation pins
 
-**Status: active (v10 amendment).** Scientific Phase 0 choices are fixed in
-`V4_PRIMARY_DESIGN.md`. Protocol v8 and all five contracts passed their launch
-gates, but seed 1101 exposed that the evaluator resolved the contract-pinned
-`.venv/bin/python` symlink to base Python, which lacks `networkx`. Two adaptive
-proposals failed before context creation/scoring; a third partial proposal was
-interrupted. Preserve the incomplete v8 run and all 590,544 reported tokens.
-Commit `8e61a41` validates and retains the lexical launcher path, with a
-focused symlink regression test. Protocol v9 was written but kept all six
-historical `pending_preregistration_decisions`, so it was not used for
-contracts or launch. Commit `da29fcb` makes the finalizer check the known
-decision inventory, integrate the frozen fields, and clear the resolved list.
-
-Integrate the primary design, objective, budgets, seed set,
-source/configuration pins, common initial-program digest, resume/failure
-rules, and analysis requirements into protocol v10 superseding v9. Retain all
-earlier protocols and incomplete run roots. Verify the interpreter-path fix
-with fresh data-free sandbox/native-lineage gates, confirm no pending Phase 0
-decisions remain, then validate a seed-specific contract for every discovery
-seed under v10 before a fresh run.
+**Status: complete for protocol v10.** Protocol SHA-256 is
+`ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`; all five
+seed contracts and launch evidence were frozen, and Phase 12 runs were started.
+The runs remain incomplete and are documented in `STATE.md` and `TODO.md`.
 
 **Done when:** the final protocol is complete, its hash verifies, all pinned implementations and configurations match it, and the launch checks in `V4_PRIMARY_DESIGN.md` pass.
 
+## M2.1 — Contain V4 outputs under the LLMAO checkout
+
+**Status: design complete; implementation pending.** The audit and target
+storage layout are documented in
+`docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`. New persistent outputs, scratch,
+and the MNIST cache must resolve under `results/v4/`; the sandbox must deny
+workers access to that cache. The pinned EvE checkout/runtime and user-managed
+credentials remain external inputs. Preserve existing external fixture and v10
+cache directories and all v10 run roots without moving or rewriting them.
+
+Implement a shared V4 path resolver, enforce it across path-taking writers and
+CLIs, and move future fixture scratch into the repository. Freeze a new
+contract/layout version before starting another primary run; do not reuse a
+v10 run root under changed path rules.
+
+**Done when:** output paths outside `results/v4/` and symlink escapes are
+rejected; new fixtures, the MNIST cache, and writer outputs remain repo-local;
+workers cannot read the cache; failure scratch is recoverable; and contract
+manifests verify the layout and relative paths.
+
 ## M3 — Phase 12 language discovery
 
-Run matched independent searches only under the verified protocol. Preserve every candidate, language, guidance revision, token record, trajectory, and lineage artifact. Do not access official test data.
+Run matched independent searches only under the verified protocol and
+contracted storage layout. The v10 attempts remain incomplete evidence and
+cannot be resumed with the new layout. Preserve every candidate, language,
+guidance revision, token record, trajectory, and lineage artifact. Do not access
+official test data.
 
 **Done when:** the preregistered runs and manifests reconcile with their budgets and hashes, and the lineage archive is complete.
 

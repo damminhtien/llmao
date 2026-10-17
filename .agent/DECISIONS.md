@@ -29,3 +29,7 @@ The user confirmed sufficient resources and requested removal of Plus usage chec
 ## 2026-10-15 — Preserve EvE's Hydra context in the traced runner
 
 The external tmux-capture bootstrap must put the EvE checkout ahead of the LLMAO checkout on `sys.path` and run `scaling_evolve.algorithms.eve.runner` as `__main__`. Calling its decorated entrypoint from the bootstrap changes Hydra's config-module resolution. Resolve the frozen pilot configuration through this same external entrypoint before launch.
+
+## 2026-10-17 — Keep persistent V4 outputs under the LLMAO checkout
+
+For new contracts and runs, keep persistent V4 outputs, V4-owned scratch, and the MNIST cache under `results/v4/`, with every writer enforcing resolved-path containment. The worker sandbox must deny candidate agents access to the dataset cache. Keep the pinned EvE checkout/runtime and user-managed Codex credentials as explicit external inputs. Preserve existing external fixture/data caches and frozen run artifacts at their original paths; do not relocate or rewrite them. Use a new contract/layout version before launching with the redesigned path rules.

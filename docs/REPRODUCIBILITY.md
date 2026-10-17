@@ -13,6 +13,8 @@ The V3/V3.1 architecture and V3.2 execution boundaries are documented in
 [ARCHITECTURE_V3_REFERENCE.md](../ARCHITECTURE_V3_REFERENCE.md) and its
 [study report](../reports/V3_2_OPTIMIZER_VALUE.md).
 The current V4 design is documented in [ARCHITECTURE.md](../ARCHITECTURE.md).
+V4 output roots, external read-only inputs, and the fixture scratch policy are
+specified in [V4_ARTIFACT_STORAGE_ARCHITECTURE.md](V4_ARTIFACT_STORAGE_ARCHITECTURE.md).
 
 ## Development setup
 
@@ -110,3 +112,7 @@ and Fashion-MNIST transfer prevents a handwriting-specific claim.
 - `reports/` — tracked research conclusions.
 - `tests/` — unit and integration tests.
 - `results/`, `cache/` — local generated artifacts; contents are ignored.
+
+For V4, persistent run outputs, evidence, scratch, and the MNIST dataset cache
+belong under `results/v4/`. The evaluator can read the cache; the Codex worker
+sandbox must deny it. The pinned EvE checkout remains a separate runtime input.

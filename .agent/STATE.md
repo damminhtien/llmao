@@ -1,6 +1,6 @@
 # Current state
 
-Updated: 2026-10-15
+Updated: 2026-10-17
 
 ## Completed
 
@@ -10,36 +10,37 @@ Updated: 2026-10-15
 - Data-free native checker and sandbox fixtures passed, including real-runner lineage, strict workspace permissions, and tmux-output capture.
 - Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` was frozen at SHA-256 `17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6` and passed `--validate-only`.
 - Pilot `20261015-04` passed every contracted exploratory gate: 10/10 valid stage-one proposals, 10 distinct expanded programs, 10/10 correct lineage links, all 3 introduced macros used by their introducers, and `path_length_histogram` used by descendants 5, 8, and 10. All ten native transcripts and 257 collector-referenced archive files verify. Runtime and post-run boundary checks found no violation. This is feasibility evidence only; it is not discovery or primary evidence.
+- Protocol v10 (SHA-256 `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`) and five seed contracts were frozen; the five Phase 12 runs were started.
+- The V4 artifact-storage audit and target design are documented in `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
 
 ## Current
 
-- **M2 — Final preregistration and implementation pins (reopened for v10).**
-  Scientific Phase 0 choices are fixed in `V4_PRIMARY_DESIGN.md`. Protocol v8
-  (`01197b83b8f945e685e91c76f3c1f0049b6797260a7c0ad602ec952857efc4bc`), its
-  fresh 21/21 sandbox preflight, 7/7 native fixture, and five validated seed
-  contracts passed. Seed 1101 scored the common 20-program G0 set. Adaptive
-  proposals 1 and 2 then failed before context creation or primary scoring:
-  `evaluate.py` resolved the contract-pinned `.venv/bin/python` symlink to base
-  Python, which lacks `networkx`. Proposal 3 was stopped as a partial attempt.
-  The v8 run is preserved as incomplete under its protocol-scoped run root with
-  590,544 reported input-plus-output tokens. Commit `8e61a41` changes the
-  adapter to validate and retain the lexical launcher path; a focused symlink
-  regression test passes. Protocol v9 was generated with SHA-256
-  `d907ed68bd1e14e6b49bfe8e5c91a67620ab675f60768505d978c2ce2cb98fb6`, but
-  still carried six stale `pending_preregistration_decisions` entries from the
-  historical pilot draft. No v9 contract or worker was launched. Commit
-  `da29fcb` makes the finalizer verify the known decision inventory and remove
-  it only after the final choices are integrated. Generate v10 superseding v9,
-  verify an empty pending list, then repeat fresh launch gates/contracts.
+- **M2.1 — V4 artifact storage cutover (design complete; implementation
+  pending).** Primary Phase 12 run roots, contracts, and evidence are under the
+  LLMAO checkout. The native checker and EvE lineage fixtures also leave full
+  generated workspaces in `~/Library/Caches/llmao-v4-native-check-fixtures/`
+  and `~/Library/Caches/llmao-v4-eve-lineage-fixtures/`. New fixture scratch,
+  persistent V4 outputs, and MNIST cache must stay under `results/v4/`; the
+  sandbox must keep the dataset inaccessible to workers. The pinned EvE
+  checkout/runtime and user-managed credentials remain external inputs. See
+  the storage architecture document for the path contract.
+- All five v10 run roots record `run_state.json` status `running` and have no
+  final `run_manifest.json`. No Phase 12 runner or tmux server is currently
+  active. Treat these runs as incomplete; do not collect them or infer a
+  completed result from the stale state field. Their contracts pin LLMAO commit
+  `8d0944f231b8882159f16248bc752014bc343341`; resuming them requires that exact
+  checkout and the original paths.
 
 ## Next
 
-1. Preserve protocols v1-v9, their contracts and launch evidence, and all
-   failed/interrupted attempts; neither v8 nor v9 may be resumed/launched.
-2. Generate protocol v10 superseding v9, pinning both committed fixes and
-   clearing the resolved Phase 0 decision inventory.
-3. Pass fresh sandbox/native-fixture gates, freeze all five v10 seed
-   contracts, and validate them before starting a fresh seed-1101 run.
+1. Implement the shared V4 output path resolver and apply it to all V4 writer
+   CLIs and fixture entry points. Keep all existing evidence and external
+   directories unchanged.
+2. Add and validate the new storage-layout contract version, including
+   out-of-root and symlink-escape rejection, before any new primary launch.
+3. Decide whether to resume an old v10 attempt on its exact frozen checkout or
+   start a separately contracted run under the new layout. Never mix roots or
+   code versions.
 
 ## Known issues and boundaries
 
@@ -94,10 +95,15 @@ Updated: 2026-10-15
   used to freeze contracts or launch workers. Commit `da29fcb` corrects the
   finalizer and adds coverage that the generated protocol clears the resolved
   inventory while retaining the frozen seeds, initial-program hash, selection
-  rule, AUC bounds, and primary statistics. Protocol v10 is required.
+  rule, AUC bounds, and primary statistics. Protocol v10 was subsequently
+  generated with SHA-256
+  `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`.
 - Never access official test data before the applicable frozen-language evaluation gate.
 - Launch guidance does not require account-usage snapshots or Plus allowance
   checks; do not upgrade or use paid credits.
+- V10 seed run states are stale `running` snapshots without final manifests or
+  live runner processes. Preserve their partial files and close their status
+  only after a separate filesystem/trajectory audit.
 
 ## Validation
 
@@ -107,6 +113,12 @@ Updated: 2026-10-15
 - The ten rollout telemetry rows stayed below the 3600-second cap; maximum observed rollout was 345.246619 seconds. Telemetry's `agent_turns` field remained zero and does not independently count native model turns; the driver configuration retained the 80-turn cap.
 - The frozen evaluator returned only `stage_one_only` scores with `discovery_ready=false`; no discovery fitness or official-test result exists.
 - The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
+- The v10 contract audit confirmed five contracts share the protocol hash above.
+  Their run-state snapshots report 407–418 adaptive attempts, but all remain
+  `running` without final manifests; no runner process or tmux server is live.
+- The storage audit found two persistent fixture workspace caches and the v10
+  MNIST cache outside the checkout. New fixtures and MNIST cache use
+  `results/v4/`; no historical cache contents were moved or deleted.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
   158 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
@@ -115,8 +127,9 @@ Updated: 2026-10-15
   Ruff and `compileall` passed. v8's fresh fixture and five contracts then
   passed before its interpreter-path failure.
 - Evaluator launcher fix `8e61a41`: all 8 focused primary-runner tests passed;
-  Ruff, `compileall`, `git diff --check`, and `graphify update .` passed. A fresh
-  v10 sandbox preflight/native fixture and contracts remain pending.
+  Ruff, `compileall`, `git diff --check`, and `graphify update .` passed.
+  Protocol v10's fresh sandbox/native-fixture gates passed before its contracts
+  and runs were started.
 - Preregistration finalizer fix `da29fcb`: 12 focused finalizer/runner tests
   passed; Ruff, `compileall`, `git diff --check`, and `graphify update .`
-  passed. Protocol v10 has not yet been generated.
+  passed. Protocol v10 was generated and its five seed runs remain incomplete.

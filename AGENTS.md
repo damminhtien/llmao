@@ -25,6 +25,8 @@
 
 - Current task and continuation state: `.agent/TASK.md`, `.agent/PLAN.md`, `.agent/STATE.md`, `.agent/DECISIONS.md`
 - Long-running agent workflow: `docs/AGENT_WORKFLOW.md`
-- Research architecture and protocol: `ARCHITECTURE.md`, `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`
+- Research architecture and protocol:
+  `ARCHITECTURE.md`, `V4_ARTIFACT_STORAGE_ARCHITECTURE.md`, `V4_PROTOCOL.md`,
+  `V4_PRIMARY_DESIGN.md`
 - Phase checklist and experiment evidence: `TODO.md`, `V4_*_REPORT.md`, `V4_*_RESPONSE_PLAN.md`
 - Reproducibility: `docs/REPRODUCIBILITY.md`

@@ -484,6 +484,17 @@ reports/
 └── V4_LANGUAGE_OF_BIAS.md
 ```
 
+### V4 artifact storage boundary
+
+Keep persistent V4 outputs, scratch, and dataset caches under `results/v4/` in
+the LLMAO checkout. The pinned EvE checkout and user-managed runtime credentials
+are explicit external inputs, not output roots. The new layout must keep the
+MNIST cache evaluator-only and prove that Codex workers cannot read it. New
+writers must reject paths that resolve outside `results/v4/`; existing frozen
+artifacts retain their original locations. See
+[`docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`](docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md)
+for the audited paths and migration contract.
+
 ## Existing LLMAO interfaces to reuse
 
 The V4 implementation belongs in its own `src/bias_optimizer/v4/` and
@@ -601,11 +612,10 @@ and the remote plugin catalog are disabled for the fixture. Do not use
 `codex_exec` for scientific workers: its runtime bypasses the sandbox.
 
 `experiments/v4_sandbox_preflight.py` checks actual OS enforcement without a
-model. The native fixture runs this gate before creating a tmux worker and
-rechecks the fresh Plus allowance snapshot before launching it. The checker
-launcher first probes the project venv, then runs its resolved Python binary
-with explicit venv site-packages; macOS denied traversal through the venv's
-Homebrew interpreter symlink under the strict read policy.
+model. The native fixture runs this gate before creating a tmux worker. The
+checker launcher first probes the project venv, then runs its resolved Python
+binary with explicit venv site-packages; macOS denied traversal through the
+venv's Homebrew interpreter symlink under the strict read policy.
 
 The data-free `20261015-native-boundary-04` fixture passed the automated
 preflight and all fifteen native postconditions, including valid/invalid

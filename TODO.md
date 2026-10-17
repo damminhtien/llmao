@@ -748,10 +748,14 @@ retained six stale `pending_preregistration_decisions` labels from the
 historical pilot draft. No v9 contracts or workers were launched. Commit
 `da29fcb` makes protocol finalization verify the known Phase 0 decision list,
 ensure its choices are populated in the primary fields, and clear the resolved
-list. Generate protocol v10 superseding v9, repeat fresh sandbox/native-fixture
-gates, freeze and validate all five v10 seed contracts, then start a separate
-protocol-scoped run. Do not resume or pool v8 evidence. Protocols v7-v9 and
-their evidence remain preserved.
+list. Protocol v10 superseded v9, fresh sandbox/native-fixture gates passed,
+and all five seed contracts were frozen before protocol-scoped runs started.
+The v10 run-state snapshots still say `running`, but no runner or tmux process
+is active and no final run manifests exist. Keep those attempts incomplete; do
+not collect them or pool them with a new implementation. Before another
+primary launch, implement the storage boundary in
+`docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md` and freeze a new contract/layout
+version. Protocols v7-v10 and their evidence remain preserved.
 
 ---
 
