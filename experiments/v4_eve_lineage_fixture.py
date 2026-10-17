@@ -21,7 +21,7 @@ DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
 PROJECT_PYTHON = ROOT / ".venv/bin/python"
 EVIDENCE_ROOT = ROOT / "results/v4/phase10_followup/native_worker_integration"
 PHASE12_EVIDENCE_ROOT = ROOT / "results/v4/phase12/native_worker_integration"
-CACHE_ROOT = Path.home() / "Library/Caches/llmao-v4-eve-lineage-fixtures"
+CACHE_ROOT = ROOT / "results/v4/scratch/eve-lineage-fixtures"
 LANGUAGE_ONLY_PROBE = r"""
 import errno, json, os, sys
 workspace = sys.argv[1]
@@ -720,8 +720,13 @@ def run_fixture(
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", run_id):
         raise ValueError("run ID must contain only letters, digits, hyphens, and underscores")
     eve_root = eve_root.expanduser().resolve(strict=True)
-    output = output.expanduser().absolute()
-    cache_run = CACHE_ROOT / run_id
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    output = resolve_v4_output_path(output, repo_root=ROOT)
+    cache_run = resolve_v4_output_path(CACHE_ROOT / run_id, repo_root=ROOT)
     if not any(
         output.is_relative_to(root) for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
     ) or output.exists():
@@ -1053,11 +1058,20 @@ def main() -> int:
             "status": "failed",
             "error": f"{type(exc).__name__}: {exc}",
         }
-        if args.output.exists() and any(
-            args.output.is_relative_to(root)
+        try:
+            try:
+                from .v4_artifact_paths import resolve_v4_output_path
+            except ImportError:
+                from v4_artifact_paths import resolve_v4_output_path
+
+            output = resolve_v4_output_path(args.output, repo_root=ROOT)
+        except ValueError:
+            output = None
+        if output is not None and output.exists() and any(
+            output.is_relative_to(root)
             for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
         ):
-            _write_json(args.output / "result.json", result)
+            _write_json(output / "result.json", result)
         print(json.dumps(result, sort_keys=True))
         return 1
     print(json.dumps(result, sort_keys=True))

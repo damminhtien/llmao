@@ -22,7 +22,7 @@ PHASE12_EVIDENCE_ROOT = ROOT / "results/v4/phase12/native_worker_integration"
 PROBE = r"""
 import errno, json, os, socket, subprocess, sys
 from pathlib import Path
-workspace, outside, outside_write, slash_tmp, tmpdir, port = sys.argv[1:]
+workspace, outside, outside_write, slash_tmp, tmpdir, cache_canary, port = sys.argv[1:]
 os.chdir(workspace)
 checks = {}
 def denied(name, operation):
@@ -60,6 +60,8 @@ for relative in ("structural_check/run_check.sh", "structural_check/results/v4/p
                  "candidate/valid/program.json", ".codex/config.toml", "evaluator.py"):
     denied(relative + "_immutable", lambda path=relative: write_access(path))
 denied("outside_read_denied", lambda: Path(outside).read_bytes())
+if cache_canary:
+    denied("mnist_cache_read_denied", lambda: Path(cache_canary).read_bytes())
 for name, path in (("outside_write_denied", outside_write), ("slash_tmp_denied", slash_tmp), ("tmpdir_denied", tmpdir)):
     denied(name, lambda path=path: write_access(path))
 with socket.socket() as connection:
@@ -70,7 +72,9 @@ sys.exit(0 if all(checks.values()) else 1)
 """
 
 
-def _exercise_preflight(workspace: Path) -> dict:
+def _exercise_preflight(
+    workspace: Path, *, mnist_cache_dir: Path | None = None
+) -> dict:
     """Run enforcement probes and remove only fixture-owned files."""
     workspace = workspace.resolve()
     if not os.environ.get("TMPDIR"):
@@ -110,18 +114,35 @@ def _exercise_preflight(workspace: Path) -> dict:
     solver.mkdir(parents=True, exist_ok=True)
     name = f"v4-preflight-{uuid4().hex}"
     outside = workspace.parent / f"{name}-read"
+    cache_canary: Path | None = None
+    if mnist_cache_dir is not None:
+        try:
+            from .v4_artifact_paths import resolve_v4_output_path
+        except ImportError:
+            from v4_artifact_paths import resolve_v4_output_path
+        cache_root = resolve_v4_output_path(mnist_cache_dir, repo_root=ROOT)
+        if cache_root.is_relative_to(workspace):
+            raise ValueError("MNIST cache must stay outside the worker workspace")
+        cache_root.mkdir(parents=True, exist_ok=True)
+        cache_canary = cache_root / f".v4-worker-read-canary-{uuid4().hex}"
     probes = [
         workspace.parent / f"{name}-write",
         Path("/tmp") / name,
         Path(os.environ["TMPDIR"]) / name,
         workspace / "evaluator.py",
     ]
-    if any(path.exists() for path in [outside, *probes]):
+    if any(path.exists() for path in [outside, *probes]) or (
+        cache_canary is not None and cache_canary.exists()
+    ):
         raise ValueError("preflight probe path already exists")
     outside.write_text("synthetic sandbox canary\n")
+    if cache_canary is not None:
+        cache_canary.write_text("synthetic MNIST cache access canary\n")
     executable = shutil.which("codex")
     if not executable:
         outside.unlink()
+        if cache_canary is not None:
+            cache_canary.unlink(missing_ok=True)
         raise FileNotFoundError("Codex CLI unavailable")
     result = {"passed": False, "checks": {}}
     env = dict(os.environ, CODEX_HOME=str(home), HOME=str(home.parent))
@@ -142,6 +163,7 @@ def _exercise_preflight(workspace: Path) -> dict:
                 str(workspace),
                 str(outside),
                 *(str(path) for path in probes[:3]),
+                str(cache_canary) if cache_canary is not None else "",
                 str(listener.getsockname()[1]),
             ]
             completed = subprocess.run(
@@ -183,6 +205,8 @@ def _exercise_preflight(workspace: Path) -> dict:
                 )
             ),
         }
+        if cache_canary is not None:
+            expected.add("mnist_cache_read_denied")
         checks = result.get("checks", {})
         complete = set(checks) == expected and all(
             value is True for value in checks.values()
@@ -216,6 +240,7 @@ def _exercise_preflight(workspace: Path) -> dict:
                 manifest_path.read_bytes()
             ).hexdigest(),
             wrapper_sha256=hashlib.sha256(WRAPPER.read_bytes()).hexdigest(),
+            mnist_cache_path=str(cache_root) if cache_canary is not None else None,
         )
     except (OSError, TypeError, ValueError, subprocess.SubprocessError) as exc:
         result = {
@@ -225,18 +250,30 @@ def _exercise_preflight(workspace: Path) -> dict:
         }
     finally:
         outside.unlink(missing_ok=True)
+        if cache_canary is not None:
+            cache_canary.unlink(missing_ok=True)
         for path in [*probes, *allowed_paths]:
             path.unlink(missing_ok=True)
     return result
 
 
-def run_preflight(workspace: Path, evidence: Path) -> dict:
+def run_preflight(
+    workspace: Path,
+    evidence: Path,
+    *,
+    mnist_cache_dir: Path | None = None,
+) -> dict:
     """Persist setup failures as well as probe failures; never start a model."""
-    evidence = evidence.absolute()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+    workspace = resolve_v4_output_path(workspace, repo_root=ROOT)
+    evidence = resolve_v4_output_path(evidence, repo_root=ROOT)
     if evidence.exists():
         raise ValueError("preflight evidence must be new")
     try:
-        result = _exercise_preflight(workspace)
+        result = _exercise_preflight(workspace, mnist_cache_dir=mnist_cache_dir)
     except (
         OSError,
         TypeError,
@@ -260,11 +297,16 @@ def main() -> int:
     parser.add_argument("--workspace", required=True, type=Path)
     parser.add_argument("--evidence", required=True, type=Path)
     parser.add_argument("--checker-bundle", type=Path)
+    parser.add_argument("--mnist-cache-dir", type=Path)
     args = parser.parse_args()
     from experiments.v4_native_check_fixture import EVIDENCE_ROOT, _build_workspace
 
-    workspace = args.workspace.expanduser().absolute()
-    evidence = args.evidence.expanduser().absolute()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+    workspace = resolve_v4_output_path(args.workspace, repo_root=ROOT)
+    evidence = resolve_v4_output_path(args.evidence, repo_root=ROOT)
     if not any(
         evidence.is_relative_to(root)
         for root in (EVIDENCE_ROOT, PHASE12_EVIDENCE_ROOT)
@@ -275,7 +317,11 @@ def main() -> int:
         args.run_id,
         structural_bundle=args.checker_bundle,
     )
-    result = run_preflight(workspace, evidence)
+    result = run_preflight(
+        workspace,
+        evidence,
+        mnist_cache_dir=args.mnist_cache_dir,
+    )
     print(json.dumps({key: result[key] for key in ("passed", "checks")}))
     return 0 if result["passed"] else 1
 

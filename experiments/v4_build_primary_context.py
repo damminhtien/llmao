@@ -17,6 +17,11 @@ from bias_optimizer.v4.candidate.context import (
 from bias_optimizer.v4.candidate.loader import read_json
 from bias_optimizer.v4.discovery import load_finalized_protocol
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path
+
 
 def _write_new(path: Path, payload: dict) -> None:
     path = path.resolve(strict=False)
@@ -45,8 +50,8 @@ def main() -> int:
     if not isinstance(lineage, list):
         raise SystemExit("parent lineage JSON must contain a list")
     candidate = args.candidate_directory.resolve(strict=True)
-    output = args.output.resolve(strict=False)
-    lineage_output = args.lineage_state_output.resolve(strict=False)
+    output = resolve_v4_output_path(args.output, repo_root=ROOT)
+    lineage_output = resolve_v4_output_path(args.lineage_state_output, repo_root=ROOT)
     if output.parent == candidate or candidate in output.parents:
         raise SystemExit("evaluation context must remain outside the candidate directory")
     if lineage_output.parent == candidate or candidate in lineage_output.parents:

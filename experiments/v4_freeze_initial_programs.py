@@ -78,8 +78,16 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("output", type=Path)
     args = parser.parse_args()
-    digest_path = args.output.with_suffix(".sha256")
-    if args.output.exists() or digest_path.exists():
+    try:
+        from .v4_artifact_paths import resolve_repository_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_repository_output_path
+
+    output = resolve_repository_output_path(args.output, repo_root=ROOT)
+    if output != ROOT / "V4_INITIAL_PROGRAMS.json":
+        raise ValueError("V4 initial programs must use the canonical repository path")
+    digest_path = output.with_suffix(".sha256")
+    if output.exists() or digest_path.exists():
         raise FileExistsError("initial-program manifest and digest must be new files")
     source = subprocess.check_output(
         ["git", "show", f"{SOURCE_COMMIT}:{SOURCE_PATH}"], cwd=ROOT
@@ -89,12 +97,12 @@ def main() -> int:
         json.dumps(manifest, indent=2, sort_keys=True, allow_nan=False) + "\n"
     ).encode()
     digest = hashlib.sha256(content).hexdigest()
-    with args.output.open("xb") as stream:
+    with output.open("xb") as stream:
         stream.write(content)
     with digest_path.open("x") as stream:
         stream.write(digest + "\n")
     print(
-        json.dumps({"program_count": 20, "sha256": digest, "output": str(args.output)})
+        json.dumps({"program_count": 20, "sha256": digest, "output": str(output)})
     )
     return 0
 

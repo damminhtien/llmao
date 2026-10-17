@@ -12,18 +12,24 @@ Updated: 2026-10-17
 - Pilot `20261015-04` passed every contracted exploratory gate: 10/10 valid stage-one proposals, 10 distinct expanded programs, 10/10 correct lineage links, all 3 introduced macros used by their introducers, and `path_length_histogram` used by descendants 5, 8, and 10. All ten native transcripts and 257 collector-referenced archive files verify. Runtime and post-run boundary checks found no violation. This is feasibility evidence only; it is not discovery or primary evidence.
 - Protocol v10 (SHA-256 `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`) and five seed contracts were frozen; the five Phase 12 runs were started.
 - The V4 artifact-storage audit and target design are documented in `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
+- `V4_PRIMARY_DESIGN_V11.md` reduces the planned search count from 135 to 25 while retaining five independent seeds and existing per-run budgets. It omits semantic ablation, cross-dataset transfer, and Level B synthesis; protocol/contracts are still pending.
+- The shared V4 artifact-path resolver now constrains the V4 writer CLIs and fixture entry points; new fixture scratch and the V11 MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths. Live sandbox and native-fixture evidence is still pending.
 
 ## Current
 
-- **M2.1 — V4 artifact storage cutover (design complete; implementation
-  pending).** Primary Phase 12 run roots, contracts, and evidence are under the
-  LLMAO checkout. The native checker and EvE lineage fixtures also leave full
-  generated workspaces in `~/Library/Caches/llmao-v4-native-check-fixtures/`
-  and `~/Library/Caches/llmao-v4-eve-lineage-fixtures/`. New fixture scratch,
-  persistent V4 outputs, and MNIST cache must stay under `results/v4/`; the
-  sandbox must keep the dataset inaccessible to workers. The pinned EvE
+- **M2.1 — V4 artifact storage cutover (implementation complete; live sandbox
+  and fixture gates pending).** Primary Phase 12 run roots, contracts, and
+  evidence are under the LLMAO checkout. Historical native checker/EvE fixture
+  caches and the v10 MNIST cache remain in place. New fixture scratch,
+  persistent V4 outputs, and the V11 MNIST cache use `results/v4/`; the
+  sandbox must prove that workers cannot read the dataset. The pinned EvE
   checkout/runtime and user-managed credentials remain external inputs. See
-  the storage architecture document for the path contract.
+  `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md` for the path contract.
+- **M2.2 — Reduced V11 scope (design complete; protocol/contracts pending).**
+  Keep five discovery seeds and the original per-run budgets; run four matched
+  Phase 14 conditions across five seeds. The total falls from 135 to 25 search
+  runs. Semantic ablation, transfer, and Level B are omitted; Phases 16, 18,
+  and 19 use existing results only.
 - All five v10 run roots record `run_state.json` status `running` and have no
   final `run_manifest.json`. No Phase 12 runner or tmux server is currently
   active. Treat these runs as incomplete; do not collect them or infer a
@@ -33,14 +39,12 @@ Updated: 2026-10-17
 
 ## Next
 
-1. Implement the shared V4 output path resolver and apply it to all V4 writer
-   CLIs and fixture entry points. Keep all existing evidence and external
-   directories unchanged.
-2. Add and validate the new storage-layout contract version, including
-   out-of-root and symlink-escape rejection, before any new primary launch.
-3. Decide whether to resume an old v10 attempt on its exact frozen checkout or
-   start a separately contracted run under the new layout. Never mix roots or
-   code versions.
+1. Run the final unit, lint, compile, and Graphify checks; inspect and commit
+   the path cutover plus the V11 design amendment.
+2. Generate protocol v11 from the clean commit, build its checker bundle, and
+   run the 22-check sandbox preflight plus the data-free native fixture.
+3. Freeze and validate five new V11 seed contracts, then launch Phase 12 under
+   protocol-scoped roots. Do not resume or pool incomplete v10 runs.
 
 ## Known issues and boundaries
 
@@ -121,7 +125,7 @@ Updated: 2026-10-17
   `results/v4/`; no historical cache contents were moved or deleted.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
-  158 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+  168 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
 - Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
   Ruff and `compileall` passed. v8's fresh fixture and five contracts then

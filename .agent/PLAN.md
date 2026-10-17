@@ -87,31 +87,47 @@ The runs remain incomplete and are documented in `STATE.md` and `TODO.md`.
 
 ## M2.1 — Contain V4 outputs under the LLMAO checkout
 
-**Status: design complete; implementation pending.** The audit and target
-storage layout are documented in
+**Status: implementation complete; live sandbox and fixture gates pending.**
+The audit and target storage layout are documented in
 `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`. New persistent outputs, scratch,
 and the MNIST cache must resolve under `results/v4/`; the sandbox must deny
 workers access to that cache. The pinned EvE checkout/runtime and user-managed
 credentials remain external inputs. Preserve existing external fixture and v10
 cache directories and all v10 run roots without moving or rewriting them.
 
-Implement a shared V4 path resolver, enforce it across path-taking writers and
-CLIs, and move future fixture scratch into the repository. Freeze a new
-contract/layout version before starting another primary run; do not reuse a
-v10 run root under changed path rules.
+The shared path resolver now enforces the boundary across V4 output CLIs,
+evaluators, collectors, and fixture entry points. Future fixture scratch and
+the V11 cache use repository-local paths; unit tests cover absolute-path and
+symlink escapes. Freeze a new contract/layout version before starting another
+primary run; do not reuse a v10 run root under changed path rules.
 
 **Done when:** output paths outside `results/v4/` and symlink escapes are
 rejected; new fixtures, the MNIST cache, and writer outputs remain repo-local;
 workers cannot read the cache; failure scratch is recoverable; and contract
 manifests verify the layout and relative paths.
 
+## M2.2 — Freeze the reduced V11 experiment scope
+
+**Status: design amendment complete; protocol and contracts pending.**
+`V4_PRIMARY_DESIGN_V11.md` keeps five discovery and five evaluation seeds,
+the original per-run budgets, and four matched Phase 14 conditions (`G0` and
+`G*` under fixed Codex and EvE). It omits the 20 semantic-ablation and 80
+transfer runs, reducing the planned search count from 135 to 25. Primitive
+reuse, structural human-language comparison, and optimizer interaction are
+secondary analyses of existing runs and add no searches. Preserve protocol
+v10 and all its partial run evidence unchanged.
+
+**Done when:** the path cutover is committed, protocol v11 supersedes v10 with
+the reduced condition matrix and storage-layout version 2, and five fresh
+seed contracts validate before Phase 12 launch.
+
 ## M3 — Phase 12 language discovery
 
-Run matched independent searches only under the verified protocol and
-contracted storage layout. The v10 attempts remain incomplete evidence and
-cannot be resumed with the new layout. Preserve every candidate, language,
-guidance revision, token record, trajectory, and lineage artifact. Do not access
-official test data.
+Run five matched independent searches only under protocol v11 and the
+contracted storage layout. Preserve the v10 attempts as incomplete historical
+evidence; do not resume or pool them with v11. Preserve every candidate,
+language, guidance revision, token record, trajectory, and lineage artifact.
+Do not access official test data.
 
 **Done when:** the preregistered runs and manifests reconcile with their budgets and hashes, and the lineage archive is complete.
 
@@ -123,25 +139,29 @@ Select using discovery evidence only; export and hash the canonical language and
 
 ## M5 — Phase 14 fresh-search evaluation
 
-Run the independent fresh-search comparison defined by the frozen protocol. Do not carry discovery populations into evaluation.
+Run the four matched V11 conditions (`G0`/`G*` × fixed Codex/EvE) over five
+independent seeds. Do not carry discovery populations into evaluation.
 
 **Done when:** all required conditions, seeds, budgets, outputs, and run manifests pass the protocol's completeness checks.
 
-## M6 — Phases 15–16 language analyses
+## M6 — Phase 16 primitive reuse analysis
 
-Complete semantic ablation and primitive reuse analyses under their frozen boundaries.
+Complete the descriptive, non-causal primitive reuse analysis from existing
+discovery and evaluation artifacts. Phase 15 is omitted in V11.
 
 **Done when:** each analysis has reproducible inputs, outputs, and protocol-conformant summaries.
 
-## M7 — Phases 17–19 secondary comparisons
+## M7 — Phases 18–19 secondary comparisons
 
-Complete transfer, human-language comparison, and optimizer-language interaction as specified in the protocol.
+Complete structural human-language comparison and optimizer interaction from
+the V11 Phase 14 matrix. Phase 17 transfer is omitted in V11.
 
 **Done when:** all required datasets, conditions, seeds, and analyses reconcile with the frozen design.
 
 ## M8 — Phase 20 optional Level B
 
-Run only if the preregistration explicitly includes primitive synthesis; otherwise record the protocol-based omission and close the milestone.
+Record the protocol-based omission and close the milestone without a Level B
+experiment.
 
 ## M9 — Phases 21–22 statistics and report
 

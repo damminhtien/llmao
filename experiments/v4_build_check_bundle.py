@@ -162,8 +162,14 @@ def main() -> int:
     parser.add_argument("--protocol-sha256", required=True)
     parser.add_argument("--python-executable", type=Path, default=Path(sys.executable))
     args = parser.parse_args()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    destination = resolve_v4_output_path(args.destination, repo_root=ROOT)
     manifest = build_bundle(
-        args.destination,
+        destination,
         repo_root=args.repo_root,
         commit=args.commit,
         protocol_path=args.protocol,

@@ -286,12 +286,9 @@ def test_cli_writes_structured_validation_failure_outside_candidate_directory(
         text=True,
     )
 
-    assert completed.returncode == 1
+    assert completed.returncode == 2
     assert artifact_path.parent == candidate_directory.parent
     assert log_path.parent == candidate_directory.parent
-    artifact = json.loads(artifact_path.read_text(encoding="utf-8"))
-    assert artifact["status"] == "failed"
-    assert artifact["failure"]["stage"] == "candidate_validation"
-    assert artifact["failure"]["type"] == "CandidateValidationError"
-    assert "evaluator_version_sha256" in artifact
-    assert "Traceback" in log_path.read_text(encoding="utf-8")
+    assert not artifact_path.exists()
+    assert not log_path.exists()
+    assert "escapes results/v4" in completed.stderr

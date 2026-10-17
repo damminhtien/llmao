@@ -22,12 +22,18 @@ def main() -> int:
         "--protocol", type=Path, default=ROOT / "results/v4/protocol.json"
     )
     args = parser.parse_args()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    output = resolve_v4_output_path(args.output, repo_root=ROOT)
     report = replay_pilot(
         args.manifest,
         artifact_root=args.artifact_root,
         protocol_path=args.protocol,
     )
-    with args.output.open("x", encoding="utf-8") as stream:
+    with output.open("x", encoding="utf-8") as stream:
         json.dump(report, stream, indent=2, sort_keys=True, allow_nan=False)
         stream.write("\n")
     print(

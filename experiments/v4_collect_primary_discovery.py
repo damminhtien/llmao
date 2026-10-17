@@ -682,7 +682,14 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--graph", type=Path, required=True)
     args = parser.parse_args()
-    print(json.dumps(collect(args.contract, output=args.output, graph=args.graph), sort_keys=True))
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    output = resolve_v4_output_path(args.output, repo_root=ROOT)
+    graph = resolve_v4_output_path(args.graph, repo_root=ROOT)
+    print(json.dumps(collect(args.contract, output=output, graph=graph), sort_keys=True))
     return 0
 
 

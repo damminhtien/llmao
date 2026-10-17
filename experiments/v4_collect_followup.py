@@ -330,17 +330,28 @@ def main() -> int:
     parser.add_argument("--contract", type=Path)
     parser.add_argument("--record", type=Path)
     args = parser.parse_args()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    destination = resolve_v4_output_path(args.destination, repo_root=ROOT)
+    record = (
+        resolve_v4_output_path(args.record, repo_root=ROOT)
+        if args.record is not None
+        else None
+    )
     manifest = collect(
-        args.destination,
+        destination,
         contract_path=args.contract,
-        execution_path=args.record,
+        execution_path=record,
     )
     print(
         json.dumps(
             {
                 "run_id": manifest["run"]["run_id"],
                 "proposals": len(manifest["attempts"]),
-                "archive": str(args.destination),
+                "archive": str(destination),
             }
         )
     )

@@ -27,6 +27,11 @@ from bias_optimizer.v4.evaluator import (
 )
 from bias_optimizer.v4.language.base_language import G0_LANGUAGE
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path
+
 
 def _inside(path: Path, directory: Path) -> bool:
     try:
@@ -67,16 +72,27 @@ def _run(args: argparse.Namespace) -> int:
     default_log_path = (
         ROOT / "results/v4/evaluator_logs" / f"{candidate_directory.name}-{run_stamp}.log"
     )
-    artifact_path = args.output.resolve(strict=False) if args.output else default_artifact_path
-    log_path = args.log.resolve(strict=False) if args.log else default_log_path
     path_error: ValueError | None = None
-    if _inside(artifact_path, candidate_directory) or _inside(log_path, candidate_directory):
+    try:
+        artifact_path = resolve_v4_output_path(
+            args.output if args.output else default_artifact_path, repo_root=ROOT
+        )
+        log_path = resolve_v4_output_path(
+            args.log if args.log else default_log_path, repo_root=ROOT
+        )
+    except ValueError as exc:
+        print(json.dumps({"status": "rejected", "error": str(exc)}), file=sys.stderr)
+        return 2
+    if path_error is None and (
+        _inside(artifact_path, candidate_directory)
+        or _inside(log_path, candidate_directory)
+    ):
         path_error = ValueError(
             "score artifacts and evaluator logs must be outside the candidate directory"
         )
-    elif artifact_path == log_path:
+    elif path_error is None and artifact_path == log_path:
         path_error = ValueError("score artifact and evaluator log paths must differ")
-    elif artifact_path.exists() or log_path.exists():
+    elif path_error is None and (artifact_path.exists() or log_path.exists()):
         path_error = FileExistsError("score artifact and evaluator log paths must be new")
     if path_error is not None:
         artifact_path = default_artifact_path

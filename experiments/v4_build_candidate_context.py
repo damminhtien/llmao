@@ -16,6 +16,11 @@ from bias_optimizer.v4.candidate.context import (
 )
 from bias_optimizer.v4.candidate.loader import read_json
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path
+
 
 def _parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -45,7 +50,7 @@ def main() -> int:
         guidance_hash=args.guidance_hash,
         protocol_path=args.protocol,
     )
-    output = args.output.resolve(strict=False)
+    output = resolve_v4_output_path(args.output, repo_root=ROOT)
     if output.is_relative_to(args.candidate_directory.resolve(strict=True)):
         raise SystemExit(
             "evaluation context output must be outside the candidate directory"
@@ -55,7 +60,9 @@ def main() -> int:
         json.dump(context, stream, indent=2, sort_keys=True, allow_nan=False)
         stream.write("\n")
     if args.lineage_state_output:
-        state_output = args.lineage_state_output.resolve(strict=False)
+        state_output = resolve_v4_output_path(
+            args.lineage_state_output, repo_root=ROOT
+        )
         if state_output.is_relative_to(args.candidate_directory.resolve(strict=True)):
             raise SystemExit(
                 "lineage state output must be outside the candidate directory"

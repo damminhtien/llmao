@@ -903,6 +903,12 @@ def main() -> int:
     parser.add_argument("--eve-root", type=Path, default=ROOT.parent / "eve")
     parser.add_argument("--validate-only", action="store_true")
     args = parser.parse_args()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    record_path = resolve_v4_output_path(args.record, repo_root=ROOT)
     content = args.contract.read_bytes()
     digest = hashlib.sha256(content).hexdigest()
     if digest != args.contract.with_suffix(".sha256").read_text().split()[0]:
@@ -933,12 +939,15 @@ def main() -> int:
         != contract["source_pins"]["base_protocol_sha256"]
     ):
         raise ValueError("runtime protocol digest mismatch")
-    run_root = Path(launch["run_root"])
-    if contract.get("schema_version") == 5 and args.record.resolve(strict=False) != Path(
-        launch["execution_record"]
-    ).resolve(strict=False):
+    run_root = resolve_v4_output_path(launch["run_root"], repo_root=ROOT)
+    if contract.get("schema_version") == 5 and record_path != resolve_v4_output_path(
+        launch["execution_record"], repo_root=ROOT
+    ):
         raise ValueError("execution record path differs from the frozen contract")
-    if run_root.exists() or args.record.exists():
+    launch["tmux_failure_trace"] = str(
+        resolve_v4_output_path(launch["tmux_failure_trace"], repo_root=ROOT)
+    )
+    if run_root.exists() or record_path.exists():
         raise ValueError("new follow-up requires unused run and execution-record paths")
     if args.validate_only:
         print(
@@ -967,14 +976,14 @@ def main() -> int:
         }
     )
     command = _eve_runner_command(eve_root, launch["hydra_arguments"])
-    args.record.parent.mkdir(parents=True, exist_ok=True)
+    record_path.parent.mkdir(parents=True, exist_ok=True)
     record = {
         "status": "launching",
         "contract_sha256": digest,
         "run_root": str(run_root),
         "command": command,
     }
-    with args.record.open("x") as stream:
+    with record_path.open("x") as stream:
         json.dump(record, stream, indent=2, sort_keys=True, allow_nan=False)
     process = subprocess.Popen(
         command, cwd=eve_root, env=environment, start_new_session=True
@@ -984,7 +993,7 @@ def main() -> int:
         runner_pid=process.pid,
         started_at_utc=datetime.now(UTC).isoformat(),
     )
-    args.record.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
+    record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
     print(
         json.dumps({"runner_pid": process.pid, "run_root": str(run_root)}), flush=True
     )
@@ -1027,7 +1036,7 @@ def main() -> int:
             finished_at_utc=datetime.now(UTC).isoformat(),
             structural_bundles_observed=len(seen),
         )
-        args.record.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
+        record_path.write_text(json.dumps(record, indent=2, sort_keys=True) + "\n")
     return code if code else (1 if record.get("stop_reason") else 0)
 
 

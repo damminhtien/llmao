@@ -1,6 +1,6 @@
 # Decisions
 
-Append durable workflow and research-boundary decisions here. Keep detailed scientific parameters in `V4_PROTOCOL.md` and `V4_PRIMARY_DESIGN.md`.
+Append durable workflow and research-boundary decisions here. Keep detailed scientific parameters in `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and versioned amendments such as `V4_PRIMARY_DESIGN_V11.md`.
 
 ## 2026-10-15 — Keep the root agent instructions as a router
 
@@ -33,3 +33,17 @@ The external tmux-capture bootstrap must put the EvE checkout ahead of the LLMAO
 ## 2026-10-17 — Keep persistent V4 outputs under the LLMAO checkout
 
 For new contracts and runs, keep persistent V4 outputs, V4-owned scratch, and the MNIST cache under `results/v4/`, with every writer enforcing resolved-path containment. The worker sandbox must deny candidate agents access to the dataset cache. Keep the pinned EvE checkout/runtime and user-managed Codex credentials as explicit external inputs. Preserve existing external fixture/data caches and frozen run artifacts at their original paths; do not relocate or rewrite them. Use a new contract/layout version before launching with the redesigned path rules.
+
+## 2026-10-17 — Reduce the V4 experiment matrix in protocol v11
+
+Keep five independent discovery seeds and five fresh-search seeds, plus the
+existing per-run candidate and resource budgets. Five paired seeds are the
+minimum for the exact one-sided sign-flip test to attain `p <= 0.05`. Fresh
+search has four conditions (`G0`/`G*` under fixed Codex and EvE), producing 20
+evaluation runs after five discovery runs. Omit GH fresh-search, semantic
+ablation, four-dataset transfer, and Level B synthesis. Use primitive reuse,
+structural human-language comparison, and optimizer interaction as secondary
+analyses of existing data only. This reduces the planned total from 135
+searches to 25 and limits conclusions to MNIST fresh search; no transfer claim
+is permitted. Protocol v10 and its incomplete runs remain immutable historical
+evidence.

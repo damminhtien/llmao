@@ -13,6 +13,11 @@ sys.path.insert(0, str(ROOT / "src"))
 from bias_optimizer.v4.candidate.replay import replay_pilot
 from bias_optimizer.v4.lineage import build_lineage_archive, lineage_mermaid
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path
+
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
@@ -24,11 +29,9 @@ def main() -> int:
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--graph", type=Path, required=True)
     args = parser.parse_args()
-    if (
-        args.output.resolve() == args.graph.resolve()
-        or args.output.exists()
-        or args.graph.exists()
-    ):
+    output = resolve_v4_output_path(args.output, repo_root=ROOT)
+    graph = resolve_v4_output_path(args.graph, repo_root=ROOT)
+    if output == graph or output.exists() or graph.exists():
         raise SystemExit("archive and graph require distinct new output paths")
     replays = [
         replay_pilot(
@@ -37,10 +40,10 @@ def main() -> int:
         for path in args.manifest
     ]
     archive = build_lineage_archive(replays)
-    with args.output.open("x", encoding="utf-8") as stream:
+    with output.open("x", encoding="utf-8") as stream:
         json.dump(archive, stream, indent=2, sort_keys=True, allow_nan=False)
         stream.write("\n")
-    with args.graph.open("x", encoding="utf-8") as stream:
+    with graph.open("x", encoding="utf-8") as stream:
         stream.write(lineage_mermaid(archive))
     print(
         json.dumps(

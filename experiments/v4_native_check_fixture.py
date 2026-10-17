@@ -15,7 +15,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EVE_ROOT = ROOT.parent / "eve"
-FIXTURE_CACHE = Path.home() / "Library/Caches/llmao-v4-native-check-fixtures"
+FIXTURE_CACHE = ROOT / "results/v4/scratch/native-check-fixtures"
 EVIDENCE_ROOT = ROOT / "results/v4/phase10_followup/native_worker_integration"
 CONTRACT = ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
 PROTOCOL = ROOT / "results/v4/protocol.json"
@@ -271,7 +271,7 @@ def _build_workspace(
         structural_source_commit = manifest_payload["source_commit"]
     if not workspace.is_relative_to(FIXTURE_CACHE) or workspace.exists():
         raise ValueError(
-            "workspace must be a new fixture under the dedicated cache root"
+            "workspace must be a new fixture under results/v4/scratch"
         )
     workspace.mkdir(parents=True)
 
@@ -373,16 +373,27 @@ def _build_workspace(
     }
 
 
-def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
+def run_fixture(
+    run_id: str,
+    workspace: Path,
+    evidence: Path,
+    *,
+    mnist_cache_dir: Path | None = None,
+) -> dict:
     if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9_-]{0,63}", run_id):
         raise ValueError(
             "run id must contain only letters, digits, hyphens, and underscores"
         )
-    workspace = workspace.expanduser().absolute()
-    evidence = evidence.expanduser().absolute()
+    try:
+        from .v4_artifact_paths import resolve_v4_output_path
+    except ImportError:
+        from v4_artifact_paths import resolve_v4_output_path
+
+    workspace = resolve_v4_output_path(workspace, repo_root=ROOT)
+    evidence = resolve_v4_output_path(evidence, repo_root=ROOT)
     if not workspace.is_relative_to(FIXTURE_CACHE) or workspace.exists():
         raise ValueError(
-            "workspace must be a new fixture under the dedicated cache root"
+            "workspace must be a new fixture under results/v4/scratch"
         )
     if not evidence.is_relative_to(EVIDENCE_ROOT) or evidence.exists():
         raise ValueError(
@@ -402,7 +413,11 @@ def run_fixture(run_id: str, workspace: Path, evidence: Path) -> dict:
     workspace_info = _build_workspace(workspace, run_id)
     from experiments.v4_sandbox_preflight import run_preflight
 
-    preflight = run_preflight(workspace, evidence / "sandbox_preflight.json")
+    preflight = run_preflight(
+        workspace,
+        evidence / "sandbox_preflight.json",
+        mnist_cache_dir=mnist_cache_dir,
+    )
     if not preflight["passed"]:
         raise RuntimeError("sandbox preflight failed; native worker was not started")
     (evidence / "initial_prompt.md").write_text(
@@ -788,8 +803,14 @@ def main() -> int:
     parser.add_argument("--run-id", required=True)
     parser.add_argument("--workspace", required=True, type=Path)
     parser.add_argument("--evidence", required=True, type=Path)
+    parser.add_argument("--mnist-cache-dir", type=Path)
     args = parser.parse_args()
-    result = run_fixture(args.run_id, args.workspace, args.evidence)
+    result = run_fixture(
+        args.run_id,
+        args.workspace,
+        args.evidence,
+        mnist_cache_dir=args.mnist_cache_dir,
+    )
     print(
         json.dumps(
             {

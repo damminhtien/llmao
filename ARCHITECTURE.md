@@ -177,6 +177,13 @@ This phase answers the actual RQ:
 
 Three language conditions are required.
 
+**Current V11 scope amendment:** the preregistered fresh-search study uses
+only `G0` and the frozen evolved `G*` under fixed iterative Codex and EvE.
+`GH` remains a descriptive inventory reference; it receives no fresh-search
+runs. Semantic ablation, cross-dataset transfer, and Level B synthesis are
+omitted. See `V4_PRIMARY_DESIGN_V11.md` for the versioned amendment; the
+broader comparisons below are not requirements for V11.
+
 ## \(G_0\): impoverished starting language
 
 Use the frozen V2-level DSL as the starting vocabulary.
@@ -877,7 +884,7 @@ The representation \(z^*\) that produced \(G^*\) is **not** reused in the primar
 
 # 15. Primary fresh-search experiment
 
-Run a new search from scratch under:
+The original full comparison was planned under:
 
 \[
 \{G_0,G_H,G^*\}
@@ -885,7 +892,8 @@ Run a new search from scratch under:
 \{\text{Fixed Iterative Codex},\text{EvE}\}.
 \]
 
-This gives a \(3\times2\) design:
+This gave a \(3\times2\) design. V11 replaces it with the narrower matched
+design documented above:
 
 | Language | Fixed iterative | EvE |
 |---|---:|---:|

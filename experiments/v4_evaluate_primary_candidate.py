@@ -14,6 +14,11 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path
+
 from bias_optimizer.data.mnist import MNISTDataConfig
 from bias_optimizer.ml.evaluator import Evaluator
 from bias_optimizer.ml.learner import LearnerConfig
@@ -69,9 +74,11 @@ def main() -> int:
     parser.add_argument("--log", type=Path, required=True)
     args = parser.parse_args()
 
-    candidate_directory = args.candidate_directory.resolve(strict=False)
-    output_path = args.output.resolve(strict=False)
-    log_path = args.log.resolve(strict=False)
+    candidate_directory = resolve_v4_output_path(
+        args.candidate_directory, repo_root=ROOT
+    )
+    output_path = resolve_v4_output_path(args.output, repo_root=ROOT)
+    log_path = resolve_v4_output_path(args.log, repo_root=ROOT)
     candidate_id: str | None = None
     protocol: dict[str, Any] | None = None
     stage = "protocol_validation"
@@ -101,8 +108,17 @@ def main() -> int:
         if args.context.is_symlink() or _inside(context_path, candidate_directory):
             raise ValueError("trusted candidate context must stay outside the candidate directory")
         data_dir = args.data_dir.resolve(strict=False)
-        if _inside(data_dir, candidate_directory) or _inside(data_dir, ROOT):
-            raise ValueError("primary MNIST cache must be outside the LLMAO checkout and worker")
+        if _inside(data_dir, candidate_directory):
+            raise ValueError("primary MNIST cache must be outside the candidate workspace")
+        storage_layout = protocol.get("storage_layout", {})
+        if storage_layout.get("version") == 2:
+            expected_data_dir = resolve_v4_output_path(
+                storage_layout["mnist_cache"], repo_root=ROOT
+            )
+            if data_dir != expected_data_dir:
+                raise ValueError("primary MNIST cache differs from the V4 storage layout")
+        elif _inside(data_dir, ROOT):
+            raise ValueError("legacy primary MNIST cache must remain outside the LLMAO checkout")
 
         stage = "candidate_validation"
         context = read_json(context_path)

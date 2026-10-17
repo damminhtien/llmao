@@ -106,11 +106,18 @@ def test_failed_preflight_prevents_worker_creation(tmp_path, monkeypatch):
     from experiments import v4_native_check_fixture as fixture
     from experiments import v4_sandbox_preflight as preflight
 
-    monkeypatch.setattr(fixture, "FIXTURE_CACHE", tmp_path)
-    monkeypatch.setattr(fixture, "EVIDENCE_ROOT", tmp_path)
+    monkeypatch.setattr(fixture, "ROOT", tmp_path)
+    monkeypatch.setattr(
+        fixture, "FIXTURE_CACHE", tmp_path / "results/v4/scratch/native-check-fixtures"
+    )
+    monkeypatch.setattr(
+        fixture, "EVIDENCE_ROOT", tmp_path / "results/v4/phase10/evidence"
+    )
     monkeypatch.setenv("TMPDIR", str(tmp_path))
     monkeypatch.setattr(fixture, "_build_workspace", lambda *_: {})
-    monkeypatch.setattr(preflight, "run_preflight", lambda *_: {"passed": False})
+    monkeypatch.setattr(
+        preflight, "run_preflight", lambda *_, **__: {"passed": False}
+    )
 
     def unexpected_launch(*args, **kwargs):
         pytest.fail("a failed preflight must never create a tmux worker")
@@ -119,5 +126,7 @@ def test_failed_preflight_prevents_worker_creation(tmp_path, monkeypatch):
 
     with pytest.raises(RuntimeError, match="native worker was not started"):
         fixture.run_fixture(
-            "blocked", tmp_path / "workspace", tmp_path / "evidence"
+            "blocked",
+            fixture.FIXTURE_CACHE / "blocked",
+            fixture.EVIDENCE_ROOT / "blocked",
         )

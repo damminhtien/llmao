@@ -10,6 +10,11 @@ import subprocess
 from pathlib import Path
 from typing import Any
 
+try:
+    from .v4_artifact_paths import V4_ROOT, resolve_v4_repo_path
+except ImportError:
+    from v4_artifact_paths import V4_ROOT, resolve_v4_repo_path
+
 ROOT = Path(__file__).resolve().parents[1]
 EVE_ROOT = (ROOT.parent / "eve").resolve()
 _SHA256 = re.compile(r"[0-9a-f]{64}\Z")
@@ -97,10 +102,18 @@ def verify_source_paths(root: Path, pins: dict[str, str]) -> None:
             raise ValueError(f"source file changed after contract freeze: {relative}")
 
 
-def verify_evidence_record(record: dict[str, Any], *, label: str) -> Path:
+def verify_evidence_record(
+    record: dict[str, Any], *, label: str, repo_relative: bool = False
+) -> Path:
     if not isinstance(record, dict):
         raise TypeError(f"{label} evidence record must be an object")
-    path = Path(str(record.get("path", ""))).expanduser().resolve(strict=True)
+    raw_path = str(record.get("path", ""))
+    path = (
+        resolve_v4_repo_path(raw_path)
+        if repo_relative
+        else Path(raw_path).expanduser().resolve(strict=True)
+    )
+    path = path.resolve(strict=True)
     expected = record.get("sha256")
     if not isinstance(expected, str) or not _SHA256.fullmatch(expected):
         raise ValueError(f"{label} evidence record has an invalid digest")
@@ -112,7 +125,11 @@ def verify_evidence_record(record: dict[str, Any], *, label: str) -> Path:
     manifest_path_value = record.get("manifest_path")
     manifest_sha256 = record.get("manifest_sha256")
     if manifest_path_value is not None:
-        manifest_path = Path(str(manifest_path_value)).resolve(strict=True)
+        manifest_path = (
+            resolve_v4_repo_path(str(manifest_path_value))
+            if repo_relative
+            else Path(str(manifest_path_value)).resolve(strict=True)
+        ).resolve(strict=True)
         if sha256_file(manifest_path) != manifest_sha256:
             raise ValueError(f"{label} manifest digest mismatch")
         manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -132,13 +149,18 @@ def validate_contract(
     allow_existing_run_root: bool = False,
 ) -> dict[str, Any]:
     contract, contract_sha256 = read_hashed_json(contract_path)
-    if contract.get("schema_version") != 1:
+    schema_version = contract.get("schema_version")
+    if schema_version not in (1, 2):
         raise ValueError("unsupported primary discovery contract version")
     seed = contract.get("seed")
     if type(seed) is not int or (expected_seed is not None and seed != expected_seed):
         raise ValueError("primary discovery contract seed mismatch")
 
-    protocol_path = Path(contract["protocol_path"]).resolve(strict=True)
+    protocol_path = (
+        resolve_v4_repo_path(contract["protocol_path"])
+        if schema_version == 2
+        else Path(contract["protocol_path"]).resolve(strict=True)
+    ).resolve(strict=True)
     protocol, protocol_sha256 = read_hashed_json(protocol_path)
     if protocol_sha256 != contract.get("protocol_sha256"):
         raise ValueError("primary discovery protocol differs from its contract")
@@ -165,8 +187,16 @@ def validate_contract(
     if initial_digest != protocol["primary_discovery"]["initial_programs_sha256"]:
         raise ValueError("common initial-program digest differs from the protocol")
 
-    preflight_path = verify_evidence_record(contract["sandbox_preflight"], label="sandbox preflight")
-    native_path = verify_evidence_record(contract["native_fixture"], label="native fixture")
+    preflight_path = verify_evidence_record(
+        contract["sandbox_preflight"],
+        label="sandbox preflight",
+        repo_relative=schema_version == 2,
+    )
+    native_path = verify_evidence_record(
+        contract["native_fixture"],
+        label="native fixture",
+        repo_relative=schema_version == 2,
+    )
     native_payload = json.loads(native_path.read_text(encoding="utf-8"))
     if native_payload.get("sandbox_wrapper_sha256") != contract.get("sandbox_wrapper_sha256"):
         raise ValueError("native fixture was produced by a different sandbox wrapper")
@@ -181,7 +211,15 @@ def validate_contract(
     preflight_payload = json.loads(preflight_path.read_text(encoding="utf-8"))
     if preflight_payload.get("wrapper_sha256") != contract.get("sandbox_wrapper_sha256"):
         raise ValueError("sandbox preflight used a different wrapper revision")
-    bundle_path = Path(contract["checker_bundle_path"]).resolve(strict=True)
+    if schema_version == 2 and (
+        preflight_payload.get("checks", {}).get("mnist_cache_read_denied") is not True
+    ):
+        raise ValueError("worker sandbox preflight did not deny MNIST cache reads")
+    bundle_path = (
+        resolve_v4_repo_path(contract["checker_bundle_path"])
+        if schema_version == 2
+        else Path(contract["checker_bundle_path"]).resolve(strict=True)
+    ).resolve(strict=True)
     bundle_manifest_path = bundle_path / "manifest.json"
     bundle_manifest = json.loads(bundle_manifest_path.read_text(encoding="utf-8"))
     if bundle_manifest.get("protocol_sha256") != protocol_sha256:
@@ -204,11 +242,42 @@ def validate_contract(
             raise ValueError(f"checker bundle source changed: {relative}")
     if sha256_file(ROOT / "scripts/codex-v4-sandbox") != contract.get("sandbox_wrapper_sha256"):
         raise ValueError("V4 sandbox wrapper differs from the contract")
-    data_dir = Path(contract["data_dir"]).expanduser().resolve(strict=False)
-    if data_dir == ROOT or ROOT in data_dir.parents:
-        raise ValueError("MNIST cache must be outside the LLMAO checkout")
+    if schema_version == 1:
+        data_dir = Path(contract["data_dir"]).expanduser().resolve(strict=False)
+        if data_dir == ROOT or ROOT in data_dir.parents:
+            raise ValueError("legacy MNIST cache must be outside the LLMAO checkout")
+        run_root = Path(contract["run_root"]).expanduser().resolve(strict=False)
+    else:
+        storage_layout = protocol.get("storage_layout", {})
+        if (
+            storage_layout.get("version") != 2
+            or storage_layout.get("artifact_root") != "results/v4"
+            or storage_layout.get("candidate_worker_can_read_mnist_cache") is not False
+            or storage_layout.get("output_paths_must_resolve_inside_artifact_root")
+            is not True
+            or storage_layout.get("reject_symlink_escape") is not True
+            or contract.get("storage_layout_version") != 2
+        ):
+            raise ValueError("schema v2 contract requires storage-layout version 2")
+        data_dir = resolve_v4_repo_path(contract["data_dir"])
+        expected_data_dir = resolve_v4_repo_path(storage_layout["mnist_cache"])
+        if data_dir != expected_data_dir or data_dir == V4_ROOT:
+            raise ValueError("MNIST cache differs from the contracted V4 cache path")
+        run_root = resolve_v4_repo_path(contract["run_root"])
+        preflight_cache = resolve_v4_repo_path(
+            preflight_payload.get("mnist_cache_path", "")
+        )
+        native_preflight = native_payload.get("workspace_preflight", {})
+        native_cache = resolve_v4_repo_path(
+            native_preflight.get("mnist_cache_path", "")
+        )
+        if preflight_cache != data_dir or (
+            native_preflight.get("checks", {}).get("mnist_cache_read_denied")
+            is not True
+            or native_cache != data_dir
+        ):
+            raise ValueError("sandbox evidence does not protect the contracted MNIST cache")
 
-    run_root = Path(contract["run_root"]).expanduser().resolve(strict=False)
     expected_run_root = primary_run_root(seed, protocol_sha256)
     if run_root != expected_run_root:
         raise ValueError("primary contract run root is outside its seed-specific path")

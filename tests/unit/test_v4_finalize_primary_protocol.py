@@ -101,8 +101,8 @@ def test_finalized_protocol_clears_resolved_phase_zero_decisions(tmp_path, monke
         f"{hashlib.sha256(initial.read_bytes()).hexdigest()}  V4_INITIAL_PROGRAMS.json\n"
     )
 
-    destination = tmp_path / "results/v4/primary_protocol_v10.json"
-    result = finalize_protocol(destination, version="v4-primary-10")
+    destination = tmp_path / "results/v4/primary_protocol_v11.json"
+    result = finalize_protocol(destination, version="v4-primary-11")
     finalized = json.loads(destination.read_text(encoding="utf-8"))
 
     assert result["sha256"] == hashlib.sha256(destination.read_bytes()).hexdigest()
@@ -113,3 +113,14 @@ def test_finalized_protocol_clears_resolved_phase_zero_decisions(tmp_path, monke
     assert discovery["language_selection"]["candidate_must_be_successfully_evaluated"] is True
     assert discovery["candidate_auc"]["normalizer"] == 180
     assert discovery["primary_contrast_and_statistics"]["exact_one_sided_sign_flip_assignments"] == 32
+    fresh = finalized["primary_fresh_search"]
+    assert fresh["conditions"] == [
+        {"language": "G0", "optimizer": "fixed_iterative_codex"},
+        {"language": "G*", "optimizer": "fixed_iterative_codex"},
+        {"language": "G0", "optimizer": "EvE"},
+        {"language": "G*", "optimizer": "EvE"},
+    ]
+    assert fresh["run_count"] == 20
+    assert fresh["total_primary_search_runs"] == 25
+    assert finalized["storage_layout"]["version"] == 2
+    assert finalized["storage_layout"]["candidate_worker_can_read_mnist_cache"] is False

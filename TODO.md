@@ -780,282 +780,119 @@ Important:
 
 ---
 
-# Phase 14 — Fresh-search experiment
+# Phase 14 — Reduced fresh-search experiment (V11)
 
-Restart every optimizer from scratch.
-
-Run:
+Follow `V4_PRIMARY_DESIGN_V11.md`. Restart each condition from the common
+initial-program set and run only:
 
 ```text
 G0 + fixed iterative Codex
-GH + fixed iterative Codex
 G* + fixed iterative Codex
-
 G0 + EvE
-GH + EvE
 G* + EvE
 ```
 
-- [ ] Same initial candidate seeds.
-- [ ] Same candidate budget.
-- [ ] Same token budget/accounting.
-- [ ] Same model.
-- [ ] Same reasoning level.
-- [ ] Same evaluation data.
-- [ ] Same run seeds.
+Use all five fresh-search seeds `[101, 202, 303, 404, 505]`, matched across
+conditions. This is 20 fresh-search runs. `GH` is descriptive only and receives
+no fresh-search run.
 
-Primary metrics:
+- [ ] Same initial candidate set, candidate budget, token accounting, model,
+  reasoning effort, evaluator, data split, and run seed within each pair.
+- [ ] Freeze `G*` before these searches; import no discovery population,
+  guidance, or optimizer state.
+- [ ] Record best-so-far curve, candidate AUC, token AUC, time-to-threshold,
+  final best score, valid proposal rate, duplicate rate, tokens, and runtimes.
+- [ ] Preserve complete trajectories and manifests for all four conditions.
 
-- [ ] best-so-far search curve;
-- [ ] candidate-budget AUC;
-- [ ] token-budget AUC;
-- [ ] time-to-threshold;
-- [ ] final best score;
-- [ ] valid proposal rate;
-- [ ] duplicate rate.
-
-Primary hypothesis:
-
-\[
-AUC(G^*) > AUC(G_0).
-\]
+Primary hypothesis: `AUC(G*) > AUC(G0)`, averaging the two optimizer-specific
+paired contrasts within each seed. Preserve the existing 200-unique-evaluation
+per-run budget and five independent seeds.
 
 ---
 
-# Phase 15 — Semantic-language ablation
+# Phase 15 — Semantic-language ablation (omitted in V11)
 
-Construct:
+Omitted to remove 20 additional search runs. Do not construct anonymized
+languages, launch the ablation, or make a causal claim about language names or
+descriptions. Reconsider only through a separately versioned preregistration.
+
+---
+
+# Phase 16 — Primitive reuse analysis (descriptive only)
+
+Use only existing Phase 12 and Phase 14 artifacts; this phase launches no new
+searches. For every invented primitive, report independent candidates and
+runs using it, observed score associations, generations survived, descendants,
+similarity to V3 primitives, and structural equivalence where available.
+Label these as observational associations, not causal primitive effects.
+
+---
+
+# Phase 17 — Transfer test (omitted in V11)
+
+Omitted to remove 80 additional search runs. Do not access EMNIST, KMNIST, or
+Fashion-MNIST for a transfer search and do not claim cross-task transfer or
+general reuse across tasks. Reconsider only through a separately versioned
+preregistration.
+
+---
+
+# Phase 18 — Human DSL comparison (structural only)
+
+Compare canonical `G0`, `GH`, and `G*` manifests and primitive inventories.
+Report whether `G*` rediscovers V3 concepts, adds distinct abstractions, and
+how its inventory size compares with `GH`. No new search is run for `GH`; do
+not compare its fresh-search AUC or claim a search-performance ranking.
+
+---
+
+# Phase 19 — Optimizer-language interaction (secondary, no extra runs)
+
+Estimate from Phase 14's four-condition design:
 
 ```text
-G*_semantic
-G*_anonymous
+delta_fixed = AUC(G*, fixed) - AUC(G0, fixed)
+delta_EvE   = AUC(G*, EvE)   - AUC(G0, EvE)
 ```
 
-with identical computational behavior.
-
-- [ ] deterministically anonymize primitive names;
-- [ ] anonymize descriptions;
-- [ ] preserve signatures;
-- [ ] preserve implementations;
-- [ ] preserve parameter names where required for execution only;
-- [ ] verify bit-identical primitive output.
-
-Run matched fresh searches.
-
-Measure:
-
-\[
-\Delta_{\text{semantic}}
-=
-AUC(G^*_{\text{semantic}})
--
-AUC(G^*_{\text{anonymous}}).
-\]
-
-This separates:
-
-```text
-computational vocabulary
-```
-
-from:
-
-```text
-semantic vocabulary available to the LLM
-```
+Report all five seed-level optimizer contrasts and their difference. This is
+secondary; the primary test remains the paired mean language effect across
+both optimizers.
 
 ---
 
-# Phase 16 — Primitive reuse analysis
+# Phase 20 — Optional Level B primitive synthesis (omitted in V11)
 
-For every invented primitive:
-
-- [ ] number of independent candidates using it;
-- [ ] number of independent runs using it;
-- [ ] score distribution with/without it;
-- [ ] generations survived;
-- [ ] descendants;
-- [ ] semantic similarity to V3 primitives;
-- [ ] structural equivalence to existing DSL expressions.
-
-Identify:
-
-```text
-one-off tricks
-vs
-reusable abstractions
-```
-
----
-
-# Phase 17 — Transfer test
-
-Freeze \(G^*_{\text{MNIST}}\).
-
-Fresh search on:
-
-```text
-EMNIST Digits
-EMNIST Letters
-KMNIST
-Fashion-MNIST
-```
-
-Primary comparison:
-
-\[
-Search(G^*_{\text{MNIST}})
-\quad vs\quad
-Search(G_0).
-\]
-
-Do not transfer the MNIST winning representation.
-
-Transfer only the language.
-
-This is the critical distinction.
-
-Measure:
-
-- [ ] search AUC;
-- [ ] final fitness;
-- [ ] time-to-threshold;
-- [ ] which invented primitives are reused;
-- [ ] which primitives disappear;
-- [ ] which new abstractions are added.
-
----
-
-# Phase 18 — Human DSL comparison
-
-Compare:
-
-\[
-G_0,\quad G_H,\quad G^*.
-\]
-
-Questions:
-
-- [ ] Does evolved \(G^*\) rediscover V3 relational concepts?
-- [ ] Does \(G^*\) contain abstractions absent from V3?
-- [ ] Is \(G^*\) smaller or larger than \(G_H\)?
-- [ ] Which language gives better fresh-search AUC?
-- [ ] Which language transfers better?
-- [ ] Which language needs fewer candidate evaluations?
-
----
-
-# Phase 19 — Optimizer-language interaction
-
-Use the \(3\times2\) design to test whether:
-
-\[
-\text{language effect}
-\]
-
-depends on:
-
-\[
-\text{optimizer}.
-\]
-
-Specifically compare:
-
-\[
-\Delta_G^{fixed}
-=
-AUC(G^*,fixed)-AUC(G_0,fixed)
-\]
-
-and
-
-\[
-\Delta_G^{EvE}
-=
-AUC(G^*,EvE)-AUC(G_0,EvE).
-\]
-
-This answers:
-
-> Does an adaptive optimizer exploit an evolved language differently from a fixed optimizer?
-
-Secondary result only; not the primary RQ.
-
----
-
-# Phase 20 — Optional Level B primitive synthesis
-
-Only after macro evolution works.
-
-- [ ] Define restricted numerical primitive language.
-- [ ] Add generated primitive body validator.
-- [ ] Add deterministic sandbox.
-- [ ] Ban labels/datasets/models/imports/network.
-- [ ] Add CPU/runtime limit.
-- [ ] Add memory limit.
-- [ ] Add semantic equivalence checks.
-- [ ] Repeat pilot.
-
-Do not mix Level A and Level B results.
+Record the protocol-based omission. Do not build or run Level B primitive
+synthesis as part of this study.
 
 ---
 
 # Phase 21 — Statistics
 
-For primary comparisons:
-
-- [ ] use multiple independent search seeds;
-- [ ] retain complete trajectories;
-- [ ] bootstrap differences in search AUC;
-- [ ] report paired comparisons where seeds/budgets align;
-- [ ] report individual run results;
-- [ ] do not rely only on mean final score;
-- [ ] do not treat LLM calls as independent statistical samples.
+- [ ] Use all five independent fresh-search seeds and retain complete
+  trajectories.
+- [ ] Report the five paired seed differences and optimizer-specific means.
+- [ ] Use the exact one-sided sign-flip test over 32 assignments, including
+  equal statistics in the tail.
+- [ ] Bootstrap paired seed records 10,000 times with seed 4204 and report a
+  two-sided 95% percentile interval.
+- [ ] Report individual run results; do not rely only on mean final score or
+  treat LLM calls/candidates as independent samples.
 
 ---
 
 # Phase 22 — Final report
 
-Generate:
+Generate `reports/V4_LANGUAGE_OF_BIAS.md` with the research question,
+motivation, V4 architecture, language evolution mechanism, EvE setup,
+discovery results, lineage, reduced fresh-search design/results, descriptive
+human-language and primitive-reuse analyses, optimizer interaction, failures,
+limitations, and evidence provenance. Explicitly state that semantic ablation
+and cross-dataset transfer were omitted. Do not make claims those experiments
+would have supported.
 
-```text
-reports/V4_LANGUAGE_OF_BIAS.md
-```
-
-Required sections:
-
-1. Research question
-2. Why fixed DSL is a hidden human inductive bias
-3. V4 architecture
-4. Language evolution mechanism
-5. EvE setup
-6. Discovery results
-7. Language lineage
-8. Fresh-search experiment
-9. Human DSL comparison
-10. Semantic ablation
-11. Transfer
-12. Primitive reuse
-13. Failure modes
-14. Attribution limits
-15. What the system actually discovered
-
-Final conclusion must distinguish:
-
-```text
-discovered a good representation
-```
-
-from:
-
-```text
-discovered a useful representation language
-```
-
-and from:
-
-```text
-discovered a generally reusable inductive-bias vocabulary.
-```
-
-These are three different claims.
+The conclusion must distinguish a good discovered representation, a useful
+representation language, and a generally transferable inductive-bias
+vocabulary. V11 can support the first two only if its preregistered evidence
+passes; it cannot establish the third.

@@ -1,6 +1,9 @@
 # V4 artifact storage architecture
 
-Status: target layout for new V4 contracts and runs. Existing protocols,
+Status: target layout for new V4 contracts and runs. The shared path resolver,
+schema-v2 contract support, repo-local fixture scratch, and local-cache sandbox
+probe are implemented. The live sandbox preflight and native fixture still
+need to pass before a v11 contract can be frozen. Existing protocols,
 contracts, fixture evidence, and run directories keep their current paths and
 must not be moved or rewritten.
 
@@ -34,8 +37,8 @@ pin that location:
 
 | Current path | Contents and source | Target |
 | --- | --- | --- |
-| `~/Library/Caches/llmao-v4-native-check-fixtures/` | Synthetic checker workspaces and sandbox probes from `v4_native_check_fixture.py`; the evidence copy is under `results/v4/`. | Put new fixture workspaces under a run-local `results/v4/.../scratch/` directory and retain only verified evidence under `results/v4/.../evidence/`. |
-| `~/Library/Caches/llmao-v4-eve-lineage-fixtures/` | Full EvE fixture runs, including workspaces, DBs, artifacts, and problem cache from `v4_eve_lineage_fixture.py`. | Put new fixture runs under `results/v4/.../scratch/`; retain the manifest and selected evidence under `results/v4/.../evidence/`. |
+| `~/Library/Caches/llmao-v4-native-check-fixtures/` | Historical synthetic checker workspaces and sandbox probes. | Preserved in place. New fixture workspaces go under `results/v4/scratch/native-check-fixtures/`; evidence remains under `results/v4/.../evidence/`. |
+| `~/Library/Caches/llmao-v4-eve-lineage-fixtures/` | Historical EvE fixture runs, including workspaces, DBs, artifacts, and problem cache. | Preserved in place. New fixture runs go under `results/v4/scratch/eve-lineage-fixtures/`; evidence remains under `results/v4/.../evidence/`. |
 | `~/Library/Caches/llmao-v4-phase12-mnist/` | Raw MNIST cache recorded by the Phase 12 v10 contracts. | Preserve for those historical contracts. New contracts use `results/v4/cache/datasets/mnist_784/`; workers must be denied reads from it. |
 | `../eve/` and `../eve/.venv/` | Separate EvE source checkout and runtime, pinned by commit and environment metadata. | Keep separate from LLMAO outputs; runners may read them but must direct all run writes to `results/v4/`. |
 

@@ -739,6 +739,25 @@ def main() -> int:
         default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
     )
     args = parser.parse_args()
+    try:
+        from .v4_artifact_paths import (
+            resolve_repository_output_path,
+            resolve_v4_output_path,
+        )
+    except ImportError:
+        from v4_artifact_paths import (
+            resolve_repository_output_path,
+            resolve_v4_output_path,
+        )
+    args.native_evidence = resolve_v4_output_path(args.native_evidence, repo_root=ROOT)
+    args.lineage_evidence = resolve_v4_output_path(
+        args.lineage_evidence, repo_root=ROOT
+    )
+    args.run_root = resolve_v4_output_path(args.run_root, repo_root=ROOT)
+    args.execution_record = resolve_v4_output_path(
+        args.execution_record, repo_root=ROOT
+    )
+    args.contract = resolve_repository_output_path(args.contract, repo_root=ROOT)
     result = freeze(
         eve_root=args.eve_root,
         runtime_checkout=args.runtime_checkout,

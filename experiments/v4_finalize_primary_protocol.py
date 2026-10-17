@@ -11,6 +11,7 @@ from pathlib import Path
 from typing import Any
 
 if __package__:
+    from .v4_artifact_paths import resolve_v4_output_path
     from .v4_primary_contract import (
         EVE_ROOT,
         ROOT,
@@ -19,6 +20,7 @@ if __package__:
         tracked_tree_is_clean,
     )
 else:
+    from v4_artifact_paths import resolve_v4_output_path
     from v4_primary_contract import (
         EVE_ROOT,
         ROOT,
@@ -64,6 +66,7 @@ def _source_pins() -> dict[str, str]:
         "uv.lock",
         "V4_PROTOCOL.md",
         "V4_PRIMARY_DESIGN.md",
+        "V4_PRIMARY_DESIGN_V11.md",
         "V4_SANDBOX_REPAIR.md",
         "V4_INITIAL_PROGRAMS.json",
         "results/v4/languages/g0.json",
@@ -108,7 +111,7 @@ def _supersedes_record(path: Path, *, root: Path = ROOT) -> dict[str, str]:
 def finalize_protocol(
     destination: Path,
     *,
-    version: str = "v4-primary-1",
+    version: str = "v4-primary-11",
     supersedes: Path | None = None,
 ) -> dict[str, Any]:
     if not re.fullmatch(r"v4-primary-[1-9][0-9]*", version):
@@ -161,6 +164,7 @@ def finalize_protocol(
             "status": "finalized_primary_only",
         },
         primary_design={
+            "design_amendment": "V4_PRIMARY_DESIGN_V11.md",
             "exact_cli_model_identifier": "gpt-6-luna",
             "requested_reasoning_effort": "max",
             "backend": "codex_tmux",
@@ -280,6 +284,51 @@ def finalize_protocol(
             "official_test_access": False,
             "runs_started": False,
         },
+        primary_fresh_search={
+            "design_amendment": "V4_PRIMARY_DESIGN_V11.md",
+            "fresh_search_seeds": [101, 202, 303, 404, 505],
+            "language_conditions": ["G0", "G*"],
+            "optimizer_conditions": ["fixed_iterative_codex", "EvE"],
+            "conditions": [
+                {"language": "G0", "optimizer": "fixed_iterative_codex"},
+                {"language": "G*", "optimizer": "fixed_iterative_codex"},
+                {"language": "G0", "optimizer": "EvE"},
+                {"language": "G*", "optimizer": "EvE"},
+            ],
+            "condition_count_per_seed": 4,
+            "run_count": 20,
+            "same_candidate_budget_as_discovery": True,
+            "same_token_budget_as_discovery": True,
+            "same_initial_programs": True,
+            "same_evaluator_and_data_split": True,
+            "same_seed_across_matched_conditions": True,
+            "restart_from_scratch": True,
+            "GH_fresh_search": False,
+            "primary_hypothesis": "AUC(G*) > AUC(G0)",
+            "primary_contrast": (
+                "per-seed mean of G*-G0 candidate AUC contrasts under fixed and EvE"
+            ),
+            "exact_one_sided_sign_flip_assignments": 32,
+            "bootstrap_resamples": 10000,
+            "bootstrap_seed": 4204,
+            "omitted_secondary_searches": [
+                {"phase": 15, "name": "semantic ablation", "planned_runs": 20},
+                {"phase": 17, "name": "four-dataset transfer", "planned_runs": 80},
+                {"phase": 20, "name": "Level B primitive synthesis", "planned_runs": 0},
+            ],
+            "secondary_analysis_phases_without_new_searches": [16, 18, 19],
+            "total_primary_search_runs": 25,
+        },
+        storage_layout={
+            "version": 2,
+            "artifact_root": "results/v4",
+            "fixture_scratch_root": "results/v4/scratch",
+            "mnist_cache": "results/v4/cache/datasets/mnist_784",
+            "contract_paths_repo_relative": True,
+            "output_paths_must_resolve_inside_artifact_root": True,
+            "reject_symlink_escape": True,
+            "candidate_worker_can_read_mnist_cache": False,
+        },
         source_pins=_source_pins(),
     )
     pending_decisions = protocol.get("pending_preregistration_decisions")
@@ -300,9 +349,7 @@ def finalize_protocol(
             ).hexdigest(),
         }
     )
-    output = Path(destination)
-    if not output.is_absolute():
-        output = ROOT / output
+    output = resolve_v4_output_path(destination, repo_root=ROOT)
     output_bytes = (
         json.dumps(protocol, indent=2, sort_keys=True, ensure_ascii=False, allow_nan=False)
         + "\n"
@@ -319,10 +366,14 @@ def main() -> int:
     parser.add_argument(
         "--output",
         type=Path,
+        default=ROOT / "results/v4/primary_protocol_v11.json",
+    )
+    parser.add_argument("--version", default="v4-primary-11")
+    parser.add_argument(
+        "--supersedes",
+        type=Path,
         default=ROOT / "results/v4/primary_protocol.json",
     )
-    parser.add_argument("--version", default="v4-primary-1")
-    parser.add_argument("--supersedes", type=Path)
     args = parser.parse_args()
     print(
         json.dumps(

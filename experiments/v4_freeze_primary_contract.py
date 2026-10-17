@@ -9,6 +9,10 @@ import subprocess
 from datetime import UTC, datetime
 from pathlib import Path
 
+try:
+    from .v4_artifact_paths import resolve_v4_output_path, v4_repo_relative_path
+except ImportError:
+    from v4_artifact_paths import resolve_v4_output_path, v4_repo_relative_path
 from v4_primary_contract import (
     EVE_ROOT,
     ROOT,
@@ -27,14 +31,21 @@ def _command_output(*args: str) -> str:
     return result.stdout.strip()
 
 
-def _evidence(path: Path, *, label: str) -> dict[str, str]:
-    resolved = path.expanduser().resolve(strict=True)
+def _evidence(
+    path: Path, *, label: str, repo_relative_paths: bool = False
+) -> dict[str, str]:
+    resolved = resolve_v4_output_path(path, repo_root=ROOT).resolve(strict=True)
     payload = json.loads(resolved.read_text(encoding="utf-8"))
     if not isinstance(payload, dict):
         raise TypeError(f"{label} evidence must be a JSON object")
     if payload.get("passed") is not True and payload.get("status") != "passed":
         raise ValueError(f"{label} evidence did not pass")
-    record = {"path": str(resolved), "sha256": sha256_file(resolved)}
+    record_path = (
+        v4_repo_relative_path(resolved, repo_root=ROOT)
+        if repo_relative_paths
+        else str(resolved)
+    )
+    record = {"path": record_path, "sha256": sha256_file(resolved)}
     if label == "native fixture":
         manifest_path = resolved.parent / "manifest.json"
         manifest_sidecar = resolved.parent / "manifest.sha256"
@@ -51,7 +62,11 @@ def _evidence(path: Path, *, label: str) -> dict[str, str]:
                 raise ValueError(f"native fixture manifest path escapes its root: {relative}")
             if sha256_file(artifact) != item.get("sha256"):
                 raise ValueError(f"native fixture artifact changed: {relative}")
-        record["manifest_path"] = str(manifest_path)
+        record["manifest_path"] = (
+            v4_repo_relative_path(manifest_path, repo_root=ROOT)
+            if repo_relative_paths
+            else str(manifest_path)
+        )
         record["manifest_sha256"] = manifest_digest
     return record
 
@@ -65,13 +80,16 @@ def freeze_contract(
     native_fixture: Path,
     output: Path,
 ) -> dict[str, str | int]:
-    protocol_path = protocol_path.expanduser().resolve(strict=True)
+    protocol_path = resolve_v4_output_path(protocol_path, repo_root=ROOT).resolve(strict=True)
     protocol_raw = protocol_path.read_bytes()
     protocol_sha256 = hashlib.sha256(protocol_raw).hexdigest()
     protocol = json.loads(protocol_raw)
     if protocol.get("status") != "finalized_primary":
         raise ValueError("cannot freeze a contract against a draft protocol")
     design = protocol["primary_discovery"]
+    schema_version = 2 if protocol.get("storage_layout", {}).get("version") == 2 else 1
+    if schema_version == 2 and protocol.get("primary_fresh_search", {}).get("run_count") != 20:
+        raise ValueError("storage-layout v2 contracts require the reduced V11 search matrix")
     if seed not in design["discovery_seeds"]:
         raise ValueError("seed is not preregistered for Phase 12")
     initial_digest = sha256_file(ROOT / "V4_INITIAL_PROGRAMS.json")
@@ -90,26 +108,52 @@ def freeze_contract(
         raise ValueError("LLMAO checkout commit differs from the finalized protocol")
     verify_source_paths(ROOT, protocol["source_pins"])
 
-    bundle = checker_bundle.expanduser().resolve(strict=True)
+    bundle = resolve_v4_output_path(checker_bundle, repo_root=ROOT).resolve(strict=True)
     bundle_manifest_path = bundle / "manifest.json"
     bundle_manifest = json.loads(bundle_manifest_path.read_text(encoding="utf-8"))
     if bundle_manifest.get("source_commit") != llmao_commit:
         raise ValueError("checker bundle was built from a different LLMAO commit")
     if bundle_manifest.get("protocol_sha256") != protocol_sha256:
         raise ValueError("checker bundle embeds a different protocol digest")
-    sandbox = _evidence(preflight_evidence, label="sandbox preflight")
-    fixture = _evidence(native_fixture, label="native fixture")
-    sandbox_payload = json.loads(Path(sandbox["path"]).read_text(encoding="utf-8"))
+    sandbox = _evidence(
+        preflight_evidence,
+        label="sandbox preflight",
+        repo_relative_paths=schema_version == 2,
+    )
+    fixture = _evidence(
+        native_fixture,
+        label="native fixture",
+        repo_relative_paths=schema_version == 2,
+    )
+    sandbox_path = resolve_v4_output_path(sandbox["path"], repo_root=ROOT)
+    fixture_path = resolve_v4_output_path(fixture["path"], repo_root=ROOT)
+    sandbox_payload = json.loads(sandbox_path.read_text(encoding="utf-8"))
+    expected_preflight_checks = 22 if schema_version == 2 else 21
     if (
-        len(sandbox_payload.get("checks", {})) != 21
+        len(sandbox_payload.get("checks", {})) != expected_preflight_checks
         or not all(sandbox_payload["checks"].values())
+        or (
+            schema_version == 2
+            and sandbox_payload["checks"].get("mnist_cache_read_denied") is not True
+        )
     ):
-        raise ValueError("primary contract requires the complete 21-check sandbox preflight")
-    fixture_payload = json.loads(Path(fixture["path"]).read_text(encoding="utf-8"))
+        raise ValueError(
+            f"primary contract requires the complete {expected_preflight_checks}-check sandbox preflight"
+        )
+    expected_cache: Path | None = None
+    if schema_version == 2:
+        expected_cache = resolve_v4_output_path(
+            protocol["storage_layout"]["mnist_cache"], repo_root=ROOT
+        )
+        if resolve_v4_output_path(
+            sandbox_payload.get("mnist_cache_path", ""), repo_root=ROOT
+        ) != expected_cache:
+            raise ValueError("sandbox preflight did not probe the contracted MNIST cache")
+    fixture_payload = json.loads(fixture_path.read_text(encoding="utf-8"))
     lineage = fixture_payload.get("candidate_validation", {})
     workspace_preflight = fixture_payload.get("workspace_preflight", {})
     transcript = fixture_payload.get("native_rollout", {}).get("transcript")
-    transcript_path = Path(fixture["path"]).parent / str(transcript)
+    transcript_path = fixture_path.parent / str(transcript)
     if (
         lineage.get("status") != "passed"
         or not all(lineage.get("checks", {}).values())
@@ -121,6 +165,14 @@ def freeze_contract(
         or fixture_payload.get("tmux_session", {}).get("cleanup_return_code") != 0
     ):
         raise ValueError("primary native fixture is missing a passing lineage, sandbox, transcript, or cleanup check")
+    if schema_version == 2 and (
+        workspace_preflight.get("checks", {}).get("mnist_cache_read_denied") is not True
+        or resolve_v4_output_path(
+            workspace_preflight.get("mnist_cache_path", ""), repo_root=ROOT
+        )
+        != expected_cache
+    ):
+        raise ValueError("native fixture did not probe the contracted MNIST cache")
     if (
         sandbox_payload.get("bundle_manifest_sha256") != sha256_file(bundle_manifest_path)
         or fixture_payload.get("checker_bundle_manifest_sha256")
@@ -154,14 +206,13 @@ def freeze_contract(
         "tmux_version": _command_output("tmux", "-V"),
         "llmao_dependency_lock_sha256": optional_sha256_file(ROOT / "uv.lock"),
     }
-    output = output.expanduser()
-    if not output.is_absolute():
-        output = ROOT / output
+    output = resolve_v4_output_path(output, repo_root=ROOT)
     run_root = primary_run_root(seed, protocol_sha256)
     if run_root.exists():
         raise FileExistsError(f"primary run root already exists: {run_root}")
     contract_source_paths = (
         "experiments/v4_primary_contract.py",
+        "experiments/v4_artifact_paths.py",
         "experiments/v4_finalize_primary_protocol.py",
         "experiments/v4_freeze_primary_contract.py",
         "experiments/v4_run_primary_discovery.py",
@@ -173,23 +224,40 @@ def freeze_contract(
         relative: sha256_file(ROOT / relative) for relative in contract_source_paths
     }
     contract = {
-        "schema_version": 1,
+        "schema_version": schema_version,
+        "storage_layout_version": schema_version,
         "contract_id": f"v4-primary-discovery-{seed}-{protocol_sha256[:12]}",
         "created_at_utc": datetime.now(UTC).isoformat(),
         "seed": seed,
-        "protocol_path": str(protocol_path),
+        "protocol_path": (
+            v4_repo_relative_path(protocol_path, repo_root=ROOT)
+            if schema_version == 2
+            else str(protocol_path)
+        ),
         "protocol_sha256": protocol_sha256,
         "llmao_commit": llmao_commit,
         "eve_commit": eve_commit,
         "initial_programs_sha256": initial_digest,
-        "checker_bundle_path": str(bundle),
+        "checker_bundle_path": (
+            v4_repo_relative_path(bundle, repo_root=ROOT)
+            if schema_version == 2
+            else str(bundle)
+        ),
         "checker_bundle_manifest_sha256": sha256_file(bundle_manifest_path),
-        "data_dir": str((Path.home() / "Library/Caches/llmao-v4-phase12-mnist").resolve()),
+        "data_dir": (
+            protocol["storage_layout"]["mnist_cache"]
+            if schema_version == 2
+            else str((Path.home() / "Library/Caches/llmao-v4-phase12-mnist").resolve())
+        ),
         "sandbox_preflight": sandbox,
         "native_fixture": fixture,
         "sandbox_wrapper_sha256": wrapper_sha256,
         "runtime": runtime,
-        "run_root": str(run_root),
+        "run_root": (
+            v4_repo_relative_path(run_root, repo_root=ROOT)
+            if schema_version == 2
+            else str(run_root)
+        ),
         "contract_source_pins": contract_source_pins,
         "launch": {
             "driver": "codex_tmux",

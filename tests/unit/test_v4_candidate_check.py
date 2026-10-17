@@ -87,12 +87,15 @@ def test_check_accepts_an_evaluator_lineage_parent(candidate_files) -> None:
 
 
 def test_context_builder_cli_uses_the_requested_protocol(candidate_files, monkeypatch):
+    from experiments import v4_build_candidate_context as context_builder
+
     directory, protocol = candidate_files
     protocol_payload = json.loads(protocol.read_text())
     protocol_payload["primary_design"]["exact_cli_model_identifier"] = "fixture-model"
     protocol_payload["primary_design"]["requested_reasoning_effort"] = "fixture-effort"
     protocol.write_text(json.dumps(protocol_payload))
-    context_path = protocol.parent / "context.json"
+    monkeypatch.setattr(context_builder, "ROOT", protocol.parent)
+    context_path = protocol.parent / "results/v4/context.json"
     monkeypatch.setattr(
         sys,
         "argv",
