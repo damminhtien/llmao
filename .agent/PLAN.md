@@ -87,8 +87,11 @@ The runs remain incomplete and are documented in `STATE.md` and `TODO.md`.
 
 ## M2.1 — Contain V4 outputs under the LLMAO checkout
 
-**Status: implementation complete; fresh protocol-v13 gates pending.**
-The audit and target storage layout are documented in
+**Status: implementation complete; protocol-v13 preflight and fixture passed.**
+Its first seed-1101 adaptive proposal exposed a stale Phase 2 adapter guard
+that still rejects every cache inside the checkout. The run remains incomplete
+with no adaptive score. The adapter correction and fresh protocol-v14 gates
+are pending. The audit and target storage layout are documented in
 `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`. New persistent outputs, scratch,
 and the MNIST cache must resolve under `results/v4/`; the sandbox must deny
 workers access to that cache. The pinned EvE checkout/runtime and user-managed
@@ -108,7 +111,7 @@ manifests verify the layout and relative paths.
 
 ## M2.2 — Freeze the reduced V11 experiment scope
 
-**Status: design amendment complete; protocol and contracts pending.**
+**Status: design amendment complete; v13 was frozen and validated, then its first run failed before adaptive scoring because the Phase 2 adapter retained the legacy external-cache rule. Protocol v14 and fresh contracts are pending after the adapter correction.**
 `V4_PRIMARY_DESIGN_V11.md` keeps five discovery and five evaluation seeds,
 the original per-run budgets, and four matched Phase 14 conditions (`G0` and
 `G*` under fixed Codex and EvE). It omits the 20 semantic-ablation and 80
@@ -117,18 +120,19 @@ reuse, structural human-language comparison, and optimizer interaction are
 secondary analyses of existing runs and add no searches. Preserve protocol
 v10 and all its partial run evidence unchanged.
 
-**Done when:** the path cutover and absolute-path runner fix are committed,
-protocol revision v13 supersedes v12 with the reduced condition matrix and
-storage-layout version 2, and five fresh seed contracts validate before Phase
-12 launch.
+**Done when:** the path cutover, absolute-path runner fix, and version-aware
+Phase 2 cache guard are committed; protocol v14 supersedes v13 with the same
+reduced condition matrix and storage-layout version 2; and five fresh seed
+contracts validate before Phase 12 restarts.
 
 ## M3 — Phase 12 language discovery
 
-Run five matched independent searches only under protocol revision v13 and the
-contracted storage layout. Preserve the failed v12 seed-1101 startup and the
-v10 attempts as incomplete historical evidence; do not resume or pool them
-with v13. Preserve every candidate, language, guidance revision, token record,
-trajectory, and lineage artifact. Do not access official test data.
+Run five matched independent searches only under protocol revision v14 and the
+contracted storage layout. Preserve the failed v12 startup, the v13 seed-1101
+adapter failure, and the v10 attempts as incomplete historical evidence; do
+not resume or pool them with v14. Preserve every candidate, language, guidance
+revision, token record, trajectory, and lineage artifact. Do not access official
+test data.
 
 **Done when:** the preregistered runs and manifests reconcile with their budgets and hashes, and the lineage archive is complete.
 

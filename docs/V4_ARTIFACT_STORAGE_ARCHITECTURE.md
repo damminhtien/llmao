@@ -1,11 +1,14 @@
 # V4 artifact storage architecture
 
-Status: target layout for new V4 contracts and runs. The shared path resolver,
-schema-v2 contract support, repo-local fixture scratch, and local-cache sandbox
-probe are implemented. The live sandbox preflight and native fixture still
-need to pass before a storage-layout-v2 contract can be frozen. Existing
-protocols, contracts, fixture evidence, and run directories keep their current
-paths and must not be moved or rewritten.
+Status: the shared path resolver, schema-v2 contract support, repo-local
+fixture scratch, and local-cache sandbox probe are implemented. Protocol v13's
+22-check sandbox preflight, data-free native fixture, and five contracts
+passed. Its first seed-1101 adaptive proposal exposed a stale Phase 2 adapter
+guard that still rejected every cache inside the checkout. The run is
+preserved as incomplete with no adaptive candidate score. The adapter now
+needs to allow only the exact protocol-pinned `results/v4` cache for layout v2;
+fresh protocol-v14 gates are pending. Existing historical protocols,
+contracts, fixture evidence, and run directories keep their current paths.
 
 ## Decision
 
@@ -130,10 +133,10 @@ contracts follow the new layout.
 
 Implementation should proceed in this order:
 
-1. Add the shared path resolver and apply it to every V4 writer and path-taking
-   CLI. Branch the data-path validation by contract version: keep v10's external
-   cache rule intact and require new contracts to use the one repo-local cache
-   path, outside the worker workspace.
+1. Apply the shared path resolver to every V4 writer and path-taking CLI.
+   Branch data-path validation by protocol version in both the Phase 2 adapter
+   and evaluator: keep v10's external-cache rule intact and require layout v2
+   contracts to use the one repo-local cache path, outside the worker workspace.
 2. Move future native fixture workspaces from the two home-cache roots into
    repo-local scratch; preserve all existing external fixture directories as
    historical evidence.

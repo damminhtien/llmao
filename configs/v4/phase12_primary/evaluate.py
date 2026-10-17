@@ -111,6 +111,50 @@ def _parent_state(workspace_root: Path) -> tuple[dict[str, Any], str | None]:
     return state, prefill_id
 
 
+def _is_below(path: Path, root: Path) -> bool:
+    try:
+        path.relative_to(root)
+    except ValueError:
+        return False
+    return path != root
+
+
+def _validate_data_dir(
+    data_dir: Path, project_root: Path, protocol_payload: dict[str, Any]
+) -> None:
+    project_root = project_root.resolve(strict=True)
+    data_dir = data_dir.resolve(strict=False)
+    storage_layout = protocol_payload.get("storage_layout")
+    if "storage_layout" not in protocol_payload:
+        if data_dir == project_root or _is_below(data_dir, project_root):
+            raise TerminalContractError("legacy LLMAO_DATA_DIR must be outside the LLMAO checkout")
+        return
+    if not isinstance(storage_layout, dict) or storage_layout.get("version") != 2:
+        raise TerminalContractError("unsupported V4 storage layout in primary protocol")
+    if (
+        storage_layout.get("artifact_root") != "results/v4"
+        or storage_layout.get("candidate_worker_can_read_mnist_cache") is not False
+        or storage_layout.get("output_paths_must_resolve_inside_artifact_root") is not True
+        or storage_layout.get("reject_symlink_escape") is not True
+    ):
+        raise TerminalContractError("primary protocol has an invalid V4 storage layout")
+
+    artifact_root = (project_root / "results/v4").resolve(strict=False)
+    if artifact_root != project_root / "results/v4":
+        raise TerminalContractError("V4 artifact root must not resolve through a symlink")
+    cache_path_value = storage_layout.get("mnist_cache")
+    if not isinstance(cache_path_value, str) or not cache_path_value:
+        raise TerminalContractError("primary protocol is missing its MNIST cache path")
+    cache_path = Path(cache_path_value)
+    if cache_path.is_absolute() or ".." in cache_path.parts:
+        raise TerminalContractError("primary MNIST cache path must be repository relative")
+    expected_data_dir = (project_root / cache_path).resolve(strict=False)
+    if data_dir != expected_data_dir or not _is_below(data_dir, artifact_root):
+        raise TerminalContractError(
+            "LLMAO_DATA_DIR must match the contracted cache under results/v4"
+        )
+
+
 def _guidance_hash(workspace_root: Path) -> str:
     digest = hashlib.sha256()
     guidance_root = workspace_root / "guidance"
@@ -135,6 +179,15 @@ def _evaluate(
     expected_protocol_sha = os.environ["LLMAO_PHASE12_PROTOCOL_SHA256"]
     data_dir = Path(os.environ["LLMAO_DATA_DIR"]).resolve()
     python = _configured_python()
+    protocol_bytes = protocol.read_bytes()
+    if hashlib.sha256(protocol_bytes).hexdigest() != expected_protocol_sha:
+        raise TerminalContractError("primary protocol digest differs from the frozen contract")
+    try:
+        protocol_payload = json.loads(protocol_bytes)
+    except (UnicodeDecodeError, json.JSONDecodeError) as exc:
+        raise TerminalContractError("primary protocol is not valid JSON") from exc
+    if not isinstance(protocol_payload, dict):
+        raise TerminalContractError("primary protocol must contain a JSON object")
     if len(expected_commit) != 40 or any(c not in "0123456789abcdef" for c in expected_commit):
         raise TerminalContractError("LLMAO_EXPECTED_COMMIT must be a full lowercase Git SHA")
     for name, path in (("context builder", context_builder), ("primary evaluator", evaluator)):
@@ -151,8 +204,7 @@ def _evaluate(
     )
     if status.returncode or status.stdout.strip():
         raise TerminalContractError("LLMAO source checkout must remain clean during discovery")
-    if data_dir == project_root or project_root in data_dir.parents:
-        raise TerminalContractError("LLMAO_DATA_DIR must be outside the LLMAO checkout")
+    _validate_data_dir(data_dir, project_root, protocol_payload)
     data_dir.mkdir(parents=True, exist_ok=True)
 
     parent_state, prefill_id = _parent_state(workspace_root)

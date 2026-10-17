@@ -29,6 +29,7 @@ assert _EVALUATOR_SPEC is not None and _EVALUATOR_SPEC.loader is not None
 _EVALUATOR_MODULE = importlib.util.module_from_spec(_EVALUATOR_SPEC)
 _EVALUATOR_SPEC.loader.exec_module(_EVALUATOR_MODULE)
 _configured_python = _EVALUATOR_MODULE._configured_python
+_validate_data_dir = _EVALUATOR_MODULE._validate_data_dir
 
 
 @pytest.fixture
@@ -118,6 +119,60 @@ def test_evaluator_preserves_pinned_venv_launcher_symlink(tmp_path, monkeypatch)
     assert configured_python == launcher
     assert configured_python != target
     assert configured_python.resolve() == target
+
+
+def test_v2_evaluator_accepts_only_the_repo_local_mnist_cache(tmp_path) -> None:
+    project_root = tmp_path / "llmao"
+    project_root.mkdir()
+    data_dir = project_root / "results/v4/cache/datasets/mnist_784"
+    protocol = {
+        "storage_layout": {
+            "version": 2,
+            "artifact_root": "results/v4",
+            "mnist_cache": "results/v4/cache/datasets/mnist_784",
+            "candidate_worker_can_read_mnist_cache": False,
+            "output_paths_must_resolve_inside_artifact_root": True,
+            "reject_symlink_escape": True,
+        }
+    }
+
+    _validate_data_dir(data_dir.resolve(strict=False), project_root, protocol)
+
+    with pytest.raises(_EVALUATOR_MODULE.TerminalContractError, match="contracted cache"):
+        _validate_data_dir(project_root / "other-cache", project_root, protocol)
+
+
+def test_v2_evaluator_rejects_a_symlinked_cache_escape(tmp_path) -> None:
+    project_root = tmp_path / "llmao"
+    project_root.mkdir()
+    artifact_root = project_root / "results/v4"
+    artifact_root.mkdir(parents=True)
+    external_cache = tmp_path / "external-cache"
+    external_cache.mkdir()
+    (artifact_root / "cache").symlink_to(external_cache, target_is_directory=True)
+    data_dir = (project_root / "results/v4/cache/datasets/mnist_784").resolve(strict=False)
+    protocol = {
+        "storage_layout": {
+            "version": 2,
+            "artifact_root": "results/v4",
+            "mnist_cache": "results/v4/cache/datasets/mnist_784",
+            "candidate_worker_can_read_mnist_cache": False,
+            "output_paths_must_resolve_inside_artifact_root": True,
+            "reject_symlink_escape": True,
+        }
+    }
+
+    with pytest.raises(_EVALUATOR_MODULE.TerminalContractError, match="under results/v4"):
+        _validate_data_dir(data_dir, project_root, protocol)
+
+
+def test_legacy_evaluator_keeps_external_cache_requirement(tmp_path) -> None:
+    project_root = tmp_path / "llmao"
+    project_root.mkdir()
+    _validate_data_dir(tmp_path / "legacy-cache", project_root, {})
+
+    with pytest.raises(_EVALUATOR_MODULE.TerminalContractError, match="outside the LLMAO checkout"):
+        _validate_data_dir(project_root / "cache", project_root, {})
 
 
 @pytest.mark.parametrize(

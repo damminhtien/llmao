@@ -69,3 +69,16 @@ contract set and failed seed-1101 root without resuming it. Normalize validated
 protocol and checker-bundle paths to absolute checkout paths in the runner, then
 freeze protocol revision v13 and five fresh contracts before restarting Phase
 12.
+
+## 2026-10-17 — Preserve and correct the V13 cache-guard failure
+
+Protocol v13 passed its sandbox preflight, native fixture, and five contract
+validation gates. Seed 1101 scored the common initial set and launched one
+contracted adaptive worker, whose valid proposal received no score because the
+Phase 2 adapter still required `LLMAO_DATA_DIR` to be outside the checkout.
+Preserve that run as an incomplete terminal protocol failure with its full
+candidate, transcript, and token record. Update the adapter to verify the
+protocol digest and allow only the exact `results/v4` cache for storage-layout
+v2, while retaining the external-cache rule for legacy protocols and rejecting
+symlink escapes. Protocol v14 and fresh contracts are required; do not resume
+or pool the V13 run.

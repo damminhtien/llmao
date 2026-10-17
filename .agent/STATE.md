@@ -16,17 +16,20 @@ Updated: 2026-10-17
 - The shared V4 artifact-path resolver constrains V4 writer CLIs and fixture entry points; new fixture scratch and the MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths.
 - Protocol v11 (`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`) was superseded before contracts because the schema-v2 validator wrongly required a second cache-read probe in the EvE fixture. Protocol v12 (`5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00`) then passed its 22/22 OS preflight, data-free EvE lineage fixture, five contract freezes, and five `--validate-only` checks. Its seed-1101 run failed before candidate scoring because the runner passed a repo-relative protocol path to a subprocess running from the run root. No native discovery worker, primary score, or official-test access occurred. Preserve the v12 contracts and failed run root; use protocol v13 with validated absolute paths for any new run.
 - The first V12 fixture invocation used the LLMAO Python and failed before creating output because that runtime has no `omegaconf`; it is recorded at `results/v4/phase12/native_worker_integration/v4-primary-12/attempts/attempt-01-runtime-mismatch.json`. The retry used the pinned EvE Python and passed.
+- Protocol v13 (`e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60`), its 22/22 sandbox preflight, data-free EvE fixture, five frozen contracts, and five validate-only checks passed. Seed 1101 scored all 20 common initial programs and launched one sandboxed adaptive proposal. The structural checker accepted it, but the Phase 2 adapter raised `LLMAO_DATA_DIR must be outside the LLMAO checkout` because it retained the legacy external-cache rule. Preserve the run at `results/v4/phase12/runs/discovery-1101-e84cabd10693/` with status `incomplete_terminal_protocol_failure`, one adaptive attempt, and 736,735 reported input-plus-output tokens. The proposal received no evaluator score; no official test data was accessed. Do not resume or pool this run.
+- Correct the adapter to allow only the exact protocol-pinned `results/v4/cache/datasets/mnist_784` path for storage-layout v2 while retaining the v10 external-cache rule and rejecting symlink escapes. Re-freeze protocol v14 and five fresh contracts before restarting Phase 12.
 
 ## Current
 
-- **M2.1 — V4 artifact storage cutover (implementation complete; fresh V13
-  evidence pending).** The V12 OS preflight and EvE fixture passed with outputs
-  under `results/v4/`, including a denied read from the repo-local MNIST cache.
-  Historical external caches remain untouched. Repeat evidence against V13's
-  checker bundle after the runner correction. See
+- **M2.1 — V4 artifact storage cutover (implementation complete; v13 preflight
+  and fixture passed; adapter correction and v14 evidence pending).** The v13
+  OS preflight and EvE fixture passed with outputs under `results/v4/`,
+  including a denied read from the repo-local MNIST cache. The first seed-1101
+  adaptive proposal found the stale Phase 2 cache guard documented above.
+  Historical external caches remain untouched. See
   `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
-- **M2.2 — Reduced V11 scope (design complete; V13 protocol/contracts
-  pending).**
+- **M2.2 — Reduced V11 scope (design complete; v13 run superseded after the
+  adapter failure; v14 protocol/contracts pending).**
   Keep five discovery seeds and the original per-run budgets; run four matched
   Phase 14 conditions across five seeds. The total falls from 135 to 25 search
   runs. Semantic ablation, transfer, and Level B are omitted; Phases 16, 18,
@@ -40,19 +43,25 @@ Updated: 2026-10-17
 
 ## Next
 
-1. Finish and commit the absolute-path correction in contract validation and
-   the Phase 12 runner after unit, lint, compile, Graphify, and diff checks.
-2. Generate protocol v13 from the clean commit, superseding v12; build its
-   checker bundle, rerun the 22-check preflight and EvE lineage fixture, then
-   freeze and validate five fresh V11-scope contracts.
-3. Launch Phase 12 from new v13 roots. Preserve the failed v12 seed-1101 root;
-   do not resume or pool it or any incomplete v10 runs.
+1. Complete the version-aware Phase 2 cache guard and its focused regression
+   coverage; preserve the v13 failed run root unchanged.
+2. Commit the correction and updated incident state. Generate protocol v14
+   superseding v13, build its checker bundle, rerun the 22-check preflight and
+   EvE lineage fixture, then freeze and validate five fresh V11-scope contracts.
+3. Launch Phase 12 from new v14 roots. Do not resume or pool the v12/v13
+   failures or any incomplete v10 runs.
 
 ## Known issues and boundaries
 
 - Earlier Phase 10 attempts and contract `-02` remain failed exploratory evidence; contract `-03` remains a pre-worker startup failure. Contract `-04` does not replace or rewrite them.
 - Pilot `-04` emitted nonfatal macOS `xcode-select` errors from worker `git status`/`git diff` calls and denied shell here-document temporary-file attempts. Candidate completion patches remained limited to the two permitted files, and the runtime boundary scan passed. Preserve this environment diagnostic if worker inspection changes are made.
-- No primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
+- No complete primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
+- Protocol v13 seed 1101 is a preserved failed partial run: its 20 common
+  initial programs scored, but adaptive proposal 1 failed in the Phase 2
+  adapter before candidate scoring because the old guard rejected the
+  repository-local cache. Its structurally valid proposal and 736,735 reported
+  input-plus-output tokens are retained under the run root. No official test
+  data was accessed.
 - Protocol v1-v6 are retained in versioned files with their preflight,
   fixture, or contract evidence. V5 digest is
   `eccb03b493192d05cb05fd33c83568f7b13476adc2745f2382733de5f100127d`.
@@ -130,6 +139,11 @@ Updated: 2026-10-17
   checks passed; Ruff, compileall, `git diff --check`, Graphify, and the
   contract-freezer module `--help` check passed.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
+- The Phase 2 cache guard now accepts only the protocol-pinned cache inside
+  `results/v4/` for storage-layout v2, hashes the protocol before using its
+  layout, preserves the legacy external-cache rule, and rejects symlink escapes.
+  The focused runner suite passed 13 tests; Ruff and `git diff --check` pass.
+  Protocol v14 gates remain pending.
 - Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
   Ruff and `compileall` passed. v8's fresh fixture and five contracts then
   passed before its interpreter-path failure.

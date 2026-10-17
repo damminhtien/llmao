@@ -773,6 +773,29 @@ and exact traceback are preserved at
 Do not resume this run under changed source. Protocol v13 must use verified
 absolute paths and fresh contracts before discovery resumes.
 
+### Protocol v13 launch result — Phase 2 cache-guard failure
+
+Protocol v13 SHA-256 is
+`e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60`. Its
+22/22 sandbox preflight, data-free EvE lineage fixture, five contract freezes,
+and five validate-only checks passed. Seed 1101 evaluated the 20-program common
+initial set and started one adaptive proposal through `scripts/codex-v4-sandbox`.
+The proposal preserved its prefill lineage and passed the structural checker,
+but the Phase 2 adapter rejected the contract-pinned cache under
+`results/v4/` with `LLMAO_DATA_DIR must be outside the LLMAO checkout`. The
+adapter still applied the legacy rule rather than the storage-layout-v2 rule.
+The run stopped as `incomplete_terminal_protocol_failure` after one adaptive
+attempt; the candidate received no evaluator score. It records 736,735 reported
+input-plus-output tokens. Preserve the entire run root at
+`results/v4/phase12/runs/discovery-1101-e84cabd10693/`, including its initial
+scores, candidate, structural-check output, transcript, and token record. No
+official test data was accessed. Do not resume or pool this run with v14.
+
+The Phase 2 adapter now verifies the protocol digest and permits only the exact
+repository-local cache named by storage-layout v2. It retains the legacy
+external-cache requirement and rejects symlink escapes. Freeze protocol v14
+and five fresh contracts before launching a new seed-1101 run.
+
 ---
 
 # Phase 13 — Select and freeze \(G^*\)
