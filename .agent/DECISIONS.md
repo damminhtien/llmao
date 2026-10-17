@@ -47,3 +47,14 @@ analyses of existing data only. This reduces the planned total from 135
 searches to 25 and limits conclusions to MNIST fresh search; no transfer claim
 is permitted. Protocol v10 and its incomplete runs remain immutable historical
 evidence.
+
+## 2026-10-17 — Supersede the unused V11 protocol before launch
+
+Protocol artifact v11 was finalized with SHA-256
+`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`, but no
+contracts or workers used it. Contract review found that the schema-v2 gate
+required a local MNIST-cache read probe in the EvE lineage fixture even though
+the separate OS-level preflight already performs that probe. Keep the finalized
+artifact unchanged, correct the validator to use the recorded preflight, and
+issue protocol revision v12 with the same V11 scientific scope before any
+contract freeze or model worker.

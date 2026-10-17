@@ -142,6 +142,24 @@ def verify_evidence_record(
     return path
 
 
+def verify_v2_mnist_cache_preflight(
+    preflight_payload: dict[str, Any],
+    expected_data_dir: Path,
+    *,
+    repo_root: Path = ROOT,
+) -> Path:
+    """Verify the sandbox probe denied reads from the contracted V4 cache."""
+    if preflight_payload.get("checks", {}).get("mnist_cache_read_denied") is not True:
+        raise ValueError("worker sandbox preflight did not deny MNIST cache reads")
+    cache_path = resolve_v4_repo_path(
+        preflight_payload.get("mnist_cache_path", ""), repo_root=repo_root
+    )
+    expected_path = resolve_v4_repo_path(expected_data_dir, repo_root=repo_root)
+    if cache_path != expected_path:
+        raise ValueError("sandbox preflight did not probe the contracted MNIST cache")
+    return cache_path
+
+
 def validate_contract(
     contract_path: Path,
     *,
@@ -211,10 +229,6 @@ def validate_contract(
     preflight_payload = json.loads(preflight_path.read_text(encoding="utf-8"))
     if preflight_payload.get("wrapper_sha256") != contract.get("sandbox_wrapper_sha256"):
         raise ValueError("sandbox preflight used a different wrapper revision")
-    if schema_version == 2 and (
-        preflight_payload.get("checks", {}).get("mnist_cache_read_denied") is not True
-    ):
-        raise ValueError("worker sandbox preflight did not deny MNIST cache reads")
     bundle_path = (
         resolve_v4_repo_path(contract["checker_bundle_path"])
         if schema_version == 2
@@ -264,19 +278,9 @@ def validate_contract(
         if data_dir != expected_data_dir or data_dir == V4_ROOT:
             raise ValueError("MNIST cache differs from the contracted V4 cache path")
         run_root = resolve_v4_repo_path(contract["run_root"])
-        preflight_cache = resolve_v4_repo_path(
-            preflight_payload.get("mnist_cache_path", "")
+        verify_v2_mnist_cache_preflight(
+            preflight_payload, expected_data_dir, repo_root=ROOT
         )
-        native_preflight = native_payload.get("workspace_preflight", {})
-        native_cache = resolve_v4_repo_path(
-            native_preflight.get("mnist_cache_path", "")
-        )
-        if preflight_cache != data_dir or (
-            native_preflight.get("checks", {}).get("mnist_cache_read_denied")
-            is not True
-            or native_cache != data_dir
-        ):
-            raise ValueError("sandbox evidence does not protect the contracted MNIST cache")
 
     expected_run_root = primary_run_root(seed, protocol_sha256)
     if run_root != expected_run_root:

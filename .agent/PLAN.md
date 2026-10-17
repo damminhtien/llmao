@@ -117,13 +117,14 @@ reuse, structural human-language comparison, and optimizer interaction are
 secondary analyses of existing runs and add no searches. Preserve protocol
 v10 and all its partial run evidence unchanged.
 
-**Done when:** the path cutover is committed, protocol v11 supersedes v10 with
-the reduced condition matrix and storage-layout version 2, and five fresh
-seed contracts validate before Phase 12 launch.
+**Done when:** the path cutover is committed, protocol revision v12 supersedes
+the unused prelaunch v11 artifact with the reduced condition matrix and
+storage-layout version 2, and five fresh seed contracts validate before Phase
+12 launch.
 
 ## M3 — Phase 12 language discovery
 
-Run five matched independent searches only under protocol v11 and the
+Run five matched independent searches only under protocol revision v12 and the
 contracted storage layout. Preserve the v10 attempts as incomplete historical
 evidence; do not resume or pool them with v11. Preserve every candidate,
 language, guidance revision, token record, trajectory, and lineage artifact.

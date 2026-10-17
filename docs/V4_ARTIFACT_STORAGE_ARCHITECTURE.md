@@ -3,9 +3,9 @@
 Status: target layout for new V4 contracts and runs. The shared path resolver,
 schema-v2 contract support, repo-local fixture scratch, and local-cache sandbox
 probe are implemented. The live sandbox preflight and native fixture still
-need to pass before a v11 contract can be frozen. Existing protocols,
-contracts, fixture evidence, and run directories keep their current paths and
-must not be moved or rewritten.
+need to pass before a storage-layout-v2 contract can be frozen. Existing
+protocols, contracts, fixture evidence, and run directories keep their current
+paths and must not be moved or rewritten.
 
 ## Decision
 
@@ -137,12 +137,13 @@ Implementation should proceed in this order:
 2. Move future native fixture workspaces from the two home-cache roots into
    repo-local scratch; preserve all existing external fixture directories as
    historical evidence.
-3. Freeze a new contract schema with relative output paths and the storage
-   layout version.
-4. Run the data-free path and sandbox preflights. Verify that outputs and the
-   MNIST cache land under `results/v4/`, symlink escapes and out-of-root output
+3. Build the protocol-pinned checker bundle and run the data-free path and
+   sandbox preflights. Verify that outputs and the MNIST cache land under
+   `results/v4/`, symlink escapes and out-of-root output
    arguments fail, candidate workers cannot read the cache or write outside
    their declared files, and failure scratch remains recoverable.
+4. Freeze a new contract schema with relative output paths and the storage
+   layout version, using the hashed preflight and fixture evidence.
 5. Only then launch any new primary run with a fresh protocol-scoped root.
 
 The v10 MNIST cache remains untouched for its old contracts. New runs create or

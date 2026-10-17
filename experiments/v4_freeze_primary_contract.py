@@ -165,14 +165,9 @@ def freeze_contract(
         or fixture_payload.get("tmux_session", {}).get("cleanup_return_code") != 0
     ):
         raise ValueError("primary native fixture is missing a passing lineage, sandbox, transcript, or cleanup check")
-    if schema_version == 2 and (
-        workspace_preflight.get("checks", {}).get("mnist_cache_read_denied") is not True
-        or resolve_v4_output_path(
-            workspace_preflight.get("mnist_cache_path", ""), repo_root=ROOT
-        )
-        != expected_cache
-    ):
-        raise ValueError("native fixture did not probe the contracted MNIST cache")
+    # The standalone OS-level preflight probes the cache canary before the
+    # native worker starts. The EvE lineage fixture separately checks its
+    # narrower candidate-file permissions inside the actual worker workspace.
     if (
         sandbox_payload.get("bundle_manifest_sha256") != sha256_file(bundle_manifest_path)
         or fixture_payload.get("checker_bundle_manifest_sha256")

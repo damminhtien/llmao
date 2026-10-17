@@ -4,10 +4,13 @@ import hashlib
 import sys
 from pathlib import Path
 
+import pytest
+
 from experiments.v4_primary_contract import (
     optional_sha256_file,
     primary_run_root,
     venv_python_path,
+    verify_v2_mnist_cache_preflight,
 )
 
 
@@ -39,3 +42,27 @@ def test_venv_python_path_preserves_the_environment_launcher(tmp_path):
     assert path == launcher
     assert path.is_symlink()
     assert path.resolve() == Path(sys.executable).resolve()
+
+
+def test_v2_cache_access_is_verified_by_the_standalone_preflight(tmp_path):
+    cache_path = tmp_path / "results/v4/cache/datasets/mnist_784"
+    payload = {
+        "checks": {"mnist_cache_read_denied": True},
+        "mnist_cache_path": "results/v4/cache/datasets/mnist_784",
+    }
+
+    assert (
+        verify_v2_mnist_cache_preflight(payload, cache_path, repo_root=tmp_path)
+        == cache_path
+    )
+
+
+def test_v2_cache_access_requires_a_denied_read_check(tmp_path):
+    cache_path = tmp_path / "results/v4/cache/datasets/mnist_784"
+    payload = {
+        "checks": {},
+        "mnist_cache_path": "results/v4/cache/datasets/mnist_784",
+    }
+
+    with pytest.raises(ValueError, match="did not deny"):
+        verify_v2_mnist_cache_preflight(payload, cache_path, repo_root=tmp_path)

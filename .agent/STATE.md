@@ -14,6 +14,7 @@ Updated: 2026-10-17
 - The V4 artifact-storage audit and target design are documented in `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
 - `V4_PRIMARY_DESIGN_V11.md` reduces the planned search count from 135 to 25 while retaining five independent seeds and existing per-run budgets. It omits semantic ablation, cross-dataset transfer, and Level B synthesis; protocol/contracts are still pending.
 - The shared V4 artifact-path resolver now constrains the V4 writer CLIs and fixture entry points; new fixture scratch and the V11 MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths. Live sandbox and native-fixture evidence is still pending.
+- Protocol artifact v11 (`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`) was finalized from commit `530d99e`, then superseded before any contract or worker launch. Contract review found that the schema-v2 validator incorrectly demanded a second MNIST-cache probe from the EvE fixture; the standalone OS preflight already performs and records that probe. The correction now passes validation; preserve the v11 artifact unchanged and supersede it with protocol revision v12.
 
 ## Current
 
@@ -39,12 +40,13 @@ Updated: 2026-10-17
 
 ## Next
 
-1. Run the final unit, lint, compile, and Graphify checks; inspect and commit
-   the path cutover plus the V11 design amendment.
-2. Generate protocol v11 from the clean commit, build its checker bundle, and
-   run the 22-check sandbox preflight plus the data-free native fixture.
-3. Freeze and validate five new V11 seed contracts, then launch Phase 12 under
-   protocol-scoped roots. Do not resume or pool incomplete v10 runs.
+1. Commit the corrected schema-v2 contract gate after unit, lint, compile,
+   Graphify, and diff checks.
+2. Generate protocol v12 from the clean commit, superseding unused artifact
+   v11; build its checker bundle and run the 22-check preflight plus the
+   data-free EvE lineage fixture.
+3. Freeze and validate five new V11-scope seed contracts, then launch Phase 12
+   under protocol-scoped roots. Do not resume or pool incomplete v10 runs.
 
 ## Known issues and boundaries
 
@@ -125,7 +127,8 @@ Updated: 2026-10-17
   `results/v4/`; no historical cache contents were moved or deleted.
 - Do not upgrade or use paid credits.
 - Current-turn implementation validation: Ruff clean; compileall clean; all
-  168 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean.
+  170 `tests/unit/test_v4_*.py` checks passed; `git diff --check` clean;
+  Graphify code index updated after both implementation commits.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
 - Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
   Ruff and `compileall` passed. v8's fresh fixture and five contracts then
