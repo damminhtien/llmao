@@ -3,16 +3,24 @@ from __future__ import annotations
 import importlib.util
 import json
 import sys
+from dataclasses import replace
 from pathlib import Path
 
 import pytest
 
 from bias_optimizer.dsl.ast import Expr
+from bias_optimizer.dsl.compiler import ProgramCompiler
 from bias_optimizer.dsl.validator import ProgramConstraints, SearchTrack
 from bias_optimizer.llm.ollama_client import LLMTokenUsage, OllamaClientError
+from bias_optimizer.novelty.descriptors import (
+    MECHANISM_FAMILIES,
+    expression_nodes,
+    mechanism_family,
+)
 from bias_optimizer.optimizer_bench.budget import SearchBudget
 from bias_optimizer.optimizer_bench.e1 import (
     DEFAULT_E1_RESOURCE_CAPS,
+    E1_REACHABLE_MECHANISM_FAMILIES,
     E1BudgetedClient,
     E1BudgetExceeded,
     E1IterativeOptimizer,
@@ -25,6 +33,8 @@ from bias_optimizer.optimizer_bench.e1 import (
 )
 from bias_optimizer.optimizer_bench.objective import ast_hash
 from bias_optimizer.optimizer_bench.optimizers.base import OptimizationContext
+from bias_optimizer.optimizer_bench.optimizers.llm_common import _family_quotas
+from bias_optimizer.optimizer_bench.schema import CandidateEvaluation
 from bias_optimizer.v4.language import expand_candidate
 from bias_optimizer.v4.language.base_language import EXCLUDED_V3_OPERATIONS
 
@@ -88,6 +98,229 @@ def test_frozen_macros_expand_deterministically_with_g0_limits_and_canonical_ide
         assert checked.info.node_count <= 127
         assert checked.info.dimension is None or checked.info.dimension <= 128
         assert ast_hash(expanded_a) == ast_hash(direct)
+
+
+def test_e1_focus_policy_uses_only_attainable_g0_mechanisms() -> None:
+    image = Expr("image")
+    skeleton = Expr("skeletonize", (image,), {})
+    graph = Expr("graph", (skeleton,), {})
+    order_sensitive = Expr(
+        "autocorrelation",
+        (Expr("angles", (Expr("paths", (graph,), {}),), {}),),
+        {"lags": [1, 2, 4]},
+    )
+    spatial_split = Expr("spatial_split", (image,), {"rows": 2, "cols": 2})
+    graph_feature = Expr(
+        "moments",
+        (Expr("degree_sequence", (graph,), {}),),
+        {"orders": [1, 2, 3]},
+    )
+    compiler = ProgramCompiler(e1_runner._CONSTRAINTS)
+    examples = (order_sensitive, spatial_split, graph_feature)
+    for program in examples:
+        compiler.compile(program)
+
+    assert mechanism_family(order_sensitive) == "order_sensitive"
+    assert mechanism_family(spatial_split) == "free_exploration"
+    assert mechanism_family(graph_feature) == "free_exploration"
+    assert set(E1_REACHABLE_MECHANISM_FAMILIES) == {
+        "order_sensitive",
+        "free_exploration",
+    }
+    g0_operations = set(verify_e1_grammar(None)["g0_operations"])
+    assert not {"spatial_condition", "path_summary"} & g0_operations
+    assert not {"cross_histogram", "path_summary"} & g0_operations
+    assert {"spatial_condition", "path_summary", "cross_histogram"} <= set(
+        EXCLUDED_V3_OPERATIONS
+    )
+    assert set(MECHANISM_FAMILIES) - set(E1_REACHABLE_MECHANISM_FAMILIES) == {
+        "spatial_relational",
+        "graph_relational",
+    }
+
+
+@pytest.mark.parametrize(
+    "macro_name",
+    (
+        "stroke_degree_profile",
+        "multiscale_spatial_profile",
+        "multiscale_spatial_degree_profile",
+    ),
+)
+def test_frozen_macro_passes_complete_e1_eligibility_without_family_match(
+    macro_name: str, tmp_path: Path
+) -> None:
+    language, _ = load_e1_pilot_language(ROOT)
+    macro = language.macro_map[macro_name]
+    macro_call = Expr(
+        macro.name,
+        tuple(Expr("image") for _ in macro.input_types),
+        {},
+    )
+    response = {
+        "proposals": [
+            {
+                "name": macro_name,
+                "hypothesis": "A frozen abstraction may be useful.",
+                "mechanism": "frozen macro",
+                "program": macro_call.to_dict(),
+                "prediction": "The score may improve.",
+                "falsification": "Reject if it does not.",
+            }
+        ]
+    }
+
+    class FakeClient:
+        model = "mock"
+
+        def generate_structured(self, prompt, schema):
+            return json.dumps(response)
+
+    constraints = e1_runner._CONSTRAINTS
+    optimizer = E1IterativeOptimizer(
+        101,
+        constraints,
+        tmp_path / f"{macro_name}.jsonl",
+        client=FakeClient(),
+        language=language,
+    )
+    optimizer._e1_focus_counts[1] = {
+        "order_sensitive": _family_quotas()["order_sensitive"]
+    }
+    batch = optimizer.propose(
+        OptimizationContext(
+            optimizer="llm_iterative",
+            optimizer_seed=101,
+            generation=1,
+            proposal_attempt_start=1,
+            remaining_attempts=2,
+            batch_size=1,
+            constraints=constraints,
+            seed_programs=(),
+            evaluated=(),
+        )
+    )
+
+    assert len(batch.proposals) == 1
+    proposal = batch.proposals[0]
+    metadata = proposal.mechanism_metadata or {}
+    assert metadata["requested_mechanism_family"] == "free_exploration"
+    assert metadata["actual_mechanism_family"] == "free_exploration"
+    assert metadata["g_pilot_macros_used"] == [macro_name]
+    assert metadata["actual_candidate_operations"] == sorted(
+        {node.op for node in expression_nodes(proposal.program)}
+    )
+
+    compiler = ProgramCompiler(constraints)
+    rejection, candidate_id = e1_runner._e1_candidate_eligibility(
+        proposal.program, compiler, set()
+    )
+    assert rejection is None
+    assert candidate_id == ast_hash(proposal.program)
+    direct, direct_macros = canonical_e1_program(proposal.program, None)
+    assert direct_macros == ()
+    assert ast_hash(direct) == candidate_id
+    duplicate_reason, _ = e1_runner._e1_candidate_eligibility(
+        direct, compiler, {candidate_id}
+    )
+    assert duplicate_reason == "duplicate"
+
+    excluded = Expr("cross_histogram", (), {})
+    excluded_reason, _ = e1_runner._e1_candidate_eligibility(
+        excluded, compiler, set()
+    )
+    invalid = Expr("spatial_split", (Expr("image"),), {"rows": 0, "cols": 2})
+    invalid_reason, _ = e1_runner._e1_candidate_eligibility(
+        invalid, compiler, set()
+    )
+    assert excluded_reason == "constraint"
+    assert invalid_reason == "constraint"
+
+
+def test_e1_focus_cycles_after_reachable_quotas_without_selecting_unreachable_labels(
+    tmp_path: Path,
+) -> None:
+    response = {
+        "proposals": [
+            {
+                "name": "spatial_split",
+                "hypothesis": "A localized feature may help.",
+                "mechanism": "spatial split",
+                "program": Expr(
+                    "spatial_split",
+                    (Expr("image"),),
+                    {"rows": 2, "cols": 2},
+                ).to_dict(),
+                "prediction": "The score may improve.",
+                "falsification": "Reject if it does not.",
+            }
+        ]
+    }
+
+    class FakeClient:
+        model = "mock"
+
+        def generate_structured(self, prompt, schema):
+            return json.dumps(response)
+
+    constraints = e1_runner._CONSTRAINTS
+    optimizer = E1IterativeOptimizer(
+        101,
+        constraints,
+        tmp_path / "focus-cycle.jsonl",
+        client=FakeClient(),
+        language=None,
+    )
+    quotas = _family_quotas()
+    context = OptimizationContext(
+        optimizer="llm_iterative",
+        optimizer_seed=101,
+        generation=1,
+        proposal_attempt_start=1,
+        remaining_attempts=4,
+        batch_size=1,
+        constraints=constraints,
+        seed_programs=(),
+        evaluated=(),
+    )
+
+    optimizer._e1_focus_counts[1] = {
+        "order_sensitive": quotas["order_sensitive"]
+    }
+    free_batch = optimizer.propose(context)
+    assert (
+        free_batch.proposals[0].mechanism_metadata["requested_mechanism_family"]
+        == "free_exploration"
+    )
+    free_proposal = free_batch.proposals[0]
+    optimizer.on_evaluation(
+        free_proposal,
+        CandidateEvaluation(
+            candidate_id=ast_hash(free_proposal.program),
+            evaluation_index=1,
+            fitness=0.5,
+            accuracy=0.5,
+            feature_dim=4,
+            runtime_ms=1.0,
+            structural_descriptor=("pixel", "orderless", "localized", "single", "compact"),
+            program=free_proposal.program,
+        ),
+    )
+    assert optimizer._e1_focus_counts[1]["free_exploration"] == 1
+
+    optimizer._e1_focus_counts[1] = {
+        family: quotas[family] for family in E1_REACHABLE_MECHANISM_FAMILIES
+    }
+    next_cycle = optimizer.propose(replace(context, proposal_attempt_start=2))
+    assert (
+        next_cycle.proposals[0].mechanism_metadata["requested_mechanism_family"]
+        == "order_sensitive"
+    )
+    assert all(
+        proposal.mechanism_metadata["requested_mechanism_family"]
+        in E1_REACHABLE_MECHANISM_FAMILIES
+        for proposal in free_batch.proposals + next_cycle.proposals
+    )
 
 
 def test_pilot_prompt_lists_only_g0_and_its_three_macro_signatures() -> None:
@@ -319,8 +552,6 @@ def test_initial_scores_are_passed_as_the_same_tuple_to_both_conditions() -> Non
 def test_common_initial_programs_are_scored_once_then_shared(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
-    from bias_optimizer.optimizer_bench.schema import CandidateEvaluation
-
     protocol, seeds = e1_runner._verified_protocol_and_seeds()
     calls = []
 

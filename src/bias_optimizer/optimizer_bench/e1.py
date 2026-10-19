@@ -25,13 +25,17 @@ from bias_optimizer.llm.program_proposer import (
     build_program_prompt,
 )
 from bias_optimizer.llm.response_archive import JsonlResponseArchive, LLMResponseRecord
+from bias_optimizer.novelty.descriptors import mechanism_family
 from bias_optimizer.optimizer_bench.objective import ast_hash
 from bias_optimizer.optimizer_bench.optimizers.base import (
     OptimizationContext,
     ProposalBatch,
 )
-from bias_optimizer.optimizer_bench.optimizers.llm_common import LLMIterativeOptimizer
-from bias_optimizer.optimizer_bench.schema import CandidateProposal
+from bias_optimizer.optimizer_bench.optimizers.llm_common import (
+    LLMIterativeOptimizer,
+    _family_quotas,
+)
+from bias_optimizer.optimizer_bench.schema import CandidateEvaluation, CandidateProposal
 from bias_optimizer.v4.candidate.schema import load_macro_language
 from bias_optimizer.v4.language import G0_LANGUAGE, MacroLanguage, expand_candidate
 from bias_optimizer.v4.language.base_language import EXCLUDED_V3_OPERATIONS
@@ -49,6 +53,9 @@ _EXPECTED_MACRO_NAMES = frozenset(
         "multiscale_spatial_degree_profile",
     }
 )
+# The other V3.2 labels depend on spatial_condition/path_summary/cross_histogram,
+# which the frozen E1 G0 grammar excludes.
+E1_REACHABLE_MECHANISM_FAMILIES = ("order_sensitive", "free_exploration")
 _G0_OPERATIONS = frozenset(
     signature.name
     for signature in G0_LANGUAGE.primitives
@@ -724,9 +731,35 @@ class E1IterativeOptimizer(LLMIterativeOptimizer):
         super().__init__(seed, constraints, response_path, client=client)
         self._e1_proposer = E1ProgramProposer(client, self._response_archive, language)
         self._proposer = self._e1_proposer
+        self._e1_focus_counts: dict[int, dict[str, int]] = {}
 
     def propose(self, context: OptimizationContext) -> ProposalBatch:
-        batch = super().propose(context)
+        focus_counts = self._e1_focus_counts.setdefault(context.generation, {})
+        quotas = _family_quotas()
+        if all(
+            focus_counts.get(family, 0) >= quotas[family]
+            for family in E1_REACHABLE_MECHANISM_FAMILIES
+        ):
+            focus_counts.clear()
+
+        actual_counts = self._family_counts.setdefault(context.generation, {})
+        saved_actual_counts = actual_counts.copy()
+        actual_counts.clear()
+        actual_counts.update(
+            {
+                family: (
+                    focus_counts.get(family, 0)
+                    if family in E1_REACHABLE_MECHANISM_FAMILIES
+                    else quota
+                )
+                for family, quota in quotas.items()
+            }
+        )
+        try:
+            batch = super().propose(context)
+        finally:
+            actual_counts.clear()
+            actual_counts.update(saved_actual_counts)
         if batch.llm_calls == 0 and batch.attempts == 0 and not batch.proposals:
             return batch
         if batch.llm_calls <= 0 or batch.attempts % batch.llm_calls:
@@ -741,6 +774,8 @@ class E1IterativeOptimizer(LLMIterativeOptimizer):
                 ),
                 mechanism_metadata={
                     **(proposal.mechanism_metadata or {}),
+                    "actual_mechanism_family": mechanism_family(proposal.program),
+                    "actual_candidate_operations": sorted(_operations(proposal.program)),
                     "g_pilot_macros_used": list(
                         self._e1_proposer.macro_names(proposal.program)
                     ),
@@ -749,6 +784,17 @@ class E1IterativeOptimizer(LLMIterativeOptimizer):
             for proposal in batch.proposals
         )
         return replace(batch, proposals=proposals)
+
+    def on_evaluation(
+        self, proposal: CandidateProposal, evaluation: CandidateEvaluation
+    ) -> None:
+        super().on_evaluation(proposal, evaluation)
+        requested = (proposal.mechanism_metadata or {}).get(
+            "requested_mechanism_family"
+        )
+        if requested in E1_REACHABLE_MECHANISM_FAMILIES:
+            counts = self._e1_focus_counts.setdefault(proposal.generation or 0, {})
+            counts[requested] = counts.get(requested, 0) + 1
 
 
 def common_seed_proposals(

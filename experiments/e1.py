@@ -17,12 +17,12 @@ from bias_optimizer.data.mnist_e1 import (
     E1MNISTDataConfig,
     load_mnist_e1_search_data,
 )
+from bias_optimizer.dsl.ast import Expr
 from bias_optimizer.dsl.compiler import ProgramCompiler
 from bias_optimizer.dsl.validator import ProgramConstraints, SearchTrack
 from bias_optimizer.evaluation.protocol import EvaluationDataset
 from bias_optimizer.llm.ollama_client import OllamaLLMClient
 from bias_optimizer.ml.evaluator import Evaluator, ProgramEvaluator
-from bias_optimizer.novelty.descriptors import mechanism_family
 from bias_optimizer.optimizer_bench.budget import SearchBudget
 from bias_optimizer.optimizer_bench.e1 import (
     DEFAULT_E1_RESOURCE_CAPS,
@@ -63,6 +63,22 @@ _CONSTRAINTS = ProgramConstraints(
 
 def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
+
+
+def _e1_candidate_eligibility(
+    program: Expr,
+    compiler: ProgramCompiler,
+    seen_ids: set[str],
+) -> tuple[str | None, str | None]:
+    """Apply E1's structural and expanded-AST uniqueness gates."""
+    try:
+        compiler.compile(program)
+    except (TypeError, ValueError):
+        return "constraint", None
+    candidate_id = ast_hash(program)
+    if candidate_id in seen_ids:
+        return "duplicate", candidate_id
+    return None, candidate_id
 
 
 def _active_v4_conflicts() -> list[str]:
@@ -359,21 +375,17 @@ def _run_condition(
             best_before_batch = max(row.fitness for row in evaluated)
             best_by_attempt = [best_before_batch] * batch.attempts
             for proposal in batch.proposals:
-                try:
-                    compiler.compile(proposal.program)
-                except (TypeError, ValueError):
+                rejection, candidate_id = _e1_candidate_eligibility(
+                    proposal.program, compiler, seen_ids
+                )
+                if rejection == "constraint":
                     constrained += 1
                     continue
-                candidate_id = ast_hash(proposal.program)
-                if candidate_id in seen_ids:
+                if rejection == "duplicate":
                     duplicates += 1
                     continue
-                requested_family = (proposal.mechanism_metadata or {}).get(
-                    "requested_mechanism_family"
-                )
-                if requested_family is not None and mechanism_family(proposal.program) != requested_family:
-                    constrained += 1
-                    continue
+                if candidate_id is None:
+                    raise RuntimeError("eligible E1 candidate has no canonical identity")
                 metadata = {
                     **(proposal.mechanism_metadata or {}),
                     "generation": generation,
