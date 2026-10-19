@@ -1,6 +1,6 @@
 # Current state
 
-Updated: 2026-10-17
+Updated: 2026-10-19
 
 ## Completed
 
@@ -40,16 +40,24 @@ Updated: 2026-10-17
   completed result from the stale state field. Their contracts pin LLMAO commit
   `8d0944f231b8882159f16248bc752014bc343341`; resuming them requires that exact
   checkout and the original paths.
+- The latest V14 audit found `results/v4/phase12/runs/discovery-1202-736f9da03cc2`
+  with stale `running` snapshots at 221/540 completed iterations, no final
+  `run_manifest.json`, and no live runner or tmux server. A solver workspace for
+  attempt 222 exists without an evaluation result. Preserve this root and treat
+  it as incomplete; do not resume, collect, or pool it based on the stale status.
+- The bounded lineage repair clarifies that a candidate must point to the
+  selected prefill's current `language_hash` (H1), not its own recorded parent
+  hash (H0), and adds a focused H1-versus-H0 regression assertion. The V4
+  validator and run artifacts were not changed. The requested follow-on
+  G0-versus-G_pilot experiment remains separate and was not started.
 
 ## Next
 
-1. Complete the version-aware Phase 2 cache guard and its focused regression
-   coverage; preserve the v13 failed run root unchanged.
-2. Commit the correction and updated incident state. Generate protocol v14
-   superseding v13, build its checker bundle, rerun the 22-check preflight and
-   EvE lineage fixture, then freeze and validate five fresh V11-scope contracts.
-3. Launch Phase 12 from new v14 roots. Do not resume or pool the v12/v13
-   failures or any incomplete v10 runs.
+1. Keep incomplete V10, V12, V13, and V14 run roots unchanged. Do not infer
+   completion from stale `running` snapshots or resume/collect partial roots.
+2. Treat any G0-versus-G_pilot experiment as a separate task with its own
+   explicit scope and frozen setup. The lineage repair task does not authorize
+   launching it.
 
 ## Known issues and boundaries
 
@@ -139,6 +147,8 @@ Updated: 2026-10-17
   checks passed; Ruff, compileall, `git diff --check`, Graphify, and the
   contract-freezer module `--help` check passed.
 - `graphify update .` completed; generated `graphify-out/` remains ignored.
+- The lineage instruction and H1-versus-H0 regression test passed the focused
+  V4 test set: 60 passed. Ruff and `git diff --check` passed.
 - The Phase 2 cache guard now accepts only the protocol-pinned cache inside
   `results/v4/` for storage-layout v2, hashes the protocol before using its
   layout, preserves the legacy external-cache rule, and rejects symlink escapes.
