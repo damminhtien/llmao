@@ -1,0 +1,1496 @@
+{
+  "frozen_at_utc": "2026-10-19T06:10:15Z",
+  "g0": {
+    "language_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+    "manifest_file_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+    "manifest_path": "results/v4/languages/g0.json",
+    "sidecar_verified": true
+  },
+  "g_pilot": {
+    "base_language_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+    "language_lineage": [
+      {
+        "base_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+        "introduced_macros": [
+          "stroke_degree_profile"
+        ],
+        "language": "G*",
+        "limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        },
+        "macros": [
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "moments",
+                  "params": {
+                    "orders": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "histogram",
+                  "params": {
+                    "bins": 16,
+                    "high": 16,
+                    "low": 0
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenated moment and fixed-range histogram summaries of skeleton-graph vertex degrees.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "stroke_degree_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        ],
+        "parent_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+        "schema_version": 1
+      },
+      {
+        "base_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+        "introduced_macros": [
+          "multiscale_spatial_profile"
+        ],
+        "language": "G*",
+        "limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        },
+        "macros": [
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "coarse_cols"
+                    },
+                    "rows": {
+                      "parameter": "coarse_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "medium_cols"
+                    },
+                    "rows": {
+                      "parameter": "medium_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "fine_cols"
+                    },
+                    "rows": {
+                      "parameter": "fine_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "finest_cols"
+                    },
+                    "rows": {
+                      "parameter": "finest_rows"
+                    }
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenate coarse-to-fine spatial summaries of an image.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "multiscale_spatial_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {
+                "coarse_cols": {
+                  "default": 3,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "coarse_rows": {
+                  "default": 2,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "fine_cols": {
+                  "default": 6,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "fine_rows": {
+                  "default": 6,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "finest_cols": {
+                  "default": 7,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "finest_rows": {
+                  "default": 7,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "medium_cols": {
+                  "default": 5,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "medium_rows": {
+                  "default": 5,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          },
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "moments",
+                  "params": {
+                    "orders": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "histogram",
+                  "params": {
+                    "bins": 16,
+                    "high": 16,
+                    "low": 0
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenated moment and fixed-range histogram summaries of skeleton-graph vertex degrees.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "stroke_degree_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        ],
+        "parent_language_hash": "1bf4ddd9471f7954c18e3ab016a41d7d9b9ee3dc28f78cb94a28a1d7e3d9769c",
+        "schema_version": 1
+      },
+      {
+        "base_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+        "introduced_macros": [
+          "multiscale_spatial_degree_profile"
+        ],
+        "language": "G*",
+        "limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        },
+        "macros": [
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": 3,
+                    "rows": 3
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": 3,
+                    "rows": 2
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "moments",
+                  "params": {
+                    "orders": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenate multiple image occupancy scales with moments of skeleton graph degrees.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "multiscale_spatial_degree_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          },
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "coarse_cols"
+                    },
+                    "rows": {
+                      "parameter": "coarse_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "medium_cols"
+                    },
+                    "rows": {
+                      "parameter": "medium_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "fine_cols"
+                    },
+                    "rows": {
+                      "parameter": "fine_rows"
+                    }
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "input": 0
+                    }
+                  ],
+                  "op": "spatial_split",
+                  "params": {
+                    "cols": {
+                      "parameter": "finest_cols"
+                    },
+                    "rows": {
+                      "parameter": "finest_rows"
+                    }
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenate coarse-to-fine spatial summaries of an image.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "multiscale_spatial_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {
+                "coarse_cols": {
+                  "default": 3,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "coarse_rows": {
+                  "default": 2,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "fine_cols": {
+                  "default": 6,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "fine_rows": {
+                  "default": 6,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "finest_cols": {
+                  "default": 7,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "finest_rows": {
+                  "default": 7,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "medium_cols": {
+                  "default": 5,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "medium_rows": {
+                  "default": 5,
+                  "maximum": 7,
+                  "minimum": 1,
+                  "type": "integer"
+                }
+              },
+              "type": "object"
+            }
+          },
+          {
+            "body_ast": {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "moments",
+                  "params": {
+                    "orders": [
+                      1,
+                      2,
+                      3
+                    ]
+                  }
+                },
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [
+                                {
+                                  "input": 0
+                                }
+                              ],
+                              "op": "skeletonize",
+                              "params": {
+                                "threshold": 0.5
+                              }
+                            }
+                          ],
+                          "op": "graph",
+                          "params": {}
+                        }
+                      ],
+                      "op": "degree_sequence",
+                      "params": {}
+                    }
+                  ],
+                  "op": "histogram",
+                  "params": {
+                    "bins": 16,
+                    "high": 16,
+                    "low": 0
+                  }
+                }
+              ],
+              "op": "concat",
+              "params": {}
+            },
+            "description": "Concatenated moment and fixed-range histogram summaries of skeleton-graph vertex degrees.",
+            "input_types": [
+              "Image"
+            ],
+            "name": "stroke_degree_profile",
+            "output_type": "Vector",
+            "parameters": {
+              "additionalProperties": false,
+              "properties": {},
+              "type": "object"
+            }
+          }
+        ],
+        "parent_language_hash": "8d41f9da5610d98e3382b3c568940aeb2b19ee268836dc5682d2b9db3d6513d5",
+        "schema_version": 1
+      }
+    ],
+    "language_sha256": "0736be05cbae240fa99878d77fdf4f0f7233d7e4c2ce3e2bd8d8e03a12d4d1dc",
+    "language_snapshot": {
+      "base_language_hash": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+      "introduced_macros": [
+        "multiscale_spatial_degree_profile"
+      ],
+      "language": "G*",
+      "limits": {
+        "max_expanded_nodes": 127,
+        "max_expansion_depth": 6,
+        "max_feature_dim": 128,
+        "max_macros": 8,
+        "max_new_macros_per_candidate": 1
+      },
+      "macros": [
+        {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": 3,
+                  "rows": 3
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": 3,
+                  "rows": 2
+                }
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "moments",
+                "params": {
+                  "orders": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenate multiple image occupancy scales with moments of skeleton graph degrees.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "multiscale_spatial_degree_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          }
+        },
+        {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "coarse_cols"
+                  },
+                  "rows": {
+                    "parameter": "coarse_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "medium_cols"
+                  },
+                  "rows": {
+                    "parameter": "medium_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "fine_cols"
+                  },
+                  "rows": {
+                    "parameter": "fine_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "finest_cols"
+                  },
+                  "rows": {
+                    "parameter": "finest_rows"
+                  }
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenate coarse-to-fine spatial summaries of an image.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "multiscale_spatial_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {
+              "coarse_cols": {
+                "default": 3,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "coarse_rows": {
+                "default": 2,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "fine_cols": {
+                "default": 6,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "fine_rows": {
+                "default": 6,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "finest_cols": {
+                "default": 7,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "finest_rows": {
+                "default": 7,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "medium_cols": {
+                "default": 5,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "medium_rows": {
+                "default": 5,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          }
+        },
+        {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "moments",
+                "params": {
+                  "orders": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "histogram",
+                "params": {
+                  "bins": 16,
+                  "high": 16,
+                  "low": 0
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenated moment and fixed-range histogram summaries of skeleton-graph vertex degrees.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "stroke_degree_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          }
+        }
+      ],
+      "parent_language_hash": "8d41f9da5610d98e3382b3c568940aeb2b19ee268836dc5682d2b9db3d6513d5",
+      "schema_version": 1
+    },
+    "macro_count": 3,
+    "macros": [
+      {
+        "aliases_observed": [
+          "stroke_degree_profile"
+        ],
+        "behavior_sha256": "bc77d85773929df22487c7c8c0f1b4a1a3d0fe8ad4fdd0fdce17930a4b00a6a5",
+        "birth_events": 15,
+        "complexity": {
+          "expanded_depth": 5,
+          "expanded_nodes": 11,
+          "feature_dimension": 19
+        },
+        "definition_sha256": "3d351b5fbf8eb4b55117e74a7127664309b751a4a3fcf7ea38cd600c56ee859d",
+        "descendant_scored_candidates": 21,
+        "descendant_scored_candidates_by_seed": {
+          "1101": 0,
+          "1202": 0,
+          "1303": 21,
+          "1404": 0,
+          "1505": 0
+        },
+        "macro": {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "moments",
+                "params": {
+                  "orders": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "histogram",
+                "params": {
+                  "bins": 16,
+                  "high": 16,
+                  "low": 0
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenated moment and fixed-range histogram summaries of skeleton-graph vertex degrees.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "stroke_degree_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          }
+        },
+        "source": {
+          "attempt": 2,
+          "candidate_id": "candidate-c178c8f9c8fc16f03c3f",
+          "candidate_language_file_sha256": "7d12ab8ee59355c1aab81aa1c490f8ab42b10b0c94a99ff2eaaa21b5b1a3d266",
+          "candidate_language_path": "results/v4/phase12/runs/discovery-1303-ef4050aa854b/evaluation_workspaces/20261015_193203_step_2_attempt_0002_d1051e52dd89/solver/candidate/language.json",
+          "parent_candidate_id": "candidate-ac1c6d6690a4bd1bda2f",
+          "parent_lineage_state_path": "results/v4/phase12/runs/discovery-1303-ef4050aa854b/evaluation_workspaces/20261015_193203_step_2_attempt_0002_d1051e52dd89/solver_examples/seed_1303_09/logs/evaluate/lineage_state.json",
+          "parent_lineage_state_sha256": "9a7c4143a28ea53dd268c015fbd1de6838f6f2f4f5cc2c5d83e1672aecd81cc9",
+          "parent_prefill_id": "seed_1303_09",
+          "seed": 1303,
+          "selected_parent_current_language_sha256": "5ba1e2f9e0b1d45a4e0c6fa9825491f83e169bae43bde63fe03863008315e765",
+          "trajectory_path": "results/v4/phase12/runs/discovery-1303-ef4050aa854b/trajectory.jsonl",
+          "trajectory_sha256": "5faff6ecf364ff80f50af285688d23c6b8537fe81465e4d9803957b283c8eb4f",
+          "workspace_id": "20261015_193203_step_2_attempt_0002_d1051e52dd89"
+        },
+        "unique_canonical_definitions_for_behavior": 4
+      },
+      {
+        "aliases_observed": [
+          "multiscale_spatial_profile"
+        ],
+        "behavior_sha256": "0526531be182d94c4b473931b2bf495cf1b195b09954cd5491307f7ab4992bb2",
+        "birth_events": 19,
+        "complexity": {
+          "expanded_depth": 2,
+          "expanded_nodes": 9,
+          "feature_dimension": 116
+        },
+        "definition_sha256": "1630ea7d814f06c243fac6f1921c361114514ea2cd4124133c62e130425c59e6",
+        "descendant_scored_candidates": 16,
+        "descendant_scored_candidates_by_seed": {
+          "1101": 0,
+          "1202": 0,
+          "1303": 0,
+          "1404": 0,
+          "1505": 16
+        },
+        "macro": {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "coarse_cols"
+                  },
+                  "rows": {
+                    "parameter": "coarse_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "medium_cols"
+                  },
+                  "rows": {
+                    "parameter": "medium_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "fine_cols"
+                  },
+                  "rows": {
+                    "parameter": "fine_rows"
+                  }
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": {
+                    "parameter": "finest_cols"
+                  },
+                  "rows": {
+                    "parameter": "finest_rows"
+                  }
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenate coarse-to-fine spatial summaries of an image.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "multiscale_spatial_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {
+              "coarse_cols": {
+                "default": 3,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "coarse_rows": {
+                "default": 2,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "fine_cols": {
+                "default": 6,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "fine_rows": {
+                "default": 6,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "finest_cols": {
+                "default": 7,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "finest_rows": {
+                "default": 7,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "medium_cols": {
+                "default": 5,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              },
+              "medium_rows": {
+                "default": 5,
+                "maximum": 7,
+                "minimum": 1,
+                "type": "integer"
+              }
+            },
+            "type": "object"
+          }
+        },
+        "source": {
+          "attempt": 12,
+          "candidate_id": "candidate-14fa2724e68f8a66715c",
+          "candidate_language_file_sha256": "dea8554e071f08b7ed399558bcb8d1d0542a6e3491e6c4714afd9984576d283a",
+          "candidate_language_path": "results/v4/phase12/runs/discovery-1505-ef4050aa854b/evaluation_workspaces/20261015_194949_step_12_attempt_0012_a8ba80ad88be/solver/candidate/language.json",
+          "parent_candidate_id": "candidate-8844e0ea2eb96af42452",
+          "parent_lineage_state_path": "results/v4/phase12/runs/discovery-1505-ef4050aa854b/evaluation_workspaces/20261015_194949_step_12_attempt_0012_a8ba80ad88be/solver_examples/solver_91195a45f378/logs/evaluate/lineage_state.json",
+          "parent_lineage_state_sha256": "7bde9e8e797d81d011d3b821eb954075c5b6e56c40b93fa86b777a9f764a65f1",
+          "parent_prefill_id": "solver_91195a45f378",
+          "seed": 1505,
+          "selected_parent_current_language_sha256": "334b439ec7ea913b6347912e6e0919c3fe5e90bc7d2b962f28c6e32436179088",
+          "trajectory_path": "results/v4/phase12/runs/discovery-1505-ef4050aa854b/trajectory.jsonl",
+          "trajectory_sha256": "0189c7042775a15bdb90cc4591f941d0c7f08258881f718bb0de36cf7cb0f697",
+          "workspace_id": "20261015_194949_step_12_attempt_0012_a8ba80ad88be"
+        },
+        "unique_canonical_definitions_for_behavior": 2
+      },
+      {
+        "aliases_observed": [
+          "multiscale_spatial_degree_profile",
+          "multiscale_spatial_topology_profile"
+        ],
+        "behavior_sha256": "905545666da89458a2966adadc729b645d4d7c52b91201106a43c9b103ccc618",
+        "birth_events": 2,
+        "complexity": {
+          "expanded_depth": 5,
+          "expanded_nodes": 10,
+          "feature_dimension": 18
+        },
+        "definition_sha256": "710ead8fb90ebf29eb15ca85206de9db8425203791795218429a32dce25cc1af",
+        "descendant_scored_candidates": 7,
+        "descendant_scored_candidates_by_seed": {
+          "1101": 7,
+          "1202": 0,
+          "1303": 0,
+          "1404": 0,
+          "1505": 0
+        },
+        "macro": {
+          "body_ast": {
+            "args": [
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": 3,
+                  "rows": 3
+                }
+              },
+              {
+                "args": [
+                  {
+                    "input": 0
+                  }
+                ],
+                "op": "spatial_split",
+                "params": {
+                  "cols": 3,
+                  "rows": 2
+                }
+              },
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "input": 0
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "degree_sequence",
+                    "params": {}
+                  }
+                ],
+                "op": "moments",
+                "params": {
+                  "orders": [
+                    1,
+                    2,
+                    3
+                  ]
+                }
+              }
+            ],
+            "op": "concat",
+            "params": {}
+          },
+          "description": "Concatenate multiple image occupancy scales with moments of skeleton graph degrees.",
+          "input_types": [
+            "Image"
+          ],
+          "name": "multiscale_spatial_degree_profile",
+          "output_type": "Vector",
+          "parameters": {
+            "additionalProperties": false,
+            "properties": {},
+            "type": "object"
+          }
+        },
+        "source": {
+          "attempt": 20,
+          "candidate_id": "candidate-9bd21b87493e32dad724",
+          "candidate_language_file_sha256": "a99aa2bb481f1198987a78bdbf3443a84949f932b876b51fd7a1d619f171ae16",
+          "candidate_language_path": "results/v4/phase12/runs/discovery-1101-ef4050aa854b/evaluation_workspaces/20261015_200547_step_20_attempt_0020_de87c187b5e3/solver/candidate/language.json",
+          "parent_candidate_id": "candidate-65cfabf7d47b75d1c807",
+          "parent_lineage_state_path": "results/v4/phase12/runs/discovery-1101-ef4050aa854b/evaluation_workspaces/20261015_200547_step_20_attempt_0020_de87c187b5e3/solver_examples/seed_1101_12/logs/evaluate/lineage_state.json",
+          "parent_lineage_state_sha256": "5866be85669c9a7b8f93e79fad5de25780690ba465e8560eaad215fa356281ee",
+          "parent_prefill_id": "seed_1101_12",
+          "seed": 1101,
+          "selected_parent_current_language_sha256": "5ba1e2f9e0b1d45a4e0c6fa9825491f83e169bae43bde63fe03863008315e765",
+          "trajectory_path": "results/v4/phase12/runs/discovery-1101-ef4050aa854b/trajectory.jsonl",
+          "trajectory_sha256": "5f7f7cca2f62a84336452ea4462884720ad9f5f9f37dc698cc70bdf0078a4f80",
+          "workspace_id": "20261015_200547_step_20_attempt_0020_de87c187b5e3"
+        },
+        "unique_canonical_definitions_for_behavior": 2
+      }
+    ]
+  },
+  "manifest_schema": "llmao.e1.g_pilot.v1",
+  "official_G_star": false,
+  "preflight_evidence": {
+    "fresh_output_directory_was_absent_before_freeze": true,
+    "historical_seed0_accuracy_500": 0.189,
+    "historical_seed0_feature_dimension": 3,
+    "historical_seed0_runtime_ms_max": 973.6494169992511,
+    "historical_seed0_runtime_ms_min": 894.7498750021623,
+    "historical_seed0_stage_one_fitness_max": 0.18693345622326404,
+    "historical_seed0_stage_one_fitness_min": 0.1869250820415104,
+    "historical_stage_one_score_repeatability": "Not bit-identical across run roots: same initial ASTs retained the same accuracy_500 and feature dimension, while measured feature runtime differed. These are archival measurements, not a fresh E1 evaluator preflight.",
+    "official_test_access_assessment": "The protocol forbids official-test access, and the search-data object contains train/validation only after loading. However, load_mnist_search_data calls _load_openml_arrays, which fetches all 70,000 rows and checks all pixels before slicing rows 0:60,000. The current evaluator path therefore cannot be certified as avoiding reads of the official test rows.",
+    "official_test_access_forbidden_by_v32_protocol": true,
+    "official_test_data_boundary_verified": false,
+    "same_seed_program_set_in_all_v10_roots": true,
+    "source_data_loader_paths": {
+      "full_openml_materialization": "src/bias_optimizer/data/mnist.py:180-198",
+      "search_data_fields": "src/bias_optimizer/data/mnist.py:76-91",
+      "search_slice_after_load": "src/bias_optimizer/data/mnist.py:201-215"
+    },
+    "source_evaluator_search_only": "MNISTSearchData exposes train and validation arrays only; the V3.2 runner uses ProgramEvaluator with train_sizes=(500,).",
+    "v32_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+    "v32_seed_program_count": 20,
+    "v32_seed_programs_unique_and_compilable": true
+  },
+  "run_status": "No E1 condition has been launched.",
+  "selection_rule": {
+    "eligibility": "Standalone-installable from G0; one Image input; validates through the existing V4 macro validator and expands to G0 operations; expanded node_count <= 11, depth <= 6, feature dimension <= 128; at least 3 distinct scored descendant candidates inherit and use the behavior.",
+    "evidence": "Only the 216 adaptive proposals with a recorded discovery_fitness in the five preserved V10 seed roots; each candidate was replay-validated against the exact selected prefill lineage_state.json.",
+    "macro_identity": "MacroPrimitive.sha256 over canonical_json is the canonical definition identity; macro_behavior_hash is the expanded behavior identity. Birth counts, canonical definitions, and behavior groups are reported separately.",
+    "ranking": "Distinct expanded behavior groups ranked by descending distinct scored descendant candidate count, then ascending expanded node count, ascending depth, then behavior SHA-256. For each selected behavior, use the lexicographically smallest canonical definition SHA-256 among eligible definitions.",
+    "selection_scope": "Discovery evidence only; no V14 evidence or fresh-search outcomes used."
+  },
+  "source_evidence": {
+    "macro_birth_events": 103,
+    "roots": [
+      {
+        "protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+        "run_root": "results/v4/phase12/runs/discovery-1101-ef4050aa854b",
+        "saved_status": "running",
+        "scored_adaptive_candidates": 47,
+        "seed": 1101,
+        "trajectory_path": "results/v4/phase12/runs/discovery-1101-ef4050aa854b/trajectory.jsonl",
+        "trajectory_sha256": "5f7f7cca2f62a84336452ea4462884720ad9f5f9f37dc698cc70bdf0078a4f80"
+      },
+      {
+        "protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+        "run_root": "results/v4/phase12/runs/discovery-1202-ef4050aa854b",
+        "saved_status": "running",
+        "scored_adaptive_candidates": 37,
+        "seed": 1202,
+        "trajectory_path": "results/v4/phase12/runs/discovery-1202-ef4050aa854b/trajectory.jsonl",
+        "trajectory_sha256": "c63b95b1a51760e60625f019177bf009f6645a2ceba4174668c0f744cbe55dae"
+      },
+      {
+        "protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+        "run_root": "results/v4/phase12/runs/discovery-1303-ef4050aa854b",
+        "saved_status": "running",
+        "scored_adaptive_candidates": 42,
+        "seed": 1303,
+        "trajectory_path": "results/v4/phase12/runs/discovery-1303-ef4050aa854b/trajectory.jsonl",
+        "trajectory_sha256": "5faff6ecf364ff80f50af285688d23c6b8537fe81465e4d9803957b283c8eb4f"
+      },
+      {
+        "protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+        "run_root": "results/v4/phase12/runs/discovery-1404-ef4050aa854b",
+        "saved_status": "running",
+        "scored_adaptive_candidates": 41,
+        "seed": 1404,
+        "trajectory_path": "results/v4/phase12/runs/discovery-1404-ef4050aa854b/trajectory.jsonl",
+        "trajectory_sha256": "764f41c1bfd1bb8c5914bdfc256680020d6862dc3b7012d2ba47e3031e9aa824"
+      },
+      {
+        "protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+        "run_root": "results/v4/phase12/runs/discovery-1505-ef4050aa854b",
+        "saved_status": "running",
+        "scored_adaptive_candidates": 49,
+        "seed": 1505,
+        "trajectory_path": "results/v4/phase12/runs/discovery-1505-ef4050aa854b/trajectory.jsonl",
+        "trajectory_sha256": "0189c7042775a15bdb90cc4591f941d0c7f08258881f718bb0de36cf7cb0f697"
+      }
+    ],
+    "scored_adaptive_candidates_by_seed": {
+      "1101": 47,
+      "1202": 37,
+      "1303": 42,
+      "1404": 41,
+      "1505": 49
+    },
+    "scored_adaptive_candidates_total": 216,
+    "strict_lineage_replay": "216/216 candidates matched selected parent candidate ID, selected prefill current language hash, parent language lineage, child language hash, child state hash, expanded AST hash, and canonical candidate identity.",
+    "unique_canonical_macro_definitions": 64,
+    "unique_expanded_macro_behaviors": 52,
+    "v10_protocol_sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d"
+  },
+  "status": "frozen_exploratory_language",
+  "title": "LLMAO E1 exploratory G_pilot language manifest"
+}
