@@ -16,8 +16,13 @@ The evaluator reports both components and the resulting discovery fitness.
 Macros may compose only G0 operations and inherited validated macros. Add at
 most one macro to a proposal and use every new macro in that proposal. Keep at
 most eight macros total, expansion depth at most 6, expanded size at most 127
-nodes, and output width at most 128. The exact selected prefill language is the
-parent for lineage; preserve its definitions and parent hash.
+nodes, and output width at most 128. Preserve every inherited macro definition
+unchanged. The candidate's `language.json.parent_language_hash` MUST equal the
+selected prefill's current language hash from
+`solver_examples/<selected-prefill-id>/logs/evaluate/lineage_state.json` at
+`language_hash`. It MUST NOT equal the selected prefill's own
+`logs/evaluate/lineage_parent.json` `parent_language_hash`, which identifies
+the grandparent language.
 
 Do not use excluded human-language operations, executable code, Python,
 imports, filesystem paths, network, subprocesses, labels, predictions,
