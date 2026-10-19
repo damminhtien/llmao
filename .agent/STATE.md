@@ -4,163 +4,48 @@ Updated: 2026-10-19
 
 ## Completed
 
-- The coding-agent workflow was externalized to `.agent/` and documented in `docs/AGENT_WORKFLOW.md`.
-- V4 baseline, candidate/evaluator boundaries, Phase 9 smoke, and Phase 11 lineage tooling are recorded as complete in `TODO.md`.
-- Earlier Phase 10 pilots and follow-ups remain failed exploratory evidence. Their candidates, budgets, transcripts, contracts, and archives were preserved without repair or rescoring.
-- Data-free native checker and sandbox fixtures passed, including real-runner lineage, strict workspace permissions, and tmux-output capture.
-- Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` was frozen at SHA-256 `17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6` and passed `--validate-only`.
-- Pilot `20261015-04` passed every contracted exploratory gate: 10/10 valid stage-one proposals, 10 distinct expanded programs, 10/10 correct lineage links, all 3 introduced macros used by their introducers, and `path_length_histogram` used by descendants 5, 8, and 10. All ten native transcripts and 257 collector-referenced archive files verify. Runtime and post-run boundary checks found no violation. This is feasibility evidence only; it is not discovery or primary evidence.
-- Protocol v10 (SHA-256 `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`) and five seed contracts were frozen; the five Phase 12 runs were started.
-- The V4 artifact-storage audit and target design are documented in `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
-- `V4_PRIMARY_DESIGN_V11.md` reduces the planned search count from 135 to 25 while retaining five independent seeds and existing per-run budgets. It omits semantic ablation, cross-dataset transfer, and Level B synthesis.
-- The shared V4 artifact-path resolver constrains V4 writer CLIs and fixture entry points; new fixture scratch and the MNIST cache are rooted under `results/v4/`. Unit coverage rejects out-of-root and symlink-escape paths.
-- Protocol v11 (`d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6`) was superseded before contracts because the schema-v2 validator wrongly required a second cache-read probe in the EvE fixture. Protocol v12 (`5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00`) then passed its 22/22 OS preflight, data-free EvE lineage fixture, five contract freezes, and five `--validate-only` checks. Its seed-1101 run failed before candidate scoring because the runner passed a repo-relative protocol path to a subprocess running from the run root. No native discovery worker, primary score, or official-test access occurred. Preserve the v12 contracts and failed run root; use protocol v13 with validated absolute paths for any new run.
-- The first V12 fixture invocation used the LLMAO Python and failed before creating output because that runtime has no `omegaconf`; it is recorded at `results/v4/phase12/native_worker_integration/v4-primary-12/attempts/attempt-01-runtime-mismatch.json`. The retry used the pinned EvE Python and passed.
-- Protocol v13 (`e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60`), its 22/22 sandbox preflight, data-free EvE fixture, five frozen contracts, and five validate-only checks passed. Seed 1101 scored all 20 common initial programs and launched one sandboxed adaptive proposal. The structural checker accepted it, but the Phase 2 adapter raised `LLMAO_DATA_DIR must be outside the LLMAO checkout` because it retained the legacy external-cache rule. Preserve the run at `results/v4/phase12/runs/discovery-1101-e84cabd10693/` with status `incomplete_terminal_protocol_failure`, one adaptive attempt, and 736,735 reported input-plus-output tokens. The proposal received no evaluator score; no official test data was accessed. Do not resume or pool this run.
-- Correct the adapter to allow only the exact protocol-pinned `results/v4/cache/datasets/mnist_784` path for storage-layout v2 while retaining the v10 external-cache rule and rejecting symlink escapes. Re-freeze protocol v14 and five fresh contracts before restarting Phase 12.
+- Preserved the prior V4 active task, plan, and state at `.agent/archive/2026-10-19-e1-prep/` before switching the active goal to E1-PREP.
+- Confirmed no active V14/V4 runner: `tmux ls` reported no tmux server, and the process scan found no matching runner. The saved V14 seed-1202 `running` checkpoint is historical/interrupted; it was not resumed or changed.
+- Added a train-only E1 loader for the two checksum-pinned official MNIST training IDX archives. It does not call the historical OpenML loader, fetch the 70,000-row OpenML dataset, or reference a test partition. It preserves V3.2 stratified `train_test_split` and float32 `/255` preprocessing and verifies a saved manifest.
+- Added the E1-specific adapter using the existing V3.2 `LLMIterativeOptimizer`, `ProgramProposer` prompt/schema helpers, evaluator, V4 macro validator, and deterministic macro expander. Both grammars expose only G0 primitives; G_pilot additionally exposes its three frozen macros. Expanded ASTs are compiled and deduplicated by canonical identity.
+- Added per-condition caps: 20 proposal attempts; at most 40 Ollama requests; 120 seconds/request; 2,500 output tokens/request; 750,000 conservative reserved tokens/condition (1,500,000 across both). Failed, invalid, and duplicate calls consume the request/attempt reservations. A valid proposal after an invalid/duplicate batch slot retains its actual attempt number.
+- The 20 initial G0 programs are scored once by the E1 run entrypoint and passed as the same immutable score tuple to both conditions. A mock regression verifies the single-score/shared-tuple orchestration; no real candidate score was produced during preparation.
+- No model generation, E1 search, candidate evaluation, or V4 discovery was launched. The ignored E1 `runs/seed_101` output path remains absent. Preflight only loaded the pinned train partition, checked manifests and constraints, and read local Ollama tags.
 
-## Current
+## Preflight evidence
 
-- **M2.1 — V4 artifact storage cutover (implementation complete; v13 preflight
-  and fixture passed; adapter correction and v14 evidence pending).** The v13
-  OS preflight and EvE fixture passed with outputs under `results/v4/`,
-  including a denied read from the repo-local MNIST cache. The first seed-1101
-  adaptive proposal found the stale Phase 2 cache guard documented above.
-  Historical external caches remain untouched. See
-  `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`.
-- **M2.2 — Reduced V11 scope (design complete; v13 run superseded after the
-  adapter failure; v14 protocol/contracts pending).**
-  Keep five discovery seeds and the original per-run budgets; run four matched
-  Phase 14 conditions across five seeds. The total falls from 135 to 25 search
-  runs. Semantic ablation, transfer, and Level B are omitted; Phases 16, 18,
-  and 19 use existing results only.
-- All five v10 run roots record `run_state.json` status `running` and have no
-  final `run_manifest.json`. No Phase 12 runner or tmux server is currently
-  active. Treat these runs as incomplete; do not collect them or infer a
-  completed result from the stale state field. Their contracts pin LLMAO commit
-  `8d0944f231b8882159f16248bc752014bc343341`; resuming them requires that exact
-  checkout and the original paths.
-- The latest V14 audit found `results/v4/phase12/runs/discovery-1202-736f9da03cc2`
-  with stale `running` snapshots at 221/540 completed iterations, no final
-  `run_manifest.json`, and no live runner or tmux server. A solver workspace for
-  attempt 222 exists without an evaluation result. Preserve this root and treat
-  it as incomplete; do not resume, collect, or pool it based on the stale status.
-- The bounded lineage repair clarifies that a candidate must point to the
-  selected prefill's current `language_hash` (H1), not its own recorded parent
-  hash (H0), and adds a focused H1-versus-H0 regression assertion. The V4
-  validator and run artifacts were not changed. The requested follow-on
-  G0-versus-G_pilot experiment remains separate and was not started.
+Command: `./.venv/bin/python experiments/e1.py --preflight`
 
-## Next
+Result: `preflight: passed`; seed 101; 20 unique initial programs; V3.2 protocol SHA-256 `db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a`; G0 language SHA-256 `34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f`; frozen G_pilot manifest SHA-256 `0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34`; G_pilot language SHA-256 `0736be05cbae240fa99878d77fdf4f0f7233d7e4c2ce3e2bd8d8e03a12d4d1dc`.
 
-1. Keep incomplete V10, V12, V13, and V14 run roots unchanged. Do not infer
-   completion from stale `running` snapshots or resume/collect partial roots.
-2. Treat any G0-versus-G_pilot experiment as a separate task with its own
-   explicit scope and frozen setup. The lineage repair task does not authorize
-   launching it.
+Train-only cache path: `results/v4/e1/data/mnist/raw/`. Source archive hashes: train images MD5 `f68b3c2dcbeaaa9fbdd348bbdeb94873`, SHA-256 `440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609`; train labels MD5 `d53e105ee54ea40749a09fcbcd1e9432`, SHA-256 `3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c`. Decompressed IDX SHA-256 values: images `ba891046e6505d7aadcbbe25680a0738ad16aec93bde7f9b65e87a2fc25776db`; labels `65a50cbbf4e906d70832878ad85ccda5333a97f0f4c3dd2ef09a8a9eef7101c5`.
 
-## Known issues and boundaries
+Split: seed 42, stratified 2,000 validation rows from the 60,000-row official training partition; 58,000 train rows and 2,000 validation rows; float32 pixel values divided by 255. Saved manifest SHA-256 `26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4`; dataset fingerprint `41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f`. Train index/images/labels fingerprints: `6f93fe6e3ec2764671ae2f45a50b8042ff2f7317edce9f7e6b19bb1c26379282`, `15e12d6f269cda485395ddb7b4be01a639175ec830fed60779350ac516f8ca55`, `9d091d988de1b13fb9b2ee60de53671ce232ebb4fbb460f0fc8fd1eae9e865d6`. Validation index/images/labels: `a57e873cd99805aab3cf887c87c9a93b7c244c65226509ec899b6deff8fec5e7`, `a64a8c45f7b3394611d368e042dbc8906cb5858b156faad219edd610dc70a72a`, `d25be9529d09b59c7f2c887b71a06fe22e776dd0a4c2b84b353f358db0bc7c0f`.
 
-- Earlier Phase 10 attempts and contract `-02` remain failed exploratory evidence; contract `-03` remains a pre-worker startup failure. Contract `-04` does not replace or rewrite them.
-- Pilot `-04` emitted nonfatal macOS `xcode-select` errors from worker `git status`/`git diff` calls and denied shell here-document temporary-file attempts. Candidate completion patches remained limited to the two permitted files, and the runtime boundary scan passed. Preserve this environment diagnostic if worker inspection changes are made.
-- No complete primary discovery, frozen G*, primary evaluation, or final statistical result exists yet.
-- Protocol v13 seed 1101 is a preserved failed partial run: its 20 common
-  initial programs scored, but adaptive proposal 1 failed in the Phase 2
-  adapter before candidate scoring because the old guard rejected the
-  repository-local cache. Its structurally valid proposal and 736,735 reported
-  input-plus-output tokens are retained under the run root. No official test
-  data was accessed.
-- Protocol v1-v6 are retained in versioned files with their preflight,
-  fixture, or contract evidence. V5 digest is
-  `eccb03b493192d05cb05fd33c83568f7b13476adc2745f2382733de5f100127d`.
-  V6 digest is `9c93133d948db2d2723e0b130e019e3af1dc3cbfb43acb98c28c972a155490cd`;
-  its five contracts passed validate-only. Seed 1101's v5 root records the
-  `_run` helper collision. Its v6 root records the base-Python import failure
-  (`networkx` missing) caused by resolving the project venv symlink. Neither
-  startup produced a candidate context, proposal, or discovery evaluation.
-  Protocol-scoped run roots preserve both records.
-- Protocol v7's seed-1101 run root is
-  `results/v4/phase12/runs/discovery-1101-fa35b0e744a6/`. Attempts 1 and 2
-  failed with `Phase 2 workspace is missing its rendered README`; neither
-  reached candidate context or evaluator scoring. Attempt 3 was retained as
-  an interrupted partial proposal with 163,548 input and 2,321 output tokens;
-  its transcript SHA-256 is
-  `a06b99819bcb15f94bb303be05c227e6c7ca4a6cbc85f01ee962bb4a0f879c57`.
-  The three attempts total 1,471,505 reported input-plus-output tokens. The
-  active Codex/tmux run was terminated after the repeated infrastructure
-  failure; the checkpoint remains at completed iteration 2, and the official
-  test partition was not accessed. Protocol v7 cannot be resumed after the
-  pinned source change; v8 is required for a new, separately versioned run.
-- Protocol v8 SHA-256 is
-  `01197b83b8f945e685e91c76f3c1f0049b6797260a7c0ad602ec952857efc4bc`; its
-  fresh 21/21 sandbox preflight, 7/7 native fixture, and five seed contracts
-  passed. Seed 1101's v8 run root is
-  `results/v4/phase12/runs/discovery-1101-01197b83b8f9/`. Its common initial
-  set contains 20 G0 candidates. Adaptive attempts 1 and 2 failed context
-  validation with `ModuleNotFoundError: No module named 'networkx'`: the
-  evaluator resolved the pinned `.venv/bin/python` symlink to base Python.
-  Attempt 1 consumed 314,577 and attempt 2 consumed 236,422 reported
-  input-plus-output tokens. Attempt 3 was interrupted after 38,500 input and
-  1,045 output tokens; transcript SHA-256 is
-  `a4bb394c941a95b6057597245b36ee50e5a5dfb4c81d3fcb7621e7d34c417650`.
-  Total usage is 590,544 tokens across three consumed attempts, with two
-  completed infrastructure failures and one partial attempt. The checkpoint
-  remains at two completed iterations. No adaptive candidate produced a
-  context or primary score, and the official test partition was not accessed.
-  Commit `8e61a41` fixes the adapter and adds a symlink-preservation regression
-  test; v8 cannot be resumed after that pinned source change.
-- Protocol v9 SHA-256 is
-  `d907ed68bd1e14e6b49bfe8e5c91a67620ab675f60768505d978c2ce2cb98fb6`; it
-  supersedes v8 but retained six stale pending-decision labels from the
-  historical pilot draft. The scientific choices and implementation are
-  present in the protocol, but the version does not meet Phase 0's explicit
-  pending-decision acceptance gate. It is preserved unchanged and was never
-  used to freeze contracts or launch workers. Commit `da29fcb` corrects the
-  finalizer and adds coverage that the generated protocol clears the resolved
-  inventory while retaining the frozen seeds, initial-program hash, selection
-  rule, AUC bounds, and primary statistics. Protocol v10 was subsequently
-  generated with SHA-256
-  `ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d`.
-- Never access official test data before the applicable frozen-language evaluation gate.
-- Launch guidance does not require account-usage snapshots or Plus allowance
-  checks; do not upgrade or use paid credits.
-- V10 seed run states are stale `running` snapshots without final manifests or
-  live runner processes. Preserve their partial files and close their status
-  only after a separate filesystem/trajectory audit.
+Grammar preflight: 23 G0 operations, zero excluded V3 primitives; G_pilot adds exactly `stroke_degree_profile`, `multiscale_spatial_profile`, and `multiscale_spatial_degree_profile` (26 total schema operations). Each frozen macro expands deterministically to permitted G0 operations and passes the existing feature-dimension, depth-6, and 127-node constraints. Macro AST and expanded AST hashes match.
 
 ## Validation
 
-- Pilot contract `-04` SHA-256: `17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6`.
-- Pilot archive manifest SHA-256: `d135dbf93ba84ed255c5b9f5c235253e9d50c3cbd708eb324430e9700b741e6b`; gate audit SHA-256: `d9ebea417087d2d4d8a321fc2f07af0b99fd818bd56ad50225b59df201e75612`.
-- The original collector manifest is separately preserved and hashed; all 257 referenced records verified before finalization.
-- The ten rollout telemetry rows stayed below the 3600-second cap; maximum observed rollout was 345.246619 seconds. Telemetry's `agent_turns` field remained zero and does not independently count native model turns; the driver configuration retained the 80-turn cap.
-- The frozen evaluator returned only `stage_one_only` scores with `discovery_ready=false`; no discovery fitness or official-test result exists.
-- The launcher runtime checks observed ten structural bundles, no `stop_reason`, no tmux failures, a passing fresh-G0 check, and no post-run protected-boundary violation.
-- The v10 contract audit confirmed five contracts share the protocol hash above.
-  Their run-state snapshots report 407–418 adaptive attempts, but all remain
-  `running` without final manifests; no runner process or tmux server is live.
-- The storage audit found two persistent fixture workspace caches and the v10
-  MNIST cache outside the checkout. New fixtures and MNIST cache use
-  `results/v4/`; no historical cache contents were moved or deleted.
-- Do not upgrade or use paid credits.
-- Current-turn implementation validation: all 175 `tests/unit/test_v4_*.py`
-  checks passed; Ruff, compileall, `git diff --check`, Graphify, and the
-  contract-freezer module `--help` check passed.
-- `graphify update .` completed; generated `graphify-out/` remains ignored.
-- The lineage instruction and H1-versus-H0 regression test passed the focused
-  V4 test set: 60 passed. Ruff and `git diff --check` passed.
-- The Phase 2 cache guard now accepts only the protocol-pinned cache inside
-  `results/v4/` for storage-layout v2, hashes the protocol before using its
-  layout, preserves the legacy external-cache rule, and rejects symlink escapes.
-  The focused runner suite passed 13 tests; Ruff and `git diff --check` pass.
-  Protocol v14 gates remain pending.
-- Root-README overlay fix `f95fa0a`: 7 focused primary-runner tests passed;
-  Ruff and `compileall` passed. v8's fresh fixture and five contracts then
-  passed before its interpreter-path failure.
-- Evaluator launcher fix `8e61a41`: all 8 focused primary-runner tests passed;
-  Ruff, `compileall`, `git diff --check`, and `graphify update .` passed.
-  Protocol v10's fresh sandbox/native-fixture gates passed before its contracts
-  and runs were started.
-- Preregistration finalizer fix `da29fcb`: 12 focused finalizer/runner tests
-  passed; Ruff, `compileall`, `git diff --check`, and `graphify update .`
-  passed. Protocol v10 was generated and its five seed runs remain incomplete.
+- `PYTHONPATH=.:src .venv/bin/pytest -q tests/unit/test_mnist_e1.py tests/optimizer_bench/test_e1.py tests/unit/test_program_search_v3.py tests/unit/test_v4_macros.py tests/unit/test_v4_base_language.py tests/unit/test_v4_candidate.py tests/unit/test_v4_candidate_check.py` — 58 passed.
+- `.venv/bin/ruff check src/bias_optimizer/data/mnist_e1.py src/bias_optimizer/optimizer_bench/e1.py experiments/e1.py tests/unit/test_mnist_e1.py tests/optimizer_bench/test_e1.py` — passed.
+- `.venv/bin/python -m py_compile src/bias_optimizer/data/mnist_e1.py src/bias_optimizer/optimizer_bench/e1.py experiments/e1.py` — passed.
+- `graphify update .` — code-only local extraction completed.
+- An initial pytest collection without `PYTHONPATH=.:src` failed because the existing V4 candidate-check test imports `experiments.*`; rerunning with the repository root on `PYTHONPATH` collected and passed all 58 selected tests.
+
+## Current
+
+E1-PREP is implemented and verified. This checkpoint contains the focused E1 source/tests and active E1 task record on `v4-evolving-bias-language`.
+
+## Next
+
+No E1 run is authorized by this preparation task. If separately authorized later, use:
+
+1. `./.venv/bin/python experiments/e1.py --preflight`
+2. `./.venv/bin/python experiments/e1.py --run`
+
+## Remaining limitations
+
+- No actual MNIST candidate scores, search curves, or generated proposals exist yet.
+- Ollama request token usage must be reported. If absent, E1 stops fail-closed; conservative input/schema/framing/output reservations still include failed requests in the total cap.
+- Local model availability was observed during preflight and may change before a later run.
+- The preflight verifies both frozen manifest checksums and provenance and checks that the output path is fresh; it does not reserve that path against another process after preflight returns.

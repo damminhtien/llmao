@@ -1,20 +1,23 @@
-# Goal
+# LLMAO E1-PREP — Minimal Abstraction Utility Experiment
 
-Complete the LLMAO V4 research program through its preregistered discovery, evaluation, statistical analysis, and final report, following `ARCHITECTURE.md`, `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and `TODO.md`.
+## Goal
 
-# Constraints
+Prepare a reproducible, bounded exploratory comparison of G0 and the frozen exploratory G_pilot language using the existing V3.2 iterative optimizer and V4 language validator/expander.
 
-- Resolve Phase 0 decisions and hash the final protocol before Phase 12 discovery.
-- Use the reduced V11 experiment scope in `V4_PRIMARY_DESIGN_V11.md`; preserve v10 and its incomplete runs unchanged.
-- Complete the documented response to the failed Phase 10 follow-up before another pilot. Preserve both failed pilots, their budgets, candidates, scores, transcripts, and contracts as failed exploratory evidence.
-- Bind verified source, launcher, runtime, sandbox policy, preflight, and initial-program digests into each new contract before launch.
-- Do not access official test data before the frozen-language evaluation gate in the protocol.
-- Preserve frozen V3, V3.1, and V3.2 artifacts and their conclusions.
-- Do not upgrade or use paid credits.
-- Report fixture, smoke, exploratory, partial, and primary evidence as distinct levels of evidence.
+## Constraints
 
-# Acceptance
+- Do not resume V14, launch an E1 search, or run further V4 discovery.
+- Never read, fetch, load, or materialize the official MNIST test partition.
+- Leave historical V3.2 and V4 protocols and evidence unchanged.
+- Use the existing local Qwen/Ollama client and identical optimizer feedback and resource policies in both conditions; G_pilot vocabulary is the sole treatment difference.
+- Do not import V10/V14 populations or search feedback.
+- Keep preparation to the train-only loader, small adapter, focused tests, and reproducibility record. Do not build another optimizer or orchestration framework.
 
-- Complete the applicable gates in `TODO.md` through Phase 22. V11 omits Phase 15 semantic ablation, Phase 17 transfer, and Phase 20 Level B; the final report must state these scope limits.
-- Produce and hash the final protocol before primary discovery, then complete the required discovery, frozen selection, evaluation, analyses, statistics, and report with reproducible evidence.
-- Update `.agent/STATE.md` and `TODO.md` at each verified milestone. Do not promote a result beyond the evidence it supports.
+## Acceptance
+
+- The train-only data source, split semantics, provenance hashes, and saved fingerprints are verified and fail closed.
+- G0 and G_pilot proposal grammars, macro expansion, expanded-AST deduplication, shared initial score design, and bounded request/attempt/token behavior have focused coverage.
+- No model search request or candidate evaluation is launched during E1-PREP.
+- A no-token preflight validates the frozen manifests, initial program set, dataset split, local model availability, conflicts, output path, and resource caps.
+- Commit only the focused E1-PREP files and its regression tests/state record on `v4-evolving-bias-language`.
+- Stop after E1-PREP. A separate explicit task is required to execute E1.

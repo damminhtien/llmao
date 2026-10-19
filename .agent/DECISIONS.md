@@ -2,6 +2,14 @@
 
 Append durable workflow and research-boundary decisions here. Keep detailed scientific parameters in `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and versioned amendments such as `V4_PRIMARY_DESIGN_V11.md`.
 
+## 2026-10-19 — Prepare E1 separately from the V4 primary campaign
+
+The active objective is the bounded G0-versus-exploratory-G_pilot utility
+comparison. Preserve historical V10/V14 evidence and the old V4 task record;
+use only the train-only MNIST source and existing V3.2/V4 components. E1-PREP
+does not authorize model generation or candidate evaluation. A separate user
+request is required to execute the prepared comparison.
+
 ## 2026-10-15 — Keep the root agent instructions as a router
 
 `AGENTS.md` holds only startup rules, stable invariants, tool/checkpoint conventions, and links. Detailed continuation guidance lives in `docs/AGENT_WORKFLOW.md`; active task state lives in `.agent/`.
