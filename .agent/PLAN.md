@@ -1,21 +1,27 @@
-# E1-PREP milestones
+# E2 execution record
 
-## M0 — Preserve prior active goal
+## M0 — Verify frozen inputs and bounded direct-call path
 
-**Complete.** Archived the previous V4 task, plan, and state under `.agent/archive/2026-10-19-e1-prep/` before changing the active objective.
+**Complete.** The E1 budgeted client supports one direct structured request
+without invoking its proposer repair loop. The frozen G_pilot checksum,
+provenance, G0 grammar, macro signatures, local model tag, fresh output root,
+and six-request token reservation passed preflight.
 
-## M1 — Train-only E1 data source
+## M1 — Test the no-score E2 runner
 
-**Complete.** Add an explicit, pinned official-training-only IDX cache path; verify source hashes, shape, split semantics, and saved fingerprints; fail closed on unavailable or changed data. Cover the access boundary with synthetic IDX inputs.
+**Complete.** Mock coverage verifies six direct requests, fixed seeds/caps,
+typed macro parsing, canonical expansion, duplicate identity, and failure
+recording. The focused E1 and E2 suite passed 20 tests; Ruff and formatting
+checks passed.
 
-## M2 — Minimal fixed optimizer adapter
+## M2 — Execute and archive the capability probe
 
-**Complete.** Reuse the V3.2 iterative optimizer and evaluator. Restrict both proposal schemas to G0; add the three verified frozen G_pilot macros only to the treatment; expand and deduplicate by canonical G0 AST; enforce request, output, token, and proposal-attempt caps.
+**Complete.** Exactly six Qwen requests ran, two per macro. All responses were
+raw macro invocations, typed and structurally valid, and successfully expanded.
+The second response per macro repeated the first expanded AST. No scores or
+MNIST data were used. Raw calls and summaries were made read-only.
 
-## M3 — Preflight and regression coverage
+## M3 — Report and stop
 
-**Complete.** Test grammar, macro expansion, bounds, attempt accounting, common initial-score sharing, train-only access, and existing V3.2/V4 behavior. Run no-token preflight and code-only Graphify refresh. No E1 evaluation or model generation was run.
-
-## M4 — Focused commit and stop
-
-**Complete in this checkpoint.** The focused adapter, tests, and E1-PREP state are committed together after staged-diff review and `git diff --cached --check`. Do not run E1 as part of this task.
+**Complete.** Results and limitations are recorded in `.agent/STATE.md` and
+`results/v4/e2/macro_adoption_probe_2026-10-19/`. No follow-up run is launched.

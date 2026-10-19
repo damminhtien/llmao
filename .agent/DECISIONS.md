@@ -90,3 +90,12 @@ protocol digest and allow only the exact `results/v4` cache for storage-layout
 v2, while retaining the external-cache rule for legacy protocols and rejecting
 symlink escapes. Protocol v14 and fresh contracts are required; do not resume
 or pool the V13 run.
+
+## 2026-10-19 — Keep E2 as a generation-only capability diagnostic
+
+E2 uses two fixed-seed, no-score requests per frozen G_pilot macro. The six
+explicitly targeted responses all invoked and validated their requested macro;
+this supports a generation-preference explanation for E1's spontaneous
+non-adoption, but does not establish macro utility or broad structural
+capability. Preserve the E2 response archive and stop without launching a
+follow-up automatically.
