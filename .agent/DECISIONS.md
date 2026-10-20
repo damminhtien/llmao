@@ -99,3 +99,7 @@ this supports a generation-preference explanation for E1's spontaneous
 non-adoption, but does not establish macro utility or broad structural
 capability. Preserve the E2 response archive and stop without launching a
 follow-up automatically.
+
+## 2026-10-20 — Keep E3 as a descriptive representation check
+
+E3 evaluates only the three unique macro-bearing programs already produced by E2, after canonical expansion to G0 ASTs. Score the expanded function, not the macro syntax. Reuse prior E1 scores only with exact AST identity plus matching complete evaluator configuration and dataset fingerprint; otherwise perform no more than three train-only evaluations. The result can screen representation quality but cannot establish search-efficiency or causal abstraction utility.

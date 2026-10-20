@@ -1,26 +1,15 @@
-# LLMAO E2 — Minimal Macro Adoption Capability Probe
+# LLMAO E3 — Evaluate Existing Macro-Bearing Programs
 
-## Goal
+## Objective
 
-Determine whether local Qwen can generate structurally valid G_pilot programs
-that explicitly invoke each of the three frozen macros when directly instructed.
-This is a six-request generation-only diagnostic, not an optimization search.
+Score the three distinct macro-bearing programs preserved by E2 under the E1 train-only evaluation protocol. This is a bounded descriptive representation check, not a search or causal utility experiment.
 
-## Constraints
+## Boundaries
 
-- Use the checksum-verified frozen G_pilot language, E1 schema/validator, and
-  resource-capped local Ollama client.
-- Issue exactly two independent requests per macro, with fixed recorded seeds,
-  `free_exploration` focus, and no retries or repairs.
-- Do not score candidates, load MNIST, use the official test partition, change
-  V3.2/E1 evidence, discover macros, or start a search.
-- Preserve immutable raw responses in a fresh E2 output root.
-- Stop after the capability report; do not launch a follow-up experiment.
+- Use only the frozen E2 raw requests/results, frozen G_pilot manifest, E1 shared initial evaluations, and checksum-pinned E1 train-only data source.
+- Reuse a saved score only when the expanded AST, full evaluator configuration, and data fingerprint match. Otherwise score at most three previously unevaluated expanded ASTs.
+- Never launch a model or optimizer, access official test data, modify E1/E2 evidence, or run a search.
 
-## Acceptance
+## Completion
 
-- All six direct requests and their outcomes are archived with per-request
-  schema, structural, expansion, identity, duplicate, token, and duration data.
-- Per-macro invocation/validity/expansion/distinctness rates and failure
-  categories are reported.
-- No evaluator, dataset, retry, or search path is invoked.
+Write a fresh E3 report and machine-readable result under `results/v4/e3`; report provenance, validation, scores, runtime, baseline comparison, and limits. Stop after the three program evaluations.

@@ -1,27 +1,7 @@
-# E2 execution record
+# E3 execution record
 
-## M0 — Verify frozen inputs and bounded direct-call path
+**Complete.** The preserved E2 raw responses were replayed against the frozen G_pilot manifest. Three unique macro-expanded ASTs passed E1 compilation and V4 expansion limits. None matched an E1 evaluated AST exactly, and the E1 run artifacts did not persist a complete evaluator configuration or dataset fingerprint, so no score reuse was justified.
 
-**Complete.** The E1 budgeted client supports one direct structured request
-without invoking its proposer repair loop. The frozen G_pilot checksum,
-provenance, G0 grammar, macro signatures, local model tag, fresh output root,
-and six-request token reservation passed preflight.
+The three programs were evaluated under the existing E1 500-example stage-one evaluator using the checksum-verified official-training-only MNIST files and the saved 58,000/2,000 seed-42 split. A loader-boundary guard rejected the historical OpenML and final/test-data paths. The absolute cap of three evaluations was enforced.
 
-## M1 — Test the no-score E2 runner
-
-**Complete.** Mock coverage verifies six direct requests, fixed seeds/caps,
-typed macro parsing, canonical expansion, duplicate identity, and failure
-recording. The focused E1 and E2 suite passed 20 tests; Ruff and formatting
-checks passed.
-
-## M2 — Execute and archive the capability probe
-
-**Complete.** Exactly six Qwen requests ran, two per macro. All responses were
-raw macro invocations, typed and structurally valid, and successfully expanded.
-The second response per macro repeated the first expanded AST. No scores or
-MNIST data were used. Raw calls and summaries were made read-only.
-
-## M3 — Report and stop
-
-**Complete.** Results and limitations are recorded in `.agent/STATE.md` and
-`results/v4/e2/macro_adoption_probe_2026-10-19/`. No follow-up run is launched.
+Report and records: `results/v4/e3/e2_macro_program_evaluation_2026-10-20/`. No model, optimizer, or official test partition was used. E1 and E2 evidence remains unchanged.

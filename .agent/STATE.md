@@ -1,64 +1,23 @@
 # Current state
 
-Updated: 2026-10-19
+E3 is complete. Stop here; do not launch another evaluation, model request, or search unless the user explicitly asks.
 
-## Status
+## Result
 
-E2 macro-adoption capability probe is complete. Stop here; do not run E1 again,
-start an optimization search, or issue further model requests.
+- Report: `results/v4/e3/e2_macro_program_evaluation_2026-10-20/REPORT.md`
+- Machine-readable records: `results/v4/e3/e2_macro_program_evaluation_2026-10-20/e3_results.json`
+- Exactly three E2-distinct expanded G0 programs were evaluated. No exact canonical expanded-AST match existed in E1 records.
+- E1 shared initial best: 0.490582252501 fitness, 0.493 validation accuracy.
+- `stroke_degree_profile`: 0.491352636567 fitness, 0.4950 accuracy, 19 features.
+- `multiscale_spatial_profile`: 0.822582448734 fitness, 0.8280 accuracy, 116 features.
+- `multiscale_spatial_degree_profile`: 0.778964810772 fitness, 0.7825 accuracy, 18 features.
 
-## Completed
+## Data and provenance
 
-- Added a thin no-score entrypoint at `experiments/e2_macro_adoption_probe.py`.
-  It calls the existing E1 budgeted Ollama client directly, not the E1 proposer
-  repair loop, evaluator, or MNIST loader.
-- Added mock coverage at `tests/optimizer_bench/test_e2_macro_adoption_probe.py`.
-- Verified the frozen G_pilot manifest and all three macro signatures. The
-  manifest SHA-256 remains
-  `0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34`.
-- Preflight confirmed local `qwen3.5:35b-mlx`, six fixed request seeds 21001 to
-  21006, `free_exploration` focus, 120 second timeout, 2,500 output-token cap,
-  and 324,586 conservatively reserved tokens under the 400,000 total cap.
-- Issued exactly six requests. All six raw ASTs invoked their requested macro;
-  all passed the E1 typed proposal parser, structural validator, and canonical
-  macro expansion. Each pair produced one unique expanded AST, so the second
-  response for each macro was a duplicate.
-- No candidate scores were requested, no MNIST data was loaded, and the
-  official test partition was not accessed.
-- Archived the prior E1-PREP task, plan, and state at
-  `.agent/archive/2026-10-19-e2-macro-capability/` before changing the active
-  task record.
+- Train-only manifest SHA-256: `26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4`.
+- E1 split fingerprint: `41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f`.
+- Official test data was not accessed. No model or optimizer ran. E1/E2 input hashes were rechecked after scoring and remained unchanged.
 
-## E2 results
+## Limitations
 
-| Macro | Raw invokes | Structurally valid invokes | Expansion successes | Distinct expanded ASTs | Failure category |
-|---|---:|---:|---:|---:|---|
-| `stroke_degree_profile` | 2/2 | 2/2 | 2/2 | 1 | 1 duplicate |
-| `multiscale_spatial_profile` | 2/2 | 2/2 | 2/2 | 1 | 1 duplicate |
-| `multiscale_spatial_degree_profile` | 2/2 | 2/2 | 2/2 | 1 | 1 duplicate |
-
-Reported usage: 10,636 input tokens, 648 output tokens, 28.306 seconds total
-request time. No request failed or exceeded a cap.
-
-Output root: `results/v4/e2/macro_adoption_probe_2026-10-19/`. The raw
-`model_calls.jsonl`, request plan, validation rows, and summary are mode 0444.
-Raw call archive SHA-256:
-`fe94dcf6b9d14499bf4abd038a189ab9919466479dfe5331ea54b2fb23ecfbd8`.
-
-## Validation
-
-- `.venv/bin/pytest tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py -q` — 20 passed.
-- `.venv/bin/ruff check experiments/e2_macro_adoption_probe.py tests/optimizer_bench/test_e2_macro_adoption_probe.py` — passed.
-- `.venv/bin/ruff format --check experiments/e2_macro_adoption_probe.py tests/optimizer_bench/test_e2_macro_adoption_probe.py` — passed.
-- `.venv/bin/python experiments/e2_macro_adoption_probe.py --preflight-only` — passed without generating a model response.
-- `graphify update . --no-cluster` — code-only refresh completed; no LLM calls.
-- `git diff --check` — passed.
-
-## Conclusion and stop condition
-
-Direct instruction demonstrates that Qwen can construct structurally valid
-programs using all three frozen abstractions. The E1 absence is therefore more
-consistent with open-ended generation preference than inability to compose the
-macros; this probe does not establish broader search utility. A matched,
-no-score prompt ablation could test that preference, but it is not part of this
-completed task and must not be launched automatically.
+E1 artifacts do not record the full evaluator configuration or dataset fingerprint, so all three E3 scores were freshly measured in the current E1 environment. Feature runtime depends on local timing and cross-candidate subtree-cache reuse. These descriptive scores do not measure search efficiency or establish causal macro utility or transfer.
