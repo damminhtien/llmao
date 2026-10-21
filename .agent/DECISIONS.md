@@ -103,3 +103,12 @@ follow-up automatically.
 ## 2026-10-20 — Keep E3 as a descriptive representation check
 
 E3 evaluates only the three unique macro-bearing programs already produced by E2, after canonical expansion to G0 ASTs. Score the expanded function, not the macro syntax. Reuse prior E1 scores only with exact AST identity plus matching complete evaluator configuration and dataset fingerprint; otherwise perform no more than three train-only evaluations. The result can screen representation quality but cannot establish search-efficiency or causal abstraction utility.
+
+## 2026-10-21 — Treat E4 as an exploratory packaging comparison
+
+E4 compares the same three frozen G_pilot behaviors presented as G0
+composition recipes versus available typed macros. Reuse the E1 shared initial
+score records, train-only split, evaluator, corrected guidance-only focus
+policy, and request caps. Keep prompt/schema differences logged as part of the
+treatment. Do not put E2/E3 programs or measured scores into optimizer context;
+do not infer causal generalization from the single seed.

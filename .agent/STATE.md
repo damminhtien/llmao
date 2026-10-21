@@ -1,23 +1,47 @@
 # Current state
 
-E3 is complete. Stop here; do not launch another evaluation, model request, or search unless the user explicitly asks.
+Completed E4, the bounded seed-202 comparison of frozen G0 recipe guidance and
+typed G_pilot macros. Both searches terminated at the 20-attempt cap. Neither
+search was resumed or launched again after its bounded run.
 
-## Result
+## Run evidence
 
-- Report: `results/v4/e3/e2_macro_program_evaluation_2026-10-20/REPORT.md`
-- Machine-readable records: `results/v4/e3/e2_macro_program_evaluation_2026-10-20/e3_results.json`
-- Exactly three E2-distinct expanded G0 programs were evaluated. No exact canonical expanded-AST match existed in E1 records.
-- E1 shared initial best: 0.490582252501 fitness, 0.493 validation accuracy.
-- `stroke_degree_profile`: 0.491352636567 fitness, 0.4950 accuracy, 19 features.
-- `multiscale_spatial_profile`: 0.822582448734 fitness, 0.8280 accuracy, 116 features.
-- `multiscale_spatial_degree_profile`: 0.778964810772 fitness, 0.7825 accuracy, 18 features.
+- Report: `results/v4/e4/seed_202/REPORT.md`.
+- Machine-readable analysis: `results/v4/e4/seed_202/e4_results.json`.
+- Raw calls, response archives, traces, metrics, preflight, manifest, and run
+  status are preserved in `results/v4/e4/seed_202/`.
+- G0 recipes: 20 attempts, 20 typed-valid proposals, one duplicate, 19 scored;
+  best adaptive fitness 0.630531 at attempt 7.
+- G_pilot macros: 20 attempts, 15 typed-valid proposals, one duplicate, five
+  invalid JSON/schema slots, 14 scored; best adaptive fitness 0.395342, below
+  the shared initial best 0.490582.
+- No raw proposal invoked a G_pilot macro. Neither condition proposed or scored
+  a complete frozen recipe subtree. No novel scored composites beyond the
+  three standalone E2/E3 ASTs were found by the exact-subtree criterion.
+- E1 train-only split fingerprint:
+  `41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f`.
+  The official test partition remained blocked at the data-access boundary.
+- Independent SHA-256 checks match the pre-run manifest for all preserved E1,
+  E2, E3, and G_pilot source artifacts.
+- The E4 traces report optimizer seed 202 and model request seeds 202 onward.
+  A hard-coded context value caused candidate proposal IDs to contain seed 101;
+  that field was only used for ID/metadata labeling, not prompt construction or
+  model sampling. The adapter now passes the requested seed through. Historical
+  E4 logs were left intact and the searches were not rerun.
 
-## Data and provenance
+## Validation
 
-- Train-only manifest SHA-256: `26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4`.
-- E1 split fingerprint: `41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f`.
-- Official test data was not accessed. No model or optimizer ran. E1/E2 input hashes were rechecked after scoring and remained unchanged.
+- Focused tests: `.venv/bin/pytest -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py` — 26 passed.
+- Ruff: `.venv/bin/ruff check experiments/e1.py experiments/e4.py src/bias_optimizer/optimizer_bench/e1.py tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e4.py` — passed.
+- Python compilation for `experiments/e1.py` and `experiments/e4.py` — passed.
+- E4 preflight passed before the model calls with zero requests; both searches
+  completed within attempt, request, and token-reservation limits.
+- `graphify update . --no-cluster` completed after the final source edits
+  (3,687 nodes, 11,648 edges); review the diff, `git diff --check`, and commit
+  explicit E4-owned paths.
 
-## Limitations
+## Stop boundary
 
-E1 artifacts do not record the full evaluator configuration or dataset fingerprint, so all three E3 scores were freshly measured in the current E1 environment. Feature runtime depends on local timing and cross-candidate subtree-cache reuse. These descriptive scores do not measure search efficiency or establish causal macro utility or transfer.
+Do not run more seeds, change frozen macros using E3 fitness, resume the V4
+primary campaign, or access official test data. After review and commit, report
+the E4 findings and stop.

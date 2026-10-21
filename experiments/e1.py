@@ -256,8 +256,13 @@ def _write_json(path: Path, value: object) -> None:
     )
 
 
-def _seed_proposals(seeds: tuple, optimizer_name: str = "llm_iterative") -> tuple[CandidateProposal, ...]:
-    base = common_seed_proposals(seeds, SEED)
+def _seed_proposals(
+    seeds: tuple,
+    optimizer_name: str = "llm_iterative",
+    *,
+    seed: int = SEED,
+) -> tuple[CandidateProposal, ...]:
+    base = common_seed_proposals(seeds, seed)
     return tuple(
         CandidateProposal(
             program=item.program,
@@ -280,6 +285,11 @@ def _run_condition(
     search_data,
     language: MacroLanguage | None,
     output_dir: Path,
+    *,
+    seed: int = SEED,
+    prompt_guidance: str | None = None,
+    metrics_filename: str = "e1_metrics.json",
+    checkpoint_progress: bool = False,
 ) -> SearchTrace:
     if condition not in {"g0", "g_pilot"}:
         raise ValueError("condition must be g0 or g_pilot")
@@ -304,17 +314,18 @@ def _run_condition(
         local_client,
         ledger,
         output_dir / "model_calls.jsonl",
-        seed=SEED,
+        seed=seed,
     )
     optimizer = E1IterativeOptimizer(
-        SEED,
+        seed,
         constraints,
         response_path,
         client=client,
         language=language,
+        prompt_guidance=prompt_guidance,
     )
     optimizer_name = "llm_iterative"
-    seed_proposals = _seed_proposals(seeds, optimizer_name)
+    seed_proposals = _seed_proposals(seeds, optimizer_name, seed=seed)
     optimizer.on_seed_evaluations(seed_proposals, initial_rows)
 
     total_started = time.perf_counter()
@@ -326,6 +337,65 @@ def _run_condition(
     attempt_curve: list[dict[str, object]] = []
     termination_reason: str | None = None
     generation = 1
+
+    def current_trace(*, complete: bool, reason: str | None) -> SearchTrace:
+        return SearchTrace(
+            optimizer=optimizer_name,
+            optimizer_seed=seed,
+            evaluated_candidates=tuple(evaluated),
+            proposal_attempts=attempts,
+            valid_proposal_count=valid,
+            invalid_count=invalid,
+            duplicate_count=duplicates,
+            rejected_by_constraint_count=constrained,
+            llm_calls=calls,
+            llm_tokens=tokens,
+            proposal_time_ms=proposal_ms,
+            evaluation_time_ms=oracle.evaluation_time_ms,
+            total_wall_time_ms=(time.perf_counter() - total_started) * 1_000,
+            complete=complete,
+            termination_reason=reason,
+            budget_total_evaluations=budget.total_evaluations,
+            budget_seed_evaluations=budget.seed_evaluations,
+            budget_max_proposal_attempts=budget.max_proposal_attempts,
+        )
+
+    def metrics_payload(status: str, reason: str | None) -> dict[str, object]:
+        return {
+            "condition": condition,
+            "seed": seed,
+            "status": status,
+            "candidate_best_so_far": candidate_curve,
+            "attempt_best_so_far": attempt_curve,
+            "attempts": attempts,
+            "valid_proposals": valid,
+            "invalid_proposals": invalid,
+            "duplicates": duplicates,
+            "constraint_rejections": constrained,
+            "evaluated_adaptive_candidates": len(evaluated) - 20,
+            "g_pilot_macros_used": sorted(
+                {
+                    name
+                    for row in evaluated[20:]
+                    for name in (row.metadata or {}).get("g_pilot_macros_used", [])
+                }
+            ),
+            "token_budget": ledger.to_dict(),
+            "termination_reason": reason,
+        }
+
+    def save_progress() -> None:
+        if checkpoint_progress:
+            write_trace(
+                current_trace(complete=False, reason="in_progress"),
+                output_dir / "trace.json",
+            )
+            _write_json(
+                output_dir / metrics_filename,
+                metrics_payload("in_progress", "in_progress"),
+            )
+
+    save_progress()
     while len(evaluated) < budget.total_evaluations:
         if attempts >= budget.max_proposal_attempts:
             termination_reason = "adaptive_attempt_cap_reached"
@@ -342,7 +412,7 @@ def _run_condition(
                 break
             context = OptimizationContext(
                 optimizer=optimizer_name,
-                optimizer_seed=SEED,
+                optimizer_seed=seed,
                 generation=generation,
                 proposal_attempt_start=attempts + 1,
                 remaining_attempts=remaining,
@@ -411,6 +481,7 @@ def _run_condition(
                         "best_fitness": max(item.fitness for item in evaluated),
                     }
                 )
+                save_progress()
                 offset = proposal.proposal_attempt - (batch_start + 1)
                 if 0 <= offset < len(best_by_attempt):
                     best_by_attempt[offset] = max(
@@ -425,6 +496,7 @@ def _run_condition(
                         "best_fitness": running_best,
                     }
                 )
+            save_progress()
             if ledger.accounting_error is not None:
                 termination_reason = "token_accounting_failure"
                 break
@@ -444,50 +516,11 @@ def _run_condition(
         termination_reason = (
             "candidate_budget_reached" if len(evaluated) >= 40 else "adaptive_attempt_cap_reached"
         )
-    trace = SearchTrace(
-        optimizer=optimizer_name,
-        optimizer_seed=SEED,
-        evaluated_candidates=tuple(evaluated),
-        proposal_attempts=attempts,
-        valid_proposal_count=valid,
-        invalid_count=invalid,
-        duplicate_count=duplicates,
-        rejected_by_constraint_count=constrained,
-        llm_calls=calls,
-        llm_tokens=tokens,
-        proposal_time_ms=proposal_ms,
-        evaluation_time_ms=oracle.evaluation_time_ms,
-        total_wall_time_ms=(time.perf_counter() - total_started) * 1_000,
-        complete=True,
-        termination_reason=termination_reason,
-        budget_total_evaluations=budget.total_evaluations,
-        budget_seed_evaluations=budget.seed_evaluations,
-        budget_max_proposal_attempts=budget.max_proposal_attempts,
-    )
+    trace = current_trace(complete=True, reason=termination_reason)
     write_trace(trace, output_dir / "trace.json")
     _write_json(
-        output_dir / "e1_metrics.json",
-        {
-            "condition": condition,
-            "seed": SEED,
-            "candidate_best_so_far": candidate_curve,
-            "attempt_best_so_far": attempt_curve,
-            "attempts": attempts,
-            "valid_proposals": valid,
-            "invalid_proposals": invalid,
-            "duplicates": duplicates,
-            "constraint_rejections": constrained,
-            "evaluated_adaptive_candidates": len(evaluated) - 20,
-            "g_pilot_macros_used": sorted(
-                {
-                    name
-                    for row in evaluated[20:]
-                    for name in (row.metadata or {}).get("g_pilot_macros_used", [])
-                }
-            ),
-            "token_budget": ledger.to_dict(),
-            "termination_reason": termination_reason,
-        },
+        output_dir / metrics_filename,
+        metrics_payload("completed", termination_reason),
     )
     return trace
 

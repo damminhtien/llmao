@@ -378,7 +378,7 @@ def test_bounded_client_enforces_timeout_output_and_total_token_reservation(
     fake = FakeClient()
     ledger = E1TokenLedger(caps)
     client = E1BudgetedClient(fake, ledger, tmp_path / "calls.jsonl", seed=101)
-    schema = {"type": "object"}
+    schema = {"properties": {"proposals": {"maxItems": 1}}}
     first = client.generate_structured("prompt", schema)
     second = client.generate_structured("prompt", schema)
 
@@ -394,7 +394,16 @@ def test_bounded_client_enforces_timeout_output_and_total_token_reservation(
     assert ledger.requests == 2
     assert ledger.reported_tokens == 96
     assert ledger.reserved_tokens <= caps.max_total_tokens
-    assert len((tmp_path / "calls.jsonl").read_text().splitlines()) == 2
+    calls = [
+        json.loads(line)
+        for line in (tmp_path / "calls.jsonl").read_text().splitlines()
+    ]
+    assert len(calls) == 2
+    assert [call["seed"] for call in calls] == [101, 102]
+    assert {call["temperature"] for call in calls} == {0.65}
+    assert {call["timeout_seconds"] for call in calls} == {12}
+    assert {call["max_output_tokens"] for call in calls} == {100}
+    assert {call["requested_proposal_slots"] for call in calls} == {1}
 
 
 def test_failed_and_duplicate_request_outputs_still_consume_the_hard_budget(
@@ -595,3 +604,67 @@ def test_v32_initial_programs_and_fixed_e1_budgets_remain_bounded() -> None:
     assert len({bias.program.to_json() for bias in seeds}) == 20
     assert budget.max_proposal_attempts == DEFAULT_E1_RESOURCE_CAPS.max_attempts
     assert DEFAULT_E1_RESOURCE_CAPS.max_requests == 2 * budget.max_proposal_attempts
+
+
+def test_e1_runner_propagates_requested_seed_into_optimizer_context(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    contexts: list[OptimizationContext] = []
+
+    class FakeOptimizer:
+        def __init__(self, *_args, **_kwargs) -> None:
+            pass
+
+        def on_seed_evaluations(self, *_args, **_kwargs) -> None:
+            pass
+
+        def propose(self, context: OptimizationContext):
+            contexts.append(context)
+            raise e1_runner.E1BudgetExceeded("E1 fixture stop")
+
+        def finish_generation(self) -> None:
+            pass
+
+    class FakeOracle:
+        evaluation_time_ms = 0.0
+
+    initial_rows = tuple(
+        CandidateEvaluation(
+            candidate_id=f"{index:064x}",
+            evaluation_index=index + 1,
+            fitness=0.5,
+            accuracy=0.5,
+            feature_dim=1,
+            runtime_ms=0.0,
+            structural_descriptor=("pixel", "orderless", "global", "single", "compact"),
+        )
+        for index in range(20)
+    )
+
+    monkeypatch.setattr(e1_runner, "E1IterativeOptimizer", FakeOptimizer)
+    monkeypatch.setattr(e1_runner, "_seed_proposals", lambda *_args, **_kwargs: ())
+    monkeypatch.setattr(e1_runner, "Evaluator", lambda **_kwargs: object())
+    monkeypatch.setattr(e1_runner, "ProgramEvaluator", lambda **_kwargs: object())
+    monkeypatch.setattr(e1_runner, "SearchOracle", lambda **_kwargs: FakeOracle())
+    monkeypatch.setattr(e1_runner, "E1BudgetedClient", lambda *_args, **_kwargs: object())
+    monkeypatch.setattr(
+        e1_runner.OllamaLLMClient,
+        "from_environment",
+        staticmethod(lambda: object()),
+    )
+    monkeypatch.setattr(e1_runner, "write_trace", lambda *_args, **_kwargs: None)
+    monkeypatch.setattr(e1_runner, "_write_json", lambda *_args, **_kwargs: None)
+
+    trace = e1_runner._run_condition(
+        "g0",
+        (),
+        initial_rows,
+        object(),
+        None,
+        tmp_path / "g0-seed-check",
+        seed=202,
+    )
+
+    assert trace.optimizer_seed == 202
+    assert len(contexts) == 1
+    assert contexts[0].optimizer_seed == 202

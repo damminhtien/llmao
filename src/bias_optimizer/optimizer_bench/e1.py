@@ -246,9 +246,20 @@ class E1BudgetedClient:
         prompt_tokens: int | None,
         response_tokens: int | None,
     ) -> None:
+        proposal_schema = schema.get("properties", {}).get("proposals", {})
+        requested_proposals = (
+            proposal_schema.get("maxItems")
+            if isinstance(proposal_schema, dict)
+            else None
+        )
         record = {
             "request": self.ledger.requests,
             "model": self.model,
+            "temperature": 0.65,
+            "seed": self._seed + self.ledger.requests - 1,
+            "timeout_seconds": self.ledger.caps.request_timeout_seconds,
+            "max_output_tokens": self.ledger.caps.max_output_tokens,
+            "requested_proposal_slots": requested_proposals,
             "prompt_sha256": hashlib.sha256(prompt.encode("utf-8")).hexdigest(),
             "schema_sha256": hashlib.sha256(
                 json.dumps(schema, sort_keys=True, separators=(",", ":")).encode()
@@ -461,7 +472,13 @@ def _format_e1_grammar(language: MacroLanguage | None) -> str:
     return "\n".join(lines)
 
 
-def _e1_prompt(context: ProgramSearchContext, count: int, language: MacroLanguage | None, batch: int) -> str:
+def _e1_prompt(
+    context: ProgramSearchContext,
+    count: int,
+    language: MacroLanguage | None,
+    batch: int,
+    prompt_guidance: str | None = None,
+) -> str:
     prompt = build_program_prompt(context, count, proposal_batch=batch)
     start_marker = "The program is a typed expression tree. These are the only primitives and signatures:\n"
     end_marker = "\nTrack constraints:"
@@ -469,7 +486,13 @@ def _e1_prompt(context: ProgramSearchContext, count: int, language: MacroLanguag
         raise RuntimeError("V3.2 prompt structure changed; update the E1 adapter explicitly")
     before, remainder = prompt.split(start_marker, 1)
     _, after = remainder.split(end_marker, 1)
-    prompt = before + start_marker + _format_e1_grammar(language) + end_marker + after
+    grammar = _format_e1_grammar(language)
+    if prompt_guidance is not None:
+        guidance = prompt_guidance.strip()
+        if not guidance:
+            raise ValueError("E1 prompt guidance must be non-empty when provided")
+        grammar += "\n\n" + guidance
+    prompt = before + start_marker + grammar + end_marker + after
     legacy_parameter_line = (
         "- Put parameters on their owning operation: measure on path_summary; "
         "axis/regions/bins/range on spatial_condition; bins_x/bins_y and ranges "
@@ -538,10 +561,12 @@ class E1ProgramProposer:
         client: object,
         response_archive: JsonlResponseArchive,
         language: MacroLanguage | None,
+        prompt_guidance: str | None = None,
     ) -> None:
         self._client = client
         self._response_archive = response_archive
         self._language = language
+        self._prompt_guidance = prompt_guidance
         self._macro_names_by_program: dict[str, tuple[str, ...]] = {}
         self._proposal_slots_by_program: dict[str, int] = {}
         self._model = str(getattr(client, "model", "unspecified"))
@@ -558,6 +583,7 @@ class E1ProgramProposer:
             count,
             self._language,
             self._response_archive.record_count() + 1,
+            self._prompt_guidance,
         )
         schema = e1_output_schema(self._language, count)
         seen = {item.program.to_json() for item in previous_biases}
@@ -727,9 +753,12 @@ class E1IterativeOptimizer(LLMIterativeOptimizer):
         *,
         client: object,
         language: MacroLanguage | None,
+        prompt_guidance: str | None = None,
     ) -> None:
         super().__init__(seed, constraints, response_path, client=client)
-        self._e1_proposer = E1ProgramProposer(client, self._response_archive, language)
+        self._e1_proposer = E1ProgramProposer(
+            client, self._response_archive, language, prompt_guidance
+        )
         self._proposer = self._e1_proposer
         self._e1_focus_counts: dict[int, dict[str, int]] = {}
 

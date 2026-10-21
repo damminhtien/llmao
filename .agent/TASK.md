@@ -1,15 +1,14 @@
-# LLMAO E3 — Evaluate Existing Macro-Bearing Programs
+# LLMAO E4 — Controlled Abstraction Reuse Experiment
 
-## Objective
+Compare two fresh seed-202 E1 iterative Qwen searches under identical train-only
+evaluation and resource caps. Condition A receives the three frozen G_pilot
+behaviors as ordinary G0 recipe descriptions; condition B receives the same
+structural knowledge plus the frozen typed macro operations. Reuse E1's shared
+20 initial program score records, corrected mechanism guidance policy, and E1
+evaluator/data fingerprints. Cap each condition at 20 adaptive proposal
+attempts. Preserve all E1/E2/E3 evidence, never access the official test
+partition, and stop after the two bounded searches and report.
 
-Score the three distinct macro-bearing programs preserved by E2 under the E1 train-only evaluation protocol. This is a bounded descriptive representation check, not a search or causal utility experiment.
-
-## Boundaries
-
-- Use only the frozen E2 raw requests/results, frozen G_pilot manifest, E1 shared initial evaluations, and checksum-pinned E1 train-only data source.
-- Reuse a saved score only when the expanded AST, full evaluator configuration, and data fingerprint match. Otherwise score at most three previously unevaluated expanded ASTs.
-- Never launch a model or optimizer, access official test data, modify E1/E2 evidence, or run a search.
-
-## Completion
-
-Write a fresh E3 report and machine-readable result under `results/v4/e3`; report provenance, validation, scores, runtime, baseline comparison, and limits. Stop after the three program evaluations.
+Do not use E2/E3 programs or measured fitness in either optimizer. Do not evolve
+guidance, add seeds, change the frozen macros, add EvE, or resume the V4 primary
+campaign. Preflight all deterministic constraints before either model run.
