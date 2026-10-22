@@ -112,3 +112,13 @@ score records, train-only split, evaluator, corrected guidance-only focus
 policy, and request caps. Keep prompt/schema differences logged as part of the
 treatment. Do not put E2/E3 programs or measured scores into optimizer context;
 do not infer causal generalization from the single seed.
+
+## 2026-10-22 — Close V4 as a frozen exploratory study
+
+Close V4 from preserved E1–E4 evidence without additional searches,
+evaluations, model requests, official-test access, protocol changes, or
+historical artifact edits. Publish a checksummed manifest and a report that
+separates observed results from unsupported and untested claims. The V11
+reduced primary campaign remains incomplete. Record the shared optimizer's
+one-attempt remainder bug as a correctness limitation; do not patch or rerun
+research to repair inconclusive evidence. Prepare only a local final tag.

@@ -1,5 +1,11 @@
 # LLMAO V4 — Evolving the Language of Inductive Bias
 
+> **Study status (2026-10-22):** V4 is frozen as an exploratory study. Its
+> planned reduced primary campaign did not complete. Read the
+> [final exploratory report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+> before interpreting the design below; protocol requirements remain
+> historical specifications, not completed results.
+
 ## 1. Research question
 
 ### Primary RQ

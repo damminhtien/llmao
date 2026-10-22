@@ -1,0 +1,273 @@
+{
+  "attempt_accounting": "Every requested proposal slot in each model response consumes an attempt; validation retries consume additional attempts.",
+  "condition_prompt_guidance": {
+    "g0": "The following are three reusable compositions using only permitted G0 operations. The labels are explanatory descriptions, not AST operations. Emit ordinary nested G0 expressions; do not invent or emit macro operations.\n1. spatial occupancy plus graph degrees recipe: {\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":3}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":2}},{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"moments\",\"params\":{\"orders\":[1,2,3]}}],\"op\":\"concat\",\"params\":{}}\n2. coarse-to-fine image occupancy recipe: {\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":2}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":5,\"rows\":5}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":6,\"rows\":6}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":7,\"rows\":7}}],\"op\":\"concat\",\"params\":{}}\n3. skeleton graph degree summary recipe: {\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"moments\",\"params\":{\"orders\":[1,2,3]}},{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"histogram\",\"params\":{\"bins\":16,\"high\":16,\"low\":0}}],\"op\":\"concat\",\"params\":{}}",
+    "g_pilot": "The following are the same three frozen structural recipes, exposed as typed G_pilot operations in the schema. Each compact JSON tree shows its expanded G0 behavior. Use the named operation when useful; do not invent macros.\n1. multiscale_spatial_degree_profile(image) expands to: {\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":3}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":2}},{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"moments\",\"params\":{\"orders\":[1,2,3]}}],\"op\":\"concat\",\"params\":{}}\n2. multiscale_spatial_profile(image) expands to: {\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":3,\"rows\":2}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":5,\"rows\":5}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":6,\"rows\":6}},{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"spatial_split\",\"params\":{\"cols\":7,\"rows\":7}}],\"op\":\"concat\",\"params\":{}}\n3. stroke_degree_profile(image) expands to: {\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"moments\",\"params\":{\"orders\":[1,2,3]}},{\"args\":[{\"args\":[{\"args\":[{\"args\":[{\"args\":[],\"op\":\"image\",\"params\":{}}],\"op\":\"skeletonize\",\"params\":{\"threshold\":0.5}}],\"op\":\"graph\",\"params\":{}}],\"op\":\"degree_sequence\",\"params\":{}}],\"op\":\"histogram\",\"params\":{\"bins\":16,\"high\":16,\"low\":0}}],\"op\":\"concat\",\"params\":{}}"
+  },
+  "conditions": {
+    "g0_recipes": {
+      "grammar": "G0 operations only",
+      "prompt_guidance_sha256": "355aa8a62f39ef82e12c730ef15071e200ce8ee5528ac1fdcb41efd4c983f88b"
+    },
+    "g_pilot_macros": {
+      "grammar": "G0 operations plus exactly the three frozen G_pilot macros",
+      "prompt_guidance_sha256": "0f40188bf430c3179824f23ec7a136ec1dbbbd86fb9e7a6b21f84e6f29bd280e"
+    }
+  },
+  "data_fingerprint": "41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f",
+  "e2_e3_candidates_used_as_initial_programs": false,
+  "e2_e3_fitness_exposed_to_optimizers": false,
+  "experiment": "exploratory G0 recipe versus typed G_pilot packaging comparison",
+  "fixed_model_policy": {
+    "first_request_seed": 202,
+    "model": "qwen3.5:35b-mlx",
+    "optimizer_guidance_evolved": false,
+    "temperature": 0.65
+  },
+  "g_pilot_manifest_sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+  "preserved_e1_e2_e3_artifact_sha256": {
+    "e1_common_initial_evaluations": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+    "e1_summary": "55a087c2f3efa1fbcacd94e1afa85edb81a18b527ef0a47eb8d72d59be4bcad6",
+    "e1_train_only_manifest": "26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4",
+    "e2_request_results": "06eebff62512fe5ae0a51d606fae84906d7585af844642f37235e081da31bed4",
+    "e3_results": "83b19f43cbbb44c38f5121d940669273443951ea42da046d17a7c01218855e3a",
+    "g_pilot_manifest": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+    "g_pilot_manifest_sidecar": "2917d61c36fa8ec6f2b7ad282d79501698e67bb05c860f9c8c95a30f0596dd9d"
+  },
+  "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "resource_caps": {
+    "attempts_per_condition": 20,
+    "output_tokens_per_request": 2500,
+    "requests_per_condition": 40,
+    "timeout_seconds": 120.0,
+    "total_reserved_tokens_per_condition": 750000
+  },
+  "schema_version": 1,
+  "seed": 202,
+  "shared_initial_score_sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+  "structural_recipes": {
+    "multiscale_spatial_degree_profile": {
+      "description": "spatial occupancy plus graph degrees",
+      "expanded_ast_sha256": "1e70cdc09e2daa3fed1a047205d4d30c383546055d6bc4e214db075de888c532",
+      "expanded_g0_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 3
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      }
+    },
+    "multiscale_spatial_profile": {
+      "description": "coarse-to-fine image occupancy",
+      "expanded_ast_sha256": "000c4c95cc31280437668e06372ef7f34c56aad8cdb1cd9ae40e3412e3d9fd0c",
+      "expanded_g0_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 5,
+              "rows": 5
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 6,
+              "rows": 6
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 7,
+              "rows": 7
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      }
+    },
+    "stroke_degree_profile": {
+      "description": "skeleton graph degree summary",
+      "expanded_ast_sha256": "87887eea08d331f8675e3bb791095391fa3a1eab2197fda8fcc06b5ca8f70a0a",
+      "expanded_g0_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 16,
+              "high": 16,
+              "low": 0
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      }
+    }
+  }
+}

@@ -12,9 +12,36 @@ The V3.1 workflow is specified in [V3_1_PROTOCOL.md](../V3_1_PROTOCOL.md).
 The V3/V3.1 architecture and V3.2 execution boundaries are documented in
 [ARCHITECTURE_V3_REFERENCE.md](../ARCHITECTURE_V3_REFERENCE.md) and its
 [study report](../reports/V3_2_OPTIMIZER_VALUE.md).
-The current V4 design is documented in [ARCHITECTURE.md](../ARCHITECTURE.md).
+The frozen V4 exploratory results and their limits are documented in the
+[V4 report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). The intended
+primary design remains in [ARCHITECTURE.md](../ARCHITECTURE.md),
+[`V4_PRIMARY_DESIGN.md`](../V4_PRIMARY_DESIGN.md), and its
+[V11 amendment](../V4_PRIMARY_DESIGN_V11.md); that primary campaign did not
+complete.
 V4 output roots, external read-only inputs, and the fixture scratch policy are
 specified in [V4_ARTIFACT_STORAGE_ARCHITECTURE.md](V4_ARTIFACT_STORAGE_ARCHITECTURE.md).
+
+## Frozen V4 exploratory release
+
+The release tag `v4-exploratory-final` contains the final report, evidence
+manifest, SHA-256 checksums, preserved E1–E4 artifacts, and the finalized
+primary protocol revisions. It records the incomplete V14 discovery roots and
+does not contain a completed `G*` selection or fresh-search campaign. Do not
+use the primary launch commands below this section to resume V4; they remain
+historical protocol documentation.
+
+Verify the manifest and bundled artifacts from the repository root:
+
+```sh
+shasum -a 256 -c reports/scientific/V4_EVIDENCE_MANIFEST.sha256
+shasum -a 256 -c reports/scientific/V4_EVIDENCE_FILES.sha256
+```
+
+The MNIST source archives are public training inputs and are identified by
+their pinned SHA-256 values in the manifest; they are not duplicated in the
+release. The official test partition was not used. The final report lists the
+deterministic local tests run for this closure. Do not rerun E1–E4, launch E5,
+or treat the incomplete primary protocol as authorization for another search.
 
 ## Development setup
 

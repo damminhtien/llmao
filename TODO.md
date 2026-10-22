@@ -1,5 +1,16 @@
 # LLMAO V4 — TODO
 
+## Closure status — 2026-10-22
+
+V4 is closed as a frozen exploratory research study. The final report is
+[`reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md),
+and its source/data/artifact inventory is
+[`reports/scientific/V4_EVIDENCE_MANIFEST.json`](reports/scientific/V4_EVIDENCE_MANIFEST.json).
+Unchecked primary-study milestones below remain incomplete; they are retained
+as historical protocol records and do not authorize further searches,
+evaluations, or official-test access. E1–E4 are not rerun or repaired as part
+of this closure.
+
 ## Phase 0 — Freeze previous work
 
 - [x] Create branch `v4-evolving-bias-language` from the current integrated
@@ -30,10 +41,12 @@
 - [x] Define primary RQ and qualitative acceptance criteria before running
   V4 discovery, including numeric support criteria.
 
-The historical `results/v4/protocol.json` remains the pilot draft. Phase 0
-design decisions are resolved in `V4_PRIMARY_DESIGN.md`; M2 is still active
-until the separate primary protocol, source pins, and launch contracts verify.
-The Phase 10 exploratory pilots remain feasibility evidence only.
+The historical `results/v4/protocol.json` remains the pilot draft. The primary
+design and finalized protocol revisions are preserved separately. The reduced
+primary campaign did not complete: discovery stopped in incomplete V14 roots,
+no `G*` was frozen, and no fresh-search conditions ran. V4 is now closed as an
+exploratory study; see the closure report above. The Phase 10 exploratory
+pilots remain feasibility evidence only.
 
 ---
 
@@ -923,13 +936,12 @@ synthesis as part of this study.
 
 # Phase 22 — Final report
 
-Generate `reports/V4_LANGUAGE_OF_BIAS.md` with the research question,
-motivation, V4 architecture, language evolution mechanism, EvE setup,
-discovery results, lineage, reduced fresh-search design/results, descriptive
-human-language and primitive-reuse analyses, optimizer interaction, failures,
-limitations, and evidence provenance. Explicitly state that semantic ablation
-and cross-dataset transfer were omitted. Do not make claims those experiments
-would have supported.
+The original planned report path `reports/V4_LANGUAGE_OF_BIAS.md` was
+superseded at closure by
+`reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`. The final report describes
+the existing E1–E4 evidence, incomplete primary campaign, known budget defect,
+limitations, and evidence provenance. No missing primary analyses were
+generated.
 
 The conclusion must distinguish a good discovered representation, a useful
 representation language, and a generally transferable inductive-bias

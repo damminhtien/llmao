@@ -1,6 +1,6 @@
 # Research reports
 
-These five reports present the studies as a sequence of scientific questions.
+These reports present the studies as a sequence of scientific questions.
 Each separates methods, results, interpretation, and limitations. They summarize
 existing evidence; no experiments were rerun for this editorial revision.
 
@@ -11,6 +11,7 @@ existing evidence; no experiments were rerun for this editorial revision.
 | V3 | Do spatial relations provide a useful structural prior? | [Relational priors](scientific/V3_RELATIONAL_PRIORS.md) |
 | V3.1 | Where does the frozen representation help or fail? | [Bias evaluation](scientific/V3_1_BIAS_EVALUATION.md) |
 | V3.2 | What does the LLM contribute to the search procedure? | [Optimizer value](scientific/V3_2_OPTIMIZER_VALUE.md) |
+| V4 | What can the frozen exploratory macro studies establish? | [Evolving bias language](scientific/V4_EVOLVING_BIAS_LANGUAGE.md) |
 
 ## Reading the evidence across versions
 
@@ -24,6 +25,9 @@ The sequence supports useful feature composition, compact spatial representation
 and some complementarity with HOG. It also exposes domain-limited transfer,
 weaknesses against dimension-matched HOG-PCA, and limited replication in the
 optimizer study. Findings should be read together with those qualifications.
+V4 is a frozen exploratory study: its bounded E1–E4 observations do not complete
+the preregistered primary comparison or establish causal abstraction utility,
+search efficiency, or generalization.
 
 ## Figures
 
@@ -42,6 +46,7 @@ scientific reports link to these records for detailed evidence.
 - [V3 pilot](V3_PILOT.md), [search](V3_SEARCH.md), and [evidence](V3_EVIDENCE.md).
 - [V3.1 full evaluation](V3_1_BIAS_EVALUATION.md).
 - [V3.2 full optimizer study](V3_2_OPTIMIZER_VALUE.md).
+- [V4 exploratory report and evidence manifest](scientific/V4_EVOLVING_BIAS_LANGUAGE.md).
 
 Historical implementations remain identified in the
 [version guide](../README.md), and execution

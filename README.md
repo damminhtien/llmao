@@ -19,7 +19,7 @@ could trust its proposal.
 
 ![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
 
-[Read the studies](reports/README.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
+[Read the studies](reports/README.md) · [V4 exploratory release](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
 ## The assumptions we bring to learning
 
@@ -66,8 +66,11 @@ This makes the assumption inspectable and gives us a way to intervene on the
 structure it claims matters.
 
 MNIST gives us a small, familiar setting in which to examine this process.
-The current search changes representation under a fixed learner. Later studies
-vary the learner to ask how much of the measured benefit belongs to that pairing.
+V4's preserved experiments explored frozen macros and their expanded
+representations on one training-derived split. They did not complete the
+planned primary campaign or establish transfer; the
+[V4 report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) states what the
+evidence supports and what remains untested.
 
 ## 🔎 From inductive bias to our research question
 

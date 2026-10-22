@@ -1,17 +1,13 @@
-# E4 milestones
+# V4 Frozen Exploratory Closure Plan
 
-- [x] Inspect E1 source, frozen inputs, branch state, active workers, and fresh
-  output path; archive the completed E3 task record.
-- [x] Implement the small E4 runner using the E1 optimizer/evaluator, with fixed
-  recipe guidance and optimizer seed 202.
-- [x] Add deterministic tests for recipe equivalence, macro expansion, shared
-  initial records, raw macro tracing, focus policy, hard budgets, and train-only
-  data access.
-- [x] Run no-token E4 preflight. It passed with zero LLM requests.
-- [x] Run exactly the G0-recipe and G_pilot-macro searches sequentially, each
-  under the frozen attempt/request/token limits.
-- [x] Analyze and report both runs, recheck E1/E2/E3 evidence hashes, and update
-  this state.
-- [x] Review the final diff and commit only E4 code, tests, and workflow records.
-
-No additional seed or search is authorized by this task.
+- [x] Read the required agent workflow and resume state; archive the completed
+  E4 task record.
+- [x] Audit V4 source, tests, protocol revisions, E1–E4 evidence, dataset
+  fingerprints, primary-campaign status, and local worker state.
+- [x] Run deterministic local checks only; record the E1 attempt-budget defect
+  without changing source or historical results.
+- [x] Write the scientific closure report and correct status/reproducibility
+  documentation without changing protocols or historical artifacts.
+- [x] Publish the evidence manifest and checksum inventory.
+- [x] Review exact staged paths and diff, run the required whitespace check,
+  commit the closure, and create the local `v4-exploratory-final` tag.

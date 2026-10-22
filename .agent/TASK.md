@@ -1,14 +1,12 @@
-# LLMAO E4 — Controlled Abstraction Reuse Experiment
+# LLMAO V4 — Frozen Exploratory Closure
 
-Compare two fresh seed-202 E1 iterative Qwen searches under identical train-only
-evaluation and resource caps. Condition A receives the three frozen G_pilot
-behaviors as ordinary G0 recipe descriptions; condition B receives the same
-structural knowledge plus the frozen typed macro operations. Reuse E1's shared
-20 initial program score records, corrected mechanism guidance policy, and E1
-evaluator/data fingerprints. Cap each condition at 20 adaptive proposal
-attempts. Preserve all E1/E2/E3 evidence, never access the official test
-partition, and stop after the two bounded searches and report.
+Close V4 using the preserved E1–E4 evidence. Audit source, tests, protocols,
+and artifacts; perform deterministic local verification only; publish the
+checksummed evidence manifest and scientific report; correct documentation;
+and prepare the local `v4-exploratory-final` tag.
 
-Do not use E2/E3 programs or measured fitness in either optimizer. Do not evolve
-guidance, add seeds, change the frozen macros, add EvE, or resume the V4 primary
-campaign. Preflight all deterministic constraints before either model run.
+No model requests, search runs, new scientific evaluations, official-test
+loading, E5, E1–E4 reruns, prompt or macro redesign, V11 campaign expansion,
+statistical-criteria changes, or edits to historical artifacts are allowed.
+Do not repair inconclusive results. Report correctness defects and their
+evidentiary consequences.
