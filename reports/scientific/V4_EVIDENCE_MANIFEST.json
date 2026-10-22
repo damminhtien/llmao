@@ -1,22 +1,22 @@
 {
   "artifact_inventory": [
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "ARCHITECTURE.md",
-      "sha256": "c49e4a58cb1c9da994eb1bf0d4024a6d5198e531cc027993e5a99e12b7d7cc90",
-      "size_bytes": 33068
+      "sha256": "4595da5b2b11653424c928cef89888b1aceab22e9ab0bba36dadcc1839f34d6a",
+      "size_bytes": 33123
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "README.md",
-      "sha256": "83fd7772c411c929d8ff213644fec559a3cc995bd842851087b82dc82eae84d9",
-      "size_bytes": 18047
+      "sha256": "34859a3bf8b6ba05c8018f1ad3c3bce009293ce678eee53db6d3b443166baf95",
+      "size_bytes": 18267
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "TODO.md",
-      "sha256": "058355dbaf4fe881b57ab9a7791a35feb09157b01d3d94c15f3d8e9b60318669",
-      "size_bytes": 43287
+      "sha256": "267cbd54da6146f7ee6a2e1c64c6dee26ab496c3170d2e2f612483ca5bbe7f6c",
+      "size_bytes": 43572
     },
     {
       "included_in_release_tag": true,
@@ -49,16 +49,16 @@
       "size_bytes": 11360
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "docs/REPRODUCIBILITY.md",
-      "sha256": "50e3064a674653007f9ec7adb63de8aa553f92505855583ab343f7dfd7e326a4",
-      "size_bytes": 7102
+      "sha256": "32e33efa94e9b1c4bcaa88781a4e3d7c02670a5e98c8392fee221879f81dcf9d",
+      "size_bytes": 7669
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md",
-      "sha256": "a81454fe231a93d1466acf5aa91585f3597acc60366a023f811e820d542392ac",
-      "size_bytes": 9293
+      "sha256": "c5f4ce488c4940dc53844880192c1246ef9aeaee2db091ed2eefd3e50e901fc4",
+      "size_bytes": 9406
     },
     {
       "included_in_release_tag": true,
@@ -79,16 +79,16 @@
       "size_bytes": 56202
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "reports/README.md",
-      "sha256": "6b3736f21f93110ff558393f7a7c110fb3170ade1ab489c38d977e4c89a48cc2",
-      "size_bytes": 2973
+      "sha256": "07c4b50586d4155cf3203230c73ae0398d98e068c6129452976ea2e38dffe1df",
+      "size_bytes": 3162
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md",
-      "sha256": "118f4622d9948593c2cd5a27efa6b1336c4dddf6bab2fa81d856f670bfec039f",
-      "size_bytes": 9925
+      "sha256": "459e361e3c49f7539e240d095952b5aadc09b7a0e885a3fa0763eed1917d5d65",
+      "size_bytes": 12556
     },
     {
       "included_in_release_tag": true,
@@ -591,9 +591,9 @@
   ],
   "checksum_index": {
     "entries": 98,
-    "note": "Covers every bundled artifact listed above; the manifest and its sidecar are checked separately.",
+    "note": "Covers every artifact listed above in this manifest revision, including documentation updated after the immutable release tag; the manifest and its sidecar are checked separately.",
     "path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
-    "sha256": "9b8e12c613c10c4e41cb8911312ce6a7afc76a547cf7f11f1dfccb70406a85d4"
+    "sha256": "8908f5809e36cf2c1fb99f0b42c6e3d2656203a765df47d54777359d3aae1a08"
   },
   "correctness_defect": {
     "behavior": "remaining_attempts // 2 gives a zero-sized batch when one attempt remains.",
@@ -643,8 +643,8 @@
     "Exact E1 and E4 runtime source revisions are not pinned; E1 also lacks complete evaluator configuration and its own aggregate dataset fingerprint.",
     "E1 G_pilot did not consume its final adaptive attempt because of the documented optimizer defect.",
     "E2 has no fitness measurements; E3 covers only three selected expanded programs; E4 is one seed with prompt and schema differences.",
-    "The reduced V11 primary campaign has no completed discovery table, G* selection, or fresh-search runs.",
-    "The V14 seed-1101 793 MB run manifest is hash-recorded locally but excluded from the tag; seed 1202 has no final manifest.",
+    "The 25-run primary campaign specified by v4-primary-11 has no completed discovery table, G* selection, or fresh-search runs.",
+    "Primary-protocol revision 14 has only the two incomplete discovery trajectories summarized above; neither reaches the candidate-AUC horizon or selects G*.",
     "Raw MNIST training archives are identified by hashes but excluded from the tag; official-test data was not accessed.",
     "No evidence supports generalization, causal abstraction utility, improved search efficiency, or primary efficacy."
   ],
@@ -664,9 +664,61 @@
     "frozen_manifest_present": false,
     "g_star_selected": false,
     "latest_protocol": "results/v4/primary_protocol_v14.json",
-    "other_v14_discovery_or_fresh_runs": false,
     "planned_discovery_runs": 5,
-    "planned_fresh_search_runs": 20
+    "planned_fresh_search_runs": 20,
+    "design_scope_revision": "v4-primary-11",
+    "latest_protocol_id": "v4-primary-14",
+    "other_revision_14_discovery_or_fresh_runs": false,
+    "revision_14_partial_trajectories": {
+      "candidate_auc_horizon": {
+        "shared_initial_evaluations": 20,
+        "total_unique_evaluations": 200,
+        "adaptive_unique_evaluations_required": 180,
+        "completed_by_either_trajectory": false
+      },
+      "candidate_context_validation_error": "candidate language parent hash does not match",
+      "seed_1101": {
+        "status": "incomplete_attempt_cap",
+        "attempt_records": 540,
+        "scored_adaptive_proposals": 103,
+        "candidate_context_validation_failures": 436,
+        "interrupted_proposals": 1,
+        "best_recorded_discovery_fitness": 0.9073935668931362,
+        "best_scored_attempt": 198,
+        "scored_macro_introduction_events": {
+          "spatial_topology_features": 14,
+          "spatial_degree_profile": 2,
+          "multiscale_spatial_occupancy": 1,
+          "spatial_skeleton_profile": 1,
+          "skeleton_length_quartiles": 1
+        },
+        "best_record_language_macros_inventory": [
+          "spatial_topology_features"
+        ],
+        "best_record_introduced_macros": [],
+        "large_final_manifest_included_in_tag": false
+      },
+      "seed_1202": {
+        "status": "stale_running_snapshot",
+        "attempt_records": 221,
+        "scored_adaptive_proposals": 131,
+        "candidate_context_validation_failures": 89,
+        "interrupted_proposals": 1,
+        "best_recorded_discovery_fitness": 0.9104713361287423,
+        "best_scored_attempt": 151,
+        "scored_macro_introduction_events": {
+          "skeleton_graph": 13,
+          "skeleton_paths": 2
+        },
+        "best_record_language_macros_inventory": [
+          "skeleton_graph"
+        ],
+        "best_record_introduced_macros": [],
+        "final_manifest_present": false,
+        "live_process_verified": false,
+        "updated_at_utc": "2026-10-18T14:04:23.936131+00:00"
+      }
+    }
   },
   "protocols": [
     {
@@ -719,7 +771,14 @@
     "name": "v4-exploratory-final",
     "remote_publication": false,
     "status": "frozen exploratory research study",
-    "tag_target": "The local annotated tag resolves to the closure commit containing this manifest."
+    "tag_target": "36ea8f5016007455e342d387ffda00bb64666f95",
+    "post_tag_documentation_update": {
+      "base_tag": "v4-exploratory-final",
+      "base_commit": "36ea8f5016007455e342d387ffda00bb64666f95",
+      "scope": "Terminology clarification and descriptive summary of preserved primary-protocol revision-14 trajectories.",
+      "protocol_source_data_or_run_artifacts_changed": false,
+      "updated_document_paths_are_in_release_tag": false
+    }
   },
   "schema_version": 1,
   "source_revisions": [

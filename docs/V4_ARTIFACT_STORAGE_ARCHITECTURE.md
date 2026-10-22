@@ -1,14 +1,16 @@
 # V4 artifact storage architecture
 
 Status: the shared path resolver, schema-v2 contract support, repo-local
-fixture scratch, and local-cache sandbox probe are implemented. Protocol v13's
-22-check sandbox preflight, data-free native fixture, and five contracts
-passed. Its first seed-1101 adaptive proposal exposed a stale Phase 2 adapter
-guard that still rejected every cache inside the checkout. The run is
-preserved as incomplete with no adaptive candidate score. The adapter now
-needs to allow only the exact protocol-pinned `results/v4` cache for layout v2;
-fresh protocol-v14 gates are pending. Existing historical protocols,
-contracts, fixture evidence, and run directories keep their current paths.
+fixture scratch, and local-cache sandbox probe are implemented. The V4 primary
+protocol revision 13 passed its 22-check sandbox preflight, data-free native
+fixture, and five contract gates. Its first seed-1101 adaptive proposal
+exposed a stale Phase 2 adapter guard that rejected the protocol-pinned cache
+inside the checkout. The run is preserved as incomplete with no adaptive
+candidate score. The cache guard was updated before freezing primary-protocol
+revision 14. Its partial discovery trajectories remain incomplete; see the
+[V4 closure report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). Existing
+historical protocols, contracts, fixture evidence, and run directories keep
+their current paths.
 
 ## Decision
 

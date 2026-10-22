@@ -16,21 +16,29 @@ The frozen V4 exploratory results and their limits are documented in the
 [V4 report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). The intended
 primary design remains in [ARCHITECTURE.md](../ARCHITECTURE.md),
 [`V4_PRIMARY_DESIGN.md`](../V4_PRIMARY_DESIGN.md), and its
-[V11 amendment](../V4_PRIMARY_DESIGN_V11.md); that primary campaign did not
-complete.
+[revision-11 amendment](../V4_PRIMARY_DESIGN_V11.md); that primary campaign did
+not complete. V4 is the study name; IDs such as `v4-primary-14` identify
+revisions of its primary protocol.
 V4 output roots, external read-only inputs, and the fixture scratch policy are
 specified in [V4_ARTIFACT_STORAGE_ARCHITECTURE.md](V4_ARTIFACT_STORAGE_ARCHITECTURE.md).
 
 ## Frozen V4 exploratory release
 
-The release tag `v4-exploratory-final` contains the final report, evidence
-manifest, SHA-256 checksums, preserved E1–E4 artifacts, and the finalized
-primary protocol revisions. It records the incomplete V14 discovery roots and
-does not contain a completed `G*` selection or fresh-search campaign. Do not
-use the primary launch commands below this section to resume V4; they remain
-historical protocol documentation.
+The annotated tag `v4-exploratory-final` is the immutable V4 closure snapshot.
+It contains the report, evidence manifest, SHA-256 checksums, preserved E1–E4
+artifacts, and primary-protocol revisions through `v4-primary-14`. Revision 14
+contains two incomplete discovery trajectories; there is no completed `G*`
+selection or fresh-search campaign.
 
-Verify the manifest and bundled artifacts from the repository root:
+The current branch adds a documentation-only clarification after the tag. The
+updated manifest records the clarified report and documentation files as
+post-tag content; the tag and its original manifest remain unchanged. Protocols,
+source code, data, and historical run records were not edited. Do not use the
+primary launch commands below this section to resume V4; they remain historical
+protocol documentation.
+
+Verify the manifest and bundled artifacts at the current branch revision from
+the repository root:
 
 ```sh
 shasum -a 256 -c reports/scientific/V4_EVIDENCE_MANIFEST.sha256
@@ -39,9 +47,11 @@ shasum -a 256 -c reports/scientific/V4_EVIDENCE_FILES.sha256
 
 The MNIST source archives are public training inputs and are identified by
 their pinned SHA-256 values in the manifest; they are not duplicated in the
-release. The official test partition was not used. The final report lists the
-deterministic local tests run for this closure. Do not rerun E1–E4, launch E5,
-or treat the incomplete primary protocol as authorization for another search.
+release. The official test partition was not used. The report lists the
+deterministic local checks run for closure. To inspect the exact original
+release files, read them at `v4-exploratory-final` with `git show`. Do not
+rerun E1–E4, launch E5, or treat the incomplete primary protocol as
+authorization for another search.
 
 ## Development setup
 

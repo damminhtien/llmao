@@ -1,12 +1,11 @@
-# LLMAO V4 — Frozen Exploratory Closure
+# V4 Protocol Naming and Release Documentation Clarification
 
-Close V4 using the preserved E1–E4 evidence. Audit source, tests, protocols,
-and artifacts; perform deterministic local verification only; publish the
-checksummed evidence manifest and scientific report; correct documentation;
-and prepare the local `v4-exploratory-final` tag.
+Clarify that V4 names the research study while `v4-primary-N` names a
+primary-protocol revision within it. Update current documentation to foreground
+preserved partial trajectories under `v4-primary-14`, while preserving the
+existing release tag, scientific protocol files, and historical experiment
+artifacts.
 
-No model requests, search runs, new scientific evaluations, official-test
-loading, E5, E1–E4 reruns, prompt or macro redesign, V11 campaign expansion,
-statistical-criteria changes, or edits to historical artifacts are allowed.
-Do not repair inconclusive results. Report correctness defects and their
-evidentiary consequences.
+No model requests, search runs, scientific evaluations, official-test loading,
+protocol edits, historical run edits, or result-driven criteria changes are
+allowed.

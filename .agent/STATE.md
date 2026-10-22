@@ -1,32 +1,29 @@
 # Current state
 
-V4 is closed as a frozen exploratory study. The E1–E4 source, tests,
-protocol revisions, run artifacts, data lineage, and reduced primary-campaign
-status have been audited. No model, search, scientific evaluation, or
-official-test loader was invoked for closure.
+V4 remains closed as a frozen exploratory study. This follow-up clarifies naming
+and presents preserved partial discovery evidence from primary-protocol revision
+14. It adds no run, score, or protocol change.
 
-## Findings
+## Findings carried forward
 
-- Deterministic focused suite: 208 passed.
-- E1–E4 are descriptive and do not establish generalization, causal
-  abstraction utility, or improved search efficiency.
-- The V11-reduced 25-run primary design is incomplete; V14 seed 1101 has an
-  incomplete-attempt-cap manifest, seed 1202 has a stale `running` snapshot
-  without a final manifest, and there are no other V14 discovery or fresh
-  runs.
-- Blocking correctness defect: `llm_common.py` computes a zero-sized batch
-  when exactly one attempt remains. E1 therefore cannot claim the G_pilot arm
-  exhausted its 20-attempt cap. The defect is reported but not repaired or
-  rerun.
+- The 25-run primary design specified by `v4-primary-11` is incomplete.
+- Under `v4-primary-14`, seed 1101 records 103 scored adaptive proposals,
+  436 candidate-context validation failures, and a best recorded discovery
+  fitness of 0.907394. Seed 1202 records 131 scored proposals, 89 such failures,
+  and a best recorded fitness of 0.910471. Both trajectories are incomplete and
+  neither reaches the planned candidate-AUC horizon.
+- The revision-14 trajectories also record candidate-context failures caused by
+  a parent-language hash mismatch. The logs show the rejection, but do not
+  identify which component produced the mismatch.
+- The shared optimizer's one-attempt remainder bug remains the blocking
+  correctness defect for E1; it is reported but not repaired or rerun.
+- The local `v4-exploratory-final` tag remains at the original frozen closure
+  commit. The current branch carries the post-tag documentation clarification
+  and updated checksums.
 
-## Closure artifacts
+## Validation
 
-- Scientific report: `reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`.
-- Evidence manifest: `reports/scientific/V4_EVIDENCE_MANIFEST.json` (98
-  bundled source, protocol, data-lineage, and E1–E4 artifact hashes).
-- Checksum inventory: `reports/scientific/V4_EVIDENCE_FILES.sha256`; manifest
-  sidecar: `reports/scientific/V4_EVIDENCE_MANIFEST.sha256`.
-- Local annotated release tag: `v4-exploratory-final`, targeting the closure
-  commit on `v4-evolving-bias-language`.
-
-No historical experiment artifacts or scientific protocol files were edited.
+- Current evidence manifest and all 98 artifact hashes verified.
+- Manifest trajectory summaries match the preserved revision-14 JSONL records.
+- `git diff --check` passed. No tests or scientific evaluations were rerun for
+  this documentation-only follow-up.

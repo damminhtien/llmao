@@ -5,10 +5,17 @@ preserved evidence available on 2026-10-22. It adds no search, evaluation,
 model request, or protocol amendment. V4 did not complete its reduced primary
 campaign, so this report makes no primary-language efficacy claim.
 
-The immutable evidence inventory is in
+The evidence inventory is in
 [`V4_EVIDENCE_MANIFEST.json`](V4_EVIDENCE_MANIFEST.json). It records source
 revisions, dataset fingerprints, artifact hashes, missing evidence, and the
 scope of the release bundle.
+
+**Naming:** V4 is the research study. Its primary-protocol IDs include
+`v4-primary-11` and `v4-primary-14`; “protocol revision 14” is a revision within
+V4, not a separate V14 study or branch. This post-tag documentation follow-up
+clarifies that naming and summarizes preserved revision-14 trajectory records.
+It changes no protocol, source code, data, or historical run artifact; the local
+release tag remains unchanged.
 
 ## Study scope
 
@@ -97,26 +104,50 @@ seeds were 202 onward. The saved report documents that the ID field was
 metadata only and did not enter prompts or model sampling. See
 [`results/v4/e4/seed_202`](../../results/v4/e4/seed_202/).
 
-### Primary campaign status
+### V4 primary-protocol status and revision-14 trajectory spotlight
 
-The finalized V4 primary protocol was reduced by the V11 amendment to five
-discovery runs and twenty fresh-search runs. The preserved protocol revisions
-v10–v14 are hash-valid, and v14 is the latest. The evidence does not complete
-that design:
+Primary-protocol revision 11 (`v4-primary-11`) reduced the V4 primary design to
+five discovery runs and twenty fresh-search runs. The hash-valid protocol IDs
+`v4-primary-10` through `v4-primary-14` are successive revisions within this
+single V4 study; `v4-primary-14` is the latest. The preserved revision-14
+trajectory records contain partial exploratory signals:
 
-- V14 discovery seed 1101 exhausted 540 attempts and has an
-  `incomplete_attempt_cap` manifest.
-- V14 discovery seed 1202 has 221 attempts in a state snapshot last updated
-  2026-10-18. Its snapshot says `running`, but no final `run_manifest.json`
-  exists; the snapshot is not evidence of a live process or completion.
-- No other V14 discovery seed has a preserved run root, and no V14 fresh-search
-  condition is present.
-- No frozen `G*` selection or completed five-seed discovery table exists.
+| Revision-14 discovery trajectory | Attempt records | Scored proposals | Candidate-context failures | Interruptions | Best recorded discovery fitness |
+|---|---:|---:|---:|---:|---:|
+| Seed 1101 | 540 | 103 | 436 | 1 | 0.907394 (attempt 198) |
+| Seed 1202 | 221 | 131 | 89 | 1 | 0.910471 (attempt 151) |
 
-The v14 protocol, its digest, and the two available run-status records are
-listed in the evidence manifest. Earlier phase-10 and phase-12 failures remain
-historical exploratory or incomplete records; none has been promoted to a
-completed primary result.
+The attempt totals include one interrupted proposal in each trajectory. Every
+other unscored proposal in these records ended in candidate-context validation
+failure with `candidate language parent hash does not match`. This is an
+observed lineage-validation failure at the evaluator boundary; the preserved
+records do not isolate which component produced the mismatched lineage.
+
+Among scored proposals, seed 1101 recorded 19 macro-introduction events:
+`spatial_topology_features` (14), `spatial_degree_profile` (2), and one each
+for `multiscale_spatial_occupancy`, `spatial_skeleton_profile`, and
+`skeleton_length_quartiles`. Seed 1202 recorded 15 events: `skeleton_graph`
+(13) and `skeleton_paths` (2). The best-scored record in each trajectory lists
+`spatial_topology_features` or `skeleton_graph` in its `language_macros`
+inventory and has no macro introduction on that record. The inventory does not
+by itself establish that the scored AST invoked a macro.
+
+The run records are preserved at [seed 1101](../../results/v4/phase12/runs/discovery-1101-736f9da03cc2/trajectory.jsonl) and
+[seed 1202](../../results/v4/phase12/runs/discovery-1202-736f9da03cc2/trajectory.jsonl).
+Seed 1101 reached the 540-attempt cap with status `incomplete_attempt_cap`;
+its 793 MB final manifest is preserved locally but excluded from the release
+tag. Seed 1202 has 221 attempts in a state snapshot last updated
+`2026-10-18T14:04:23.936131+00:00`. The snapshot says `running`, but no final
+`run_manifest.json` or live process was verified.
+
+The candidate-AUC horizon requires 180 scored adaptive unique evaluations beyond
+the 20 shared starting programs to reach 200 total evaluations. Neither
+trajectory reached that horizon: it has at most 103 or 131 scored adaptive
+proposals, respectively. No complete candidate AUC, frozen `G*` selection,
+completed five-seed discovery table, other revision-14 discovery run, or
+revision-14 fresh-search condition exists. Earlier phase-10 and phase-12
+failures remain historical exploratory or incomplete records; none has been
+promoted to a completed primary result.
 
 ## Unsupported hypotheses
 
@@ -132,6 +163,10 @@ completed primary result.
 - E4's G0 result being higher than the macro arm does not show that recipes
   are generally better. There was one seed, five macro-arm schema failures,
   and multiple prompt/schema differences.
+- The revision-14 trajectories' recorded fitness values and distinct macro
+  introduction patterns do not show that the macros caused those scores, that
+  the language improved search, or that the pattern would replicate. Both runs
+  are incomplete, and neither completed the candidate-AUC horizon.
 - None of E1–E4 supports causal abstraction utility or improved search
   efficiency.
 
@@ -144,8 +179,9 @@ completed primary result.
   official-test performance.
 - Macro naming or descriptions causally affect search behavior; the semantic
   ablation was omitted.
-- V4's reduced 25-run primary campaign meets its statistical or numeric
-  support criteria. No E5 or other search is part of this release.
+- The 25-run primary campaign specified by `v4-primary-11` meets its
+  statistical or numeric support criteria. No E5 or other search is part of this
+  release.
 
 ## Data, protocol, and reproducibility boundaries
 
@@ -158,11 +194,11 @@ manifest records the source and split component hashes but not the later
 aggregate fingerprint or full evaluator configuration. E2 records that no
 MNIST data was loaded. The official test partition was not accessed in E1–E4.
 
-This closure does not change `V4_PROTOCOL.md`, any finalized primary protocol,
-V4_PRIMARY_DESIGN.md, or V4_PRIMARY_DESIGN_V11.md. The protocols and their
-historical artifacts remain unchanged. Reproduction guidance now points to
-the frozen evidence bundle and hash checks rather than suggesting a new V4
-run.
+Neither this closure nor the post-tag documentation clarification changes
+`V4_PROTOCOL.md`, any finalized primary protocol, `V4_PRIMARY_DESIGN.md`, or
+`V4_PRIMARY_DESIGN_V11.md`. The protocols and historical run artifacts remain
+unchanged. Reproduction guidance points to the checksummed evidence bundle and
+does not authorize a new V4 run.
 
 ## Blocking correctness defect
 
@@ -182,9 +218,10 @@ was made.
 
 ## Release verification
 
-The focused deterministic V4/E1–E4 test set passed **208 tests**. It used
-mocked proposal clients and synthetic fixtures. This closure did not invoke a
-model, launch a search, score a scientific candidate, or call the official-test
-loader. The release artifacts and their exact SHA-256 hashes are in
-[`V4_EVIDENCE_MANIFEST.json`](V4_EVIDENCE_MANIFEST.json); the checksum files
-support independent verification from the tagged source tree.
+The V4 closure's focused deterministic test set passed **208 tests** using
+mocked proposal clients and synthetic fixtures. This documentation follow-up
+reran no tests, model requests, searches, scientific scoring, or official-test
+loader. The current branch's artifact hashes are in
+[`V4_EVIDENCE_MANIFEST.json`](V4_EVIDENCE_MANIFEST.json), with post-tag document
+revisions marked outside the immutable release tag. The original tagged
+manifest and checksums remain available at `v4-exploratory-final`.

@@ -13,6 +13,9 @@ existing evidence; no experiments were rerun for this editorial revision.
 | V3.2 | What does the LLM contribute to the search procedure? | [Optimizer value](scientific/V3_2_OPTIMIZER_VALUE.md) |
 | V4 | What can the frozen exploratory macro studies establish? | [Evolving bias language](scientific/V4_EVOLVING_BIAS_LANGUAGE.md) |
 
+Naming: V4 is the study. IDs such as `v4-primary-14` identify a primary-protocol
+revision within that study, not a separate research version.
+
 ## Reading the evidence across versions
 
 V1 reports independent MNIST test results after selection. V2 and V3 search
@@ -25,9 +28,10 @@ The sequence supports useful feature composition, compact spatial representation
 and some complementarity with HOG. It also exposes domain-limited transfer,
 weaknesses against dimension-matched HOG-PCA, and limited replication in the
 optimizer study. Findings should be read together with those qualifications.
-V4 is a frozen exploratory study: its bounded E1–E4 observations do not complete
-the preregistered primary comparison or establish causal abstraction utility,
-search efficiency, or generalization.
+V4 is a frozen exploratory study: its bounded E1–E4 observations and partial
+primary-protocol revision-14 trajectories do not complete the preregistered
+comparison or establish causal abstraction utility, search efficiency, or
+generalization.
 
 ## Figures
 

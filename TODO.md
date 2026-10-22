@@ -43,10 +43,11 @@ of this closure.
 
 The historical `results/v4/protocol.json` remains the pilot draft. The primary
 design and finalized protocol revisions are preserved separately. The reduced
-primary campaign did not complete: discovery stopped in incomplete V14 roots,
-no `G*` was frozen, and no fresh-search conditions ran. V4 is now closed as an
-exploratory study; see the closure report above. The Phase 10 exploratory
-pilots remain feasibility evidence only.
+primary campaign specified by `v4-primary-11` did not complete: discovery
+stopped in incomplete roots under primary-protocol revision 14, no `G*` was
+frozen, and no fresh-search conditions ran. V4 is now closed as an exploratory
+study; see the closure report above. The Phase 10 exploratory pilots remain
+feasibility evidence only.
 
 ---
 
@@ -770,9 +771,9 @@ primary launch, implement the storage boundary in
 `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md` and freeze a new contract/layout
 version. Protocols v7-v10 and their evidence remain preserved.
 
-### Protocol v12 launch result — initial-context path failure
+### V4 primary-protocol revision 12 launch result — initial-context path failure
 
-Protocol v12 SHA-256 is
+Protocol `v4-primary-12` SHA-256 is
 `5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00`. Its
 22/22 sandbox preflight, data-free EvE lineage fixture, five contract freezes,
 and five validate-only checks passed. Seed 1101 then failed while constructing
@@ -783,12 +784,12 @@ worker started, and official test data was not accessed. The failed run root
 and exact traceback are preserved at
 `results/v4/phase12/runs/discovery-1101-5099f6f85d34/` and
 `results/v4/phase12/evidence/v4-primary-12/seed-1101-context-path-failure.json`.
-Do not resume this run under changed source. Protocol v13 must use verified
-absolute paths and fresh contracts before discovery resumes.
+Do not resume this run under changed source. Primary-protocol revision 13 must
+use verified absolute paths and fresh contracts before discovery resumes.
 
-### Protocol v13 launch result — Phase 2 cache-guard failure
+### V4 primary-protocol revision 13 launch result — Phase 2 cache-guard failure
 
-Protocol v13 SHA-256 is
+Protocol `v4-primary-13` SHA-256 is
 `e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60`. Its
 22/22 sandbox preflight, data-free EvE lineage fixture, five contract freezes,
 and five validate-only checks passed. Seed 1101 evaluated the 20-program common
@@ -802,12 +803,13 @@ attempt; the candidate received no evaluator score. It records 736,735 reported
 input-plus-output tokens. Preserve the entire run root at
 `results/v4/phase12/runs/discovery-1101-e84cabd10693/`, including its initial
 scores, candidate, structural-check output, transcript, and token record. No
-official test data was accessed. Do not resume or pool this run with v14.
+official test data was accessed. Do not resume or pool this run with
+primary-protocol revision 14.
 
 The Phase 2 adapter now verifies the protocol digest and permits only the exact
 repository-local cache named by storage-layout v2. It retains the legacy
-external-cache requirement and rejects symlink escapes. Freeze protocol v14
-and five fresh contracts before launching a new seed-1101 run.
+external-cache requirement and rejects symlink escapes. The subsequent
+`v4-primary-14` run is preserved as an incomplete trajectory.
 
 ---
 
@@ -832,7 +834,7 @@ Important:
 
 ---
 
-# Phase 14 — Reduced fresh-search experiment (V11)
+# Phase 14 — Reduced fresh-search experiment (V4 primary-protocol revision 11)
 
 Follow `V4_PRIMARY_DESIGN_V11.md`. Restart each condition from the common
 initial-program set and run only:
@@ -862,7 +864,7 @@ per-run budget and five independent seeds.
 
 ---
 
-# Phase 15 — Semantic-language ablation (omitted in V11)
+# Phase 15 — Semantic-language ablation (omitted in primary-protocol revision 11)
 
 Omitted to remove 20 additional search runs. Do not construct anonymized
 languages, launch the ablation, or make a causal claim about language names or
@@ -880,7 +882,7 @@ Label these as observational associations, not causal primitive effects.
 
 ---
 
-# Phase 17 — Transfer test (omitted in V11)
+# Phase 17 — Transfer test (omitted in primary-protocol revision 11)
 
 Omitted to remove 80 additional search runs. Do not access EMNIST, KMNIST, or
 Fashion-MNIST for a transfer search and do not claim cross-task transfer or
@@ -913,7 +915,7 @@ both optimizers.
 
 ---
 
-# Phase 20 — Optional Level B primitive synthesis (omitted in V11)
+# Phase 20 — Optional Level B primitive synthesis (omitted in primary-protocol revision 11)
 
 Record the protocol-based omission. Do not build or run Level B primitive
 synthesis as part of this study.
@@ -945,5 +947,5 @@ generated.
 
 The conclusion must distinguish a good discovered representation, a useful
 representation language, and a generally transferable inductive-bias
-vocabulary. V11 can support the first two only if its preregistered evidence
-passes; it cannot establish the third.
+vocabulary. The reduced primary protocol can support the first two only if its
+preregistered evidence passes; it cannot establish the third.

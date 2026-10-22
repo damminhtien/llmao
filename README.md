@@ -21,6 +21,10 @@ could trust its proposal.
 
 [Read the studies](reports/README.md) · [V4 exploratory release](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
 
+**Version names:** V4 names one research study. Its primary protocol files use
+IDs such as `v4-primary-11` and `v4-primary-14`. “Protocol revision 14” means a
+revision within V4, not a separate V14 study or branch.
+
 ## The assumptions we bring to learning
 
 Different models make different structures easy to express. The examples below

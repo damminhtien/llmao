@@ -183,12 +183,13 @@ This phase answers the actual RQ:
 
 Three language conditions are required.
 
-**Current V11 scope amendment:** the preregistered fresh-search study uses
-only `G0` and the frozen evolved `G*` under fixed iterative Codex and EvE.
-`GH` remains a descriptive inventory reference; it receives no fresh-search
-runs. Semantic ablation, cross-dataset transfer, and Level B synthesis are
-omitted. See `V4_PRIMARY_DESIGN_V11.md` for the versioned amendment; the
-broader comparisons below are not requirements for V11.
+**V4 primary-protocol revision 11 scope amendment:** the preregistered
+fresh-search study uses only `G0` and the frozen evolved `G*` under fixed
+iterative Codex and EvE. `GH` remains a descriptive inventory reference; it
+receives no fresh-search runs. Semantic ablation, cross-dataset transfer, and
+Level B synthesis are omitted. See `V4_PRIMARY_DESIGN_V11.md` for the versioned
+amendment; the broader comparisons below are not requirements under revision
+11.
 
 ## \(G_0\): impoverished starting language
 
@@ -898,8 +899,8 @@ The original full comparison was planned under:
 \{\text{Fixed Iterative Codex},\text{EvE}\}.
 \]
 
-This gave a \(3\times2\) design. V11 replaces it with the narrower matched
-design documented above:
+This gave a \(3\times2\) design. Primary-protocol revision 11 replaced it
+with the narrower matched design documented above:
 
 | Language | Fixed iterative | EvE |
 |---|---:|---:|

@@ -122,3 +122,12 @@ separates observed results from unsupported and untested claims. The V11
 reduced primary campaign remains incomplete. Record the shared optimizer's
 one-attempt remainder bug as a correctness limitation; do not patch or rerun
 research to repair inconclusive evidence. Prepare only a local final tag.
+
+
+## 2026-10-22 — Distinguish V4 study name from protocol revisions
+
+V4 names the research study. Primary protocol artifacts use the full IDs
+`v4-primary-N`; in prose, say “V4 primary-protocol revision N.” The revision
+number does not name a separate research study or branch. The post-tag revision-
+14 trajectory summary is descriptive and does not upgrade either incomplete
+run to a completed primary result.

@@ -9,6 +9,9 @@
 ## Project invariants
 
 - `TODO.md` is the V4 phase checklist. `ARCHITECTURE.md`, `V4_PROTOCOL.md`, and `V4_PRIMARY_DESIGN.md` are the scientific sources of truth; do not duplicate their specifications here.
+- Naming: V4 is the research study; use IDs such as `v4-primary-14` or
+  “V4 primary-protocol revision 14” for protocol versions. Do not use V11/V14
+  as separate study names.
 - Preserve frozen V3/V3.1/V3.2 artifacts and failed pilot records. Never access official test data before the protocol's freeze and evaluation gates.
 - Do not require live Plus usage snapshots or allowance checks before runs. Do not upgrade or use paid credits.
 - Keep code small, readable, typed, and covered by focused regression checks when behavior changes. Never silently swallow exceptions.
