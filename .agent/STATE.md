@@ -1,38 +1,32 @@
 # Current state
 
+V4 is integrated into main and published to origin as a frozen exploratory
+study. The user explicitly authorized merge and push on 2026-10-23.
+
 Completed:
 
-- V4's README and final report lead with the two partial discovery spotlights.
-  E1–E4 remain separate pilot-language diagnostics with no causal efficacy claim.
-- Added docs/V4_MERGE_READINESS.md and corrected reproduction/navigation text.
-- Updated the evidence inventory to 99 artifacts and documented the baseline
-  index exception. The original tagged inventory remains intact (98/98).
-- Preserved source code, tests, scientific protocols, datasets, historical run
-  artifacts, and v4-exploratory-final at 36ea8f5016007455e342d387ffda00bb64666f95.
+- History-preserving merge commit: 44789d120481c5b98ee5384f219f08f80a9c6022.
+- Prepared study branch: f1cbaf48558b4b2c7e9855dd9a28c13e1205bd13.
+- Atomically pushed main, v4-evolving-bias-language, and v4-exploratory-final.
+- Remote branch refs, annotated tag object, and peeled tag target verified with
+  git ls-remote. The tag still targets 36ea8f5016007455e342d387ffda00bb64666f95.
+- Current handoff and evidence manifest record the verified publication.
 
 Validation:
 
-- Existing focused deterministic suite: 208 passed in 6.94 seconds.
-- Six protocol hashes match; trajectory counts, score maxima, macro introduction
-  events, and states match the saved revision-14 JSONL records.
-- Baseline protection: 85/86 current hashes match. The sole change is the reports
-  navigation index; its original bytes match at baseline commit ea6e1d6.
-- The excluded 793,506,639-byte seed-1101 final manifest matches its recorded hash.
-- 84 local edited Markdown link targets exist; diff whitespace check passed.
-- Freshly fetched origin/main at ea6e1d6 is an ancestor; merge-tree found no
-  conflicts. No full-suite or remote CI result is claimed.
+- The merged tree matched the previously validated V4 branch exactly.
+- Manifest sidecar, checksum index, and all 99 artifact hashes match.
+- Source, tests, scientific protocols, and historical results retain their
+  frozen bytes. The tag object is unchanged.
+- The earlier 208 focused deterministic tests remain the software validation;
+  tests were not repeated for identical source and publication metadata.
+- Git diff whitespace checks passed; no remote CI result is claimed.
 
-Known issues:
+Known issues remain documented: E1 final-slot defect; incomplete discovery
+with parent-language hash failures; no selected G* or fresh-search efficacy
+evidence. Scientific conclusions and preserved failures remain unchanged.
 
-- E1 stopped at 19/20 attempts because of the final-slot batch defect.
-- Both spotlight trajectories are incomplete, with recorded parent-language
-  hash failures; seed 1202 has no final manifest. No G* or fresh-search result.
-- The release contains summary evidence, not every native worker replay bundle.
-
-Current: spotlight narrative and integration preparation complete. All 99
-current artifact hashes and the manifest sidecar match. The task is committed
-as one editorial change with the integration handoff.
-Next: integrate this branch into main when requested; preserve source history
-and the existing tag. No merge or remote publication is claimed here.
-No LLM, research run, new scientific evaluation, or official-test loader was
-invoked. V4 remains frozen; no research continuation is scheduled.
+Current: publication and documentation checkpoint complete.
+Next: no further V4 work is scheduled. Keep the original tag immutable.
+No model request, research run, new evaluation, or official-test loader was
+invoked during integration and publication.

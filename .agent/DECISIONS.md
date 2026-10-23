@@ -146,3 +146,12 @@ The baseline inventory's reports/README.md entry is a navigation index that
 was updated for V4. Record the current 85/86 baseline-hash result and verify the
 original index at its baseline commit. Keep the frozen baseline manifest and
 tag unchanged; do not repeat an unqualified 86/86 current-check claim.
+
+
+## 2026-10-23 — Publish the frozen V4 integration
+
+The user explicitly authorized merging into main and pushing. Use a merge
+commit that preserves source history and push the existing annotated final tag
+without moving it. Verify remote branch tips and the peeled tag target. Update
+current publication metadata after verification while retaining the original
+tagged report and manifest as historical snapshots. No research work resumes.

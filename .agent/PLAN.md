@@ -1,10 +1,9 @@
-# V4 Spotlight and Integration Plan
+# V4 Integration and Publication Plan
 
-- [x] Read live task state, report, evidence manifest, and branch state.
-- [x] Fetch origin/main and verify integration ancestry and tracked artifact scope.
-- [x] Reframe the final report around the two partial discovery trajectories.
-- [x] Align README, report index, and reproducibility guidance with that narrative.
-- [x] Write an integration handoff with verification and known limitations.
-- [x] Verify preserved hashes, trajectory summaries, links, and focused tests.
-- [x] Refresh post-tag documentation hashes and inspect the focused diff.
-- [x] Commit the explicit task-owned paths and verify the final clean state.
+- [x] Check the clean branch, fetch origin, and inspect remote refs.
+- [x] Merge the prepared V4 branch into main while preserving source history.
+- [x] Verify identical prepared content, 99 artifact hashes, and the unchanged tag.
+- [x] Push main, the V4 branch, and the annotated tag atomically.
+- [x] Verify remote main, study branch, tag object, and peeled tag target.
+- [x] Record publication metadata, refresh checksums, commit, and push the handoff.
+- [x] Verify final remote HEAD and a clean synchronized main checkout.

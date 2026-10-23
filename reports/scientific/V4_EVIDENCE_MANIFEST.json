@@ -63,8 +63,8 @@
     {
       "included_in_release_tag": false,
       "path": "docs/V4_MERGE_READINESS.md",
-      "sha256": "7e11ba3f99e3840f8cecc75a0c79a458aa986e83befb31edc82bcd5420cfe134",
-      "size_bytes": 6155
+      "sha256": "7f785705f184f23c50e3ebe6845172e4b5c06250540ab7b29d973306ff4e5eda",
+      "size_bytes": 6552
     },
     {
       "included_in_release_tag": true,
@@ -599,7 +599,7 @@
     "entries": 99,
     "note": "Covers every artifact listed above in this manifest revision, including documentation updated after the immutable release tag; the manifest and its sidecar are checked separately.",
     "path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
-    "sha256": "c2bd3f8444afa7317b8d01bfeaac249deece157c0d777af58f2a56d4286584a9"
+    "sha256": "34e7c5f38b4c69cf4ac80c1111bec8742e70ed2eb8de388c000ebbf30b85c6d6"
   },
   "correctness_defect": {
     "behavior": "remaining_attempts // 2 gives a zero-sized batch when one attempt remains.",
@@ -796,16 +796,28 @@
     "audited_source_commit": "5d96530566b9324ffee7ed7589d44d0bc673735c",
     "closure_scope": "No new model requests, searches, scientific evaluations, or official-test loading.",
     "name": "v4-exploratory-final",
-    "remote_publication": false,
+    "remote_publication": true,
     "status": "frozen exploratory research study",
     "tag_target": "36ea8f5016007455e342d387ffda00bb64666f95",
     "post_tag_documentation_update": {
       "base_tag": "v4-exploratory-final",
       "base_commit": "36ea8f5016007455e342d387ffda00bb64666f95",
-      "scope": "Study/protocol naming, spotlight synthesis of the two preserved partial discovery trajectories with E1–E4 diagnostics, integration handoff, and correction of the baseline navigation-index hash exception.",
+      "scope": "Study/protocol naming, spotlight synthesis of the two preserved partial discovery trajectories with E1–E4 diagnostics, integration handoff, and correction of the baseline navigation-index hash exception. Verified main integration and remote branch/tag publication metadata.",
       "protocol_source_data_or_run_artifacts_changed": false,
       "updated_document_paths_are_in_release_tag": false,
       "date": "2026-10-23"
+    },
+    "publication": {
+      "verified_on": "2026-10-23",
+      "remote": "https://github.com/damminhtien/llmao.git",
+      "main_merge_commit": "44789d120481c5b98ee5384f219f08f80a9c6022",
+      "study_branch": "v4-evolving-bias-language",
+      "study_branch_tip": "f1cbaf48558b4b2c7e9855dd9a28c13e1205bd13",
+      "annotated_tag_object": "22a000237e1a7656ffed742787b69f674447fc93",
+      "tag_target": "36ea8f5016007455e342d387ffda00bb64666f95",
+      "verification": "Main, study branch, annotated tag object, and peeled tag target matched git ls-remote after atomic push.",
+      "scientific_source_or_historical_artifacts_changed": false,
+      "remote_ci_claimed": false
     }
   },
   "schema_version": 1,

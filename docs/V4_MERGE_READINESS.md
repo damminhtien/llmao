@@ -1,7 +1,8 @@
 # V4 integration handoff
 
-**Disposition:** prepared for integration as a frozen exploratory research
-study. This handoff records local verification on 2026-10-23. The
+**Disposition:** integrated into main and published as a frozen exploratory
+research study. This handoff records verification and publication on
+2026-10-23. The
 [final report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) leads with
 the two preserved discovery trajectories, then uses E1–E4 to distinguish
 targeted expression, selected representation quality, and observed adoption.
@@ -32,12 +33,19 @@ current manifest identifies post-tag editorial files with
 documentation revision. Use `git show v4-exploratory-final:<path>` to inspect
 the original tagged report or manifest.
 
-The merge base was checked against a freshly fetched `origin/main` at
-`ea6e1d6`. That revision is an ancestor of `v4-evolving-bias-language`.
-`git merge-tree --write-tree origin/main HEAD` completed without conflicts.
-Use a merge that preserves history so source revisions cited by the evidence
-manifest remain reachable. This handoff prepares the research branch; it does
-not record an executed main merge, remote CI result, or remote tag publication.
+Preparation checked a freshly fetched `origin/main` at `ea6e1d6`, an ancestor
+of `v4-evolving-bias-language`, with no merge conflicts. Integration then
+completed through merge commit
+`44789d120481c5b98ee5384f219f08f80a9c6022`. Its tree matched the prepared study
+branch at `f1cbaf48558b4b2c7e9855dd9a28c13e1205bd13` exactly. The merge
+preserves the source revisions cited by the evidence manifest.
+
+On 2026-10-23, main, the study branch, and the existing annotated tag were
+pushed atomically to `https://github.com/damminhtien/llmao.git`. Their remote
+identities were verified with `git ls-remote`, including the unchanged tag
+target. Subsequent publication metadata is recorded after the merge; the
+original tagged manifest remains the closure snapshot. This records a verified
+Git publication, with no remote CI result claimed.
 
 ## Deterministic local verification
 
