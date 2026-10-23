@@ -1,0 +1,65 @@
+{
+  "protocol": {
+    "path": "protocol.json",
+    "sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a"
+  },
+  "runs": [
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "genetic_programming",
+      "optimizer_seed": 101,
+      "phase": "baseline_reproduction",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "run_id": "20261014T061829Z-d93b50ea",
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/genetic_programming/seed_101/trace.json",
+      "trace_sha256": "fa0afa60b3ed8d1a531e7b009aca553624d482e12ac57f83214c72450d6a3630"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "llm_iterative",
+      "optimizer_seed": 101,
+      "phase": "baseline_reproduction",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "run_id": "20261014T061829Z-d93b50ea",
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c00717b1546ebbb7410a10843f656e75b6365186b5ae5936c1ae4f72ef8df4b5"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "llm_one_shot",
+      "optimizer_seed": 101,
+      "phase": "baseline_reproduction",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "run_id": "20261014T061829Z-d93b50ea",
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/llm_one_shot/seed_101/trace.json",
+      "trace_sha256": "8fddbd109f52bbd118bd9934dddae60ab786863918817a49e56bed44f4d1149f"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "optimizer": "typed_random",
+      "optimizer_seed": 101,
+      "phase": "baseline_reproduction",
+      "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+      "requested_evaluations": 40,
+      "run_id": "20261014T061829Z-d93b50ea",
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/typed_random/seed_101/trace.json",
+      "trace_sha256": "03c9c715a642f6180a7fd4717b98d98c6d26f05b0e636738f60a69a963808314"
+    }
+  ],
+  "schema_version": 1,
+  "source": {
+    "source_commit": "85beeaff62791946989b3163cd67fbaed7e7c108",
+    "study_id": "v3.2-optimizer-value-study",
+    "v32_manifest_sha256": "4674d75a6ef8ea7a1cbe01cbca69e0afcfbc7fa25b00528b8cf39089c798e494",
+    "v4_base_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679"
+  },
+  "status": "complete",
+  "study_id": "v4-baseline-reproduction"
+}

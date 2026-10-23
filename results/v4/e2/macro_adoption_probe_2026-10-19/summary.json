@@ -1,0 +1,69 @@
+{
+  "experiment": "LLMAO E2 minimal macro adoption capability probe",
+  "fixed_focus": "free_exploration",
+  "g_pilot_manifest_sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+  "mnist_loaded": false,
+  "model": "qwen3.5:35b-mlx",
+  "official_test_partition_accessed": false,
+  "per_macro": {
+    "multiscale_spatial_degree_profile": {
+      "canonical_expansion_successes": 2,
+      "distinct_expanded_programs": 1,
+      "failure_categories": {
+        "duplicate_expanded_ast": 1
+      },
+      "raw_invocation_rate": 1.0,
+      "raw_invocations": 2,
+      "requests_issued": 2,
+      "requests_planned": 2,
+      "structurally_valid_invocation_rate": 1.0,
+      "structurally_valid_invocations": 2
+    },
+    "multiscale_spatial_profile": {
+      "canonical_expansion_successes": 2,
+      "distinct_expanded_programs": 1,
+      "failure_categories": {
+        "duplicate_expanded_ast": 1
+      },
+      "raw_invocation_rate": 1.0,
+      "raw_invocations": 2,
+      "requests_issued": 2,
+      "requests_planned": 2,
+      "structurally_valid_invocation_rate": 1.0,
+      "structurally_valid_invocations": 2
+    },
+    "stroke_degree_profile": {
+      "canonical_expansion_successes": 2,
+      "distinct_expanded_programs": 1,
+      "failure_categories": {
+        "duplicate_expanded_ast": 1
+      },
+      "raw_invocation_rate": 1.0,
+      "raw_invocations": 2,
+      "requests_issued": 2,
+      "requests_planned": 2,
+      "structurally_valid_invocation_rate": 1.0,
+      "structurally_valid_invocations": 2
+    }
+  },
+  "raw_response_archive_sha256": "fe94dcf6b9d14499bf4abd038a189ab9919466479dfe5331ea54b2fb23ecfbd8",
+  "reported_input_tokens": 10636,
+  "reported_output_tokens": 648,
+  "reported_wall_seconds": 28.306,
+  "requests_issued": 6,
+  "requests_planned": 6,
+  "scores_requested": false,
+  "status": "completed",
+  "stop_reason": null,
+  "token_ledger": {
+    "accounting_error": null,
+    "max_output_tokens_per_request": 2500,
+    "max_requests": 6,
+    "max_total_tokens": 400000,
+    "reported_tokens": 11284,
+    "request_timeout_seconds": 120,
+    "requests": 6,
+    "reserved_tokens": 324586,
+    "unknown_failed_calls": 0
+  }
+}

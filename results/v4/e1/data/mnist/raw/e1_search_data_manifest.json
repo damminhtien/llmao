@@ -1,0 +1,50 @@
+{
+  "dataset": "MNIST official training partition only",
+  "partition_shape": {
+    "images": [
+      60000,
+      28,
+      28
+    ],
+    "labels": [
+      60000
+    ]
+  },
+  "preprocessing": "uint8 pixels converted to float32 and divided by 255",
+  "schema_version": 1,
+  "source": {
+    "authority": "Yann LeCun MNIST, via the pinned PyTorch OSSCI mirror",
+    "files": [
+      {
+        "filename": "train-images-idx3-ubyte.gz",
+        "rows": 60000,
+        "url": "https://ossci-datasets.s3.amazonaws.com/mnist/train-images-idx3-ubyte.gz"
+      },
+      {
+        "filename": "train-labels-idx1-ubyte.gz",
+        "rows": 60000,
+        "url": "https://ossci-datasets.s3.amazonaws.com/mnist/train-labels-idx1-ubyte.gz"
+      }
+    ],
+    "fingerprints": {
+      "image_archive_md5": "f68b3c2dcbeaaa9fbdd348bbdeb94873",
+      "image_archive_sha256": "440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609",
+      "image_idx_sha256": "ba891046e6505d7aadcbbe25680a0738ad16aec93bde7f9b65e87a2fc25776db",
+      "label_archive_md5": "d53e105ee54ea40749a09fcbcd1e9432",
+      "label_archive_sha256": "3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c",
+      "label_idx_sha256": "65a50cbbf4e906d70832878ad85ccda5333a97f0f4c3dd2ef09a8a9eef7101c5"
+    }
+  },
+  "split": {
+    "seed": 42,
+    "splitter": "sklearn.model_selection.train_test_split",
+    "stratified_by": "official_training_labels",
+    "train_images_sha256": "15e12d6f269cda485395ddb7b4be01a639175ec830fed60779350ac516f8ca55",
+    "train_indices_sha256": "6f93fe6e3ec2764671ae2f45a50b8042ff2f7317edce9f7e6b19bb1c26379282",
+    "train_labels_sha256": "9d091d988de1b13fb9b2ee60de53671ce232ebb4fbb460f0fc8fd1eae9e865d6",
+    "validation_images_sha256": "a64a8c45f7b3394611d368e042dbc8906cb5858b156faad219edd610dc70a72a",
+    "validation_indices_sha256": "a57e873cd99805aab3cf887c87c9a93b7c244c65226509ec899b6deff8fec5e7",
+    "validation_labels_sha256": "d25be9529d09b59c7f2c887b71a06fe22e776dd0a4c2b84b353f358db0bc7c0f",
+    "validation_size": 2000
+  }
+}

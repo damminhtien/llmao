@@ -1,0 +1,142 @@
+{
+  "conditions": [
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "evaluation_runtime_ms": 2497.222458997385,
+      "llm_calls": 0,
+      "llm_tokens": 0,
+      "optimizer": "typed_random",
+      "proposal_attempts": 40,
+      "requested_candidates": 40,
+      "seed": 101,
+      "seed_reproduction": {
+        "accuracy_matches_exactly": true,
+        "candidate_ids_match": true,
+        "evaluated_seed_programs": 20,
+        "feature_dimensions_match": true,
+        "fitness_tolerance": 0.001,
+        "maximum_absolute_fitness_delta": 7.442185987951988e-05,
+        "passed": true,
+        "reference_trace": "results/v32/runs/smoke/typed_random/seed_101/trace.json",
+        "reference_trace_sha256": "c58be7de32ec0f088ec5e472b1388c764243e5f70fb8ec54f3edc9891ccd7f5a"
+      },
+      "total_runtime_ms": 2547.322250000434,
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/typed_random/seed_101/trace.json",
+      "trace_sha256": "03c9c715a642f6180a7fd4717b98d98c6d26f05b0e636738f60a69a963808314"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "evaluation_runtime_ms": 2427.4670370032254,
+      "llm_calls": 0,
+      "llm_tokens": 0,
+      "optimizer": "genetic_programming",
+      "proposal_attempts": 35,
+      "requested_candidates": 40,
+      "seed": 101,
+      "seed_reproduction": {
+        "accuracy_matches_exactly": true,
+        "candidate_ids_match": true,
+        "evaluated_seed_programs": 20,
+        "feature_dimensions_match": true,
+        "fitness_tolerance": 0.001,
+        "maximum_absolute_fitness_delta": 1.0605583023404197e-05,
+        "passed": true,
+        "reference_trace": "results/v32/runs/smoke/genetic_programming/seed_101/trace.json",
+        "reference_trace_sha256": "f3813cc3164c3206a47d5971953d1e840a1ceb1b61513a35b9d4f4444725330c"
+      },
+      "total_runtime_ms": 2468.3725000004415,
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/genetic_programming/seed_101/trace.json",
+      "trace_sha256": "fa0afa60b3ed8d1a531e7b009aca553624d482e12ac57f83214c72450d6a3630"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "evaluation_runtime_ms": 3665.5167089975293,
+      "llm_calls": 11,
+      "llm_tokens": 30810,
+      "optimizer": "llm_one_shot",
+      "proposal_attempts": 25,
+      "requested_candidates": 40,
+      "seed": 101,
+      "seed_reproduction": {
+        "accuracy_matches_exactly": true,
+        "candidate_ids_match": true,
+        "evaluated_seed_programs": 20,
+        "feature_dimensions_match": true,
+        "fitness_tolerance": 0.001,
+        "maximum_absolute_fitness_delta": 6.288945748000874e-06,
+        "passed": true,
+        "reference_trace": "results/v32/runs/smoke/llm_one_shot/seed_101/trace.json",
+        "reference_trace_sha256": "b843a280ab71bf51ffe17a2822a3659b1c7a4534697be915b421c1137ae5a724"
+      },
+      "total_runtime_ms": 197123.7689999998,
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/llm_one_shot/seed_101/trace.json",
+      "trace_sha256": "8fddbd109f52bbd118bd9934dddae60ab786863918817a49e56bed44f4d1149f"
+    },
+    {
+      "complete": true,
+      "evaluated_candidates": 40,
+      "evaluation_runtime_ms": 8874.4045429994,
+      "llm_calls": 8,
+      "llm_tokens": 33655,
+      "optimizer": "llm_iterative",
+      "proposal_attempts": 22,
+      "requested_candidates": 40,
+      "seed": 101,
+      "seed_reproduction": {
+        "accuracy_matches_exactly": true,
+        "candidate_ids_match": true,
+        "evaluated_seed_programs": 20,
+        "feature_dimensions_match": true,
+        "fitness_tolerance": 0.001,
+        "maximum_absolute_fitness_delta": 2.2095032368302236e-05,
+        "passed": true,
+        "reference_trace": "results/v32/runs/smoke/llm_iterative/seed_101/trace.json",
+        "reference_trace_sha256": "2b4e442f622163e1315cd377b91cc6d2668cc619cac9f3420fc677af749e15ac"
+      },
+      "total_runtime_ms": 133970.15054199984,
+      "trace": "results/v4/baseline_reproduction/runs/20261014T061829Z-d93b50ea/llm_iterative/seed_101/trace.json",
+      "trace_sha256": "c00717b1546ebbb7410a10843f656e75b6365186b5ae5936c1ae4f72ef8df4b5"
+    }
+  ],
+  "environment": {
+    "llm_backend": "Ollama local",
+    "llm_model": "qwen3.5:35b-mlx",
+    "official_test_access": false,
+    "platform": "macOS-27.0.1-arm64-arm-64bit-Mach-O",
+    "python": "3.14.8"
+  },
+  "observed_on": "2026-10-14T06:24:06.048735+00:00",
+  "protocol": {
+    "max_proposal_attempts": 60,
+    "official_test_partition_used": false,
+    "seed_evaluations": 20,
+    "seed_fitness_absolute_tolerance": 0.001,
+    "smoke_seed": 101,
+    "split_fingerprints_sha256": {
+      "training_partition_search_pool": "408c5bccf0c0154544e24ac90c0a66ac4a43874afa02467dd49608361e5949a9",
+      "training_subset_500_seed_42": "13fcc1f95360ad91af1450cfdb0f482f060f266b7343fe029e497d030a2a15b9",
+      "validation_split": "6f09a36b184e4ea60a1876f195d777e1f9a6df16b7a071681cbfcf7157989b68"
+    },
+    "total_evaluations_per_optimizer": 40,
+    "train_pool_size": 58000,
+    "training_subset_seed": 42,
+    "training_subset_size": 500,
+    "validation_size": 2000,
+    "validation_split_seed": 42
+  },
+  "run_id": "20261014T061829Z-d93b50ea",
+  "schema_version": 1,
+  "source": {
+    "v3_2_artifacts_unchanged": true,
+    "v3_2_commit": "85beeaff62791946989b3163cd67fbaed7e7c108",
+    "v3_2_manifest_sha256_after": "4674d75a6ef8ea7a1cbe01cbca69e0afcfbc7fa25b00528b8cf39089c798e494",
+    "v3_2_manifest_sha256_before": "4674d75a6ef8ea7a1cbe01cbca69e0afcfbc7fa25b00528b8cf39089c798e494",
+    "v3_2_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+    "v4_base_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679"
+  },
+  "status": "passed",
+  "study_id": "v4-baseline-reproduction"
+}

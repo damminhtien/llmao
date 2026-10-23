@@ -1,0 +1,838 @@
+{
+  "artifact_inventory": [
+    {
+      "included_in_release_tag": false,
+      "path": "ARCHITECTURE.md",
+      "sha256": "4595da5b2b11653424c928cef89888b1aceab22e9ab0bba36dadcc1839f34d6a",
+      "size_bytes": 33123
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "README.md",
+      "sha256": "e54b5190d0c622e429d3ede6bcee491009990a49d37de48770b169458f837ae1",
+      "size_bytes": 21359
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "TODO.md",
+      "sha256": "f771a3793620ea2f30ca178792434aa0405a646dc779ea1eda81b7a3f76372ef",
+      "size_bytes": 43915
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "V4_INITIAL_PROGRAMS.json",
+      "sha256": "60d0cc90bf0d4e3f282023108ca9113800e01cf0486865a60771879746f4afab",
+      "size_bytes": 27674
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "V4_INITIAL_PROGRAMS.sha256",
+      "sha256": "1b9f5e5c17c095d831c5458e71b8845310005b9a8bc01d3f6d89733d8973e9a6",
+      "size_bytes": 65
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "V4_PRIMARY_DESIGN.md",
+      "sha256": "d3b7c53a059b3ea4ab9e1d7c09c70d6ef0408351cb0c2e95df27718b2c2d3fa5",
+      "size_bytes": 12013
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "V4_PRIMARY_DESIGN_V11.md",
+      "sha256": "1b990bf1e39207dad0bc7905128054e9abc9048f622ff2c96f734d4e6d948dbc",
+      "size_bytes": 5734
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "V4_PROTOCOL.md",
+      "sha256": "b8dbbfbd82fb3f44ff646fb5ef9b8ec6f2c9597cf7afa473366d7554d0c7d386",
+      "size_bytes": 11360
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "docs/REPRODUCIBILITY.md",
+      "sha256": "0c5ed5a93dfab62dccceadb966a934608398b8435e8857633011dbd794394eed",
+      "size_bytes": 9015
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md",
+      "sha256": "c5f4ce488c4940dc53844880192c1246ef9aeaee2db091ed2eefd3e50e901fc4",
+      "size_bytes": 9406
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "docs/V4_MERGE_READINESS.md",
+      "sha256": "7e11ba3f99e3840f8cecc75a0c79a458aa986e83befb31edc82bcd5420cfe134",
+      "size_bytes": 6155
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "experiments/e1.py",
+      "sha256": "91846aabcfc12a402ae5b8c5b5a31140294d0780d1eb867b715fb861f576dce2",
+      "size_bytes": 23802
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "experiments/e2_macro_adoption_probe.py",
+      "sha256": "f5ac6259eb01b442e25e62cd8a2c3303607ba65369031244a66b6ee7fa21706e",
+      "size_bytes": 23143
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "experiments/e4.py",
+      "sha256": "6abcdca6c26dffb29df738b1858d2a52c3e018ac1fc91df4fa2e8e1a41a5d0c4",
+      "size_bytes": 56202
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "reports/README.md",
+      "sha256": "0dd8cde7874a3f5108aedb03991c481ccaffc3f0fac6230286142f13468d84bf",
+      "size_bytes": 3404
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md",
+      "sha256": "e0363b727f50db7055d97c231e72311be18cfbcbabd9def7542a88b9adecdfb7",
+      "size_bytes": 17060
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/baseline_manifest.json",
+      "sha256": "050bc754b6117b716e9e2f1f5f9e92e2ef1c08872aab4245c099de7393e72d2b",
+      "size_bytes": 11789
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/data/mnist/raw/e1_search_data_manifest.json",
+      "sha256": "26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4",
+      "size_bytes": 2042
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/common_initial_evaluations.json",
+      "sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+      "size_bytes": 54600
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/e1_summary.json",
+      "sha256": "55a087c2f3efa1fbcacd94e1afa85edb81a18b527ef0a47eb8d72d59be4bcad6",
+      "size_bytes": 943
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g0/e1_metrics.json",
+      "sha256": "367cd5e9955e89fdba4d368d0b765184304686b5d1e08546b6a63bb9376d59d4",
+      "size_bytes": 2664
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g0/llm_responses.jsonl",
+      "sha256": "7f6cedcdf0d2fbe286cd6945a2bed9db3d7529c147b8f0f62e3114e7f5d57678",
+      "size_bytes": 132358
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g0/model_calls.jsonl",
+      "sha256": "ab85e608cff6230f493e7a4eed1e99a3b19417ab343f286a17c516fbe55b7c69",
+      "size_bytes": 53902
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g0/trace.json",
+      "sha256": "aa7edd603dd597f5c139a0b66a1134f758c3e10cd387a839af14e3ad9bda9177",
+      "size_bytes": 121217
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g_pilot/e1_metrics.json",
+      "sha256": "63b16b0563af93d44198364bdc1dee3d639f4a9e716c0c9da939d46ccc7713f2",
+      "size_bytes": 2596
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g_pilot/llm_responses.jsonl",
+      "sha256": "69eac0df074b8af53e5baeda6263042167cc2b8e4ad910710ffcc561c8054f66",
+      "size_bytes": 133048
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g_pilot/model_calls.jsonl",
+      "sha256": "dd9fc44bde678168b82dfe2deb52a840e92f336067be2c906b132d09bfb2248f",
+      "size_bytes": 55318
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e1/runs/seed_101/g_pilot/trace.json",
+      "sha256": "fbec2af6551b36338ff86fd654dca619f8a0ac263bd366743af70a7d897ec5f1",
+      "size_bytes": 130906
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e2/macro_adoption_probe_2026-10-19/model_calls.jsonl",
+      "sha256": "fe94dcf6b9d14499bf4abd038a189ab9919466479dfe5331ea54b2fb23ecfbd8",
+      "size_bytes": 4535
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e2/macro_adoption_probe_2026-10-19/request_plan.json",
+      "sha256": "826737af192d7d777265b248c8da2a4c9776d41358a973e9ca0f73151b7ccf4d",
+      "size_bytes": 42973
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e2/macro_adoption_probe_2026-10-19/request_results.jsonl",
+      "sha256": "06eebff62512fe5ae0a51d606fae84906d7585af844642f37235e081da31bed4",
+      "size_bytes": 3945
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e2/macro_adoption_probe_2026-10-19/summary.json",
+      "sha256": "fb9f03886886ab60e6739ac92fa33a53d92cb1984af86f2839ebad5b48cfd7de",
+      "size_bytes": 2183
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e3/e2_macro_program_evaluation_2026-10-20/REPORT.md",
+      "sha256": "4ddc9be41aadd513e2af718a998abf0fdc61b41cfdce0476b54fba5b403acedc",
+      "size_bytes": 3094
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e3/e2_macro_program_evaluation_2026-10-20/e3_results.json",
+      "sha256": "83b19f43cbbb44c38f5121d940669273443951ea42da046d17a7c01218855e3a",
+      "size_bytes": 19965
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/REPORT.md",
+      "sha256": "ca4db7041503bec7edc0270ed68b6ae157bb76fefc26cd01d2fd2d173f892c6e",
+      "size_bytes": 6640
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/common_initial_evaluations.json",
+      "sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+      "size_bytes": 54600
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/e4_manifest.json",
+      "sha256": "fcecd5c6af67e854f6ceb30cb7e61825f1766a40fdb6bdec5ccbe3fd5c2676c1",
+      "size_bytes": 12061
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/e4_results.json",
+      "sha256": "81b95e2f01de2b8128e3ed0e414c21a42788a43fb08f2316617e938922aec5b7",
+      "size_bytes": 34603
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g0_recipes/e4_metrics.json",
+      "sha256": "bf50432bcf9031dc2a21ade7faeea670d55b6a74904687087f72a3ec45d0ec1b",
+      "size_bytes": 3894
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g0_recipes/llm_responses.jsonl",
+      "sha256": "3da518cf9daf4cd650eff181a55c569c07c02116b37a6f4a51a14d06f6424eaf",
+      "size_bytes": 169822
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g0_recipes/model_calls.jsonl",
+      "sha256": "88905e53644aa5c2aa40544f880cd74f7b7eaba534da55b437c5074af5856aa9",
+      "size_bytes": 39572
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g0_recipes/trace.json",
+      "sha256": "640bdb914abaa2d5b7013a75481dcf75e389c8e26cb45f81405afbae417997df",
+      "size_bytes": 412934
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g_pilot_macros/e4_metrics.json",
+      "sha256": "f64ed5174f1eae9ff8c475a60903f4540b356b42633068254ef641ae26410c92",
+      "size_bytes": 3486
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g_pilot_macros/llm_responses.jsonl",
+      "sha256": "65e01672da1a5caf1e5d366c82b79dd9b43105fcee5ef879476a522cd1fe8800",
+      "size_bytes": 159171
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g_pilot_macros/model_calls.jsonl",
+      "sha256": "d0a0ab7d928514dddd06a06f45414cac7eaac7142fb826c8f158b39ecc3e26a8",
+      "size_bytes": 26955
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/g_pilot_macros/trace.json",
+      "sha256": "495d377310d5bdcf1011be3bd431cda90ad1d8c902834cd2d052cc4785380fab",
+      "size_bytes": 332613
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/preflight.json",
+      "sha256": "d85d85a19fcd7bb3964a5aac96c2620de8413dc4aa1520926adf4ab729ca9f43",
+      "size_bytes": 2794
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/e4/seed_202/run_status.json",
+      "sha256": "48aee8e3cb75ea65bdb2379d7984875efcc48044cf304f1668a0a479b56360d0",
+      "size_bytes": 131
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/g0.json",
+      "sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+      "size_bytes": 7849
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/g0.json.sha256",
+      "sha256": "d96fb788543a3d12866045a2ce2fe05d4ab340def3a1524729e7c7734c675bc0",
+      "size_bytes": 74
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/g_pilot_e1.json",
+      "sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+      "size_bytes": 50399
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/g_pilot_e1.json.sha256",
+      "sha256": "2917d61c36fa8ec6f2b7ad282d79501698e67bb05c860f9c8c95a30f0596dd9d",
+      "size_bytes": 82
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/gh.json",
+      "sha256": "79d65f19cd6bf7a9bf46bb080877c810a3e9378f8ed71d474f36cd1e0de1ec14",
+      "size_bytes": 9982
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/languages/gh.json.sha256",
+      "sha256": "35cde3694cfec4e119fcc74f8d1c68c8f2c6c99450ef2bfee81997c3ac40aae8",
+      "size_bytes": 74
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/phase12/runs/discovery-1101-736f9da03cc2/run_state.json",
+      "sha256": "9f3c60e0fdb9bf3a460d3051abd25dbc2e2571b1feac3ea4b2a51153b2772848",
+      "size_bytes": 37633
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/phase12/runs/discovery-1101-736f9da03cc2/trajectory.jsonl",
+      "sha256": "eaea48bfec8d29b0d32188d7fae1ab4fa38aa5b658e4ae734ef1b1ec8f7cf96f",
+      "size_bytes": 1150408
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/phase12/runs/discovery-1202-736f9da03cc2/run_state.json",
+      "sha256": "35fa7c60a6df8c1b0c21eebb2db3f4c4f6fed29896f951abbd21ef32ef5cdec3",
+      "size_bytes": 37667
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/phase12/runs/discovery-1202-736f9da03cc2/trajectory.jsonl",
+      "sha256": "d59299e7bcc6220302beb7f620664f6faf2d453aaf01198b9c406c450cc74704",
+      "size_bytes": 426992
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol.json",
+      "sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+      "size_bytes": 32651
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol.json.sha256",
+      "sha256": "ac318fac7b2e03b7769c4b99572c5e0e0c2bc223e90711f307a00d73ea1fa2b5",
+      "size_bytes": 92
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v11.json",
+      "sha256": "d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6",
+      "size_bytes": 35001
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v11.json.sha256",
+      "sha256": "d43c602d4685d4449efd9e00cf653e72ab924d4d435bc5c3573323cd5f8e4539",
+      "size_bytes": 92
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v12.json",
+      "sha256": "5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00",
+      "size_bytes": 35005
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v12.json.sha256",
+      "sha256": "a6d01baa90292c24b3ee8337ad278a04d21cf947c1f3c16401ab4087b57b0d3e",
+      "size_bytes": 92
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v13.json",
+      "sha256": "e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60",
+      "size_bytes": 35005
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v13.json.sha256",
+      "sha256": "ad332451af8021f3ae918175b56d073dc8e7798a10d7f22309c509d49a1b1d18",
+      "size_bytes": 92
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v14.json",
+      "sha256": "736f9da03cc237f9dbbbba9a5b95ff12367c543e37c1106fe955b63971917d69",
+      "size_bytes": 35005
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/primary_protocol_v14.json.sha256",
+      "sha256": "14e8f0ab8e7cddff92557cc34ddce56cd8d419ea468e81a6a6d8bd9123ff908d",
+      "size_bytes": 92
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/protocol.json",
+      "sha256": "e21bd6e89c8ea90629e8a07417bdb3b007d1474ce075920d358a62e69ac2234b",
+      "size_bytes": 8931
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "results/v4/protocol.sha256",
+      "sha256": "df44a6405a69ef895430c2d86c29527cc8de4820afbe8e7aada84630c3d812fa",
+      "size_bytes": 80
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "src/bias_optimizer/optimizer_bench/e1.py",
+      "sha256": "274cf25fec79070e819765e8b6ffb9bf43bd9b74a8bda2e99d5a6353e1dd3cac",
+      "size_bytes": 38756
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "src/bias_optimizer/optimizer_bench/optimizers/llm_common.py",
+      "sha256": "8bcc5f58acee0bfd6bb112b38d9a969dc387fdd541d46a65bbd1f0e7be4d48c7",
+      "size_bytes": 12877
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/optimizer_bench/test_e1.py",
+      "sha256": "b04998d502cfb27047dd26ea5ac51abb2a8a41098019fa01724f9291e02b3b29",
+      "size_bytes": 22984
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/optimizer_bench/test_e2_macro_adoption_probe.py",
+      "sha256": "6d934015fc19d6270d80cabc84d28d8fb4496768909b802202f76a5f52b5ebb8",
+      "size_bytes": 6473
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/optimizer_bench/test_e4.py",
+      "sha256": "29ed9cb237f57400965241ac2852c328edfcdda2de264cb85f9e512f197d2e49",
+      "size_bytes": 9412
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_mnist_e1.py",
+      "sha256": "f2cbe94641cdad563197659cd6bb5afdbbc39f577b7f945b2c8f5d9492fd2486",
+      "size_bytes": 4183
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_artifact_paths.py",
+      "sha256": "ae1add10f27f99950e1919ddbca8a15743ab86fc4ad65d0a6066ec90df81020d",
+      "size_bytes": 2425
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_base_language.py",
+      "sha256": "b0498fd54144422eca5e4ce5233a8a9157f970afcb0218413e7411ae7b56dfd6",
+      "size_bytes": 3718
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_boundary.py",
+      "sha256": "1577fb58cc520eee35cb617cd5edba185b9b1e7bfac9794a59ccf2cbed3b48de",
+      "size_bytes": 5359
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_candidate.py",
+      "sha256": "8886f79207f42985d34aca0b9b51967dc7677d5916e84f687e7d24aae3fb7917",
+      "size_bytes": 7166
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_candidate_check.py",
+      "sha256": "afa4efd765d2abdf6096607da144e516386cfe0b3a47444ee5380b049db74d34",
+      "size_bytes": 6509
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_check_bundle.py",
+      "sha256": "ae7ae140adcf50310ec8f1e32a8e5596ddebe83886ecc30b3fd1fb672a83b04a",
+      "size_bytes": 5037
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_codex_sandbox.py",
+      "sha256": "d44c66571162a542ec8b982f6e43a36ff6ce105daf2f017ea3222edf655f0153",
+      "size_bytes": 7767
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_collect_followup.py",
+      "sha256": "a3714cd6e38be21d6bcb9c482947a91db2b7642d27bf0bd6fafb3790929a4424",
+      "size_bytes": 3420
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_collect_primary_discovery.py",
+      "sha256": "5f3ce8b926a038982e72fbe57dd371d47bcb6d43fe3b996a26adbfa4951cb5f3",
+      "size_bytes": 7710
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_discovery.py",
+      "sha256": "d454025cc346b80ef4998dd9b79e40979588f05c48f629dec4a85989b8c08909",
+      "size_bytes": 3032
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_evaluator.py",
+      "sha256": "f616f8bb43aa0833fb9fecdc0afb064c59e597624b2c8d7be7165595ed384b6b",
+      "size_bytes": 9792
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_eve_lineage_fixture.py",
+      "sha256": "be72ec8ad9e35db4349c021f3023edba656847f4c1edae7c14ae0610ff575edd",
+      "size_bytes": 3723
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_finalize_primary_protocol.py",
+      "sha256": "68ff3d05f01a738b0598e4db51fcfca112fa0058432a90e73840e339d5888004",
+      "size_bytes": 5042
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_initial_programs.py",
+      "sha256": "094e215e9081886875f8530ff0b181583b13b3a74991cec9293afc3bcc9ab138",
+      "size_bytes": 2425
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_launch_followup.py",
+      "sha256": "362cea2dd37007b36b7b02144996027abc18556c3da343acef10863cd2c15be2",
+      "size_bytes": 5234
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_lineage.py",
+      "sha256": "61a8e60efbb6dc3ed69f64506cc2e9b76ee26c3ce1f5b8d4356b4b0f0c763b3f",
+      "size_bytes": 13310
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_macros.py",
+      "sha256": "7b134ce199f886bfc9a9167db7021e4b02c04be16c3570057ced8562c7138a3f",
+      "size_bytes": 14867
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_native_check_fixture.py",
+      "sha256": "f8a948bcf00c3c9bde61d25d9e2cf55f146811090f6537d96506ee82789ae889",
+      "size_bytes": 4262
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_objective.py",
+      "sha256": "e0ed32020211d8a5f1eecf72d2cedda45d723650969d9e0dde3044df9522cbbb",
+      "size_bytes": 2185
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_primary_contract.py",
+      "sha256": "8fb44798ded96aa3033f658b6d28354dd7cecfb561d2c746a976407da3ecb8af",
+      "size_bytes": 3235
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_primary_runner.py",
+      "sha256": "16de1503826b7825a4adc4b7a569cc8775f102e89f39104ff902869e0f2ae3f3",
+      "size_bytes": 8856
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_sandbox_preflight.py",
+      "sha256": "99df0dba33e763c662a5d7fa8849e41fc71c9558b0d5a287a030ecb9184fdc71",
+      "size_bytes": 3318
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "tests/unit/test_v4_tmux_failure_capture.py",
+      "sha256": "7581fc6d82ed349d261765af06e4af1102d63156dabeb0244ff75665020f03e4",
+      "size_bytes": 2555
+    }
+  ],
+  "checksum_index": {
+    "entries": 99,
+    "note": "Covers every artifact listed above in this manifest revision, including documentation updated after the immutable release tag; the manifest and its sidecar are checked separately.",
+    "path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
+    "sha256": "c2bd3f8444afa7317b8d01bfeaac249deece157c0d777af58f2a56d4286584a9"
+  },
+  "correctness_defect": {
+    "behavior": "remaining_attempts // 2 gives a zero-sized batch when one attempt remains.",
+    "impact": "Blocks any full-attempt-cap claim for this E1 arm. Reported only; not fixed or rerun.",
+    "line": 204,
+    "observed_consequence": "E1 G_pilot stopped at 19/20 attempts with optimizer_returned_no_attempts; runner marked the trace complete.",
+    "path": "src/bias_optimizer/optimizer_bench/optimizers/llm_common.py"
+  },
+  "dataset_fingerprints": {
+    "aggregate_split_fingerprint": "41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f",
+    "archive_sha256": {
+      "train-images-idx3-ubyte.gz": "440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609",
+      "train-labels-idx1-ubyte.gz": "3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c"
+    },
+    "e1_missing": "E1 did not persist the aggregate fingerprint or complete evaluator configuration.",
+    "idx_sha256": {
+      "images": "ba891046e6505d7aadcbbe25680a0738ad16aec93bde7f9b65e87a2fc25776db",
+      "labels": "65a50cbbf4e906d70832878ad85ccda5333a97f0f4c3dd2ef09a8a9eef7101c5"
+    },
+    "official_test_accessed_by_e1_e4": false,
+    "raw_archives_in_tag": false,
+    "seed": 42,
+    "source": "MNIST official training partition only",
+    "split_id": "mnist-validation-seed-42-41bc42fedd084e7c",
+    "train_rows": 58000,
+    "validation_rows": 2000
+  },
+  "deterministic_verification": {
+    "baseline_manifest_hash_checks": "85/86 current files; sole editorial navigation-index exception verified at the recorded baseline commit.",
+    "e3_fitness_recomputation": "3/3 exact matches",
+    "focused_test_command": ".venv/bin/pytest --import-mode=importlib -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py",
+    "model_search_or_scoring_invoked_for_closure": false,
+    "official_test_loader_invoked_for_closure": false,
+    "preserved_input_hash_checks": "20/20",
+    "result": "208 passed in 7.85 seconds",
+    "baseline_manifest_editorial_exception": {
+      "path": "reports/README.md",
+      "baseline_sha256": "b9746b34772a4f10e9c6388931aa260cddba8a707f8afea6fa7a056c45d7820e",
+      "current_sha256": "0dd8cde7874a3f5108aedb03991c481ccaffc3f0fac6230286142f13468d84bf",
+      "preserved_at_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679",
+      "reason": "Editorial navigation index updated to include V4. All 85 other baseline entries match; original index bytes verified at the recorded baseline commit."
+    },
+    "post_tag_integration_check": {
+      "date": "2026-10-23",
+      "documentation_base_commit": "1728646bb265b4eb30003af19d8ddcad5c2ab3e2",
+      "focused_test_command": ".venv/bin/pytest --import-mode=importlib -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py",
+      "focused_test_result": "208 passed in 6.94 seconds",
+      "original_tag_inventory_hash_checks": "98/98",
+      "origin_main_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679",
+      "origin_main_is_ancestor": true,
+      "merge_tree_conflicts": false,
+      "frozen_source_protocol_tests_and_result_artifacts_changed": false,
+      "model_research_search_scoring_or_official_test_loader_invoked": false,
+      "validation_scope": "Focused local software tests, static artifact reconciliation, hashes, links, and Git integration checks; no full repository suite or remote CI claim."
+    }
+  },
+  "excluded_local_artifacts": [
+    {
+      "included_in_release_tag": false,
+      "path": "results/v4/phase12/runs/discovery-1101-736f9da03cc2/run_manifest.json",
+      "reason": "793 MB; hash-recorded for accounting but excluded to keep the release bundle reviewable.",
+      "sha256": "3061bed80c13f510b8c241a2a965ce0538222c5e36d39ea3224cad21af02cb69",
+      "size_bytes": 793506639
+    }
+  ],
+  "missing_evidence": [
+    "Exact E1 and E4 runtime source revisions are not pinned; E1 also lacks complete evaluator configuration and its own aggregate dataset fingerprint.",
+    "E1 G_pilot did not consume its final adaptive attempt because of the documented optimizer defect.",
+    "E2 has no fitness measurements; E3 covers only three selected expanded programs; E4 is one seed with prompt and schema differences.",
+    "The 25-run primary campaign specified by v4-primary-11 has no completed discovery table, G* selection, or fresh-search runs.",
+    "Primary-protocol revision 14 has only the two incomplete discovery trajectories summarized above; neither reaches the candidate-AUC horizon or selects G*.",
+    "Raw MNIST training archives are identified by hashes but excluded from the tag; official-test data was not accessed.",
+    "No evidence supports generalization, causal abstraction utility, improved search efficiency, or primary efficacy.",
+    "The bundled spotlight records omit full native worker workspaces and complete per-candidate replay bundles; macro inventory alone does not establish invocation by a scored AST."
+  ],
+  "primary_campaign": {
+    "discovery_1101": {
+      "adaptive_attempts": 540,
+      "final_manifest_present": true,
+      "status": "incomplete_attempt_cap"
+    },
+    "discovery_1202": {
+      "adaptive_attempts": 221,
+      "final_manifest_present": false,
+      "live_process_verified": false,
+      "status": "running",
+      "updated_at_utc": "2026-10-18T14:04:23.936131+00:00"
+    },
+    "frozen_manifest_present": false,
+    "g_star_selected": false,
+    "latest_protocol": "results/v4/primary_protocol_v14.json",
+    "planned_discovery_runs": 5,
+    "planned_fresh_search_runs": 20,
+    "design_scope_revision": "v4-primary-11",
+    "latest_protocol_id": "v4-primary-14",
+    "other_revision_14_discovery_or_fresh_runs": false,
+    "revision_14_partial_trajectories": {
+      "candidate_auc_horizon": {
+        "shared_initial_evaluations": 20,
+        "total_unique_evaluations": 200,
+        "adaptive_unique_evaluations_required": 180,
+        "completed_by_either_trajectory": false
+      },
+      "candidate_context_validation_error": "candidate language parent hash does not match",
+      "seed_1101": {
+        "status": "incomplete_attempt_cap",
+        "attempt_records": 540,
+        "scored_adaptive_proposals": 103,
+        "candidate_context_validation_failures": 436,
+        "interrupted_proposals": 1,
+        "best_recorded_discovery_fitness": 0.9073935668931362,
+        "best_scored_attempt": 198,
+        "scored_macro_introduction_events": {
+          "spatial_topology_features": 14,
+          "spatial_degree_profile": 2,
+          "multiscale_spatial_occupancy": 1,
+          "spatial_skeleton_profile": 1,
+          "skeleton_length_quartiles": 1
+        },
+        "best_record_language_macros_inventory": [
+          "spatial_topology_features"
+        ],
+        "best_record_introduced_macros": [],
+        "large_final_manifest_included_in_tag": false
+      },
+      "seed_1202": {
+        "status": "stale_running_snapshot",
+        "attempt_records": 221,
+        "scored_adaptive_proposals": 131,
+        "candidate_context_validation_failures": 89,
+        "interrupted_proposals": 1,
+        "best_recorded_discovery_fitness": 0.9104713361287423,
+        "best_scored_attempt": 151,
+        "scored_macro_introduction_events": {
+          "skeleton_graph": 13,
+          "skeleton_paths": 2
+        },
+        "best_record_language_macros_inventory": [
+          "skeleton_graph"
+        ],
+        "best_record_introduced_macros": [],
+        "final_manifest_present": false,
+        "live_process_verified": false,
+        "updated_at_utc": "2026-10-18T14:04:23.936131+00:00"
+      }
+    }
+  },
+  "protocols": [
+    {
+      "path": "results/v4/primary_protocol.json",
+      "sha256": "ef4050aa854baa0aefd0273c5ed5077b2f9ba6e4200dff7084d10668da54610d",
+      "sidecar": "results/v4/primary_protocol.json.sha256",
+      "sidecar_matches": true,
+      "version": "v4-primary-10"
+    },
+    {
+      "path": "results/v4/primary_protocol_v11.json",
+      "sha256": "d435b08a2dc84280e7f2d9e58b3f2203113cdb88221d0df10c6b20b0bef802b6",
+      "sidecar": "results/v4/primary_protocol_v11.json.sha256",
+      "sidecar_matches": true,
+      "version": "v4-primary-11"
+    },
+    {
+      "path": "results/v4/primary_protocol_v12.json",
+      "sha256": "5099f6f85d34097891d756ced6227815c58db15060faac5ffb0b10c66f373e00",
+      "sidecar": "results/v4/primary_protocol_v12.json.sha256",
+      "sidecar_matches": true,
+      "version": "v4-primary-12"
+    },
+    {
+      "path": "results/v4/primary_protocol_v13.json",
+      "sha256": "e84cabd106931397147b53d7f55ef1382a1c071c6b298f288265cc09f88c4f60",
+      "sidecar": "results/v4/primary_protocol_v13.json.sha256",
+      "sidecar_matches": true,
+      "version": "v4-primary-13"
+    },
+    {
+      "path": "results/v4/primary_protocol_v14.json",
+      "sha256": "736f9da03cc237f9dbbbba9a5b95ff12367c543e37c1106fe955b63971917d69",
+      "sidecar": "results/v4/primary_protocol_v14.json.sha256",
+      "sidecar_matches": true,
+      "version": "v4-primary-14"
+    },
+    {
+      "path": "results/v4/protocol.json",
+      "sha256": "e21bd6e89c8ea90629e8a07417bdb3b007d1474ce075920d358a62e69ac2234b",
+      "sidecar": "results/v4/protocol.sha256",
+      "sidecar_matches": true,
+      "version": 1
+    }
+  ],
+  "release": {
+    "audit_date": "2026-10-22",
+    "audited_source_commit": "5d96530566b9324ffee7ed7589d44d0bc673735c",
+    "closure_scope": "No new model requests, searches, scientific evaluations, or official-test loading.",
+    "name": "v4-exploratory-final",
+    "remote_publication": false,
+    "status": "frozen exploratory research study",
+    "tag_target": "36ea8f5016007455e342d387ffda00bb64666f95",
+    "post_tag_documentation_update": {
+      "base_tag": "v4-exploratory-final",
+      "base_commit": "36ea8f5016007455e342d387ffda00bb64666f95",
+      "scope": "Study/protocol naming, spotlight synthesis of the two preserved partial discovery trajectories with E1–E4 diagnostics, integration handoff, and correction of the baseline navigation-index hash exception.",
+      "protocol_source_data_or_run_artifacts_changed": false,
+      "updated_document_paths_are_in_release_tag": false,
+      "date": "2026-10-23"
+    }
+  },
+  "schema_version": 1,
+  "source_revisions": [
+    {
+      "experiment": "E1",
+      "later_behavior_correction": "41c8bfb1676c46bbf324d87695415e5ff5f16c85",
+      "nearest_prep_commit": "fb3cf75596db451aa3c1efa3c1337b6724ab694e",
+      "note": "Artifact timing indicates a pre-correction run but does not identify an exact runtime tree.",
+      "runtime_revision_pinned": false
+    },
+    {
+      "experiment": "E2",
+      "nearest_artifact_commit": "c44ecc61b8dbac9d8918400b07d2d73c4a96b09e",
+      "runtime_revision_pinned": false
+    },
+    {
+      "artifact_commit": "16e872bd83828d5f150475ac98af47ce1b530cb7",
+      "experiment": "E3",
+      "note": "No dedicated runner source digest is preserved.",
+      "runtime_revision_pinned": false
+    },
+    {
+      "artifact_commit": "5d96530566b9324ffee7ed7589d44d0bc673735c",
+      "experiment": "E4",
+      "note": "Results predate the code-and-test commit; exact runtime tree is not pinned.",
+      "runtime_revision_pinned": false
+    }
+  ]
+}

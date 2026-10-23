@@ -1,0 +1,28 @@
+{
+  "common_initial_scores_sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+  "conditions": {
+    "g0": {
+      "attempts": 20,
+      "evaluations": 25
+    },
+    "g_pilot": {
+      "attempts": 19,
+      "evaluations": 25
+    }
+  },
+  "g_pilot_language_sha256": "0736be05cbae240fa99878d77fdf4f0f7233d7e4c2ce3e2bd8d8e03a12d4d1dc",
+  "g_pilot_manifest_sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+  "g_pilot_official_star": false,
+  "resource_caps": {
+    "adaptive_attempts_per_condition": 20,
+    "aggregate_reserved_tokens_max": 1500000,
+    "model_requests_per_condition": 40,
+    "output_tokens_per_request": 2500,
+    "request_timeout_seconds": 120.0,
+    "reserved_total_tokens_per_condition": 750000
+  },
+  "schema_version": 1,
+  "seed": 101,
+  "status": "completed_exploratory_e1",
+  "v32_protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a"
+}

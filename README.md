@@ -19,7 +19,11 @@ could trust its proposal.
 
 ![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
 
-[Read the studies](reports/README.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
+[Read the studies](reports/README.md) · [V4 exploratory release](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md)
+
+**Version names:** V4 names one research study. Its primary protocol files use
+IDs such as `v4-primary-11` and `v4-primary-14`. “Protocol revision 14” means a
+revision within V4, not a separate V14 study or branch.
 
 ## The assumptions we bring to learning
 
@@ -66,8 +70,11 @@ This makes the assumption inspectable and gives us a way to intervene on the
 structure it claims matters.
 
 MNIST gives us a small, familiar setting in which to examine this process.
-The current search changes representation under a fixed learner. Later studies
-vary the learner to ask how much of the measured benefit belongs to that pairing.
+V4 extends the question to the representation language itself. Two preserved
+discovery trajectories introduced different families of named abstractions;
+E1–E4 examine expression, representation quality, and adoption in bounded
+searches. The [V4 report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+closes that exploratory study with its observations and unanswered questions.
 
 ## 🔎 From inductive bias to our research question
 
@@ -103,6 +110,7 @@ flowchart LR
     V2 --> V3["V3<br/>Express relations"]
     V3 --> V31["V3.1<br/>Challenge the bias"]
     V31 --> V32["V3.2<br/>Challenge the optimizer"]
+    V32 --> V4["V4<br/>Evolve the language"]
 ```
 
 Each stage begins with something the previous experiment could not tell us.
@@ -217,6 +225,42 @@ Shading is the observed min-to-max range, not a confidence interval. The primary
 analysis uses two seeds per optimizer; random runs stop before 200 evaluations
 and remain censored. Fitness includes complexity and runtime penalties.
 
+### V4: Can the search develop its own vocabulary of inductive bias?
+
+A fixed DSL determines which representations are easy to express. V4 lets
+discovery propose typed macros over approved primitives, alongside candidate
+programs and search guidance. Its intended test is to freeze a discovered
+language and measure whether a fresh search benefits from it.
+
+The spotlight is two partial discovery trajectories under protocol
+`v4-primary-14`:
+
+| Discovery seed | Abstractions introduced in scored records | Best recorded discovery fitness | Scored adaptive proposals |
+|---|---|---:|---:|
+| 1101 | Spatial topology, degree, and occupancy families | 0.907394 | 103 |
+| 1202 | `skeleton_graph` and `skeleton_paths` | 0.910471 | 131 |
+
+These are penalized discovery fitness values on a training-derived MNIST split,
+not official-test accuracies. The records preserve distinct abstraction
+inventories and scored candidates. An inventory entry alone does not prove
+that a candidate invoked the macro or that the macro caused its score.
+
+E1–E4 add a complementary diagnostic result using a separate frozen pilot
+language: all six explicitly targeted requests expressed their requested macro;
+two selected expanded programs recorded fitness 0.822582 and 0.778965 locally;
+the bounded search comparisons recorded no spontaneous macro adoption. This
+separates the ability to express an abstraction, the quality of an expanded
+program, and whether search chooses to use the abstraction.
+
+V4 closes as a **frozen exploratory study**. Neither spotlight trajectory
+reached the required candidate-AUC horizon; the planned 25-run campaign did
+not complete, and no `G*` was selected. The study preserves candidate-level
+signals and an auditable account of the adoption and evaluation limits.
+Reusable language utility, improved search efficiency, and generalization
+remain untested. Read the [final report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+and [integration handoff](docs/V4_MERGE_READINESS.md) for the evidence and
+correctness limitations.
+
 ## Conceptual architecture
 
 ```mermaid
@@ -244,6 +288,10 @@ under a shared search contract, then characterizes preselected winners after
 search. These boundaries keep representation quality, mechanism evidence, and
 optimizer value as separately answerable questions.
 
+V4 also allows the language to evolve during discovery. Its fresh-search test
+was specified but did not complete; the final report distinguishes that intended
+test from the preserved partial trajectories and E1–E4 diagnostics.
+
 The detailed design is in
 [ARCHITECTURE.md](ARCHITECTURE.md), with the original
 [V1 architecture](ARCHITECTURE_V1.md) retained. The historical
@@ -270,6 +318,12 @@ A good search result still needs controls before we can credit the optimizer.
 
 Detailed scores, benchmark tables, protocols, and limitations live in the version
 reports.
+
+V4 adds an exploratory observation: different discovery trajectories proposed
+different abstraction families, while targeted expression, candidate quality,
+and spontaneous adoption gave different answers in the pilot diagnostics.
+The preserved scores motivate the language question; a reusable advantage for
+future search remains unmeasured.
 
 ## 🧭 Where this could lead
 
@@ -308,8 +362,8 @@ in building that discipline.
 
 ## 📚 Preserved versions and reading guide
 
-`main` integrates the full sequence. Historical branches and commits retain the
-implementation at each stage. The scientific reports present the findings;
+Historical branches, commits, and tags retain the implementation at each stage.
+The scientific reports present the findings;
 the original experimental records retain full tables and frozen provenance.
 
 | Stage | Historical source | Report |
@@ -319,6 +373,11 @@ the original experimental records retain full tables and frozen provenance.
 | V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/scientific/V3_RELATIONAL_PRIORS.md) |
 | V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/scientific/V3_1_BIAS_EVALUATION.md) |
 | V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md) |
+| V4: evolving bias language | `v4-evolving-bias-language`; immutable closure tag `v4-exploratory-final` / `36ea8f5` | [Exploratory closure](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) |
+
+The V4 tag preserves the original closure snapshot. Current documentation adds
+the spotlight narrative and integration handoff after that tag; the evidence
+manifest identifies these editorial revisions.
 
 For setup and historical execution commands, see
 [Development and reproduction](docs/REPRODUCIBILITY.md). Research reports record

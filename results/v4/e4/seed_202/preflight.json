@@ -1,0 +1,77 @@
+{
+  "active_conflicts": [],
+  "data": {
+    "fingerprint": "41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f",
+    "split_id": "mnist-validation-seed-42-41bc42fedd084e7c",
+    "train_only_provenance_matches_e1_e3": true,
+    "train_shape": [
+      58000,
+      28,
+      28
+    ],
+    "validation_shape": [
+      2000,
+      28,
+      28
+    ]
+  },
+  "data_boundary": "Only pinned train-images/train-labels IDX archives were read; legacy OpenML, final, and test loaders were blocked.",
+  "data_manifest_sha256": "26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4",
+  "g_pilot_language_sha256": "0736be05cbae240fa99878d77fdf4f0f7233d7e4c2ce3e2bd8d8e03a12d4d1dc",
+  "g_pilot_manifest_sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34",
+  "g_pilot_official_star": false,
+  "llm_requests_made": 0,
+  "macro_expanded_ast_sha256": {
+    "multiscale_spatial_degree_profile": "1e70cdc09e2daa3fed1a047205d4d30c383546055d6bc4e214db075de888c532",
+    "multiscale_spatial_profile": "000c4c95cc31280437668e06372ef7f34c56aad8cdb1cd9ae40e3412e3d9fd0c",
+    "stroke_degree_profile": "87887eea08d331f8675e3bb791095391fa3a1eab2197fda8fcc06b5ca8f70a0a"
+  },
+  "model": {
+    "base_url": "http://127.0.0.1:11434",
+    "model": "qwen3.5:35b-mlx",
+    "server_available": true
+  },
+  "outputs_are_fresh": true,
+  "policy": {
+    "canonical_macro_expansions": [
+      "multiscale_spatial_degree_profile",
+      "multiscale_spatial_profile",
+      "stroke_degree_profile"
+    ],
+    "focus_families": [
+      "order_sensitive",
+      "free_exploration"
+    ],
+    "focus_is_guidance_only": true,
+    "g0_excludes_pilot_macros": true,
+    "g0_operation_count": 23,
+    "g_pilot_macro_operations": [
+      "multiscale_spatial_degree_profile",
+      "multiscale_spatial_profile",
+      "stroke_degree_profile"
+    ],
+    "resource_caps": {
+      "attempts_per_condition": 20,
+      "output_tokens_per_request": 2500,
+      "requests_per_condition": 40,
+      "timeout_seconds": 120.0,
+      "total_reserved_tokens_per_condition": 750000
+    },
+    "strict_structure_and_duplicate_checks": true
+  },
+  "preflight": "passed",
+  "protocol_sha256": "db190b013b29fd40605d346f4fe7bbdd989d1d7f3c61e0079d631fff69fd536a",
+  "recipe_guidance_bytes": {
+    "g0_recipes": 1752,
+    "g_pilot_macros": 1775
+  },
+  "recipe_guidance_sha256": {
+    "g0_recipes": "355aa8a62f39ef82e12c730ef15071e200ce8ee5528ac1fdcb41efd4c983f88b",
+    "g_pilot_macros": "0f40188bf430c3179824f23ec7a136ec1dbbbd86fb9e7a6b21f84e6f29bd280e"
+  },
+  "seed": 202,
+  "shared_initial_program_count": 20,
+  "shared_initial_score_count": 20,
+  "shared_initial_score_records_reused_without_rescoring": true,
+  "shared_initial_scores_sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9"
+}

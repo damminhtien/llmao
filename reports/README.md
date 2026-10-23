@@ -1,6 +1,6 @@
 # Research reports
 
-These five reports present the studies as a sequence of scientific questions.
+These reports present the studies as a sequence of scientific questions.
 Each separates methods, results, interpretation, and limitations. They summarize
 existing evidence; no experiments were rerun for this editorial revision.
 
@@ -11,6 +11,10 @@ existing evidence; no experiments were rerun for this editorial revision.
 | V3 | Do spatial relations provide a useful structural prior? | [Relational priors](scientific/V3_RELATIONAL_PRIORS.md) |
 | V3.1 | Where does the frozen representation help or fail? | [Bias evaluation](scientific/V3_1_BIAS_EVALUATION.md) |
 | V3.2 | What does the LLM contribute to the search procedure? | [Optimizer value](scientific/V3_2_OPTIMIZER_VALUE.md) |
+| V4 | What emerges when the representation language can evolve, and has its reuse been tested? | [Evolving bias language](scientific/V4_EVOLVING_BIAS_LANGUAGE.md) |
+
+Naming: V4 is the study. IDs such as `v4-primary-14` identify a primary-protocol
+revision within that study, not a separate research version.
 
 ## Reading the evidence across versions
 
@@ -24,6 +28,12 @@ The sequence supports useful feature composition, compact spatial representation
 and some complementarity with HOG. It also exposes domain-limited transfer,
 weaknesses against dimension-matched HOG-PCA, and limited replication in the
 optimizer study. Findings should be read together with those qualifications.
+V4's spotlight is two partial discovery trajectories with distinct spatial and
+skeleton abstraction inventories and best recorded discovery fitness near
+0.91. E1–E4 then distinguish targeted expression, selected expanded-program
+quality, and observed adoption in a separate frozen pilot language. The
+primary campaign did not complete, so the study closes as exploratory without
+a causal abstraction-utility, search-efficiency, or generalization claim.
 
 ## Figures
 
@@ -42,6 +52,7 @@ scientific reports link to these records for detailed evidence.
 - [V3 pilot](V3_PILOT.md), [search](V3_SEARCH.md), and [evidence](V3_EVIDENCE.md).
 - [V3.1 full evaluation](V3_1_BIAS_EVALUATION.md).
 - [V3.2 full optimizer study](V3_2_OPTIMIZER_VALUE.md).
+- [V4 exploratory report and evidence manifest](scientific/V4_EVOLVING_BIAS_LANGUAGE.md).
 
 Historical implementations remain identified in the
 [version guide](../README.md), and execution

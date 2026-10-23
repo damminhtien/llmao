@@ -1,0 +1,132 @@
+"""Native V4 fixture postconditions require direct worker evidence."""
+
+from __future__ import annotations
+
+import subprocess
+
+import pytest
+
+from experiments.v4_native_check_fixture import (
+    _failure_details,
+    _uses_pinned_native_command,
+    _verify_native_outputs,
+)
+
+
+def test_failure_details_preserves_tmux_exit_evidence() -> None:
+    error = subprocess.CalledProcessError(
+        1,
+        ["tmux", "respawn-pane", "-t", "%4"],
+        output="tmux stdout",
+        stderr="can't find pane: %4",
+    )
+
+    details = _failure_details(error)
+
+    assert details["command"] == error.cmd
+    assert details["return_code"] == 1
+    assert details["stdout"] == "tmux stdout"
+    assert details["stderr"] == "can't find pane: %4"
+
+
+def test_native_command_requires_wrapper_and_workspace_scope(tmp_path) -> None:
+    from experiments.v4_native_check_fixture import ROOT
+
+    workspace = tmp_path / "workspace"
+    wrapper = str((ROOT / "scripts/codex-v4-sandbox").resolve())
+    invocation = {
+        "native_driver_execution": {
+            "command": [
+                wrapper,
+                "--no-alt-screen",
+                "-s",
+                "workspace-write",
+                "-C",
+                str(workspace),
+            ]
+        }
+    }
+
+    assert _uses_pinned_native_command(invocation, workspace)
+    invocation["native_driver_execution"]["command"][0] = "codex"
+    assert not _uses_pinned_native_command(invocation, workspace)
+
+
+def test_native_fixture_requires_all_structural_and_sandbox_checks() -> None:
+    result = _verify_native_outputs(
+        [
+            '{"status":"valid","feature_dimension":6}',
+            "VALID_EXIT_STATUS=0",
+            '{"status":"invalid","reason":"unknown operation"}',
+            "INVALID_EXIT_STATUS=1",
+            "SLASH_TMP_WRITE_DENIED",
+            "TMPDIR_WRITE_DENIED",
+            "OUTSIDE_READ_DENIED",
+        ],
+        slash_tmp_probe_exists=False,
+        tmpdir_probe_exists=False,
+        outside_read_probe_unchanged=True,
+        outside_read_probe_cleaned=True,
+        candidate_contents_unchanged=True,
+        changed_paths=[],
+        git_status="",
+    )
+
+    assert result["passed"] is True
+
+
+def test_native_fixture_rejects_missing_denials_or_workspace_changes() -> None:
+    result = _verify_native_outputs(
+        [
+            '{"status":"valid"}',
+            "VALID_EXIT_STATUS=0",
+            '{"status":"invalid"}',
+            "INVALID_EXIT_STATUS=1",
+            "SLASH_TMP_WRITE_ALLOWED_CLEANED",
+            "TMPDIR_WRITE_DENIED",
+            "OUTSIDE_READ_ALLOWED",
+        ],
+        slash_tmp_probe_exists=False,
+        tmpdir_probe_exists=False,
+        outside_read_probe_unchanged=False,
+        outside_read_probe_cleaned=False,
+        candidate_contents_unchanged=False,
+        changed_paths=["candidate/program.json"],
+        git_status="M candidate/program.json",
+    )
+
+    assert result["passed"] is False
+    checks = result["checks"]
+    assert checks["no_probe_write_allowed"] is False
+    assert checks["candidate_files_unchanged"] is False
+    assert checks["no_workspace_paths_changed"] is False
+
+
+def test_failed_preflight_prevents_worker_creation(tmp_path, monkeypatch):
+    from experiments import v4_native_check_fixture as fixture
+    from experiments import v4_sandbox_preflight as preflight
+
+    monkeypatch.setattr(fixture, "ROOT", tmp_path)
+    monkeypatch.setattr(
+        fixture, "FIXTURE_CACHE", tmp_path / "results/v4/scratch/native-check-fixtures"
+    )
+    monkeypatch.setattr(
+        fixture, "EVIDENCE_ROOT", tmp_path / "results/v4/phase10/evidence"
+    )
+    monkeypatch.setenv("TMPDIR", str(tmp_path))
+    monkeypatch.setattr(fixture, "_build_workspace", lambda *_: {})
+    monkeypatch.setattr(
+        preflight, "run_preflight", lambda *_, **__: {"passed": False}
+    )
+
+    def unexpected_launch(*args, **kwargs):
+        pytest.fail("a failed preflight must never create a tmux worker")
+
+    monkeypatch.setattr(fixture.subprocess, "check_output", unexpected_launch)
+
+    with pytest.raises(RuntimeError, match="native worker was not started"):
+        fixture.run_fixture(
+            "blocked",
+            fixture.FIXTURE_CACHE / "blocked",
+            fixture.EVIDENCE_ROOT / "blocked",
+        )

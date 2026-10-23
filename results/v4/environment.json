@@ -1,0 +1,66 @@
+{
+  "schema_version": 1,
+  "study_id": "v4-evolving-bias-language",
+  "observed_on": "2026-10-14",
+  "account": {
+    "plan": "ChatGPT Plus",
+    "authentication": "ChatGPT login verified with codex login status",
+    "plan_verification": "Codex usage limits status",
+    "account_identifier_recorded": false,
+    "usage_snapshot": {
+      "checked_at_utc": "2026-10-14T09:50:21Z",
+      "ordinary_usage_allowed": true,
+      "five_hour_window_used_percent": 41,
+      "weekly_window_used_percent": 12,
+      "paid_credits_balance": "0"
+    }
+  },
+  "codex": {
+    "cli_version": "0.162.0-alpha.17.2",
+    "model_identifier": "gpt-6-luna",
+    "reasoning_effort": "max",
+    "user_config_isolation_required": true,
+    "isolation_reason": "The global Codex configuration has a custom API base URL; the model probe used --ignore-user-config.",
+    "model_reasoning_probe": "ephemeral read-only invocation with --ignore-user-config succeeded using the requested model and effort",
+    "model_probe_usage": {
+      "input_tokens": 20354,
+      "cached_input_tokens": 11008,
+      "output_tokens": 8
+    },
+    "web_search_control": "disabled_in_llmao_v4_codex_tmux_config",
+    "uncontrolled_external_tools_control": "network_and_multi_agent_disabled_in_config",
+    "eve_worker_launch_verified": true,
+    "eve_worker_launch_evidence": "Two completed frozen-G0 smoke runs; see results/v4/smoke_manifest.json"
+  },
+  "scientific_worker_controls": {
+    "status": "worker_launch_verified",
+    "driver": "codex_tmux",
+    "codex_sandbox_mode": "workspace-write",
+    "agent_shell_network_access": false,
+    "web_search": false,
+    "multi_agent_mode": false,
+    "verified_by_eve_worker_launch": true
+  },
+  "eve": {
+    "repository": "https://github.com/scaling-group/eve.git",
+    "checkout": "../eve",
+    "branch": "dev/llmao-v4-config",
+    "commit": "eb30d4f467780d9fbfa5c0389d9ffa40dbff0fb4",
+    "working_tree_clean": true
+  },
+  "hardware": {
+    "model": "MacBook Pro (Mac14,6)",
+    "chip": "Apple M2 Max",
+    "unified_memory_gb": 64
+  },
+  "project_python": {
+    "environment": ".venv",
+    "version": "3.14.8"
+  },
+  "llmao": {
+    "checkout": ".",
+    "branch": "v4-evolving-bias-language",
+    "commit": "0ba422b8904b9d2d0dd33170f3e47b4d7f8ec106",
+    "working_tree_clean": true
+  }
+}

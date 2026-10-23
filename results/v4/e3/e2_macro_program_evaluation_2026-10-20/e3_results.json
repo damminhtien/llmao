@@ -1,0 +1,596 @@
+{
+  "baseline": {
+    "candidate_id": "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f",
+    "e1_common_initial_best_fitness": 0.4905822525012085,
+    "validation_accuracy_500": 0.493
+  },
+  "dataset": {
+    "authority": "Yann LeCun MNIST, via the pinned PyTorch OSSCI mirror",
+    "fingerprint": "41bc42fedd084e7c6f67d995be6cb84d77eb72acc44fca3b31fe3691301b129f",
+    "official_test_partition_used": false,
+    "preprocessing": "uint8 pixels converted to float32 and divided by 255",
+    "source": "MNIST official training partition only",
+    "source_file_sha256": {
+      "train-images-idx3-ubyte.gz": "440fcabf73cc546fa21475e81ea370265605f56be210a4024d2ca8f203523609",
+      "train-labels-idx1-ubyte.gz": "3552534a0a558bbed6aed32b30c495cca23d567ec52cac8be1a0730e8010255c"
+    },
+    "source_idx_sha256": {
+      "images": "ba891046e6505d7aadcbbe25680a0738ad16aec93bde7f9b65e87a2fc25776db",
+      "labels": "65a50cbbf4e906d70832878ad85ccda5333a97f0f4c3dd2ef09a8a9eef7101c5"
+    },
+    "split": {
+      "seed": 42,
+      "splitter": "sklearn.model_selection.train_test_split",
+      "stratified_by": "official_training_labels",
+      "train_images_sha256": "15e12d6f269cda485395ddb7b4be01a639175ec830fed60779350ac516f8ca55",
+      "train_indices_sha256": "6f93fe6e3ec2764671ae2f45a50b8042ff2f7317edce9f7e6b19bb1c26379282",
+      "train_labels_sha256": "9d091d988de1b13fb9b2ee60de53671ce232ebb4fbb460f0fc8fd1eae9e865d6",
+      "validation_images_sha256": "a64a8c45f7b3394611d368e042dbc8906cb5858b156faad219edd610dc70a72a",
+      "validation_indices_sha256": "a57e873cd99805aab3cf887c87c9a93b7c244c65226509ec899b6deff8fec5e7",
+      "validation_labels_sha256": "d25be9529d09b59c7f2c887b71a06fe22e776dd0a4c2b84b353f358db0bc7c0f",
+      "validation_size": 2000
+    },
+    "split_id": "mnist-validation-seed-42-41bc42fedd084e7c",
+    "train_shape": [
+      58000,
+      28,
+      28
+    ],
+    "validation_shape": [
+      2000,
+      28,
+      28
+    ]
+  },
+  "evaluations_run": 3,
+  "evaluator": {
+    "cache": "fresh temporary disk feature cache; one default in-memory subexpression cache shared in fixed macro order",
+    "compiler_constraints": {
+      "forbid_raw_pixels": true,
+      "max_depth": 6,
+      "max_feature_dim": 128,
+      "max_nodes": 127,
+      "require_vector_root": false,
+      "track": "discovery"
+    },
+    "fitness": "accuracy_500 - 0.001*log1p(feature_dim) - 0.0001*log1p(total_runtime_ms)",
+    "implementation": "experiments.e1._score_common_initial_programs -> SearchOracle -> ProgramEvaluator -> Evaluator",
+    "learner": {
+      "C": 1.0,
+      "class": "StandardScaler + LogisticRegression",
+      "max_iter": 1000,
+      "random_state": 42,
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    "runtime_limit": "Feature runtime depends on the measured local process and shared subtree-cache state; it is descriptive.",
+    "train_sizes": [
+      500
+    ],
+    "training_sample_seed": 42,
+    "validation": "all 2,000 fixed holdout rows derived from official training partition"
+  },
+  "experiment": "LLMAO E3 descriptive evaluation of existing E2 macro-bearing programs",
+  "inputs": {
+    "artifact_sha256": {
+      "e1_common_initial_evaluations_sha256": "8c659e6209807b2a0e1841cde86a46695324c66f37b2f85ee24259f6b9d159c9",
+      "e1_summary_sha256": "55a087c2f3efa1fbcacd94e1afa85edb81a18b527ef0a47eb8d72d59be4bcad6",
+      "e1_train_only_manifest_sha256": "26c3e3f7b8ee8b2eb3169d684fbc4bf7e0c429f38f0e7bd2654278b87cef63f4",
+      "e2_model_calls_sha256": "fe94dcf6b9d14499bf4abd038a189ab9919466479dfe5331ea54b2fb23ecfbd8",
+      "e2_request_plan_sha256": "826737af192d7d777265b248c8da2a4c9776d41358a973e9ca0f73151b7ccf4d",
+      "e2_request_results_sha256": "06eebff62512fe5ae0a51d606fae84906d7585af844642f37235e081da31bed4",
+      "e2_summary_sha256": "fb9f03886886ab60e6739ac92fa33a53d92cb1984af86f2839ebad5b48cfd7de",
+      "g_pilot_manifest_sha256": "0b7300a171b9efd25c3c9742cf84de8d1e9b85d23f23573ac8a4a5b3dc2e9e34"
+    },
+    "e1_data_manifest": "results/v4/e1/data/mnist/raw/e1_search_data_manifest.json",
+    "e1_exact_identity_match_count": 0,
+    "e1_run_root": "results/v4/e1/runs/seed_101",
+    "e1_saved_run_did_not_record_complete_dataset_fingerprint_or_evaluator_configuration": true,
+    "e2_raw_proposal_replay_disagreements": [],
+    "e2_run_root": "results/v4/e2/macro_adoption_probe_2026-10-19",
+    "g_pilot_manifest": "results/v4/languages/g_pilot_e1.json"
+  },
+  "limitations": [
+    "The E1 run artifacts lack a persisted full evaluator-configuration record and dataset fingerprint, so E1 scores were not reused; no exact expanded AST matched any saved E1 evaluated record.",
+    "Feature runtime is sensitive to local timing and subexpression-cache reuse across the three fixed-order evaluations.",
+    "Three descriptive evaluations do not measure search efficiency or establish causal macro utility or transfer."
+  ],
+  "macro_equivalence_note": "Scores are for canonical expanded G0 ASTs. The macro-call form and its expansion denote the same program in this evaluation; macro syntax is not counted as a distinct function.",
+  "maximum_evaluations": 3,
+  "model_or_optimizer_launched": false,
+  "official_test_data_access": "blocked at loader boundary and not accessed",
+  "programs": [
+    {
+      "baseline_fitness": 0.4905822525012085,
+      "expanded_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "histogram",
+            "params": {
+              "bins": 16,
+              "high": 16,
+              "low": 0
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "expanded_ast_depth": 5,
+      "expanded_ast_nodes": 11,
+      "expanded_ast_sha256": "87887eea08d331f8675e3bb791095391fa3a1eab2197fda8fcc06b5ca8f70a0a",
+      "expanded_g0_operations": [
+        "concat",
+        "degree_sequence",
+        "graph",
+        "histogram",
+        "image",
+        "moments",
+        "skeletonize"
+      ],
+      "feature_dimension": 19,
+      "feature_runtime_ms": 660.7028749995152,
+      "fitness": 0.49135263656673356,
+      "fitness_delta_vs_e1_initial_best": 0.0007703840655250427,
+      "macro": "stroke_degree_profile",
+      "raw_ast": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "stroke_degree_profile",
+        "params": {}
+      },
+      "raw_macro_invoked": true,
+      "source_calls": [
+        {
+          "raw_response_sha256": "6431f20aacd55450e4af19a52a7ec9c9744f5cf3b0437f05337e5b903df07b19",
+          "reported_input_tokens": 1771,
+          "reported_output_tokens": 87,
+          "request": 1,
+          "request_duration_ms": 16478.88808300013,
+          "seed": 21001
+        },
+        {
+          "raw_response_sha256": "e006c8c305d6de285c6889d3b051fb5bcc38931d5418fd7c2b13298cd632e00b",
+          "reported_input_tokens": 1771,
+          "reported_output_tokens": 91,
+          "request": 2,
+          "request_duration_ms": 1409.1926249993776,
+          "seed": 21002
+        }
+      ],
+      "source_requests": [
+        1,
+        2
+      ],
+      "source_seeds": [
+        21001,
+        21002
+      ],
+      "structure_equivalence_scope": "No exact canonical expanded-AST identity in saved E1 scores; semantic equivalence beyond this identity check is not inferred.",
+      "total_evaluator_runtime_ms": 675.0801249991127,
+      "validation": {
+        "constraints": {
+          "forbid_raw_pixels": true,
+          "max_depth": 6,
+          "max_feature_dim": 128,
+          "max_nodes": 127,
+          "require_vector_root": false,
+          "track": "discovery"
+        },
+        "exact_e1_identity_match": false,
+        "expanded_ast_depth": 5,
+        "expanded_ast_nodes": 11,
+        "expanded_operations_are_g0_only": true,
+        "g0_operations_only": true,
+        "macro_expansion_valid": true,
+        "typed_structural_valid": true,
+        "v4_language_limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        }
+      },
+      "validation_accuracy_500": 0.495
+    },
+    {
+      "baseline_fitness": 0.4905822525012085,
+      "expanded_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 5,
+              "rows": 5
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 6,
+              "rows": 6
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 7,
+              "rows": 7
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "expanded_ast_depth": 2,
+      "expanded_ast_nodes": 9,
+      "expanded_ast_sha256": "000c4c95cc31280437668e06372ef7f34c56aad8cdb1cd9ae40e3412e3d9fd0c",
+      "expanded_g0_operations": [
+        "concat",
+        "image",
+        "spatial_split"
+      ],
+      "feature_dimension": 116,
+      "feature_runtime_ms": 686.749041999974,
+      "fitness": 0.8225824487340583,
+      "fitness_delta_vs_e1_initial_best": 0.33200019623284976,
+      "macro": "multiscale_spatial_profile",
+      "raw_ast": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "multiscale_spatial_profile",
+        "params": {
+          "coarse_rows": 2,
+          "fine_rows": 6
+        }
+      },
+      "raw_macro_invoked": true,
+      "source_calls": [
+        {
+          "raw_response_sha256": "099c25f0c70c224631c38ee22f1847f7c5ca27f94439f014cb5f9f686e229202",
+          "reported_input_tokens": 1773,
+          "reported_output_tokens": 90,
+          "request": 3,
+          "request_duration_ms": 3100.012458000492,
+          "seed": 21003
+        },
+        {
+          "raw_response_sha256": "7df4b906fbde468181de447d68a6f66eec90b1dd2dc75103fcc3e2380734cc64",
+          "reported_input_tokens": 1773,
+          "reported_output_tokens": 149,
+          "request": 4,
+          "request_duration_ms": 2177.04458299977,
+          "seed": 21004
+        }
+      ],
+      "source_requests": [
+        3,
+        4
+      ],
+      "source_seeds": [
+        21003,
+        21004
+      ],
+      "structure_equivalence_scope": "No exact canonical expanded-AST identity in saved E1 scores; semantic equivalence beyond this identity check is not inferred.",
+      "total_evaluator_runtime_ms": 700.8876239997335,
+      "validation": {
+        "constraints": {
+          "forbid_raw_pixels": true,
+          "max_depth": 6,
+          "max_feature_dim": 128,
+          "max_nodes": 127,
+          "require_vector_root": false,
+          "track": "discovery"
+        },
+        "exact_e1_identity_match": false,
+        "expanded_ast_depth": 2,
+        "expanded_ast_nodes": 9,
+        "expanded_operations_are_g0_only": true,
+        "g0_operations_only": true,
+        "macro_expansion_valid": true,
+        "typed_structural_valid": true,
+        "v4_language_limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        }
+      },
+      "validation_accuracy_500": 0.828
+    },
+    {
+      "baseline_fitness": 0.4905822525012085,
+      "expanded_ast": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 3
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "spatial_split",
+            "params": {
+              "cols": 3,
+              "rows": 2
+            }
+          },
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.5
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "moments",
+            "params": {
+              "orders": [
+                1,
+                2,
+                3
+              ]
+            }
+          }
+        ],
+        "op": "concat",
+        "params": {}
+      },
+      "expanded_ast_depth": 5,
+      "expanded_ast_nodes": 10,
+      "expanded_ast_sha256": "1e70cdc09e2daa3fed1a047205d4d30c383546055d6bc4e214db075de888c532",
+      "expanded_g0_operations": [
+        "concat",
+        "degree_sequence",
+        "graph",
+        "image",
+        "moments",
+        "skeletonize",
+        "spatial_split"
+      ],
+      "feature_dimension": 18,
+      "feature_runtime_ms": 358.5351250003441,
+      "fitness": 0.7789648107715766,
+      "fitness_delta_vs_e1_initial_best": 0.28838255827036813,
+      "macro": "multiscale_spatial_degree_profile",
+      "raw_ast": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "multiscale_spatial_degree_profile",
+        "params": {}
+      },
+      "raw_macro_invoked": true,
+      "source_calls": [
+        {
+          "raw_response_sha256": "929835e2f144b842a374fa6e5ba26d7d0f86ad1339aa44ee4c06da73b5d82011",
+          "reported_input_tokens": 1774,
+          "reported_output_tokens": 153,
+          "request": 5,
+          "request_duration_ms": 3979.1148750000502,
+          "seed": 21005
+        },
+        {
+          "raw_response_sha256": "b5b6656c13141c4349c8a76f6beeb77db2966802202acb630633c7a24b8cfa44",
+          "reported_input_tokens": 1774,
+          "reported_output_tokens": 78,
+          "request": 6,
+          "request_duration_ms": 1162.0840409996163,
+          "seed": 21006
+        }
+      ],
+      "source_requests": [
+        5,
+        6
+      ],
+      "source_seeds": [
+        21005,
+        21006
+      ],
+      "structure_equivalence_scope": "No exact canonical expanded-AST identity in saved E1 scores; semantic equivalence beyond this identity check is not inferred.",
+      "total_evaluator_runtime_ms": 366.78645800020604,
+      "validation": {
+        "constraints": {
+          "forbid_raw_pixels": true,
+          "max_depth": 6,
+          "max_feature_dim": 128,
+          "max_nodes": 127,
+          "require_vector_root": false,
+          "track": "discovery"
+        },
+        "exact_e1_identity_match": false,
+        "expanded_ast_depth": 5,
+        "expanded_ast_nodes": 10,
+        "expanded_operations_are_g0_only": true,
+        "g0_operations_only": true,
+        "macro_expansion_valid": true,
+        "typed_structural_valid": true,
+        "v4_language_limits": {
+          "max_expanded_nodes": 127,
+          "max_expansion_depth": 6,
+          "max_feature_dim": 128,
+          "max_macros": 8,
+          "max_new_macros_per_candidate": 1
+        }
+      },
+      "validation_accuracy_500": 0.7825
+    }
+  ],
+  "scientific_scope": "Descriptive representation-quality check only; not search-efficiency, causal utility, random-abstraction comparison, or transfer evidence.",
+  "software": {
+    "git_head": "c44ecc61b8dbac9d8918400b07d2d73c4a96b09e",
+    "numpy": "2.5.3",
+    "python": "3.14.8",
+    "scikit_learn": "1.9.1",
+    "source_sha256": {
+      "experiments/e1.py": "e34a3500ea6ae3c0d17c9b6164d22958944d82eb50f963ee668d16e4c78980a0",
+      "src/bias_optimizer/data/mnist_e1.py": "6e5dafae74bf410da38f05036ee1dd7063e5cf4df7268d922b6f1c68f096090a",
+      "src/bias_optimizer/dsl/compiler.py": "9106e499d3af1ac57b7bb475ca7dcdcba2e10d38691b9a88fc0458ea042b3954",
+      "src/bias_optimizer/dsl/validator.py": "0dc77dc5734fd76050e45ef594dc096ad152daf85107422822001ba37d273f90",
+      "src/bias_optimizer/evaluation/protocol.py": "8e22d6afe3bdbee2a3f88fcd6b03d093ba6140f29e407fd1f4baa5307c3f74dd",
+      "src/bias_optimizer/features/pipeline.py": "b237e68e2ff3ea81f6b20e8ef5f8342eb61fd0853f1a790e87ec07f864fd5bf3",
+      "src/bias_optimizer/ml/evaluator.py": "8d22ae332b5725026f3400c00b4f765945255c2e813412d20f9e55261002fad3",
+      "src/bias_optimizer/ml/learner.py": "9b88de335d185b49d5baf3991b1d372ecdd60232e2095cb614d80df80fec54cf",
+      "src/bias_optimizer/optimizer_bench/objective.py": "d3b4ad22adbf1cebbff758a35c198bf2e37f01ff0a6fcac1515ee96d311c4478",
+      "src/bias_optimizer/optimizer_bench/oracle.py": "728de03dfbe249f34451261f1beb74275c8aa700491c1ba6cbd51fee1da0dccf"
+    }
+  },
+  "status": "completed",
+  "v4_macro_limits": {
+    "max_expanded_nodes": 127,
+    "max_expansion_depth": 6,
+    "max_feature_dim": 128,
+    "max_macros": 8,
+    "max_new_macros_per_candidate": 1
+  }
+}

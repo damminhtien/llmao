@@ -1,0 +1,2021 @@
+{
+  "programs": [
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [],
+                              "op": "image",
+                              "params": {}
+                            }
+                          ],
+                          "op": "skeletonize",
+                          "params": {}
+                        }
+                      ],
+                      "op": "graph",
+                      "params": {}
+                    }
+                  ],
+                  "op": "paths",
+                  "params": {}
+                }
+              ],
+              "op": "angles",
+              "params": {}
+            }
+          ],
+          "op": "delta_angle",
+          "params": {}
+        }
+      ],
+      "op": "autocorrelation",
+      "params": {
+        "lags": [
+          1,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [],
+                          "op": "image",
+                          "params": {}
+                        }
+                      ],
+                      "op": "skeletonize",
+                      "params": {}
+                    }
+                  ],
+                  "op": "graph",
+                  "params": {}
+                }
+              ],
+              "op": "degree_sequence",
+              "params": {}
+            }
+          ],
+          "op": "run_length_encode",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 6,
+        "high": 8,
+        "low": -8
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [],
+                          "op": "image",
+                          "params": {}
+                        }
+                      ],
+                      "op": "skeletonize",
+                      "params": {}
+                    }
+                  ],
+                  "op": "graph",
+                  "params": {}
+                }
+              ],
+              "op": "degree_sequence",
+              "params": {}
+            }
+          ],
+          "op": "run_length_encode",
+          "params": {}
+        }
+      ],
+      "op": "moments",
+      "params": {
+        "orders": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [],
+                              "op": "image",
+                              "params": {}
+                            }
+                          ],
+                          "op": "skeletonize",
+                          "params": {
+                            "threshold": 0.5
+                          }
+                        }
+                      ],
+                      "op": "graph",
+                      "params": {}
+                    }
+                  ],
+                  "op": "paths",
+                  "params": {}
+                }
+              ],
+              "op": "angles",
+              "params": {}
+            }
+          ],
+          "op": "delta_angle",
+          "params": {}
+        }
+      ],
+      "op": "autocorrelation",
+      "params": {
+        "lags": [
+          1,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.7
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "moments",
+      "params": {
+        "orders": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [],
+                          "op": "image",
+                          "params": {}
+                        }
+                      ],
+                      "op": "skeletonize",
+                      "params": {
+                        "threshold": 0.7
+                      }
+                    }
+                  ],
+                  "op": "graph",
+                  "params": {}
+                }
+              ],
+              "op": "paths",
+              "params": {}
+            }
+          ],
+          "op": "edge_lengths",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 8,
+        "high": 2.0,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [],
+          "op": "image",
+          "params": {}
+        }
+      ],
+      "op": "spatial_split",
+      "params": {
+        "cols": 3,
+        "rows": 1
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.5
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "autocorrelation",
+      "params": {
+        "lags": [
+          1,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [],
+                              "op": "image",
+                              "params": {}
+                            }
+                          ],
+                          "op": "skeletonize",
+                          "params": {
+                            "threshold": 0.3
+                          }
+                        }
+                      ],
+                      "op": "graph",
+                      "params": {}
+                    }
+                  ],
+                  "op": "paths",
+                  "params": {}
+                }
+              ],
+              "op": "angles",
+              "params": {}
+            }
+          ],
+          "op": "delta_angle",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 16,
+        "high": 3.141593,
+        "low": -3.141593
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.5
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "moments",
+      "params": {
+        "orders": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [],
+          "op": "image",
+          "params": {}
+        }
+      ],
+      "op": "spatial_split",
+      "params": {
+        "cols": 3,
+        "rows": 2
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.6
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 4,
+        "high": 16,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.5
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 16,
+        "high": 16,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.4
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 4,
+        "high": 16,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.3
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 6,
+        "high": 16,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [],
+                          "op": "image",
+                          "params": {}
+                        }
+                      ],
+                      "op": "skeletonize",
+                      "params": {
+                        "threshold": 0.6
+                      }
+                    }
+                  ],
+                  "op": "graph",
+                  "params": {}
+                }
+              ],
+              "op": "paths",
+              "params": {}
+            }
+          ],
+          "op": "edge_lengths",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 8,
+        "high": 2.0,
+        "low": 0
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [],
+              "op": "image",
+              "params": {}
+            }
+          ],
+          "op": "threshold",
+          "params": {
+            "value": 0.5
+          }
+        }
+      ],
+      "op": "connected_components",
+      "params": {}
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [],
+                      "op": "image",
+                      "params": {}
+                    }
+                  ],
+                  "op": "skeletonize",
+                  "params": {
+                    "threshold": 0.6
+                  }
+                }
+              ],
+              "op": "graph",
+              "params": {}
+            }
+          ],
+          "op": "degree_sequence",
+          "params": {}
+        }
+      ],
+      "op": "autocorrelation",
+      "params": {
+        "lags": [
+          1,
+          2,
+          4
+        ]
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [],
+                              "op": "image",
+                              "params": {}
+                            }
+                          ],
+                          "op": "skeletonize",
+                          "params": {
+                            "threshold": 0.6
+                          }
+                        }
+                      ],
+                      "op": "graph",
+                      "params": {}
+                    }
+                  ],
+                  "op": "paths",
+                  "params": {}
+                }
+              ],
+              "op": "angles",
+              "params": {}
+            }
+          ],
+          "op": "delta_angle",
+          "params": {}
+        }
+      ],
+      "op": "histogram",
+      "params": {
+        "bins": 16,
+        "high": 3.141593,
+        "low": -3.141593
+      }
+    },
+    {
+      "args": [
+        {
+          "args": [
+            {
+              "args": [
+                {
+                  "args": [
+                    {
+                      "args": [
+                        {
+                          "args": [
+                            {
+                              "args": [],
+                              "op": "image",
+                              "params": {}
+                            }
+                          ],
+                          "op": "skeletonize",
+                          "params": {
+                            "threshold": 0.6
+                          }
+                        }
+                      ],
+                      "op": "graph",
+                      "params": {}
+                    }
+                  ],
+                  "op": "paths",
+                  "params": {}
+                }
+              ],
+              "op": "angles",
+              "params": {}
+            }
+          ],
+          "op": "delta_angle",
+          "params": {}
+        }
+      ],
+      "op": "moments",
+      "params": {
+        "orders": [
+          1,
+          2,
+          3
+        ]
+      }
+    }
+  ],
+  "schema_version": 1,
+  "scores": [
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "e5bb27219f3305f8b4c7c88f8a45cac8577701e39b63da1ef0e78ff2b9302833",
+      "evaluation_index": 1,
+      "feature_dim": 3,
+      "fitness": 0.18692739705577607,
+      "metadata": {
+        "feature_runtime_ms": 942.9062500003056,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 1.6928330005612224,
+        "mechanism": "Turn autocorrelation tests whether neighboring curvature changes persist along a path.",
+        "name": "typed_seed_000",
+        "oracle_elapsed_ms": 967.3524160007219,
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 10.714458001530147
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {}
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 955.313541002397,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.26,
+      "behavioral_novelty": null,
+      "candidate_id": "2fa3289dbb23fc4a0443347e41b2cd17eafbb35ad3991646b66e6acd742fc78b",
+      "evaluation_index": 2,
+      "feature_dim": 6,
+      "fitness": 0.25746561907050475,
+      "metadata": {
+        "feature_runtime_ms": 353.8288340005238,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.3304999991087243,
+        "mechanism": "Graph-degree run lengths test whether local branching states persist in traversal order.",
+        "name": "typed_seed_001",
+        "oracle_elapsed_ms": 370.9659169999213,
+        "seed_candidate": true,
+        "structural_novelty": 1.0,
+        "training_runtime_ms": 4.3383749998611165
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 8,
+          "low": -8
+        }
+      },
+      "runtime_ms": 358.4977089994936,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.356,
+      "behavioral_novelty": null,
+      "candidate_id": "8d55a7e756cd05b90a0b04e3f820742afe769840724250e2aa253034e9b4d9f0",
+      "evaluation_index": 3,
+      "feature_dim": 3,
+      "fitness": 0.35406060430727104,
+      "metadata": {
+        "feature_runtime_ms": 246.47587499930523,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.29400000130408444,
+        "mechanism": "Moments of graph-degree run lengths test higher-order persistence in the ordered graph trace.",
+        "name": "typed_seed_002",
+        "oracle_elapsed_ms": 262.7245410003525,
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 4.6296670006995555
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {}
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "degree_sequence",
+                "params": {}
+              }
+            ],
+            "op": "run_length_encode",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 251.39954200130887,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.189,
+      "behavioral_novelty": null,
+      "candidate_id": "d1a3c6a3eb3d15a1acb964849a947414614bea53d5cd9e87264ec0d88386f14d",
+      "evaluation_index": 4,
+      "feature_dim": 3,
+      "fitness": 0.18692067769852364,
+      "metadata": {
+        "feature_runtime_ms": 1018.5377500001778,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.3019579999090638,
+        "mechanism": "Turn autocorrelation tests persistence across neighboring path steps.",
+        "name": "typed_seed_003",
+        "oracle_elapsed_ms": 1033.55129099873,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.9400000003079185
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.5
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 1021.7797080003947,
+      "structural_descriptor": [
+        "path_geometry",
+        "higher_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.381,
+      "behavioral_novelty": null,
+      "candidate_id": "4a7356ee1cfbfd10c2c35c1a5bae69e90d26ee3df3ccfc2ee640ead22b58af92",
+      "evaluation_index": 5,
+      "feature_dim": 3,
+      "fitness": 0.3789860489421184,
+      "metadata": {
+        "feature_runtime_ms": 526.2464999996155,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2913750013249228,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_004",
+        "oracle_elapsed_ms": 542.6510830002371,
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 4.421416999321082
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.7
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 530.9592920002615,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.155,
+      "behavioral_novelty": null,
+      "candidate_id": "b2d4591fe2eacc500757ea6b7d233db2cbbf395a967b3081c82196736b9925b7",
+      "evaluation_index": 6,
+      "feature_dim": 8,
+      "fitness": 0.15216920972454748,
+      "metadata": {
+        "feature_runtime_ms": 560.1886249987729,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.28270899929339066,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_005",
+        "oracle_elapsed_ms": 574.7399579995545,
+        "seed_candidate": true,
+        "structural_novelty": 0.5714285714285714,
+        "training_runtime_ms": 2.8687079993687803
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.7
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 563.340041997435,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.2815,
+      "behavioral_novelty": null,
+      "candidate_id": "9d1d10043d1b79a38c29c151e11ce5922c5eb2f666f31ada00d175e4d07744d2",
+      "evaluation_index": 7,
+      "feature_dim": 3,
+      "fitness": 0.2796593939813893,
+      "metadata": {
+        "feature_runtime_ms": 89.36095799981558,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.28862500039394945,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_006",
+        "oracle_elapsed_ms": 104.7482920002949,
+        "seed_candidate": true,
+        "structural_novelty": 0.8571428571428571,
+        "training_runtime_ms": 3.333667000333662
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 1
+        }
+      },
+      "runtime_ms": 92.9832500005432,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.21,
+      "behavioral_novelty": null,
+      "candidate_id": "bd443dbebf7797235daabd6102a64887c855001a1975b1f472c807b7465fde12",
+      "evaluation_index": 8,
+      "feature_dim": 3,
+      "fitness": 0.20810935941758035,
+      "metadata": {
+        "feature_runtime_ms": 151.06500000001688,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.273374998869258,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_007",
+        "oracle_elapsed_ms": 165.25108399946475,
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.667374999873573
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 154.0057499987597,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2555,
+      "behavioral_novelty": null,
+      "candidate_id": "93c2d29b77f9dcd7213549bbcef4a92ddf9be1b94aeddaa6da383acf0981cadc",
+      "evaluation_index": 9,
+      "feature_dim": 16,
+      "fitness": 0.25197197801657567,
+      "metadata": {
+        "feature_runtime_ms": 1035.920875001466,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.3192919994035037,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_008",
+        "oracle_elapsed_ms": 1051.8642499991984,
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 3.915291999874171
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.3
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 1040.1554590007436,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.477,
+      "behavioral_novelty": null,
+      "candidate_id": "4bd796f08da54a2418434c8dcb63c29c9fd38d450d98c84d9f8f38e9955da2e2",
+      "evaluation_index": 10,
+      "feature_dim": 3,
+      "fitness": 0.475103828303378,
+      "metadata": {
+        "feature_runtime_ms": 157.5950839996949,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.31241599936038256,
+        "mechanism": "Moments summarize graph degree structure.",
+        "name": "typed_seed_009",
+        "oracle_elapsed_ms": 174.07587500019872,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.913333999866154
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 162.82083399892144,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.493,
+      "behavioral_novelty": null,
+      "candidate_id": "328e2359196350f0c214f00d5f286ccc8540c517e36de26562afa361a96e510f",
+      "evaluation_index": 11,
+      "feature_dim": 6,
+      "fitness": 0.4905822525012085,
+      "metadata": {
+        "feature_runtime_ms": 106.25208400051633,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.27224999939789996,
+        "mechanism": "Coarse spatial ink distribution tests location-sensitive structure.",
+        "name": "typed_seed_010",
+        "oracle_elapsed_ms": 122.84866700065322,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.461624999748892
+      },
+      "program": {
+        "args": [
+          {
+            "args": [],
+            "op": "image",
+            "params": {}
+          }
+        ],
+        "op": "spatial_split",
+        "params": {
+          "cols": 3,
+          "rows": 2
+        }
+      },
+      "runtime_ms": 110.98595899966313,
+      "structural_descriptor": [
+        "pixel",
+        "orderless",
+        "localized",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1155,
+      "behavioral_novelty": null,
+      "candidate_id": "d1afa04ff9095aaf7667ee9ca731a13ef48ab91119332beef4f44384bebf32d8",
+      "evaluation_index": 12,
+      "feature_dim": 4,
+      "fitness": 0.11324810976700507,
+      "metadata": {
+        "feature_runtime_ms": 612.907417000315,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2452080007060431,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_011",
+        "oracle_elapsed_ms": 627.4157500010915,
+        "seed_candidate": true,
+        "structural_novelty": 0.42857142857142855,
+        "training_runtime_ms": 2.6340419990447117
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 615.7866670000658,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.4705,
+      "behavioral_novelty": null,
+      "candidate_id": "c479d00679a28fe5fe469badec0e83b33513b39c55c2252cf2476fd4e068168a",
+      "evaluation_index": 13,
+      "feature_dim": 16,
+      "fitness": 0.46713631472292655,
+      "metadata": {
+        "feature_runtime_ms": 195.50991699907172,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.27845799922943115,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_012",
+        "oracle_elapsed_ms": 211.95924999847193,
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 4.496125000514439
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.5
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 200.2844999988156,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.1145,
+      "behavioral_novelty": null,
+      "candidate_id": "4e3421438cf13e734c00f46cf76013370996d649ab30c20c88e7522eea4134b3",
+      "evaluation_index": 14,
+      "feature_dim": 4,
+      "fitness": 0.1122406192982195,
+      "metadata": {
+        "feature_runtime_ms": 660.5905840006017,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.2425420007057255,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_013",
+        "oracle_elapsed_ms": 674.9640420002834,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.9280839989951346
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.4
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 4,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 663.7612100003025,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2445,
+      "behavioral_novelty": null,
+      "candidate_id": "57e33af9c51a461d95c1e6590332203e20ece4e485cf13a5a0acf37779d56a1d",
+      "evaluation_index": 15,
+      "feature_dim": 6,
+      "fitness": 0.2420234136484604,
+      "metadata": {
+        "feature_runtime_ms": 197.59841599989159,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.26558399986242875,
+        "mechanism": "The graph degree distribution tests skeleton branching structure.",
+        "name": "typed_seed_014",
+        "oracle_elapsed_ms": 212.4069169985887,
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.8320830006123288
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.3
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 6,
+          "high": 16,
+          "low": 0
+        }
+      },
+      "runtime_ms": 200.69608300036634,
+      "structural_descriptor": [
+        "graph",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.145,
+      "behavioral_novelty": null,
+      "candidate_id": "ad52a7513edee456524163928b005895e3d3e363178f081b9e0fd868b3994eb2",
+      "evaluation_index": 16,
+      "feature_dim": 8,
+      "fitness": 0.14216813143886847,
+      "metadata": {
+        "feature_runtime_ms": 566.007957999318,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.4326670004957123,
+        "mechanism": "Edge-length frequencies test local stroke geometry.",
+        "name": "typed_seed_015",
+        "oracle_elapsed_ms": 581.511499998669,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 3.0175409992807545
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [],
+                            "op": "image",
+                            "params": {}
+                          }
+                        ],
+                        "op": "skeletonize",
+                        "params": {
+                          "threshold": 0.6
+                        }
+                      }
+                    ],
+                    "op": "graph",
+                    "params": {}
+                  }
+                ],
+                "op": "paths",
+                "params": {}
+              }
+            ],
+            "op": "edge_lengths",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 8,
+          "high": 2.0,
+          "low": 0
+        }
+      },
+      "runtime_ms": 569.4581659990945,
+      "structural_descriptor": [
+        "path_geometry",
+        "orderless",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.115,
+      "behavioral_novelty": null,
+      "candidate_id": "d702bd01134f5733c9c3acf0f5d24422442594a694ebd08b2de6cbddc922a113",
+      "evaluation_index": 17,
+      "feature_dim": 1,
+      "fitness": 0.1138301264669464,
+      "metadata": {
+        "feature_runtime_ms": 113.5061670011055,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.24908299928938504,
+        "mechanism": "Foreground component count tests a compact topological cue.",
+        "name": "typed_seed_016",
+        "oracle_elapsed_ms": 128.21900000017195,
+        "seed_candidate": true,
+        "structural_novelty": 0.7142857142857143,
+        "training_runtime_ms": 2.8417499997885898
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [],
+                "op": "image",
+                "params": {}
+              }
+            ],
+            "op": "threshold",
+            "params": {
+              "value": 0.5
+            }
+          }
+        ],
+        "op": "connected_components",
+        "params": {}
+      },
+      "runtime_ms": 116.59700000018347,
+      "structural_descriptor": [
+        "topology",
+        "orderless",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.242,
+      "behavioral_novelty": null,
+      "candidate_id": "11ad67ea5dc114822c5c259ad5744f680e2d66c52ad07d5dc876e76843487f6c",
+      "evaluation_index": 18,
+      "feature_dim": 3,
+      "fitness": 0.2401098849709436,
+      "metadata": {
+        "feature_runtime_ms": 150.52879100039718,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.27895799939869903,
+        "mechanism": "Degree-sequence autocorrelation tests ordering in the graph traversal.",
+        "name": "typed_seed_017",
+        "oracle_elapsed_ms": 164.65858300034597,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 2.3854999999457505
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [],
+                        "op": "image",
+                        "params": {}
+                      }
+                    ],
+                    "op": "skeletonize",
+                    "params": {
+                      "threshold": 0.6
+                    }
+                  }
+                ],
+                "op": "graph",
+                "params": {}
+              }
+            ],
+            "op": "degree_sequence",
+            "params": {}
+          }
+        ],
+        "op": "autocorrelation",
+        "params": {
+          "lags": [
+            1,
+            2,
+            4
+          ]
+        }
+      },
+      "runtime_ms": 153.19324899974163,
+      "structural_descriptor": [
+        "graph",
+        "higher_order",
+        "global",
+        "single",
+        "compact"
+      ]
+    },
+    {
+      "accuracy": 0.2625,
+      "behavioral_novelty": null,
+      "candidate_id": "36882f133f3561fe754bdea97be2004b1093986fca26169e40c4ccc20d7f1869",
+      "evaluation_index": 19,
+      "feature_dim": 16,
+      "fitness": 0.25908514241528025,
+      "metadata": {
+        "feature_runtime_ms": 330.4391660003603,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.30795800012128893,
+        "mechanism": "The turning-angle distribution tests local stroke geometry.",
+        "name": "typed_seed_018",
+        "oracle_elapsed_ms": 346.2167090001458,
+        "seed_candidate": true,
+        "structural_novelty": 0.14285714285714285,
+        "training_runtime_ms": 4.028249999464606
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "histogram",
+        "params": {
+          "bins": 16,
+          "high": 3.141593,
+          "low": -3.141593
+        }
+      },
+      "runtime_ms": 334.77537399994617,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    },
+    {
+      "accuracy": 0.262,
+      "behavioral_novelty": null,
+      "candidate_id": "f9f0486a35beceef0c2f3dd67b5ca953bab59183141eba5dd74f48badd3f44d3",
+      "evaluation_index": 20,
+      "feature_dim": 3,
+      "fitness": 0.2601305513877606,
+      "metadata": {
+        "feature_runtime_ms": 121.15191600059916,
+        "hypothesis": "This typed representation may encode a compact structural cue that helps classify handwritten digits from limited labels.",
+        "inference_runtime_ms": 0.28279199977987446,
+        "mechanism": "Turning moments test aggregate stroke dynamics.",
+        "name": "typed_seed_019",
+        "oracle_elapsed_ms": 136.50624999900174,
+        "seed_candidate": true,
+        "structural_novelty": 0.2857142857142857,
+        "training_runtime_ms": 2.969540999401943
+      },
+      "program": {
+        "args": [
+          {
+            "args": [
+              {
+                "args": [
+                  {
+                    "args": [
+                      {
+                        "args": [
+                          {
+                            "args": [
+                              {
+                                "args": [],
+                                "op": "image",
+                                "params": {}
+                              }
+                            ],
+                            "op": "skeletonize",
+                            "params": {
+                              "threshold": 0.6
+                            }
+                          }
+                        ],
+                        "op": "graph",
+                        "params": {}
+                      }
+                    ],
+                    "op": "paths",
+                    "params": {}
+                  }
+                ],
+                "op": "angles",
+                "params": {}
+              }
+            ],
+            "op": "delta_angle",
+            "params": {}
+          }
+        ],
+        "op": "moments",
+        "params": {
+          "orders": [
+            1,
+            2,
+            3
+          ]
+        }
+      },
+      "runtime_ms": 124.40424899978098,
+      "structural_descriptor": [
+        "path_geometry",
+        "first_order",
+        "global",
+        "single",
+        "moderate"
+      ]
+    }
+  ],
+  "seed": 101,
+  "sha256": "1cc4ce221966998e5321857340ee843445b383e8ae3f2979e8dd25e70fef7e7b"
+}

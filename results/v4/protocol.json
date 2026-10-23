@@ -1,0 +1,243 @@
+{
+  "acceptance_criteria": [
+    "freeze_G_star_before_primary_evaluation",
+    "restart_search_from_scratch",
+    "match_optimizer_and_budget_conditions",
+    "improve_search_efficiency_over_G0",
+    "survive_independent_seeds",
+    "reuse_at_least_one_evolved_abstraction_across_independent_searches"
+  ],
+  "baseline_manifest": {
+    "path": "results/v4/baseline_manifest.json",
+    "sha256": "050bc754b6117b716e9e2f1f5f9e92e2ef1c08872aab4245c099de7393e72d2b"
+  },
+  "baseline_reproduction": {
+    "manifest_path": "results/v4/baseline_reproduction/manifest.json",
+    "manifest_sha256": "2a3b5036334852a07401fe5082da09b8ce1e097f1a3dc3d73a7c35cdd4ec3256",
+    "status": "passed",
+    "summary_path": "results/v4/baseline_reproduction/summary.json",
+    "summary_sha256": "8fbc274abd774d346594f95eed18c9de312e380e5f68264b2dbbde76c3a14411"
+  },
+  "candidate_boundary": {
+    "arbitrary_python": false,
+    "codex_driver": "codex_tmux",
+    "codex_sandbox_mode": "workspace-write",
+    "editable": [
+      "candidate/language.json",
+      "candidate/program.json"
+    ],
+    "agent_shell_network_access": false,
+    "multi_agent_mode": false,
+    "immutable": [
+      "evaluator",
+      "dataset_loader",
+      "learner",
+      "metric",
+      "split",
+      "protocol"
+    ],
+    "macro_transitive_expansion_vocabulary": "G0 only; excluded GH operations forbidden",
+    "new_macro_must_be_used_by_introducing_candidate": true,
+    "official_test_access": false,
+    "web_search": false
+  },
+  "candidate_feedback": {
+    "allowed_outputs": [
+      "accuracy_500",
+      "feature_dimension",
+      "feature_runtime_ms",
+      "training_runtime_ms",
+      "inference_runtime_ms",
+      "stage_one_fitness",
+      "program_complexity_components",
+      "language_complexity_components",
+      "structured_failure"
+    ],
+    "confusion_matrix_exposed": false,
+    "discovery_fitness_available": false,
+    "evaluator_source_digest_recorded": true,
+    "labels_exposed": false,
+    "language_penalty_applied": false,
+    "predictions_exposed": false,
+    "status": "draft_only_pending_preregistration"
+  },
+  "created_on": "2026-10-14",
+  "discovery_language_complexity_penalty": {
+    "coefficient": null,
+    "definition": null,
+    "must_be_fixed_before_discovery": true
+  },
+  "macro_resource_limits": {
+    "max_expansion_depth": 6,
+    "max_expanded_ast_nodes": 127,
+    "max_feature_dimension": 128,
+    "max_macros": 8,
+    "max_new_macros_per_candidate": 1,
+    "status": "pinned_for_v4_language_evolution"
+  },
+  "phase_10_language_pilot": {
+    "candidate_attempts": 10,
+    "run_configuration": {
+      "hydra_config_name": "llmao_v4",
+      "application_group": "llmao_v4_language_pilot",
+      "optimizer_group": "llmao_v4_language_pilot",
+      "evaluation_group": "llmao_v4_language_pilot",
+      "solver_workers": 1,
+      "parallel_solver_workers": 1,
+      "boundary_repair_attempts": 0,
+      "solver_examples_per_iteration": 32,
+      "evaluator_includes_solver_examples": true,
+      "rollout_max_turns": 80,
+      "timeout_seconds": 3600
+    },
+    "lineage_state": {
+      "artifact": "evaluate/lineage_state.json",
+      "contents": [
+        "last_valid_v4_candidate_id",
+        "language_generation",
+        "canonical_language_hash",
+        "ordered_language_snapshots_from_g0"
+      ],
+      "source": "evaluator_logs_attached_to_selected_prefill_solver_example",
+      "append_current_snapshot_after_candidate_context_validation": true,
+      "context_failure_preserves_last_valid_state": true
+    },
+    "candidate_accounting": "Count every proposal, including invalid candidates and context or evaluator failures; do not replace failed attempts.",
+    "score_status": "stage_one_only; discovery_fitness remains null",
+    "purpose": "Exploratory language-evolution feasibility pilot; not a primary result.",
+    "acceptance_gates": {
+      "valid_proposal_rate_min": 0.8,
+      "introduced_macro_used_by_introducer_rate_min": 1.0,
+      "at_least_one_introduced_macro_reused_by_descendant": true,
+      "max_macros_per_language": 8,
+      "max_new_macros_per_candidate": 1,
+      "max_expansion_depth": 6,
+      "max_expanded_ast_nodes": 127,
+      "max_feature_dimension": 128,
+      "protected_boundary_violations_max": 0
+    },
+    "stop_rules": [
+      "Stop after ten candidate attempts.",
+      "Stop immediately on evidence of a protected-boundary or official-test access violation.",
+      "Retain all valid, invalid, incomplete, and failed-attempt artifacts.",
+      "A failed gate requires a separately documented plan before another language pilot."
+    ]
+  },
+  "evaluator_basis": {
+    "dataset": "MNIST OpenML mnist_784 v1; official 60,000-example training partition only",
+    "learner": {
+      "C": 1.0,
+      "classifier": "LogisticRegression",
+      "max_iter": 1000,
+      "random_state": 42,
+      "scaler": "StandardScaler",
+      "solver": "lbfgs",
+      "tol": 0.0001
+    },
+    "official_test_access": false,
+    "split_fingerprints_sha256": {
+      "training_partition_search_pool": "408c5bccf0c0154544e24ac90c0a66ac4a43874afa02467dd49608361e5949a9",
+      "training_subset_500_seed_42": "13fcc1f95360ad91af1450cfdb0f482f060f266b7343fe029e497d030a2a15b9",
+      "validation_split": "6f09a36b184e4ea60a1876f195d777e1f9a6df16b7a071681cbfcf7157989b68"
+    },
+    "training_subset_seed": 42,
+    "training_subset_size": 500,
+    "validation_size": 2000,
+    "validation_split_seed": 42
+  },
+  "evolution_level": "A_typed_macros_only",
+  "execution_observations": {
+    "account_plan": "ChatGPT Plus (verified 2026-10-14)",
+    "authentication": "ChatGPT login verified using codex login status",
+    "codex_cli_version": "0.162.0-alpha.17.2",
+    "baseline_reproduction_verified": true,
+    "eve_worker_launched": true,
+    "frozen_language_smoke_manifest": "results/v4/smoke_manifest.json",
+    "frozen_language_smoke_status": "completed; phase 9 gate satisfied; discovery not started",
+    "model_support_verified": true,
+    "model_probe": "isolated ephemeral read-only codex exec with --ignore-user-config returned the expected sentinel",
+    "reasoning_effort": "max",
+    "reasoning_support_verified": true
+  },
+  "language_conditions": {
+    "G0": {
+      "basis": "frozen V2-level typed DSL",
+      "manifest_path": "results/v4/languages/g0.json",
+      "manifest_sha256": "34053b62a917cb7f19b572a4458440972350ea800391fdeba2d3f624cc331b2f",
+      "excluded_v3_operations": [
+        "spatial_condition",
+        "pairwise_difference",
+        "cross_histogram",
+        "path_summary"
+      ]
+    },
+    "GH": {
+      "basis": "full frozen human V3 typed DSL",
+      "manifest_path": "results/v4/languages/gh.json",
+      "manifest_sha256": "79d65f19cd6bf7a9bf46bb080877c810a3e9378f8ed71d474f36cd1e0de1ec14"
+    },
+    "G_star": {
+      "basis": "G0 plus discovered typed macros",
+      "freeze_before_primary_evaluation": true
+    }
+  },
+  "pending_preregistration_decisions": [
+    "evaluator_compiler_snapshot_and_worker_permissions_context_policy",
+    "candidate_and_token_budgets_seeds_attempt_cap_timeouts_incomplete_run_policy",
+    "common_initial_program_manifest",
+    "language_complexity_penalty_definition_and_coefficient",
+    "discovery_only_language_selection_rule_and_tie_breakers",
+    "AUC_bounds_normalization_primary_contrast_statistics_and_numeric_support_criteria"
+  ],
+  "primary_design": {
+    "carry_discovery_program_history_guidance_population": false,
+    "exact_cli_model_identifier": "gpt-6-luna",
+    "fresh_search": true,
+    "languages": [
+      "G0",
+      "GH",
+      "G_star"
+    ],
+    "matching_requirements": [
+      "initial_programs",
+      "candidate_budget",
+      "token_accounting",
+      "timeouts",
+      "model",
+      "reasoning_effort",
+      "permissions",
+      "context_policy",
+      "evaluation_data",
+      "independent_seeds"
+    ],
+    "optimizers": [
+      "fixed_iterative_codex",
+      "eve"
+    ],
+    "primary_metric": "best-so-far search AUC versus candidate evaluations: G_star minus G0 under matched optimizer conditions",
+    "requested_model": "gpt-6-luna",
+    "requested_reasoning_effort": "max"
+  },
+  "research_question": "Can an LLM invent reusable abstractions that make useful inductive biases easier to discover?",
+  "schema_version": 1,
+  "secondary_analyses": [
+    "token_budget_search_curves",
+    "time_to_frozen_thresholds",
+    "final_fitness",
+    "validity_and_duplicates",
+    "language_complexity_and_reuse",
+    "human_V3_language_reference",
+    "optimizer_language_interaction",
+    "semantic_name_ablation",
+    "fresh_search_transfer"
+  ],
+  "stage_one_fitness": "accuracy_500 - 0.001*log1p(feature_dim) - 0.0001*log1p(feature_runtime_ms + training_runtime_ms + inference_runtime_ms)",
+  "status": "draft_before_discovery",
+  "study_id": "v4-evolving-bias-language",
+  "transfer_datasets": [
+    "EMNIST Digits",
+    "EMNIST Letters",
+    "KMNIST",
+    "Fashion-MNIST"
+  ]
+}
