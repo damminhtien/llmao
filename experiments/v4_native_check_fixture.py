@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parents[1]
 EVE_ROOT = ROOT.parent / "eve"
 FIXTURE_CACHE = ROOT / "results/v4/scratch/native-check-fixtures"
 EVIDENCE_ROOT = ROOT / "results/v4/phase10_followup/native_worker_integration"
-CONTRACT = ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
+CONTRACT = ROOT / "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json"
 PROTOCOL = ROOT / "results/v4/protocol.json"
 PROJECT_PYTHON = ROOT / ".venv/bin/python"
 

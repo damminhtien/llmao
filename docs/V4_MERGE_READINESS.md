@@ -18,10 +18,12 @@ The primary language-utility comparison remains incomplete.
 4. [Reproducibility](REPRODUCIBILITY.md#frozen-v4-exploratory-release) for
    deterministic audit commands and the release boundary.
 
-Scientific protocols, implementation, tests, and historical result files retain
-their frozen content. Existing phase plans and failed pilot reports remain at
-their original paths because contracts, source references, and audit records
-refer to them. Unchecked primary milestones describe unfinished research.
+Scientific protocols and historical result files retain their frozen content.
+After publication, a layout cleanup relocated 25 root artifacts and updated
+current source/test path references. The [location guide](v4/README.md) records
+the new layout and explains historical references. Original source and tests
+remain at the immutable tag. Unchecked primary milestones describe unfinished
+research.
 
 ## Release and integration history
 
@@ -56,7 +58,7 @@ Git publication, with no remote CI result claimed.
 | Original tagged evidence inventory | All hashes match the tagged files | Verifies that the original snapshot remains available |
 | Baseline manifest against current checkout | 85/86 hashes match | Sole exception: the updated `reports/README.md` navigation index; original index verified at the recorded baseline commit |
 | Preserved revision-14 trajectories | Counts, maxima, macro events, and states match the summary | Reads saved JSON/JSONL only; no rescoring |
-| Historical source, protocols, and result artifacts | Unchanged from `v4-exploratory-final` | Editorial integration follow-up only |
+| Original integration scope | Source, protocols, and result artifacts unchanged at publication | Subsequent layout cleanup adapts source/test paths; moved artifact bytes remain identical |
 | Local links and diff whitespace | Checked | Reader-facing edited Markdown and `git diff --check` |
 
 The focused test command is documented in

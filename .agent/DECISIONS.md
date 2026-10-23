@@ -155,3 +155,15 @@ commit that preserves source history and push the existing annotated final tag
 without moving it. Verify remote branch tips and the peeled tag target. Update
 current publication metadata after verification while retaining the original
 tagged report and manifest as historical snapshots. No research work resumes.
+
+
+## 2026-10-23 — Organize V4 artifacts after publication
+
+The user requested cleanup of V4 files at repository root. Relocate the 25
+root artifacts into docs/v4, reports/v4, and configs/v4, preserving bytes and
+the immutable final tag. Use a location index and release_tag_path metadata
+to reconcile the current layout with the tagged root paths. Historical
+embedded paths and source pins retain their original meaning at the tag;
+do not relax validators or rewrite historical records. Current experiment
+scripts adapt path literals only, with focused synthetic tests and normalized
+AST comparison. This is repository maintenance and adds no scientific evidence.

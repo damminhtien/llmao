@@ -256,8 +256,8 @@ aggregate fingerprint or full evaluator configuration. E2 records that no
 MNIST data was loaded. The official test partition was not accessed in E1–E4.
 
 Neither the closure nor the subsequent editorial revisions change
-`V4_PROTOCOL.md`, any finalized primary protocol, `V4_PRIMARY_DESIGN.md`, or
-`V4_PRIMARY_DESIGN_V11.md`. The protocols and historical run artifacts remain
+`docs/v4/V4_PROTOCOL.md`, any finalized primary protocol, `docs/v4/V4_PRIMARY_DESIGN.md`, or
+`docs/v4/V4_PRIMARY_DESIGN_V11.md`. The protocols and historical run artifacts remain
 unchanged. Reproduction guidance points to the checksummed evidence bundle and
 does not authorize a new V4 run.
 
@@ -294,3 +294,12 @@ The sole exception is the reports navigation index, `reports/README.md`,
 updated to include V4. Its original bytes match at the recorded baseline
 commit. All other protected entries match; the manifest and handoff record this
 editorial exception rather than asserting an unqualified 86/86 current check.
+
+## Repository layout follow-up
+
+A post-publication cleanup relocated 25 root documents and frozen inputs into
+`docs/v4/`, `reports/v4/`, and `configs/v4/` without changing their bytes.
+Current script/test path references were updated; scientific criteria and run
+records were preserved. See the [location guide](../../docs/v4/README.md) and
+its hash index. Historical embedded paths and source pins apply to the original
+`v4-exploratory-final` checkout. This cleanup adds no scientific evidence.

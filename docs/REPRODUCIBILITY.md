@@ -15,8 +15,8 @@ The V3/V3.1 architecture and V3.2 execution boundaries are documented in
 The frozen V4 exploratory results and their limits are documented in the
 [V4 report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). The intended
 primary design remains in [ARCHITECTURE.md](../ARCHITECTURE.md),
-[`V4_PRIMARY_DESIGN.md`](../V4_PRIMARY_DESIGN.md), and its
-[revision-11 amendment](../V4_PRIMARY_DESIGN_V11.md); that primary campaign did
+[`docs/v4/V4_PRIMARY_DESIGN.md`](../docs/v4/V4_PRIMARY_DESIGN.md), and its
+[revision-11 amendment](../docs/v4/V4_PRIMARY_DESIGN_V11.md); that primary campaign did
 not complete. V4 is the study name; IDs such as `v4-primary-14` identify
 revisions of its primary protocol.
 V4 output roots, external read-only inputs, and the fixture scratch policy are
@@ -33,8 +33,12 @@ selection or fresh-search campaign.
 Current documentation adds the trajectory spotlight, E1–E4 synthesis, and
 [integration handoff](V4_MERGE_READINESS.md) after the tag. The updated manifest
 identifies post-tag documents; the tag and its original manifest remain
-unchanged. The editorial revisions preserve source code, protocols, data, and
-historical run records. The V4 launch procedures in the protocol and agent
+unchanged. The editorial revisions preserve scientific protocol contents, data, and
+historical run records. A subsequent layout cleanup moves 25 root artifacts
+without changing their bytes and adapts current source/test path references.
+See the [V4 location guide](v4/README.md) for original-to-current paths and
+a deterministic relocation audit. Historical source pins require the original
+tag checkout. The V4 launch procedures in the protocol and agent
 workflow remain historical execution documentation; they do not authorize
 resuming this frozen study.
 

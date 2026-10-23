@@ -28,15 +28,15 @@ editorial and preserves all historical checklist statuses below.
   `results/v4/baseline_manifest.json`.
 - [x] Verify V3/V3.1/V3.2 reports and results remain unchanged; record 86
   protected artifact hashes in the baseline manifest.
-- [x] Create `V4_PROTOCOL.md` as a pre-discovery draft.
+- [x] Create `docs/v4/V4_PROTOCOL.md` as a pre-discovery draft.
 - [x] Create canonical `results/v4/protocol.json` as a pre-discovery draft.
 - [x] Hash the current draft snapshot in `results/v4/protocol.sha256`.
 - [ ] Integrate the resolved scientific choices into the versioned primary
   protocol and verify its adjacent digest.
 - [x] Freeze the twenty common initial ASTs from the pinned V3.2 protocol,
-  validate G0/GH eligibility, and hash `V4_INITIAL_PROGRAMS.json` without
+  validate G0/GH eligibility, and hash `configs/v4/V4_INITIAL_PROGRAMS.json` without
   importing historical scores, descriptions, or search history.
-- [x] Fix scientific primary-study choices in `V4_PRIMARY_DESIGN.md`: budgets,
+- [x] Fix scientific primary-study choices in `docs/v4/V4_PRIMARY_DESIGN.md`: budgets,
   independent discovery/fresh seeds, failures and censoring, language penalty,
   selection, AUC/statistics, and numeric support criteria.
 - [ ] Finish implementation/configuration pins and bind the design and common
@@ -78,7 +78,7 @@ feasibility evidence only.
   reject legacy configuration conflicts and CLI overrides. Add a no-model
   preflight that must pass before worker creation. The full preflight and
   fifteen native postconditions pass in `20261015-native-boundary-04`; see
-  `V4_SANDBOX_REPAIR.md` for reproducible commands and evidence.
+  `docs/v4/V4_SANDBOX_REPAIR.md` for reproducible commands and evidence.
 - [ ] Bind the repaired launcher, sandbox profile, runtime, and preflight
   evidence into a new scientific contract before the next pilot.
 - [x] Verify the scientific worker config pins `codex_tmux`, disables network,
@@ -387,7 +387,7 @@ Gate:
 
 The frozen-language smoke gate is satisfied. The Phase 10 language pilot has
 completed, but it failed its valid-candidate minimum. The response is recorded
-in `V4_PILOT_RESPONSE_PLAN.md`. A follow-up pilot requires its tooling and
+in `reports/v4/V4_PILOT_RESPONSE_PLAN.md`. A follow-up pilot requires its tooling and
 contract checks. Those pilot-time notes do not replace the separate primary
 protocol and launch gates tracked in M2.
 
@@ -398,7 +398,7 @@ protocol and launch gates tracked in M2.
 Before the pilot:
 
 - [x] Predeclare numeric pilot gates, macro/resource limits, and stop rules in
-  `V4_PROTOCOL.md` and `results/v4/protocol.json`; then refresh the protocol
+  `docs/v4/V4_PROTOCOL.md` and `results/v4/protocol.json`; then refresh the protocol
   digest.
 - [x] Keep pilot feedback marked stage-one-only while discovery penalty and
   primary-study decisions remain unresolved.
@@ -467,10 +467,10 @@ Two rejected proposals attempted expanded depth 7 against the depth-6 limit;
 the evaluator rejected both before admission. The accepted candidates remained
 within the macro-count and feature-width caps. No data, label, official-test, or
 workspace-boundary violation was found. The reviewed attempt table is in
-`V4_PHASE10_PILOT_REPORT.md`; raw candidate and lineage artifacts are preserved
+`reports/v4/V4_PHASE10_PILOT_REPORT.md`; raw candidate and lineage artifacts are preserved
 locally in the Git-ignored `results/v4/phase10_pilot/` archive.
 
-**Gate result: failed.** `V4_PILOT_RESPONSE_PLAN.md` records the response to
+**Gate result: failed.** `reports/v4/V4_PILOT_RESPONSE_PLAN.md` records the response to
 depth-invalid proposals, duplicates, and the 40% invalid rate. The original
 outcome remains failed. Complete that plan's tooling and contract checks before
 another exploratory pilot. Phase 12 uses a separate primary protocol and
@@ -483,7 +483,7 @@ contract, so none of this exploratory evidence is promoted to primary status.
   `01abaa5e33c3e0936d3fe2e250d071a746f71864`, LLMAO runtime
   `01f6371ded33537cb93c52b27303212db0c3a054`.
 - [x] Hash the follow-up contract before launching another pilot:
-  `V4_FOLLOWUP_PILOT_CONTRACT.json` and its adjacent `.sha256` file.
+  `configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json` and its adjacent `.sha256` file.
 - [x] Run and audit the separate ten-proposal follow-up pilot against its
   original gates and additional eight-distinct-expanded-hash gate.
 - [x] Implement a hashed project-interpreter launcher for future bundles;
@@ -498,8 +498,8 @@ contract, so none of this exploratory evidence is promoted to primary status.
 The follow-up completed all ten proposals and **failed its gate**: eight
 valid scores and eight distinct expanded ASTs passed those thresholds, but
 no macro was used by a descendant and native transcripts exposed noncandidate
-temporary writes. `V4_PHASE10_FOLLOWUP_REPORT.md` records the final audit;
-`V4_FOLLOWUP_RESPONSE_PLAN.md` fixes the next required work. All original
+temporary writes. `reports/v4/V4_PHASE10_FOLLOWUP_REPORT.md` records the final audit;
+`reports/v4/V4_FOLLOWUP_RESPONSE_PLAN.md` fixes the next required work. All original
 artifacts remain in the ignored `results/v4/phase10_followup/archive_verified/`.
 - [x] Preserve and hash terminal candidates, failures, lineage, telemetry,
   evaluator logs, and all ten native transcripts.
@@ -512,7 +512,7 @@ artifacts remain in the ignored `results/v4/phase10_followup/archive_verified/`.
 ### Phase 10 repair attempt result — 2026-10-15
 
 The separate repair contract
-`V4_FOLLOWUP_REPAIR_CONTRACT.json` (SHA-256
+`configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json` (SHA-256
 `536d83a06baabe4acac3f91b58e6fb6512fb453d567286c1843e900ea05b3040`) pinned
 native fixture `20261015-native-boundary-05`, the runtime-bound worker overlay,
 and fresh macro-free G0. The fixture passed 21/21 preflight checks and 15/15
@@ -532,8 +532,8 @@ worker overlay are preserved in
 `results/v4/phase10_followup/archive/repair_followup_20261015-01/`. Its final
 manifest SHA-256 is
 `b0ba212c44917c4f880be859a911175dae82d7603fdc277056338f19097200d7`.
-`V4_FOLLOWUP_REPAIR_REPORT.md` records the gate audit;
-`V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md` records the required next work. Do not
+`reports/v4/V4_FOLLOWUP_REPAIR_REPORT.md` records the gate audit;
+`reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md` records the required next work. Do not
 run another scientific pilot until the lineage handoff and sequential native
 driver/transcript capture are resolved in a data-free fixture.
 
@@ -553,7 +553,7 @@ driver/transcript capture are resolved in a data-free fixture.
   historical repair pilot remain unchanged.
 - [x] Freeze a new contract only after those gates pass and before any separately
   authorized scientific pilot. Contract
-  `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` has SHA-256
+  `configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json` has SHA-256
   `7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e`;
   its `--validate-only` gate passes. Freezing and validation launched no worker.
 
@@ -572,8 +572,8 @@ The finalized failed archive is
 `results/v4/phase10_followup/archive/repair_followup_20261015-02/`; its manifest
 SHA-256 is
 `cd059044554c7a83a26499e759c7ddcf9026d54e886c49a104c1f2f7421b9f08` and its
-208 referenced file records verify. `V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md`
-and `V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md` record the audit and next
+208 referenced file records verify. `reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md`
+and `reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md` record the audit and next
 data-free requirements. Do not replace, repair, or rescore any proposal.
 
 ### Phase 10 response continuation — 2026-10-15
@@ -585,7 +585,7 @@ hashed JSONL transcript, proved that the fixture can write only
 synthetic tmux failure. Its manifest SHA-256 is
 `eb3f1b9715f7584f44ccb0e81b6e0c6e4d5f6a71ec9666a9f4492ffc0f88c005`.
 
-Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json` was frozen and validated,
+Contract `configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json` was frozen and validated,
 but its traced runner exited before EvE created the run directory or started a
 worker. Hydra resolved `configs.eve` against the wrong module path. The contract,
 execution record, configuration resolution, and combined console output are
@@ -593,7 +593,7 @@ preserved; the attempt submitted zero proposals and produced zero structural
 bundles. The failure was fixed by preserving EvE's module context in the traced
 runner and validating configuration through that same entrypoint.
 
-Contract `V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` is now frozen at SHA-256
+Contract `configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json` is now frozen at SHA-256
 `17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6` and passed
 `--validate-only`. It pins the -03 pre-worker failure, all 208 records of the
 failed -02 archive, the 21-check native preflight, 44 native checks, and the
@@ -644,7 +644,7 @@ gate-audit JSON SHA-256 is
 The original collector manifest is separately preserved as
 `collection_manifest.json`. All 257 collector-referenced records passed hash
 and size verification before finalization. Full findings are in
-`V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md`.
+`reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md`.
 
 The run used only the draft V3.2 stage-one evaluator; every score has
 `discovery_ready=false`. It produced no discovery fitness or official-test
@@ -708,8 +708,8 @@ EvE
 + language evolution enabled
 ```
 
-- [x] Predeclare candidate/token budget in `V4_PRIMARY_DESIGN.md`.
-- [x] Predeclare independent seeds in `V4_PRIMARY_DESIGN.md`.
+- [x] Predeclare candidate/token budget in `docs/v4/V4_PRIMARY_DESIGN.md`.
+- [x] Predeclare independent seeds in `docs/v4/V4_PRIMARY_DESIGN.md`.
 - [ ] Run matched independent searches.
 - [ ] Store every solver candidate.
 - [ ] Store every language.
@@ -823,7 +823,7 @@ external-cache requirement and rejects symlink escapes. The subsequent
 
 Selection must use only discovery evidence.
 
-- [x] Predeclare language-selection rule in `V4_PRIMARY_DESIGN.md`.
+- [x] Predeclare language-selection rule in `docs/v4/V4_PRIMARY_DESIGN.md`.
 - [ ] Select \(G^*\).
 - [ ] Export canonical language manifest.
 - [ ] Hash \(G^*\).
@@ -842,7 +842,7 @@ Important:
 
 # Phase 14 — Reduced fresh-search experiment (V4 primary-protocol revision 11)
 
-Follow `V4_PRIMARY_DESIGN_V11.md`. Restart each condition from the common
+Follow `docs/v4/V4_PRIMARY_DESIGN_V11.md`. Restart each condition from the common
 initial-program set and run only:
 
 ```text

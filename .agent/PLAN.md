@@ -1,9 +1,8 @@
-# V4 Integration and Publication Plan
+# V4 Layout Cleanup Plan
 
-- [x] Check the clean branch, fetch origin, and inspect remote refs.
-- [x] Merge the prepared V4 branch into main while preserving source history.
-- [x] Verify identical prepared content, 99 artifact hashes, and the unchanged tag.
-- [x] Push main, the V4 branch, and the annotated tag atomically.
-- [x] Verify remote main, study branch, tag object, and peeled tag target.
-- [x] Record publication metadata, refresh checksums, commit, and push the handoff.
-- [x] Verify final remote HEAD and a clean synchronized main checkout.
+- [x] Inspect root files, source references, frozen hashes, and Git state.
+- [x] Move V4 documents, pilot records, contracts, and initial programs.
+- [x] Update active source defaults, test fixtures, and current documentation.
+- [x] Add a location index and account for original paths in the evidence manifest.
+- [x] Run focused deterministic checks and update the code-only graph.
+- [x] Verify artifact identity, links, tag, and diff; commit explicit paths.

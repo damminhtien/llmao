@@ -1,58 +1,124 @@
 {
   "artifact_inventory": [
     {
+      "path": "AGENTS.md",
+      "included_in_release_tag": false,
+      "sha256": "485f8f1736447a89a23549015ecc27e0b7723e574f747b4ca1a4a4d703bf0126",
+      "size_bytes": 3032
+    },
+    {
       "included_in_release_tag": false,
       "path": "ARCHITECTURE.md",
-      "sha256": "4595da5b2b11653424c928cef89888b1aceab22e9ab0bba36dadcc1839f34d6a",
-      "size_bytes": 33123
+      "sha256": "1f3dade58de977e03bfd3c9f71cbe8634dadd97244991af83717e70aa09e0817",
+      "size_bytes": 33223
     },
     {
       "included_in_release_tag": false,
       "path": "README.md",
-      "sha256": "e54b5190d0c622e429d3ede6bcee491009990a49d37de48770b169458f837ae1",
-      "size_bytes": 21359
+      "sha256": "928a8202f2a227ba1ac5307f993db795b12fc3de4f92bf54d2288b3184ff14a0",
+      "size_bytes": 21405
     },
     {
       "included_in_release_tag": false,
       "path": "TODO.md",
-      "sha256": "f771a3793620ea2f30ca178792434aa0405a646dc779ea1eda81b7a3f76372ef",
-      "size_bytes": 43915
+      "sha256": "a70b05aa30bfc7cefc01f998eafb2de4e4831bed2803e4a21205cd3a2b82ce54",
+      "size_bytes": 44205
     },
     {
       "included_in_release_tag": true,
-      "path": "V4_INITIAL_PROGRAMS.json",
+      "path": "configs/v4/V4_INITIAL_PROGRAMS.json",
       "sha256": "60d0cc90bf0d4e3f282023108ca9113800e01cf0486865a60771879746f4afab",
-      "size_bytes": 27674
+      "size_bytes": 27674,
+      "release_tag_path": "V4_INITIAL_PROGRAMS.json"
     },
     {
       "included_in_release_tag": true,
-      "path": "V4_INITIAL_PROGRAMS.sha256",
+      "path": "configs/v4/V4_INITIAL_PROGRAMS.sha256",
       "sha256": "1b9f5e5c17c095d831c5458e71b8845310005b9a8bc01d3f6d89733d8973e9a6",
-      "size_bytes": 65
+      "size_bytes": 65,
+      "release_tag_path": "V4_INITIAL_PROGRAMS.sha256"
     },
     {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json",
       "included_in_release_tag": true,
-      "path": "V4_PRIMARY_DESIGN.md",
-      "sha256": "d3b7c53a059b3ea4ab9e1d7c09c70d6ef0408351cb0c2e95df27718b2c2d3fa5",
-      "size_bytes": 12013
+      "release_tag_path": "V4_FOLLOWUP_PILOT_CONTRACT.json",
+      "sha256": "cf2d4aa7c4cb778e35174805c53d83a09d221a9f1335d2f1f688e1e42d7b09c2",
+      "size_bytes": 12233
     },
     {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.sha256",
       "included_in_release_tag": true,
-      "path": "V4_PRIMARY_DESIGN_V11.md",
-      "sha256": "1b990bf1e39207dad0bc7905128054e9abc9048f622ff2c96f734d4e6d948dbc",
-      "size_bytes": 5734
+      "release_tag_path": "V4_FOLLOWUP_PILOT_CONTRACT.sha256",
+      "sha256": "908a5eb60f3058a8d074290779190ed7668e51dc6d18afc36931f5c195c8a9ed",
+      "size_bytes": 98
     },
     {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json",
       "included_in_release_tag": true,
-      "path": "V4_PROTOCOL.md",
-      "sha256": "b8dbbfbd82fb3f44ff646fb5ef9b8ec6f2c9597cf7afa473366d7554d0c7d386",
-      "size_bytes": 11360
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT.json",
+      "sha256": "536d83a06baabe4acac3f91b58e6fb6512fb453d567286c1843e900ea05b3040",
+      "size_bytes": 22087
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+      "sha256": "f52e2679d5a07a8c8c1d91c5d168ce990dd72d3af3bcfaaebee6720df9ff51de",
+      "size_bytes": 99
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+      "sha256": "7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e",
+      "size_bytes": 23352
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+      "sha256": "9939f208fb84851fc4a21fc23302a43927f08f527f38305f1b1fccc95d991230",
+      "size_bytes": 111
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+      "sha256": "84df233e5cfc16b8fc8223fd609c0a7ad8322839184f5a1b6d2074daed2ad465",
+      "size_bytes": 29434
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
+      "sha256": "99e84a193136ed3bc29a7348fe06da0bf9e7f987b5e45e5c0f027b6394388444",
+      "size_bytes": 111
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
+      "sha256": "17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6",
+      "size_bytes": 30635
+    },
+    {
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.sha256",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.sha256",
+      "sha256": "cd3d79a40d5f4dbf13f2052710ea4765cc965e8ae2f84c512915265ab4f95ac1",
+      "size_bytes": 111
+    },
+    {
+      "path": "docs/AGENT_WORKFLOW.md",
+      "included_in_release_tag": false,
+      "sha256": "3ae62024076d68883a1ce5611edb02743770494b00a52cf9948faeef6db5f3b0",
+      "size_bytes": 6209
     },
     {
       "included_in_release_tag": false,
       "path": "docs/REPRODUCIBILITY.md",
-      "sha256": "0c5ed5a93dfab62dccceadb966a934608398b8435e8857633011dbd794394eed",
-      "size_bytes": 9015
+      "sha256": "6f54cda340a4aba7936a1e884f2d132f29f38fb8983cf8ba4ea5fe79762cc5d3",
+      "size_bytes": 9342
     },
     {
       "included_in_release_tag": false,
@@ -63,8 +129,48 @@
     {
       "included_in_release_tag": false,
       "path": "docs/V4_MERGE_READINESS.md",
-      "sha256": "7f785705f184f23c50e3ebe6845172e4b5c06250540ab7b29d973306ff4e5eda",
-      "size_bytes": 6552
+      "sha256": "de797c38da86e047b8b96be2c623cba610c8745d6bfee4ad0b2b5c5c1a13968e",
+      "size_bytes": 6698
+    },
+    {
+      "path": "docs/v4/ARTIFACT_LOCATIONS.json",
+      "included_in_release_tag": false,
+      "sha256": "319b95e44eafd53d4062f3d569ca0f75c8ac53760adc560a31314749d461c7cb",
+      "size_bytes": 6420
+    },
+    {
+      "path": "docs/v4/README.md",
+      "included_in_release_tag": false,
+      "sha256": "af43f9b2a86a3376ba2eab93915e11c8ed2185fb636579857cbe0293a577f7b3",
+      "size_bytes": 2504
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "docs/v4/V4_PRIMARY_DESIGN.md",
+      "sha256": "d3b7c53a059b3ea4ab9e1d7c09c70d6ef0408351cb0c2e95df27718b2c2d3fa5",
+      "size_bytes": 12013,
+      "release_tag_path": "V4_PRIMARY_DESIGN.md"
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "docs/v4/V4_PRIMARY_DESIGN_V11.md",
+      "sha256": "1b990bf1e39207dad0bc7905128054e9abc9048f622ff2c96f734d4e6d948dbc",
+      "size_bytes": 5734,
+      "release_tag_path": "V4_PRIMARY_DESIGN_V11.md"
+    },
+    {
+      "included_in_release_tag": true,
+      "path": "docs/v4/V4_PROTOCOL.md",
+      "sha256": "b8dbbfbd82fb3f44ff646fb5ef9b8ec6f2c9597cf7afa473366d7554d0c7d386",
+      "size_bytes": 11360,
+      "release_tag_path": "V4_PROTOCOL.md"
+    },
+    {
+      "path": "docs/v4/V4_SANDBOX_REPAIR.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_SANDBOX_REPAIR.md",
+      "sha256": "82fd370249f8e06a68c164821dc3d5023c315194121a5bd00e273f927cffdfaa",
+      "size_bytes": 7687
     },
     {
       "included_in_release_tag": true,
@@ -85,6 +191,76 @@
       "size_bytes": 56202
     },
     {
+      "path": "experiments/v4_collect_followup.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "3b71dc0f0a47280d51093e2ee6024f658f67c6e0705bab456dd5898079874b58",
+      "sha256": "b75ea5502fec911d8c669b6a55077225781b0b1a9a42d36160478981e02f9c5e",
+      "size_bytes": 15000
+    },
+    {
+      "path": "experiments/v4_eve_lineage_fixture.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "55659dde4b831c468ff872fb695327980ee14d641062f0b67f5796d5a0e51dfc",
+      "sha256": "18ffee42e5d5b536bb20b870869a2adc3078191a58b382954f346349af9013db",
+      "size_bytes": 43803
+    },
+    {
+      "path": "experiments/v4_finalize_primary_protocol.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "300b979cc6de56ba7e7b4bd6af4a49e97b9fa986d9b788e4162d0e22fe3c396f",
+      "sha256": "47790cf8ae67bdbe054b60d6ce0fe40263cdf2cdb2b2f9c4a6c596d98608e910",
+      "size_bytes": 16868
+    },
+    {
+      "path": "experiments/v4_freeze_followup_repair_contract.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "87e6879a738e0b7ed7c9ae77fadf9e80efece5d32ca95057f6b7cd0066183be2",
+      "sha256": "367ac4d8769fc747711cf30a80acc134a36de5f0e035538600d84cf7c86c2918",
+      "size_bytes": 34629
+    },
+    {
+      "path": "experiments/v4_freeze_initial_programs.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "719e4dd59f4b7d30da9a788f8439ac5631f6c72888a2302c71c38ac61c0f11e1",
+      "sha256": "f70ec8884a5b4d93da56b45f5a17014645c5916ec8e0f72224ec9778006e7b63",
+      "size_bytes": 4385
+    },
+    {
+      "path": "experiments/v4_freeze_primary_contract.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "d187c17e2c6c6e3f83841041147ea060e7e3c6f592336ad081394c35bc0f57a9",
+      "sha256": "511713c45d816d288044a6c72f98e7646aef70e0a77d821eba3c31fc316455ce",
+      "size_bytes": 14034
+    },
+    {
+      "path": "experiments/v4_launch_followup.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "4c114ea6cdd5d948d05b7035c0ca4c3359d3196e6fe7d92bf0493cb726c130bc",
+      "sha256": "08063945b9e718b2f97c85c74b286401287069c8217b0ceab512a59defa99734",
+      "size_bytes": 46851
+    },
+    {
+      "path": "experiments/v4_native_check_fixture.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "b5f5fbb5f8a421a9714ef0059a391a3e1040ccac9299e4ecd44f6f954ee9f04f",
+      "sha256": "8d6b28af90aa4487638c659e98662f839aef63a872e979ddd94c63728b89b3df",
+      "size_bytes": 33579
+    },
+    {
+      "path": "experiments/v4_primary_contract.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "acba5101adf5d3e5a3925af476e4e935b00026292f3bc3f54ae45518f7fc01d6",
+      "sha256": "7f33f30242ebd6cc4827dc31f8786601c7b0762072d254b13d13e6d00fc9413c",
+      "size_bytes": 14281
+    },
+    {
+      "path": "experiments/v4_run_primary_discovery.py",
+      "included_in_release_tag": false,
+      "release_tag_sha256": "2d9ef10badb5d706d9fd2a069514b9db7a6b803018683bb8ec992215ce6d64e1",
+      "sha256": "3ff089d43926e68886570238426d525beafbbb1d2a14362ff35b61d1a12586b9",
+      "size_bytes": 49963
+    },
+    {
       "included_in_release_tag": false,
       "path": "reports/README.md",
       "sha256": "0dd8cde7874a3f5108aedb03991c481ccaffc3f0fac6230286142f13468d84bf",
@@ -93,8 +269,71 @@
     {
       "included_in_release_tag": false,
       "path": "reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md",
-      "sha256": "e0363b727f50db7055d97c231e72311be18cfbcbabd9def7542a88b9adecdfb7",
-      "size_bytes": 17060
+      "sha256": "a8bf35f53230b446c621fc7ded8627c6062945b010330114444ddefb38ed2369",
+      "size_bytes": 17581
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_REPORT.md",
+      "sha256": "09afeeb555c2bcf0417acca3a87eba4430fa3e8d8bc3fd6880821b17fbf49488",
+      "size_bytes": 4588
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
+      "sha256": "677f84f4fee2fcc183e50f29179c28bf712faa0572d86f2c6ebb5dddf1d2f28b",
+      "size_bytes": 2901
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md",
+      "sha256": "53fcaf2c9ec6edc475d3fa9bd69cb7286af900934139313c1b56060d321083b8",
+      "size_bytes": 4192
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+      "sha256": "027c24ed1fb1a301196d9ad94b8829d84cc2b994a6df08a2a50de8fe01cb7d6d",
+      "size_bytes": 5153
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
+      "sha256": "248ba0eace79edd1bc4bdd39d37ae19b0ce760e848ef40de095fb1bd301d4f41",
+      "size_bytes": 2476
+    },
+    {
+      "path": "reports/v4/V4_FOLLOWUP_RESPONSE_PLAN.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_FOLLOWUP_RESPONSE_PLAN.md",
+      "sha256": "a607a8aa52c48b5a8e277cdb07dc25720e49cffbb7b4b353e023c1ce738ae15e",
+      "size_bytes": 4978
+    },
+    {
+      "path": "reports/v4/V4_PHASE10_FOLLOWUP_REPORT.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_PHASE10_FOLLOWUP_REPORT.md",
+      "sha256": "931ebecfc5cee8e2d35d683c94293b34536227c98075fbe09b77e43cdf81103b",
+      "size_bytes": 9592
+    },
+    {
+      "path": "reports/v4/V4_PHASE10_PILOT_REPORT.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_PHASE10_PILOT_REPORT.md",
+      "sha256": "d12bddcc80e7a59db4dc4c517d8543c451e62dbe97a72291100e5bed444a281c",
+      "size_bytes": 5697
+    },
+    {
+      "path": "reports/v4/V4_PILOT_RESPONSE_PLAN.md",
+      "included_in_release_tag": true,
+      "release_tag_path": "V4_PILOT_RESPONSE_PLAN.md",
+      "sha256": "e8cc53cb86d33c8da9e47121058f06b7fd805caf87451a6c4cf8e6ae94d8ad84",
+      "size_bytes": 10907
     },
     {
       "included_in_release_tag": true,
@@ -457,10 +696,11 @@
       "size_bytes": 4183
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "tests/unit/test_v4_artifact_paths.py",
-      "sha256": "ae1add10f27f99950e1919ddbca8a15743ab86fc4ad65d0a6066ec90df81020d",
-      "size_bytes": 2425
+      "sha256": "7d201d5ece3090a32d109eb80c290a8385f2a3ef04d08c2ab5dee4d9f4389ceb",
+      "size_bytes": 2445,
+      "release_tag_sha256": "ae1add10f27f99950e1919ddbca8a15743ab86fc4ad65d0a6066ec90df81020d"
     },
     {
       "included_in_release_tag": true,
@@ -499,10 +739,11 @@
       "size_bytes": 7767
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "tests/unit/test_v4_collect_followup.py",
-      "sha256": "a3714cd6e38be21d6bcb9c482947a91db2b7642d27bf0bd6fafb3790929a4424",
-      "size_bytes": 3420
+      "sha256": "5e42aa908f1349e9e4686833ccd5a31647f5cef9772f1f31458beb1d40a59b5a",
+      "size_bytes": 3481,
+      "release_tag_sha256": "a3714cd6e38be21d6bcb9c482947a91db2b7642d27bf0bd6fafb3790929a4424"
     },
     {
       "included_in_release_tag": true,
@@ -529,16 +770,18 @@
       "size_bytes": 3723
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "tests/unit/test_v4_finalize_primary_protocol.py",
-      "sha256": "68ff3d05f01a738b0598e4db51fcfca112fa0058432a90e73840e339d5888004",
-      "size_bytes": 5042
+      "sha256": "b457e02b154a551a463967653c99048db27e47bca72aac7e3e1cb721c385ea2d",
+      "size_bytes": 5122,
+      "release_tag_sha256": "68ff3d05f01a738b0598e4db51fcfca112fa0058432a90e73840e339d5888004"
     },
     {
-      "included_in_release_tag": true,
+      "included_in_release_tag": false,
       "path": "tests/unit/test_v4_initial_programs.py",
-      "sha256": "094e215e9081886875f8530ff0b181583b13b3a74991cec9293afc3bcc9ab138",
-      "size_bytes": 2425
+      "sha256": "8ef1a3cdb4bb9bd1bc1b271eb711334f1fc2efddb1ff6a41d9ab16b865a8ad11",
+      "size_bytes": 2447,
+      "release_tag_sha256": "094e215e9081886875f8530ff0b181583b13b3a74991cec9293afc3bcc9ab138"
     },
     {
       "included_in_release_tag": true,
@@ -654,6 +897,20 @@
       "frozen_source_protocol_tests_and_result_artifacts_changed": false,
       "model_research_search_scoring_or_official_test_loader_invoked": false,
       "validation_scope": "Focused local software tests, static artifact reconciliation, hashes, links, and Git integration checks; no full repository suite or remote CI claim."
+    },
+    "repository_layout_check": {
+      "date": "2026-10-23",
+      "focused_test_command": ".venv/bin/pytest --import-mode=importlib -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py",
+      "focused_test_result": "208 passed in 6.93 seconds",
+      "relocation_checks": "25/25 match both location index and original tag bytes",
+      "source_ast_checks": "10/10 scripts identical after mapped path-literal normalization",
+      "root_v4_prefixed_files": 0,
+      "graph_update": "graphify update . completed using code extraction only; no model invocation",
+      "model_research_search_scoring_or_official_test_loader_invoked": false,
+      "current_inventory_hash_checks": "133/133",
+      "original_tag_inventory_hash_checks": "98/98",
+      "current_document_local_link_targets_checked": 77,
+      "baseline_hash_checks": "85/86; documented navigation-index exception verified in Git"
     }
   },
   "excluded_local_artifacts": [
@@ -818,6 +1075,18 @@
       "verification": "Main, study branch, annotated tag object, and peeled tag target matched git ls-remote after atomic push.",
       "scientific_source_or_historical_artifacts_changed": false,
       "remote_ci_claimed": false
+    },
+    "repository_layout_cleanup": {
+      "date": "2026-10-23",
+      "base_commit": "ab2a3e4caa5a840a4226eb6d5fd3de505d7341e4",
+      "scope": "Relocate 25 root V4 artifacts and adapt current source/test path references; update navigation and current audit metadata.",
+      "location_index": "docs/v4/ARTIFACT_LOCATIONS.json",
+      "relocated_artifact_bytes_unchanged": true,
+      "scientific_protocol_contents_data_and_run_records_changed": false,
+      "source_changes": "Ten experiment scripts change mapped path literals only; AST comparison after path normalization is identical.",
+      "historical_reproduction": "Use original tag checkout for embedded paths and source pins. Validators are not relaxed.",
+      "release_tag_unchanged": true,
+      "cleanup_remote_publication_verified": false
     }
   },
   "schema_version": 1,

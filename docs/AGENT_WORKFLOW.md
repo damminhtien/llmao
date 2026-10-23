@@ -72,7 +72,7 @@ After two or more compactions in one task, checkpoint the state and start a fres
 
 ## Repository-specific continuation
 
-For LLMAO V4, use `V4_PROTOCOL.md`, `V4_PRIMARY_DESIGN.md`, and `TODO.md` as the scientific contract. A pilot is not primary discovery evidence. Preserve all frozen artifacts and respect the official-test boundary. Do not require a live Plus usage check before a run; do not upgrade or use paid credits.
+For LLMAO V4, use `docs/v4/V4_PROTOCOL.md`, `docs/v4/V4_PRIMARY_DESIGN.md`, and `TODO.md` as the scientific contract. A pilot is not primary discovery evidence. Preserve all frozen artifacts and respect the official-test boundary. Do not require a live Plus usage check before a run; do not upgrade or use paid credits.
 
 ## V4 native worker launch and sandbox
 
@@ -87,4 +87,4 @@ These rules apply to every V4 native Codex worker, including exploratory pilots 
 - Treat configuration parsing as configuration evidence, not enforcement evidence. A legacy-policy run proves only the restrictions it actually exercised. A timeout is an observed timeout until logs establish a cause; do not attribute it to a catalog, sandbox rule, or interpreter without evidence.
 - Avoid repeated manual variants. Preserve each failed attempt and its exact command, CLI/runtime identity, stdout/stderr, and policy digest. Change one diagnosed cause at a time, rerun the bounded preflight, and record the result before proceeding.
 
-The canonical implementation and verified boundary are documented in `V4_SANDBOX_REPAIR.md`. Keep the numeric preflight count synchronized with its tests and every contract validator if the probe set changes.
+The canonical implementation and verified boundary are documented in `docs/v4/V4_SANDBOX_REPAIR.md`. Keep the numeric preflight count synchronized with its tests and every contract validator if the probe set changes.

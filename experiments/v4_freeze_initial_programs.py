@@ -84,7 +84,7 @@ def main() -> int:
         from v4_artifact_paths import resolve_repository_output_path
 
     output = resolve_repository_output_path(args.output, repo_root=ROOT)
-    if output != ROOT / "V4_INITIAL_PROGRAMS.json":
+    if output != ROOT / "configs/v4/V4_INITIAL_PROGRAMS.json":
         raise ValueError("V4 initial programs must use the canonical repository path")
     digest_path = output.with_suffix(".sha256")
     if output.exists() or digest_path.exists():

@@ -212,7 +212,7 @@ def validate_contract(
     verify_source_paths(ROOT, protocol["source_pins"])
     verify_source_paths(ROOT, contract["contract_source_pins"])
 
-    initial_path = ROOT / "V4_INITIAL_PROGRAMS.json"
+    initial_path = ROOT / "configs/v4/V4_INITIAL_PROGRAMS.json"
     initial_digest = sha256_file(initial_path)
     if initial_digest != contract.get("initial_programs_sha256"):
         raise ValueError("common initial-program digest differs from the contract")

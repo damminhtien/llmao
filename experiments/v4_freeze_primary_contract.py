@@ -103,7 +103,7 @@ def freeze_contract(
         raise ValueError("storage-layout v2 contracts require the reduced V11 search matrix")
     if seed not in design["discovery_seeds"]:
         raise ValueError("seed is not preregistered for Phase 12")
-    initial_digest = sha256_file(ROOT / "V4_INITIAL_PROGRAMS.json")
+    initial_digest = sha256_file(ROOT / "configs/v4/V4_INITIAL_PROGRAMS.json")
     if initial_digest != design["initial_programs_sha256"]:
         raise ValueError("common initial-program digest differs from the protocol")
 

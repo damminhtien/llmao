@@ -187,7 +187,7 @@ Three language conditions are required.
 fresh-search study uses only `G0` and the frozen evolved `G*` under fixed
 iterative Codex and EvE. `GH` remains a descriptive inventory reference; it
 receives no fresh-search runs. Semantic ablation, cross-dataset transfer, and
-Level B synthesis are omitted. See `V4_PRIMARY_DESIGN_V11.md` for the versioned
+Level B synthesis are omitted. See `docs/v4/V4_PRIMARY_DESIGN_V11.md` for the versioned
 amendment; the broader comparisons below are not requirements under revision
 11.
 
@@ -637,7 +637,7 @@ checker feedback, temporary-write denials, outside-read denial, unchanged
 candidates, and a clean workspace. The earlier `native-boundary-02` verified
 temporary writes under the legacy policy only. These fixtures do not establish
 scientific-worker enforcement across a complete pilot. See
-`V4_SANDBOX_REPAIR.md` for commands, evidence, and remaining contract gates.
+`docs/v4/V4_SANDBOX_REPAIR.md` for commands, evidence, and remaining contract gates.
 
 The Phase 9 EvE smoke snapshots only the candidate JSON and the pinned G0
 manifest. Its evaluator uses a separately configured, clean LLMAO checkout at
@@ -691,16 +691,16 @@ exposed two depth-7 proposals rejected against the depth-6 cap, two exact macro
 reintroductions on separate branches, two duplicate candidate IDs, and one
 accepted language carrying an unused inherited macro. No protected data or
 workspace-boundary violation was found. The reviewed run summary is in
-`V4_PHASE10_PILOT_REPORT.md`; candidate files, lineage snapshots, and raw
+`reports/v4/V4_PHASE10_PILOT_REPORT.md`; candidate files, lineage snapshots, and raw
 telemetry are preserved locally under `results/v4/phase10_pilot/`, which the
 repository intentionally excludes from Git.
 
-The pilot gate failed. `V4_PILOT_RESPONSE_PLAN.md` records the response and
+The pilot gate failed. `reports/v4/V4_PILOT_RESPONSE_PLAN.md` records the response and
 preserves its result. Another exploratory pilot requires that plan's tooling,
 configuration, and contract checks. Primary discovery requires completed and
 hashed Phase 0 preregistration.
 
-The follow-up is separately pinned in `V4_FOLLOWUP_PILOT_CONTRACT.json`.
+The follow-up is separately pinned in `configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json`.
 It keeps the original G0 seed, stage-one score, learner, ten-proposal budget,
 one worker, and original resource/boundary gates. Its additional quality gate
 requires eight distinct valid expanded-program hashes among the ten proposals.
@@ -728,8 +728,8 @@ distinct valid expanded ASTs. Its overall gate failed: none of four invented
 macro behaviors was used by a descendant, and native transcripts exposed
 noncandidate temporary writes while workers tried to repair missing checker
 dependencies. Immutable workspace checks did not detect those host effects.
-`V4_PHASE10_FOLLOWUP_REPORT.md` records the complete audit and preserved
-evidence; `V4_FOLLOWUP_RESPONSE_PLAN.md` defines the required interface and
+`reports/v4/V4_PHASE10_FOLLOWUP_REPORT.md` records the complete audit and preserved
+evidence; `reports/v4/V4_FOLLOWUP_RESPONSE_PLAN.md` defines the required interface and
 boundary fixes before another fresh pilot. Primary discovery remains closed.
 
 ---
@@ -767,7 +767,7 @@ Do not reward a primitive merely for having a sophisticated name or explanation.
 
 The main V4 claim will not rely on this discovery score.
 
-`V4_PRIMARY_DESIGN.md` fixes the discovery language cost as invented macro
+`docs/v4/V4_PRIMARY_DESIGN.md` fixes the discovery language cost as invented macro
 count with coefficient 0.0005. Fresh frozen-language searches retain the
 unchanged stage-one score. It also fixes the common 200-unique-evaluation target,
 540 adaptive-proposal cap, token/turn/time budgets, separate discovery and fresh
@@ -922,7 +922,7 @@ same seeds
 same initial programs
 ```
 
-`V4_INITIAL_PROGRAMS.json` freezes twenty distinct ASTs in their original
+`configs/v4/V4_INITIAL_PROGRAMS.json` freezes twenty distinct ASTs in their original
 V3.2 protocol order, read from the pinned source commit. The manifest records
 canonical AST identities, historical candidate identities, static dimensions,
 depths, node counts, and used operations. All programs pass G0 constraints and

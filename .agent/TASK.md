@@ -1,12 +1,14 @@
-# Integrate and publish the frozen V4 study
+# Organize V4 repository artifacts
 
-The user authorized merging V4 into main and pushing the result. Preserve
-source history and the immutable v4-exploratory-final tag. Publish main, the
-prepared study branch, and the existing annotated release tag to origin; verify
-remote identities and record the publication in current documentation.
+Move the 25 V4-prefixed root files into docs/v4, reports/v4, and configs/v4.
+Update current documentation, script defaults, and tests for the new paths.
+Preserve every moved artifact byte, source history, frozen results, scientific
+protocol contents, and the immutable final release tag. Historical embedded
+paths stay recorded as originally written and are audited at the release tag.
 
-Keep the scientific study frozen: no source/protocol change, model request,
-research search, evaluation, or official-test loader.
+This is a repository layout cleanup. No model invocation, research search,
+scientific evaluation, official-test loading, optimizer redesign, or scientific
+criteria change is authorized.
 
-Completion requires the remote merge and tag to be verified, current metadata
-and checksums to agree, and a clean main checkout synchronized with origin.
+Completion requires no V4-prefixed root files, valid current paths and hashes,
+passing focused deterministic checks, updated agent state, and an atomic commit.

@@ -8,7 +8,7 @@
 
 ## Project invariants
 
-- `TODO.md` is the V4 phase checklist. `ARCHITECTURE.md`, `V4_PROTOCOL.md`, and `V4_PRIMARY_DESIGN.md` are the scientific sources of truth; do not duplicate their specifications here.
+- `TODO.md` is the V4 phase checklist. `ARCHITECTURE.md`, `docs/v4/V4_PROTOCOL.md`, and `docs/v4/V4_PRIMARY_DESIGN.md` are the scientific sources of truth; do not duplicate their specifications here.
 - V4 is frozen as an exploratory study. Start with the final report and
   `docs/V4_MERGE_READINESS.md`; incomplete milestones and worker launch
   procedures are historical records and do not authorize new V4 runs.
@@ -32,9 +32,11 @@
 - Current task and continuation state: `.agent/TASK.md`, `.agent/PLAN.md`, `.agent/STATE.md`, `.agent/DECISIONS.md`
 - Long-running agent workflow: `docs/AGENT_WORKFLOW.md`
 - Research architecture and protocol:
-  `ARCHITECTURE.md`, `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`, `V4_PROTOCOL.md`,
-  `V4_PRIMARY_DESIGN.md`, `V4_PRIMARY_DESIGN_V11.md`
-- Phase checklist and experiment evidence: `TODO.md`, `V4_*_REPORT.md`, `V4_*_RESPONSE_PLAN.md`
+  `ARCHITECTURE.md`, `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`, `docs/v4/V4_PROTOCOL.md`,
+  `docs/v4/V4_PRIMARY_DESIGN.md`, `docs/v4/V4_PRIMARY_DESIGN_V11.md`
+- Phase checklist and experiment evidence: `TODO.md`, `reports/v4/V4_*_REPORT.md`, `reports/v4/V4_*_RESPONSE_PLAN.md`
 - Reproducibility: `docs/REPRODUCIBILITY.md`
 - Frozen V4 findings and integration: `reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`,
   `docs/V4_MERGE_READINESS.md`
+- V4 artifact locations and historical-path mapping: `docs/v4/README.md`,
+  `docs/v4/ARTIFACT_LOCATIONS.json`

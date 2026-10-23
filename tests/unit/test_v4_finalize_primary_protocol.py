@@ -75,7 +75,7 @@ def test_finalized_protocol_clears_resolved_phase_zero_decisions(tmp_path, monke
         finalizer,
         "_source_pins",
         lambda: {
-            "V4_PRIMARY_DESIGN.md": "c" * 64,
+            "docs/v4/V4_PRIMARY_DESIGN.md": "c" * 64,
             "configs/v4/phase12_primary/evaluate.py": "d" * 64,
         },
     )
@@ -95,10 +95,11 @@ def test_finalized_protocol_clears_resolved_phase_zero_decisions(tmp_path, monke
     (historical.parent / "protocol.sha256").write_text(
         f"{hashlib.sha256(historical_raw).hexdigest()}  protocol.json\n"
     )
-    initial = tmp_path / "V4_INITIAL_PROGRAMS.json"
+    initial = tmp_path / "configs/v4/V4_INITIAL_PROGRAMS.json"
+    initial.parent.mkdir(parents=True)
     initial.write_text("{}\n", encoding="utf-8")
-    (tmp_path / "V4_INITIAL_PROGRAMS.sha256").write_text(
-        f"{hashlib.sha256(initial.read_bytes()).hexdigest()}  V4_INITIAL_PROGRAMS.json\n"
+    (tmp_path / "configs/v4/V4_INITIAL_PROGRAMS.sha256").write_text(
+        f"{hashlib.sha256(initial.read_bytes()).hexdigest()}  configs/v4/V4_INITIAL_PROGRAMS.json\n"
     )
 
     destination = tmp_path / "results/v4/primary_protocol_v11.json"

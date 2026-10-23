@@ -12,15 +12,21 @@ from datetime import UTC, datetime
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
-PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+DEFAULT_CONTRACT = (
+    ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json"
+)
+PRIOR_REPAIR_CONTRACT = ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json"
 PRIOR_REPAIR_ARCHIVE_MANIFEST = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01/manifest.json"
 )
-FAILED_STARTUP_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+FAILED_STARTUP_CONTRACT = (
+    ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json"
+)
 FAILED_STARTUP_RECORD = ROOT / "results/v4/phase10_followup/evidence/repair_followup_20261015-03/execution.json"
 FAILED_STARTUP_OUTPUT = ROOT / "results/v4/phase10_followup/evidence/repair_followup_20261015-03/launcher_combined_output.txt"
-LATEST_FAILED_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+LATEST_FAILED_REPAIR_CONTRACT = (
+    ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+)
 LATEST_FAILED_REPAIR_ARCHIVE_MANIFEST = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-02/manifest.json"
 )

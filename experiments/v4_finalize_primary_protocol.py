@@ -64,11 +64,11 @@ def _source_pins() -> dict[str, str]:
         "scripts/codex-v4-sandbox",
         "pyproject.toml",
         "uv.lock",
-        "V4_PROTOCOL.md",
-        "V4_PRIMARY_DESIGN.md",
-        "V4_PRIMARY_DESIGN_V11.md",
-        "V4_SANDBOX_REPAIR.md",
-        "V4_INITIAL_PROGRAMS.json",
+        "docs/v4/V4_PROTOCOL.md",
+        "docs/v4/V4_PRIMARY_DESIGN.md",
+        "docs/v4/V4_PRIMARY_DESIGN_V11.md",
+        "docs/v4/V4_SANDBOX_REPAIR.md",
+        "configs/v4/V4_INITIAL_PROGRAMS.json",
         "results/v4/languages/g0.json",
         "results/v4/languages/g0.json.sha256",
         "results/v4/languages/gh.json",
@@ -122,8 +122,8 @@ def finalize_protocol(
     sidecar_fields = (ROOT / "results/v4/protocol.sha256").read_text().split()
     if not sidecar_fields or sidecar_fields[0] != historical_sha:
         raise ValueError("historical pilot protocol digest does not verify")
-    initial_digest = sha256_file(ROOT / "V4_INITIAL_PROGRAMS.json")
-    initial_fields = (ROOT / "V4_INITIAL_PROGRAMS.sha256").read_text().split()
+    initial_digest = sha256_file(ROOT / "configs/v4/V4_INITIAL_PROGRAMS.json")
+    initial_fields = (ROOT / "configs/v4/V4_INITIAL_PROGRAMS.sha256").read_text().split()
     if not initial_fields or initial_fields[0] != initial_digest:
         raise ValueError("common initial-program digest does not verify")
 
@@ -164,7 +164,7 @@ def finalize_protocol(
             "status": "finalized_primary_only",
         },
         primary_design={
-            "design_amendment": "V4_PRIMARY_DESIGN_V11.md",
+            "design_amendment": "docs/v4/V4_PRIMARY_DESIGN_V11.md",
             "exact_cli_model_identifier": "gpt-6-luna",
             "requested_reasoning_effort": "max",
             "backend": "codex_tmux",
@@ -184,7 +184,7 @@ def finalize_protocol(
         implementation_pins={
             "llmao_commit": llmao_commit,
             "eve_commit": eve_commit,
-            "initial_programs_path": "V4_INITIAL_PROGRAMS.json",
+            "initial_programs_path": "configs/v4/V4_INITIAL_PROGRAMS.json",
             "initial_programs_sha256": initial_digest,
             "split_fingerprints_sha256": protocol["evaluator_basis"][
                 "split_fingerprints_sha256"
@@ -194,7 +194,7 @@ def finalize_protocol(
             "condition": "EvE + GPT-6 Luna + max reasoning + G0 initial language + language evolution enabled",
             "discovery_seeds": [1101, 1202, 1303, 1404, 1505],
             "fresh_search_seeds": [101, 202, 303, 404, 505],
-            "initial_programs_path": "V4_INITIAL_PROGRAMS.json",
+            "initial_programs_path": "configs/v4/V4_INITIAL_PROGRAMS.json",
             "initial_program_count": 20,
             "initial_programs_sha256": initial_digest,
             "candidate_budget": {
@@ -285,7 +285,7 @@ def finalize_protocol(
             "runs_started": False,
         },
         primary_fresh_search={
-            "design_amendment": "V4_PRIMARY_DESIGN_V11.md",
+            "design_amendment": "docs/v4/V4_PRIMARY_DESIGN_V11.md",
             "fresh_search_seeds": [101, 202, 303, 404, 505],
             "language_conditions": ["G0", "G*"],
             "optimizer_conditions": ["fixed_iterative_codex", "EvE"],

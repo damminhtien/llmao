@@ -26,11 +26,11 @@ def source() -> bytes:
 
 def test_frozen_initial_manifest_is_deterministic_and_score_free(source) -> None:
     manifest = BUILDER["build_manifest"](source)
-    output = ROOT / "V4_INITIAL_PROGRAMS.json"
+    output = ROOT / "configs/v4/V4_INITIAL_PROGRAMS.json"
     assert manifest == json.loads(output.read_text())
     assert (
         hashlib.sha256(output.read_bytes()).hexdigest()
-        == (ROOT / "V4_INITIAL_PROGRAMS.sha256").read_text().strip()
+        == (ROOT / "configs/v4/V4_INITIAL_PROGRAMS.sha256").read_text().strip()
     )
     assert manifest == BUILDER["build_manifest"](source)
     seeds = manifest["programs"]

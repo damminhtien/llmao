@@ -17,7 +17,9 @@ from types import ModuleType
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+DEFAULT_CONTRACT = (
+    ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json"
+)
 PROJECT_PYTHON = ROOT / ".venv/bin/python"
 EVIDENCE_ROOT = ROOT / "results/v4/phase10_followup/native_worker_integration"
 PHASE12_EVIDENCE_ROOT = ROOT / "results/v4/phase12/native_worker_integration"

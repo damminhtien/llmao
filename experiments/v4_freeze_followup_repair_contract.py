@@ -12,9 +12,9 @@ import subprocess
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-OLD_CONTRACT = ROOT / "V4_FOLLOWUP_PILOT_CONTRACT.json"
+OLD_CONTRACT = ROOT / "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json"
 OLD_ARCHIVE_MANIFEST = ROOT / "results/v4/phase10_followup/archive_verified/manifest.json"
-PRIOR_REPAIR_CONTRACT = ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT.json"
+PRIOR_REPAIR_CONTRACT = ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json"
 PRIOR_REPAIR_ARCHIVE = (
     ROOT / "results/v4/phase10_followup/archive/repair_followup_20261015-01"
 )
@@ -22,21 +22,21 @@ PRIOR_REPAIR_ARCHIVE_MANIFEST = PRIOR_REPAIR_ARCHIVE / "manifest.json"
 PROMPT = ROOT / "configs/v4/phase10_followup_worker.md"
 WRAPPER = ROOT / "scripts/codex-v4-sandbox"
 HOST_FILES = (
-    "V4_FOLLOWUP_PILOT_CONTRACT.json",
-    "V4_FOLLOWUP_PILOT_CONTRACT.sha256",
-    "V4_FOLLOWUP_REPAIR_CONTRACT.json",
-    "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
-    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
-    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
-    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
-    "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
-    "V4_FOLLOWUP_REPAIR_REPORT.md",
-    "V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
-    "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
-    "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
-    "V4_FOLLOWUP_RESPONSE_PLAN.md",
-    "V4_PHASE10_FOLLOWUP_REPORT.md",
-    "V4_SANDBOX_REPAIR.md",
+    "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json",
+    "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.sha256",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+    "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
+    "reports/v4/V4_FOLLOWUP_REPAIR_REPORT.md",
+    "reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
+    "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+    "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
+    "reports/v4/V4_FOLLOWUP_RESPONSE_PLAN.md",
+    "reports/v4/V4_PHASE10_FOLLOWUP_REPORT.md",
+    "docs/v4/V4_SANDBOX_REPAIR.md",
     "configs/v4/native_fixture_worker.md",
     "configs/v4/phase10_followup_worker.md",
     "experiments/v4_build_check_bundle.py",
@@ -736,7 +736,7 @@ def main() -> int:
     parser.add_argument(
         "--contract",
         type=Path,
-        default=ROOT / "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
+        default=ROOT / "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
     )
     args = parser.parse_args()
     try:

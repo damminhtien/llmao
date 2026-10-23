@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "original_tag": "v4-exploratory-final",
+  "original_tag_commit": "36ea8f5016007455e342d387ffda00bb64666f95",
+  "relocation_base_commit": "ab2a3e4caa5a840a4226eb6d5fd3de505d7341e4",
+  "artifacts": [
+    {
+      "original_path": "V4_FOLLOWUP_PILOT_CONTRACT.json",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.json",
+      "sha256": "cf2d4aa7c4cb778e35174805c53d83a09d221a9f1335d2f1f688e1e42d7b09c2",
+      "size_bytes": 12233
+    },
+    {
+      "original_path": "V4_FOLLOWUP_PILOT_CONTRACT.sha256",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_PILOT_CONTRACT.sha256",
+      "sha256": "908a5eb60f3058a8d074290779190ed7668e51dc6d18afc36931f5c195c8a9ed",
+      "size_bytes": 98
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT.json",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.json",
+      "sha256": "536d83a06baabe4acac3f91b58e6fb6512fb453d567286c1843e900ea05b3040",
+      "size_bytes": 22087
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT.sha256",
+      "sha256": "f52e2679d5a07a8c8c1d91c5d168ce990dd72d3af3bcfaaebee6720df9ff51de",
+      "size_bytes": 99
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.json",
+      "sha256": "7689417fc9295bb4c49565f92240f27aad890bdff853234b34a8f4b60dddb60e",
+      "size_bytes": 23352
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-02.sha256",
+      "sha256": "9939f208fb84851fc4a21fc23302a43927f08f527f38305f1b1fccc95d991230",
+      "size_bytes": 111
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.json",
+      "sha256": "84df233e5cfc16b8fc8223fd609c0a7ad8322839184f5a1b6d2074daed2ad465",
+      "size_bytes": 29434
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-03.sha256",
+      "sha256": "99e84a193136ed3bc29a7348fe06da0bf9e7f987b5e45e5c0f027b6394388444",
+      "size_bytes": 111
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.json",
+      "sha256": "17c0697fb7ab535fb65381cf804bcb68b8bc6e7d57232569fa055bfdd6dae2c6",
+      "size_bytes": 30635
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.sha256",
+      "path": "configs/v4/contracts/V4_FOLLOWUP_REPAIR_CONTRACT_20261015-04.sha256",
+      "sha256": "cd3d79a40d5f4dbf13f2052710ea4765cc965e8ae2f84c512915265ab4f95ac1",
+      "size_bytes": 111
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_REPORT.md",
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT.md",
+      "sha256": "09afeeb555c2bcf0417acca3a87eba4430fa3e8d8bc3fd6880821b17fbf49488",
+      "size_bytes": 4588
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-02.md",
+      "sha256": "677f84f4fee2fcc183e50f29179c28bf712faa0572d86f2c6ebb5dddf1d2f28b",
+      "size_bytes": 2901
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md",
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_REPORT_20261015-04.md",
+      "sha256": "53fcaf2c9ec6edc475d3fa9bd69cb7286af900934139313c1b56060d321083b8",
+      "size_bytes": 4192
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN.md",
+      "sha256": "027c24ed1fb1a301196d9ad94b8829d84cc2b994a6df08a2a50de8fe01cb7d6d",
+      "size_bytes": 5153
+    },
+    {
+      "original_path": "V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
+      "path": "reports/v4/V4_FOLLOWUP_REPAIR_RESPONSE_PLAN_20261015-02.md",
+      "sha256": "248ba0eace79edd1bc4bdd39d37ae19b0ce760e848ef40de095fb1bd301d4f41",
+      "size_bytes": 2476
+    },
+    {
+      "original_path": "V4_FOLLOWUP_RESPONSE_PLAN.md",
+      "path": "reports/v4/V4_FOLLOWUP_RESPONSE_PLAN.md",
+      "sha256": "a607a8aa52c48b5a8e277cdb07dc25720e49cffbb7b4b353e023c1ce738ae15e",
+      "size_bytes": 4978
+    },
+    {
+      "original_path": "V4_INITIAL_PROGRAMS.json",
+      "path": "configs/v4/V4_INITIAL_PROGRAMS.json",
+      "sha256": "60d0cc90bf0d4e3f282023108ca9113800e01cf0486865a60771879746f4afab",
+      "size_bytes": 27674
+    },
+    {
+      "original_path": "V4_INITIAL_PROGRAMS.sha256",
+      "path": "configs/v4/V4_INITIAL_PROGRAMS.sha256",
+      "sha256": "1b9f5e5c17c095d831c5458e71b8845310005b9a8bc01d3f6d89733d8973e9a6",
+      "size_bytes": 65
+    },
+    {
+      "original_path": "V4_PHASE10_FOLLOWUP_REPORT.md",
+      "path": "reports/v4/V4_PHASE10_FOLLOWUP_REPORT.md",
+      "sha256": "931ebecfc5cee8e2d35d683c94293b34536227c98075fbe09b77e43cdf81103b",
+      "size_bytes": 9592
+    },
+    {
+      "original_path": "V4_PHASE10_PILOT_REPORT.md",
+      "path": "reports/v4/V4_PHASE10_PILOT_REPORT.md",
+      "sha256": "d12bddcc80e7a59db4dc4c517d8543c451e62dbe97a72291100e5bed444a281c",
+      "size_bytes": 5697
+    },
+    {
+      "original_path": "V4_PILOT_RESPONSE_PLAN.md",
+      "path": "reports/v4/V4_PILOT_RESPONSE_PLAN.md",
+      "sha256": "e8cc53cb86d33c8da9e47121058f06b7fd805caf87451a6c4cf8e6ae94d8ad84",
+      "size_bytes": 10907
+    },
+    {
+      "original_path": "V4_PRIMARY_DESIGN.md",
+      "path": "docs/v4/V4_PRIMARY_DESIGN.md",
+      "sha256": "d3b7c53a059b3ea4ab9e1d7c09c70d6ef0408351cb0c2e95df27718b2c2d3fa5",
+      "size_bytes": 12013
+    },
+    {
+      "original_path": "V4_PRIMARY_DESIGN_V11.md",
+      "path": "docs/v4/V4_PRIMARY_DESIGN_V11.md",
+      "sha256": "1b990bf1e39207dad0bc7905128054e9abc9048f622ff2c96f734d4e6d948dbc",
+      "size_bytes": 5734
+    },
+    {
+      "original_path": "V4_PROTOCOL.md",
+      "path": "docs/v4/V4_PROTOCOL.md",
+      "sha256": "b8dbbfbd82fb3f44ff646fb5ef9b8ec6f2c9597cf7afa473366d7554d0c7d386",
+      "size_bytes": 11360
+    },
+    {
+      "original_path": "V4_SANDBOX_REPAIR.md",
+      "path": "docs/v4/V4_SANDBOX_REPAIR.md",
+      "sha256": "82fd370249f8e06a68c164821dc3d5023c315194121a5bd00e273f927cffdfaa",
+      "size_bytes": 7687
+    }
+  ]
+}

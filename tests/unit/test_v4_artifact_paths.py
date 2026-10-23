@@ -65,8 +65,8 @@ def test_repository_output_allows_source_artifacts_but_rejects_external_paths(
 ) -> None:
     repo = tmp_path / "repo"
     repo.mkdir()
-    assert resolve_repository_output_path("V4_INITIAL_PROGRAMS.json", repo_root=repo) == (
-        repo / "V4_INITIAL_PROGRAMS.json"
-    )
+    assert resolve_repository_output_path(
+        "configs/v4/V4_INITIAL_PROGRAMS.json", repo_root=repo
+    ) == repo / "configs/v4/V4_INITIAL_PROGRAMS.json"
     with pytest.raises(ValueError, match="escapes the repository"):
         resolve_repository_output_path(tmp_path / "outside.json", repo_root=repo)
