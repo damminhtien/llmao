@@ -8,7 +8,7 @@ exposed a stale Phase 2 adapter guard that rejected the protocol-pinned cache
 inside the checkout. The run is preserved as incomplete with no adaptive
 candidate score. The cache guard was updated before freezing primary-protocol
 revision 14. Its partial discovery trajectories remain incomplete; see the
-[V4 closure report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). Existing
+[V4 closure report](../reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md). Existing
 historical protocols, contracts, fixture evidence, and run directories keep
 their current paths.
 

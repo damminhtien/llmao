@@ -3,9 +3,9 @@
 ## Closure status — 2026-10-22
 
 V4 is closed as a frozen exploratory research study. The final report is
-[`reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md),
+[`reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md`](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md),
 and its source/data/artifact inventory is
-[`reports/scientific/V4_EVIDENCE_MANIFEST.json`](reports/scientific/V4_EVIDENCE_MANIFEST.json).
+[`reports/v4/evidence/V4_EVIDENCE_MANIFEST.json`](reports/v4/evidence/V4_EVIDENCE_MANIFEST.json).
 Unchecked primary-study milestones below remain incomplete; they are retained
 as historical protocol records and do not authorize further searches,
 evaluations, or official-test access. E1–E4 are not rerun or repaired as part
@@ -22,7 +22,7 @@ editorial and preserves all historical checklist statuses below.
 - [x] Create branch `v4-evolving-bias-language` from the current integrated
   `main` branch.
 - [x] Move the previous architecture and completed V3.1 checklist to
-  `ARCHITECTURE_V3_REFERENCE.md` and `TODO_V3_1.md`.
+  `docs/v3/ARCHITECTURE_V3_REFERENCE.md` and `docs/v3.1/TODO_V3_1.md`.
 - [x] Replace the root architecture and checklist with the V4 design and plan.
 - [x] Record commit hashes for V3, V3.1 and V3.2 artifacts in
   `results/v4/baseline_manifest.json`.
@@ -946,7 +946,7 @@ synthesis as part of this study.
 
 The original planned report path `reports/V4_LANGUAGE_OF_BIAS.md` was
 superseded at closure by
-`reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`. The final report describes
+`reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md`. The final report describes
 the existing E1–E4 evidence, incomplete primary campaign, known budget defect,
 limitations, and evidence provenance. No missing primary analyses were
 generated.

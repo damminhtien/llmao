@@ -40,7 +40,7 @@ complete. This is the study's exploratory conclusion.
 
 ## How to read the evidence
 
-The [evidence manifest](V4_EVIDENCE_MANIFEST.json) records source revisions,
+The [evidence manifest](evidence/V4_EVIDENCE_MANIFEST.json) records source revisions,
 dataset fingerprints, artifact hashes, exclusions, and missing evidence. The
 [integration handoff](../../docs/V4_MERGE_READINESS.md) records the local
 verification and the relation to the immutable release tag.
@@ -285,7 +285,7 @@ again for integration preparation on 2026-10-23; its result is recorded in the
 [integration handoff](../../docs/V4_MERGE_READINESS.md). The editorial work
 invoked no model, research search, scientific scoring, or official-test loader.
 The current branch's artifact hashes are in
-[`V4_EVIDENCE_MANIFEST.json`](V4_EVIDENCE_MANIFEST.json), with post-tag document
+[`V4_EVIDENCE_MANIFEST.json`](evidence/V4_EVIDENCE_MANIFEST.json), with post-tag document
 revisions marked outside the immutable release tag. The original tagged
 manifest and checksums remain available at `v4-exploratory-final`.
 

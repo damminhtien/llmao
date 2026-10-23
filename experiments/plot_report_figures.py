@@ -10,7 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parents[1]
-OUTPUT = ROOT / "reports" / "figures"
 COLORS = ("#38685b", "#b56c42", "#637994", "#96958d")
 
 
@@ -32,13 +31,15 @@ def table_rows(report: str, section: str) -> list[list[str]]:
     return rows[1:]
 
 
-def save(figure: plt.Figure, name: str) -> None:
-    figure.savefig(OUTPUT / name, dpi=180, facecolor=figure.get_facecolor())
+def save(figure: plt.Figure, version: str, name: str) -> None:
+    output = ROOT / "reports" / version / "figures" / name
+    output.parent.mkdir(parents=True, exist_ok=True)
+    figure.savefig(output, dpi=180, facecolor=figure.get_facecolor())
     plt.close(figure)
 
 
 def plot_v1() -> None:
-    rows = table_rows("FINAL_REPORT.md", "## Final test accuracy")
+    rows = table_rows("v1/FINAL_REPORT.md", "## Final test accuracy")
     selected = {
         "Qwen: raw pixels + stroke direction": ("Pixels + stroke direction", COLORS[0]),
         "Raw pixels": ("Raw pixels", COLORS[3]),
@@ -63,12 +64,14 @@ def plot_v1() -> None:
     axis.set_ylabel("Official MNIST test accuracy (%)")
     axis.set_title("V1: a useful addition to pixels, with HOG still ahead", loc="left")
     axis.legend(loc="lower right", frameon=False)
-    save(figure, "V1_LEARNING_CURVES.png")
+    save(figure, "v1", "V1_LEARNING_CURVES.png")
 
 
 def plot_v2() -> None:
     figure, axes = plt.subplots(1, 2, figsize=(12, 4.7), layout="constrained")
-    rows = table_rows("V2_PROGRAM_SYNTHESIS.md", "## Raw-pixel augmentation controls")
+    rows = table_rows(
+        "v2/V2_PROGRAM_SYNTHESIS_FULL.md", "## Raw-pixel augmentation controls"
+    )
     labels = ["Pixels", "Pixels + angles", "Pixels + spatial"]
     positions = np.arange(len(rows))
     for column, shift, color, label in [(3, -.18, COLORS[3], "500 examples"),
@@ -81,7 +84,9 @@ def plot_v2() -> None:
     axes[0].set_title("A. Post-search pixel augmentation", loc="left")
     axes[0].legend(frameon=False, loc="lower right")
 
-    rows = table_rows("V2_PROGRAM_SYNTHESIS.md", "## Frozen transfer evaluation")
+    rows = table_rows(
+        "v2/V2_PROGRAM_SYNTHESIS_FULL.md", "## Frozen transfer evaluation"
+    )
     chosen = [row for row in rows if row[1] == "spatial_cycle_hist" and row[4] == "5000"]
     domains = ["emnist_digits", "emnist_letters", "kmnist", "fashion_mnist"]
     chosen = sorted(chosen, key=lambda row: domains.index(row[0]))
@@ -93,12 +98,12 @@ def plot_v2() -> None:
     axes[1].set_ylim(0, 100)
     axes[1].set_ylabel("Sampled official-test accuracy (%)")
     axes[1].set_title("B. Spatial cycle summary, 25 dimensions", loc="left")
-    save(figure, "V2_AUGMENTATION_TRANSFER.png")
+    save(figure, "v2", "V2_AUGMENTATION_TRANSFER.png")
 
 
 def plot_v3() -> None:
     figure, axes = plt.subplots(1, 2, figsize=(12, 4.9), layout="constrained")
-    rows = table_rows("V3_EVIDENCE.md", "## Mechanism evidence")
+    rows = table_rows("v3/V3_EVIDENCE.md", "## Mechanism evidence")
     positions = np.arange(len(rows))
     for column, shift, label, color in [(1, -.18, "Original", COLORS[0]),
                                          (2, .18, "Locations reassigned", COLORS[1])]:
@@ -110,7 +115,7 @@ def plot_v3() -> None:
     axes[0].set_title("A. Preserve marginals; change event locations", loc="left")
     axes[0].legend(frameon=False, loc="lower right")
 
-    rows = table_rows("V3_EVIDENCE.md", "## Transfer evaluation")
+    rows = table_rows("v3/V3_EVIDENCE.md", "## Transfer evaluation")
     intervals = [[float(value) * 100 for value in row[2].split("–")] for row in rows]
     centers = [sum(values) / 2 for values in intervals]
     widths = [(values[1] - values[0]) / 2 for values in intervals]
@@ -126,11 +131,10 @@ def plot_v3() -> None:
     axes[1].set_ylabel("Sampled official-test accuracy (%)")
     axes[1].set_title("B. Transfer with 5,000 training examples", loc="left")
     axes[1].legend(frameon=False, loc="lower left")
-    save(figure, "V3_MECHANISM_TRANSFER.png")
+    save(figure, "v3", "V3_MECHANISM_TRANSFER.png")
 
 
 def main() -> None:
-    OUTPUT.mkdir(exist_ok=True)
     plt.rcParams.update({
         "font.size": 10, "axes.titlesize": 12, "axes.titlepad": 16,
         "axes.spines.top": False, "axes.spines.right": False,

@@ -118,7 +118,8 @@ def generate_report(*, root: Path = Path(".")) -> Path:
     if learning_curves:
         lines.extend(["AULC is the trapezoidal integral of mean accuracy over log training size; values use the protocol's full 100–5,000 sample interval when all six sizes are available.", ""])
         lines.extend(_curve_table(learning_curves))
-        lines.extend(["", f"![Learning curves by probe]({figure_path.name})", ""])
+        figure_link = figure_path.relative_to(root / "reports/v3.1").as_posix()
+        lines.extend(["", f"![Learning curves by probe]({figure_link})", ""])
     else:
         lines.append("Learning-curve results are not available yet.")
     lines.extend(["", "### Nonlinear probe gain", ""])
@@ -193,7 +194,7 @@ def generate_report(*, root: Path = Path(".")) -> Path:
         "The complete per-run predictions, split IDs, timing records, protocol, and source hashes are stored under `results/v31/`.",
         "",
     ])
-    report_path = root / "reports/V3_1_BIAS_EVALUATION.md"
+    report_path = root / "reports/v3.1/V3_1_BIAS_EVALUATION_FULL.md"
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text("\n".join(lines), encoding="utf-8")
     write_json(
@@ -657,8 +658,8 @@ def _write_artifact_manifest(root: Path, mnist_provenance: dict[str, object]) ->
         "results/v31/complexity_frontier.json",
         "results/v31/bias_profiles.json",
         "results/v31/summary.json",
-        "reports/V3_1_BIAS_EVALUATION.md",
-        "reports/V3_1_LEARNING_CURVES.png",
+        "reports/v3.1/V3_1_BIAS_EVALUATION_FULL.md",
+        "reports/v3.1/figures/V3_1_LEARNING_CURVES.png",
     ]
     artifacts = []
     for relative in relative_paths:
@@ -752,7 +753,7 @@ def _write_learning_curve_figure(groups: dict[tuple, list[dict]], root: Path) ->
         bbox_to_anchor=(0.5, 0.015),
     )
     figure.tight_layout(rect=(0, 0.16, 1, 0.93))
-    output = root / "reports/V3_1_LEARNING_CURVES.png"
+    output = root / "reports/v3.1/figures/V3_1_LEARNING_CURVES.png"
     output.parent.mkdir(parents=True, exist_ok=True)
     figure.savefig(output, dpi=220, bbox_inches="tight")
     plt.close(figure)

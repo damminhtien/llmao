@@ -150,7 +150,7 @@ changes. The compact classical control is a 16-dimensional zoning descriptor.
 - The 40-program pilot passed its predeclared gate: 29/30 valid LLM programs
   were outside the global-histogram family, with 17 occupied cells and balanced
   accepted family counts. Exact rates and failures are in
-  [`reports/V3_PILOT.md`](reports/V3_PILOT.md).
+  [`reports/v3/V3_PILOT.md`](../../reports/v3/V3_PILOT.md).
 - Order, spatial-location, cross-relation, and topology interventions are
   implemented and unit-tested. Validation-only mechanism ablations,
   fixed-probe behavioral novelty, and top-five multi-seed evaluation have
@@ -163,7 +163,7 @@ changes. The compact classical control is a 16-dimensional zoning descriptor.
 - The top five scored 0.8585–0.8730 mean accuracy at 500 and 0.8843–0.9063 at
   5,000 MNIST validation examples across seeds 11/23/47. A matched 30D zoning
   baseline scored 0.7615 / 0.8245. See
-  [`reports/V3_SEARCH.md`](reports/V3_SEARCH.md).
+  [`reports/v3/V3_SEARCH.md`](../../reports/v3/V3_SEARCH.md).
 - The frozen finalists' event-to-location counterfactuals reduced accuracy by
   24.8–35.0 points on average on stratified 2,000-image MNIST test samples.
   Removing spatial conditioning reduced validation accuracy by 22.8–24.9
@@ -174,7 +174,7 @@ changes. The compact classical control is a 16-dimensional zoning descriptor.
   Letters at 5,000 examples. None beat compact controls on KMNIST or
   Fashion-MNIST; HOG remained stronger on all four domains. This supports a
   useful MNIST/EMNIST Digits spatial prior, not a universal handwriting rule.
-  Full protocols and scores are in [`reports/V3_EVIDENCE.md`](reports/V3_EVIDENCE.md).
+  Full protocols and scores are in [`reports/v3/V3_EVIDENCE.md`](../../reports/v3/V3_EVIDENCE.md).
 
 ## V3.1 frozen-bias evaluation architecture
 
@@ -242,7 +242,7 @@ sensitivity analysis uses inner cross-validation on training data only.
 
 ### Protocol and analysis
 
-`V3_1_PROTOCOL.md` and its canonical JSON manifest freeze primary hypotheses,
+`docs/v3.1/V3_1_PROTOCOL.md` and its canonical JSON manifest freeze primary hypotheses,
 representations, probes, datasets, sample sizes, seeds, transformations,
 metrics, and comparisons before any V3.1 results are produced. For a fixed
 `(dataset, size, seed)`, all representations use the same stratified training
@@ -265,7 +265,7 @@ intervals and McNemar comparisons. Means and standard deviations across the
 three training-subset seeds describe subset variability; they are not used as
 a three-sample t-test. The final report presents a multi-axis profile for each
 bias rather than a single aggregate score. Result files live under
-`results/v31/` and the report is `reports/V3_1_BIAS_EVALUATION.md`.
+`results/v31/` and the report is `reports/v3.1/V3_1_BIAS_EVALUATION_FULL.md`.
 
 ### Leakage and reproducibility gates
 
@@ -275,7 +275,8 @@ Every seed/run uses fresh fitted objects. Protocol and artifact manifests are
 hashed, predictions align exactly with evaluation indices, and paired
 statistics resample the same example indices for both models. Unit tests for
 these conditions must pass before starting the core matrix. The prescribed
-execution order and acceptance checklist are tracked in [`TODO.md`](TODO.md).
+execution order and acceptance checklist are tracked in
+[`docs/v3.1/TODO_V3_1.md`](../v3.1/TODO_V3_1.md).
 
 ## V2 frozen architecture reference
 
@@ -293,7 +294,7 @@ operators.
 The LLM never receives images or labels, accesses the official test set, changes
 the learner, assigns fitness, or emits executable code. V1 models and archives
 remain in place for reproduction; its architecture notes are preserved in
-[`ARCHITECTURE_V1.md`](ARCHITECTURE_V1.md). V2 proposals use `ProgramBiasSpec`
+[`docs/v1/ARCHITECTURE_V1.md`](../v1/ARCHITECTURE_V1.md). V2 proposals use `ProgramBiasSpec`
 and the separate program-search path.
 
 ### 2. V2 data flow
@@ -655,7 +656,7 @@ At 5,000 training examples, `spatial_cycle_hist` scored 0.8120 on a stratified
 2,000-image EMNIST Digits test sample, 0.4993 on EMNIST Letters, 0.4538 on
 KMNIST, and 0.7080 on Fashion-MNIST. The strong Fashion-MNIST result means the
 run does not establish handwriting-specific transfer. All source splits,
-checksums, and test counts are recorded in `reports/V2_PROGRAM_SYNTHESIS.md` and
+checksums, and test counts are recorded in `reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md` and
 the JSON transfer artifact.
 
 Shuffling sequence values at the selected AST nodes produced zero accuracy

@@ -2,7 +2,7 @@
 
 > **Study status (2026-10-22):** V4 is frozen as an exploratory study. Its
 > planned reduced primary campaign did not complete. Read the
-> [final exploratory report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+> [final exploratory report](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md)
 > before interpreting the design below; protocol requirements remain
 > historical specifications, not completed results.
 
@@ -540,7 +540,7 @@ the shared V3.2 `PRIMITIVES` registry; macro expansion must resolve to a
 validated base AST before reaching the existing evaluator.
 
 The previous V3/V3.1 architecture and completed V3.1 checklist are retained in
-`ARCHITECTURE_V3_REFERENCE.md` and `TODO_V3_1.md`. V4 protocol pins and
+`docs/v3/ARCHITECTURE_V3_REFERENCE.md` and `docs/v3.1/TODO_V3_1.md`. V4 protocol pins and
 protected artifact hashes belong in `results/v4/protocol.json`.
 
 ---

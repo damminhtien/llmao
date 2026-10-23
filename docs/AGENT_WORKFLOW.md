@@ -36,7 +36,7 @@ in PLAN.md, and inspect only the additional files needed for it.
 
 For each milestone:
 
-1. Confirm its scope, dependencies, and verification boundary in `PLAN.md`.
+1. Confirm its scope, dependencies, and verification boundary in `docs/v3/PLAN.md`.
 2. Inspect the smallest relevant set of source files, contracts, and evidence.
 3. Implement the milestone without silently changing its constraints or budget.
 4. Run its narrow validation, inspect the result, and repair failures before moving on.

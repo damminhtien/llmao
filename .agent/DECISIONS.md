@@ -167,3 +167,14 @@ embedded paths and source pins retain their original meaning at the tag;
 do not relax validators or rewrite historical records. Current experiment
 scripts adapt path literals only, with focused synthetic tests and normalized
 AST comparison. This is repository maintenance and adds no scientific evidence.
+
+## 2026-10-23 — Group versioned study documents and reports
+
+The user asked to organize V1, V3, and related study files beyond the repository
+root clutter. The user selected the in-repository documentation scope. Group
+historical design docs under `docs/vN/`, and scientific reports, full records,
+and figures under `reports/vN/`. Keep the cross-study indexes at the root and
+`reports/README.md`. Preserve every file under `results/`; retain its original
+manifest bytes and use a path/hash index to locate relocated documents. Update
+only current links and report output path strings required by the layout. This
+is documentation maintenance and adds no research evidence.

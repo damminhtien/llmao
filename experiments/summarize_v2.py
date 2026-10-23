@@ -356,7 +356,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--results-dir", type=Path, default=Path("results"))
     parser.add_argument(
-        "--output", type=Path, default=Path("reports/V2_PROGRAM_SYNTHESIS.md")
+        "--output", type=Path, default=Path("reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md")
     )
     args = parser.parse_args()
     report = build_report(args.results_dir, args.output)

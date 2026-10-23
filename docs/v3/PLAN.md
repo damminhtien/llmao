@@ -15,7 +15,7 @@ the proposed mechanism from a compact feature that merely correlates with labels
 
 - [x] Tag the completed V2 commit as `v2-final` (`c6d3f85`).
 - [x] Start `v3-relational-bias-search` from that exact commit.
-- [x] Preserve [`reports/V2_PROGRAM_SYNTHESIS.md`](reports/V2_PROGRAM_SYNTHESIS.md) byte-for-byte.
+- [x] Preserve [`reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md`](../../reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md) byte-for-byte.
 - [x] Rebuild the V2 report from V2 artifacts and compare it byte-for-byte;
   the V3 archive is not read. This verifies report reproduction, not a rerun of
   the original LLM search.
@@ -70,7 +70,7 @@ is `753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf`.
    6 duplicates, 4 family mismatches, and no evaluation failures. The valid
    proposal families were order-sensitive 8, spatial-relational 8,
    graph-relational 8, and free-exploration 6. Feature width ranged from 1 to
-   80 (median 24). See [`reports/V3_PILOT.md`](reports/V3_PILOT.md).
+   80 (median 24). See [`reports/v3/V3_PILOT.md`](../../reports/v3/V3_PILOT.md).
 9. **Run full discovery only after a passing pilot.** Search 20 seeds plus ten
    generations of 18 proposals (200 records), with AST depth ≤6 and feature
    width ≤128. [x] Stage one recorded 500-sample validation scores; the archive
@@ -78,8 +78,8 @@ is `753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf`.
    The top 20 were re-evaluated at 500 and 5,000, five finalists were frozen,
    and those five were evaluated on validation with seeds 11/23/47 before any
    test access. Results and the archive hash are in
-   [`reports/V3_SEARCH.md`](reports/V3_SEARCH.md) and
-   [`reports/V3_EVIDENCE.md`](reports/V3_EVIDENCE.md).
+   [`reports/v3/V3_SEARCH.md`](../../reports/v3/V3_SEARCH.md) and
+   [`reports/v3/V3_EVIDENCE.md`](../../reports/v3/V3_EVIDENCE.md).
 10. **Falsify mechanisms specifically.** Preserve nuisance statistics while
     destroying only the proposed mechanism. Typed interventions now cover
     within-path order, event-to-location assignment, cross-variable pairing,
@@ -95,7 +95,7 @@ is `753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf`.
     [x] All four datasets were evaluated on stratified 2,000-image official-test
     samples. V3 transfers strongly to EMNIST Digits, partially to EMNIST
     Letters, and does not beat compact controls on KMNIST or Fashion-MNIST.
-    See [`reports/V3_EVIDENCE.md`](reports/V3_EVIDENCE.md).
+    See [`reports/v3/V3_EVIDENCE.md`](../../reports/v3/V3_EVIDENCE.md).
 12. **Add a compact classical baseline.** The 16-dimensional zoning control
     scored 69.10% / 72.65%; a dimension-matched 30D zoning control scored
     76.15% / 82.45% on MNIST validation at 500 / 5,000 examples, using the same
@@ -124,7 +124,7 @@ is `753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf`.
     minimum criterion was met. Strong success was partial: EMNIST Digits transfer
     was strong, EMNIST Letters gains were limited, and KMNIST did not beat the
     compact controls. Very strong success was not met; see the claim boundary in
-    [`reports/V3_EVIDENCE.md`](reports/V3_EVIDENCE.md).
+    [`reports/v3/V3_EVIDENCE.md`](../../reports/v3/V3_EVIDENCE.md).
 
 The full 200-program search is gated on the pilot result. No LLM search is run
 until steps 2–3 pass.
@@ -181,7 +181,7 @@ baseline can still be reproduced and compared without mixing its search history.
 The 2026-10-09 run completed 200 candidates per track (20 seeds plus 10 × 18
 generation records). Search details, archived proposal counts, finalist IDs,
 source checksums, and all reported metrics are in
-[`reports/V2_PROGRAM_SYNTHESIS.md`](reports/V2_PROGRAM_SYNTHESIS.md). The raw-free
+[`reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md`](../../reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md). The raw-free
 track's top program, `cycle_angle_hist`, scored 0.7180 validation accuracy at
 500 examples; the augmentation track's top candidate scored 0.6445. Both
 quality-diversity archives occupied only four of their implemented niches, with
@@ -644,7 +644,7 @@ program-synthesis search.
   - [x] Explicit stroke direction helped when combined with raw pixels; removing it cost 2.45 validation points for the best candidate
   - [x] State that pen order was not inferred, so curvature-versus-pen-order was not tested
   - [x] The best bias was only 8 features larger than raw pixels; smaller structural-only candidates performed poorly
-  - [x] Record full findings, limits, protocol, and reproducibility in `reports/FINAL_REPORT.md`
+  - [x] Record full findings, limits, protocol, and reproducibility in `reports/v1/FINAL_REPORT.md`
 
 - [x] **25. Stop condition**
   - [x] Stop at 62 candidates because later generations did not improve materially

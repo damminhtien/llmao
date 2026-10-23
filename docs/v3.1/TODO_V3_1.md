@@ -1,18 +1,18 @@
 # V3.1 Bias Evaluation Checklist
 
 V3.1 evaluates the already frozen V3 representations. It does not propose or
-search for new biases. `PLAN.md`, `reports/V3_SEARCH.md`,
-`reports/V3_EVIDENCE.md`, the V3 finalist manifest, and candidate ASTs remain
+search for new biases. `docs/v3/PLAN.md`, `reports/v3/V3_SEARCH.md`,
+`reports/v3/V3_EVIDENCE.md`, the V3 finalist manifest, and candidate ASTs remain
 the V3 record and must not be rewritten by this study.
 
 ## Freeze and protocol
 
 - [x] Start `v3.1-bias-evaluation` from `v3-relational-bias-search`.
 - [x] Update `ARCHITECTURE.md` with the V3.1 evaluation boundary and design.
-- [x] Create this V3.1 checklist without rewriting the frozen V3 `PLAN.md`.
+- [x] Create this V3.1 checklist without rewriting the frozen V3 `docs/v3/PLAN.md`.
 - [x] Verify the V3 report, evidence, finalist manifest, candidate ASTs, and
   source branch are unchanged; record their hashes in the V3.1 manifest.
-- [x] Write `V3_1_PROTOCOL.md` and canonical `results/v31/protocol.json` before
+- [x] Write `docs/v3.1/V3_1_PROTOCOL.md` and canonical `results/v31/protocol.json` before
   computing any V3.1 result. Freeze hypotheses, representations, probes,
   datasets, sizes, seeds, transformations, metrics, and primary comparisons.
 - [x] Hash the canonical protocol and verify repeatable serialization.
@@ -73,7 +73,7 @@ the V3 record and must not be rewritten by this study.
 - [x] Run Phase C mechanism and robustness evaluations for the top two or three
   V3 representations.
 - [x] Run Phase D transfer for representations supported by Phase A/B.
-- [x] Generate `reports/V3_1_BIAS_EVALUATION.md` with the five predeclared
+- [x] Generate `reports/v3.1/V3_1_BIAS_EVALUATION_FULL.md` with the five predeclared
   research answers, evidence limits, and a multi-axis profile per bias.
 - [x] Confirm frozen V3 files remain unchanged; inspect status and diff, run
   `git diff --check`, and commit the completed V3.1 work as one focused commit.

@@ -3,7 +3,7 @@
 **Disposition:** integrated into main and published as a frozen exploratory
 research study. This handoff records verification and publication on
 2026-10-23. The
-[final report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) leads with
+[final report](../reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md) leads with
 the two preserved discovery trajectories, then uses E1–E4 to distinguish
 targeted expression, selected representation quality, and observed adoption.
 The primary language-utility comparison remains incomplete.
@@ -11,9 +11,9 @@ The primary language-utility comparison remains incomplete.
 ## Reading order and retained records
 
 1. [README](../README.md) for the V1–V4 research narrative and the V4 pitch.
-2. [V4 scientific report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+2. [V4 scientific report](../reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md)
    for observations, interpretations, unsupported hypotheses, and untested claims.
-3. [Evidence manifest](../reports/scientific/V4_EVIDENCE_MANIFEST.json) for
+3. [Evidence manifest](../reports/v4/evidence/V4_EVIDENCE_MANIFEST.json) for
    source revisions, training-data fingerprints, artifact hashes, and exclusions.
 4. [Reproducibility](REPRODUCIBILITY.md#frozen-v4-exploratory-release) for
    deterministic audit commands and the release boundary.

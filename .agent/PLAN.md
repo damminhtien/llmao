@@ -1,8 +1,8 @@
-# V4 Layout Cleanup Plan
+# Versioned documentation layout plan
 
-- [x] Inspect root files, source references, frozen hashes, and Git state.
-- [x] Move V4 documents, pilot records, contracts, and initial programs.
-- [x] Update active source defaults, test fixtures, and current documentation.
-- [x] Add a location index and account for original paths in the evidence manifest.
-- [x] Run focused deterministic checks and update the code-only graph.
-- [x] Verify artifact identity, links, tag, and diff; commit explicit paths.
+- [x] Inventory versioned documents, reports, figures, manifest pins, and output paths.
+- [x] Move historical architecture, plans, checklists, and protocols under `docs/vN/`.
+- [x] Group scientific reports, supplementary records, and figures under `reports/vN/`.
+- [x] Update current links and report-generator output path literals; preserve `results/`.
+- [x] Add a relocation index and reconcile the V4 evidence manifest.
+- [x] Check hashes, historical references, local links, diff, and graph; commit.

@@ -567,7 +567,7 @@ def summarize_primary_artifacts(root: Path = ROOT) -> dict[str, Any]:
         json.dumps(summary, indent=2, sort_keys=True, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    plot_primary(summary, root / "reports/V3_2_SEARCH_CURVES.png")
+    plot_primary(summary, root / "reports/v3.2/figures/V3_2_SEARCH_CURVES.png")
     return summary
 
 
@@ -575,7 +575,7 @@ def generate_report(root: Path = ROOT) -> Path:
     root = Path(root)
     protocol = verify_protocol(root)
     summary_path = root / "results/v32/summary/primary_summary.json"
-    figure_path = root / "reports/V3_2_SEARCH_CURVES.png"
+    figure_path = root / "reports/v3.2/figures/V3_2_SEARCH_CURVES.png"
     if not summary_path.is_file() or not figure_path.is_file():
         summarize_primary_artifacts(root)
     summary = _load_json(summary_path)
@@ -668,7 +668,7 @@ def generate_report(root: Path = ROOT) -> Path:
         "",
         "The line and shaded min-to-max range are shown only through the longest candidate count reached by every run included for that optimizer; the range is not a confidence interval. This prevents the plotted mean from changing its run composition at the censoring boundary. Incomplete runs are marked at their last observed score in panel C.",
         "",
-        "![V3.2 best-so-far search curves and optimizer diagnostics](V3_2_SEARCH_CURVES.png)",
+        "![V3.2 best-so-far search curves and optimizer diagnostics](figures/V3_2_SEARCH_CURVES.png)",
         "",
         "## 7. Final best-fitness results",
         "",
@@ -743,7 +743,7 @@ def generate_report(root: Path = ROOT) -> Path:
         "",
         f"Protocol: `results/v32/protocol.json` (`{protocol['protocol_sha256']}`). Primary summary: `results/v32/summary/primary_summary.json`.",
     ]
-    report_path = root / "reports/V3_2_OPTIMIZER_VALUE.md"
+    report_path = root / "reports/v3.2/V3_2_OPTIMIZER_VALUE_FULL.md"
     report_path.parent.mkdir(parents=True, exist_ok=True)
     report_path.write_text("\n".join(report_lines) + "\n", encoding="utf-8")
     return report_path

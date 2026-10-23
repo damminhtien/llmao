@@ -39,7 +39,7 @@ No condition-level 200-candidate estimate is available for: `typed_random`. Inco
 
 The line and shaded min-to-max range are shown only through the longest candidate count reached by every run included for that optimizer; the range is not a confidence interval. This prevents the plotted mean from changing its run composition at the censoring boundary. Incomplete runs are marked at their last observed score in panel C.
 
-![V3.2 best-so-far search curves and optimizer diagnostics](V3_2_SEARCH_CURVES.png)
+![V3.2 best-so-far search curves and optimizer diagnostics](figures/V3_2_SEARCH_CURVES.png)
 
 ## 7. Final best-fitness results
 

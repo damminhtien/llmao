@@ -19,7 +19,7 @@
 
 The frozen V2 references are `cycle_angle_hist` at 0.7180 validation accuracy
 with 500 examples and the post-search `raw + angle_hist` composition at 0.8525.
-See [`V2_PROGRAM_SYNTHESIS.md`](V2_PROGRAM_SYNTHESIS.md) for their protocols and
+See [`V2_PROGRAM_SYNTHESIS.md`](../v2/V2_PROGRAM_SYNTHESIS_FULL.md) for their protocols and
 limitations.
 
 ## Best candidate in each descriptor cell

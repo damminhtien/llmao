@@ -19,7 +19,7 @@ could trust its proposal.
 
 ![Handwritten variations, geometric structure, and rearranged stroke fragments](docs/images/structural-priors.png)
 
-[Read the studies](reports/README.md) · [V4 exploratory release](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md) · [V4 artifact locations](docs/v4/README.md)
+[Read the studies](reports/README.md) · [V4 exploratory release](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md) · [Figures and diagrams](docs/FIGURES.md) · [Reproduce a version](docs/REPRODUCIBILITY.md) · [Versioned document layout](docs/VERSIONED_RESEARCH.md)
 
 **Version names:** V4 names one research study. Its primary protocol files use
 IDs such as `v4-primary-11` and `v4-primary-14`. “Protocol revision 14” means a
@@ -73,7 +73,7 @@ MNIST gives us a small, familiar setting in which to examine this process.
 V4 extends the question to the representation language itself. Two preserved
 discovery trajectories introduced different families of named abstractions;
 E1–E4 examine expression, representation quality, and adoption in bounded
-searches. The [V4 report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+searches. The [V4 report](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md)
 closes that exploratory study with its observations and unanswered questions.
 
 ## 🔎 From inductive bias to our research question
@@ -123,9 +123,9 @@ composition improves over raw pixels, while HOG remains stronger.
 
 This establishes useful composition within a supplied menu. It also reveals the
 boundary of that approach: the LLM cannot express a representation outside the
-operators we have already designed. See the [V1 report](reports/scientific/V1_OPERATOR_COMPOSITION.md).
+operators we have already designed. See the [V1 report](reports/v1/V1_OPERATOR_COMPOSITION.md).
 
-![V1 learning curves for stroke-direction augmentation, raw pixels, and HOG](reports/figures/V1_LEARNING_CURVES.png)
+![V1 learning curves for stroke-direction augmentation, raw pixels, and HOG](reports/v1/figures/V1_LEARNING_CURVES.png)
 
 **V1.** Official MNIST test accuracy after finalist selection. Error bars show
 standard deviation over three runs; at 60,000 examples the training partition
@@ -143,9 +143,9 @@ limitation. The descriptor places many programs in the same `hybrid` niche,
 and successful finalists mostly summarize distributions. Sequence shuffling
 leaves their predictions unchanged. Strong Fashion-MNIST transfer also prevents
 a handwriting-specific interpretation. See the
-[V2 report](reports/scientific/V2_PROGRAM_SYNTHESIS.md).
+[V2 report](reports/v2/V2_PROGRAM_SYNTHESIS.md).
 
-![V2 post-search pixel augmentation and frozen spatial-cycle transfer](reports/figures/V2_AUGMENTATION_TRANSFER.png)
+![V2 post-search pixel augmentation and frozen spatial-cycle transfer](reports/v2/figures/V2_AUGMENTATION_TRANSFER.png)
 
 **V2.** Left: post-search compositions on the same validation split used for
 selection, not independently tested LLM discoveries. Right: the frozen 25D
@@ -167,10 +167,10 @@ ablations support the importance of event location. The finalists still remain
 orderless, and their transfer is strongest on EMNIST Digits; KMNIST and
 Fashion-MNIST expose substantial limits. Evidence supports a useful digit-domain
 spatial prior, with the exact subtraction mechanism still unresolved. See the
-[V3 evidence report](reports/scientific/V3_RELATIONAL_PRIORS.md), with the
-[pilot](reports/V3_PILOT.md) and [search record](reports/V3_SEARCH.md).
+[V3 evidence report](reports/v3/V3_RELATIONAL_PRIORS.md), with the
+[pilot](reports/v3/V3_PILOT.md) and [search record](reports/v3/V3_SEARCH.md).
 
-![V3 event-location intervention and transfer relative to zoning and HOG](reports/figures/V3_MECHANISM_TRANSFER.png)
+![V3 event-location intervention and transfer relative to zoning and HOG](reports/v3/figures/V3_MECHANISM_TRANSFER.png)
 
 **V3.** Left: reassigning stroke-event locations while preserving the marginal
 values substantially reduces accuracy on 2,000 held-out MNIST images. Right:
@@ -190,9 +190,9 @@ They add predictive signal when combined with HOG under the fixed linear probe.
 Sensitivity to erosion and vertical translation, alongside uneven transfer,
 shows how specific their assumptions are. A bias therefore has an empirical
 profile tied to its learner and domain, rather than one universal quality score.
-See the [V3.1 evaluation report](reports/scientific/V3_1_BIAS_EVALUATION.md).
+See the [V3.1 evaluation report](reports/v3.1/V3_1_BIAS_EVALUATION.md).
 
-![V3.1 learning curves across frozen representations and classifiers](reports/V3_1_LEARNING_CURVES.png)
+![V3.1 learning curves across frozen representations and classifiers](reports/v3.1/figures/V3_1_LEARNING_CURVES.png)
 
 **V3.1.** The frozen evaluation compares representations under several learners
 and training sizes. V3 beats simple zoning but trails dimension-matched HOG-PCA.
@@ -216,9 +216,9 @@ all pretrained knowledge.
 These observations support a bounded role for semantics and feedback in this
 search space. The small matched sample and censored runs limit broader claims
 about optimizer superiority or scientific discovery. See the
-[V3.2 optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md).
+[V3.2 optimizer study](reports/v3.2/V3_2_OPTIMIZER_VALUE.md).
 
-![V3.2 search curves and diagnostics for matched optimizers](reports/V3_2_SEARCH_CURVES.png)
+![V3.2 search curves and diagnostics for matched optimizers](reports/v3.2/figures/V3_2_SEARCH_CURVES.png)
 
 **V3.2.** Matched optimizer runs under a shared candidate-evaluation budget.
 Shading is the observed min-to-max range, not a confidence interval. The primary
@@ -257,7 +257,7 @@ reached the required candidate-AUC horizon; the planned 25-run campaign did
 not complete, and no `G*` was selected. The study preserves candidate-level
 signals and an auditable account of the adoption and evaluation limits.
 Reusable language utility, improved search efficiency, and generalization
-remain untested. Read the [final report](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+remain untested. Read the [final report](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md)
 and [integration handoff](docs/V4_MERGE_READINESS.md) for the evidence and
 correctness limitations.
 
@@ -294,8 +294,8 @@ test from the preserved partial trajectories and E1–E4 diagnostics.
 
 The detailed design is in
 [ARCHITECTURE.md](ARCHITECTURE.md), with the original
-[V1 architecture](ARCHITECTURE_V1.md) retained. The historical
-[search plan](PLAN.md) and [V3.1 protocol](V3_1_PROTOCOL.md) document the study
+[V1 architecture](docs/v1/ARCHITECTURE_V1.md) retained. The historical
+[search plan](docs/v3/PLAN.md) and [V3.1 protocol](docs/v3.1/V3_1_PROTOCOL.md) document the study
 boundaries.
 
 ## What the evidence leaves us with
@@ -368,12 +368,12 @@ the original experimental records retain full tables and frozen provenance.
 
 | Stage | Historical source | Report |
 |---|---|---|
-| V1: operator composition | `1037c5b` | [Final report](reports/scientific/V1_OPERATOR_COMPOSITION.md) |
-| V2: typed synthesis | `v2-program-bias-search` / `c6d3f85` (tag `v2-final`) | [Program synthesis](reports/scientific/V2_PROGRAM_SYNTHESIS.md) |
-| V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/scientific/V3_RELATIONAL_PRIORS.md) |
-| V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/scientific/V3_1_BIAS_EVALUATION.md) |
-| V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/scientific/V3_2_OPTIMIZER_VALUE.md) |
-| V4: evolving bias language | `v4-evolving-bias-language`; immutable closure tag `v4-exploratory-final` / `36ea8f5` | [Exploratory closure](reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md) |
+| V1: operator composition | `1037c5b` | [Final report](reports/v1/V1_OPERATOR_COMPOSITION.md) |
+| V2: typed synthesis | `v2-program-bias-search` / `c6d3f85` (tag `v2-final`) | [Program synthesis](reports/v2/V2_PROGRAM_SYNTHESIS.md) |
+| V3: relational search | `v3-relational-bias-search` / `1e9f29b` | [Evidence](reports/v3/V3_RELATIONAL_PRIORS.md) |
+| V3.1: frozen bias evaluation | `v3.1-bias-evaluation` / `798415c` | [Bias evaluation](reports/v3.1/V3_1_BIAS_EVALUATION.md) |
+| V3.2: optimizer value | `v3.2-optimizer-value-study` / `85beeaf` | [Optimizer study](reports/v3.2/V3_2_OPTIMIZER_VALUE.md) |
+| V4: evolving bias language | `v4-evolving-bias-language`; immutable closure tag `v4-exploratory-final` / `36ea8f5` | [Exploratory closure](reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md) |
 
 The V4 tag preserves the original closure snapshot. Current documentation adds
 the spotlight narrative and integration handoff after that tag; the evidence

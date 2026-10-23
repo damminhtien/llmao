@@ -1,0 +1,241 @@
+{
+  "schema_version": 1,
+  "source_commit": "94804ab22552d06ec7ff2cec99499fe3f9c6cc61",
+  "scope": "Version-specific Markdown documents, report records, and figures moved into docs/vN and reports/vN. Results and datasets stay at their existing paths.",
+  "artifacts": [
+    {
+      "original_path": "ARCHITECTURE_V1.md",
+      "path": "docs/v1/ARCHITECTURE_V1.md",
+      "original_sha256": "6e6ff20aa9b79cfd1e9b0dd4aeda93c23039147ca10c08f6fb6a0dc78dc3783f",
+      "original_size_bytes": 20136,
+      "current_sha256": "6e6ff20aa9b79cfd1e9b0dd4aeda93c23039147ca10c08f6fb6a0dc78dc3783f",
+      "current_size_bytes": 20136,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "TODO_V3_1.md",
+      "path": "docs/v3.1/TODO_V3_1.md",
+      "original_sha256": "f31ad46b5ea7a5b423bd7083ef62d8a9bb41c9fa19747ad01e2a78a0e4807f73",
+      "original_size_bytes": 4665,
+      "current_sha256": "04802e71a0d7a168d207a6308667409cd320131dedcd3ebade7373b73a03ae6b",
+      "current_size_bytes": 4707,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "V3_1_PROTOCOL.md",
+      "path": "docs/v3.1/V3_1_PROTOCOL.md",
+      "original_sha256": "06cbdacf41d52a18675f6efc0b114e1c5783227b58bb44fa4b3c048c77cb361e",
+      "original_size_bytes": 8940,
+      "current_sha256": "06cbdacf41d52a18675f6efc0b114e1c5783227b58bb44fa4b3c048c77cb361e",
+      "current_size_bytes": 8940,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "ARCHITECTURE_V3_REFERENCE.md",
+      "path": "docs/v3/ARCHITECTURE_V3_REFERENCE.md",
+      "original_sha256": "5e6bf7d9435055a01958d26310bf7a31db75c854bbebd0115db9d9fdfb2ed131",
+      "original_size_bytes": 33734,
+      "current_sha256": "0bf7333e0d915d0236c0036e0d597d9e6230b5b24187d93dffd1c141d16515bf",
+      "current_size_bytes": 33830,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "PLAN.md",
+      "path": "docs/v3/PLAN.md",
+      "original_sha256": "ef02c9cccab61952895280b5030c15344651867e2c50cb4c168d4bb3ed9fa6ec",
+      "original_size_bytes": 30474,
+      "current_sha256": "ccb162ee1687531689c457fe4274a23136eb4d2a9fd44ca9d79792dc209a7a61",
+      "current_size_bytes": 30581,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/FINAL_REPORT.md",
+      "path": "reports/v1/FINAL_REPORT.md",
+      "original_sha256": "732c2c973779f39a4fcdff03a2160a4b4f14df5f9246141af5c1e454ac85b062",
+      "original_size_bytes": 6666,
+      "current_sha256": "732c2c973779f39a4fcdff03a2160a4b4f14df5f9246141af5c1e454ac85b062",
+      "current_size_bytes": 6666,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V1_OPERATOR_COMPOSITION.md",
+      "path": "reports/v1/V1_OPERATOR_COMPOSITION.md",
+      "original_sha256": "135750906b478c5738bdd0aae5ef1c3177b5a9dd1a1534b5937c4cbb1ec21ff3",
+      "original_size_bytes": 5247,
+      "current_sha256": "9ad5785d78f13648113d1725e04ed735416181beaf2cf4b42be3ac0ccc121549",
+      "current_size_bytes": 5241,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/figures/V1_LEARNING_CURVES.png",
+      "path": "reports/v1/figures/V1_LEARNING_CURVES.png",
+      "original_sha256": "d5e257e2311cfb0ef978d97818f960af61c9fc66d7a83bb54f600a1e53fca36f",
+      "original_size_bytes": 91072,
+      "current_sha256": "d5e257e2311cfb0ef978d97818f960af61c9fc66d7a83bb54f600a1e53fca36f",
+      "current_size_bytes": 91072,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V2_PROGRAM_SYNTHESIS.md",
+      "path": "reports/v2/V2_PROGRAM_SYNTHESIS.md",
+      "original_sha256": "7bb9fcf4316d5511e9c797f24a53c9e960984fc9cafa38350728d51b27411966",
+      "original_size_bytes": 6261,
+      "current_sha256": "f21457da07dff2352ec1b29efe91c2cdcae7adc4f1a42fecae76c28e567d3157",
+      "current_size_bytes": 6260,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V2_PROGRAM_SYNTHESIS.md",
+      "path": "reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md",
+      "original_sha256": "753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf",
+      "original_size_bytes": 14116,
+      "current_sha256": "753333ef7f2012da1b0a1049dca779ff26c232c223cf1d65f7e79608d04869cf",
+      "current_size_bytes": 14116,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/figures/V2_AUGMENTATION_TRANSFER.png",
+      "path": "reports/v2/figures/V2_AUGMENTATION_TRANSFER.png",
+      "original_sha256": "f45b78ef96cb7b7c11e04586fb20a8948ed2ab9f9e825ac672b45c48057b00f4",
+      "original_size_bytes": 87832,
+      "current_sha256": "f45b78ef96cb7b7c11e04586fb20a8948ed2ab9f9e825ac672b45c48057b00f4",
+      "current_size_bytes": 87832,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V3_1_BIAS_EVALUATION.md",
+      "path": "reports/v3.1/V3_1_BIAS_EVALUATION.md",
+      "original_sha256": "38e294ff7087a5b13caa1eac69fd40a92a866494cb055699ca9a65aa741ea7de",
+      "original_size_bytes": 7194,
+      "current_sha256": "749f297f0e6eaf81c14707ee6995cd828b6c72316c3b3c46e1393b59c905cfd8",
+      "current_size_bytes": 7213,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V3_1_BIAS_EVALUATION.md",
+      "path": "reports/v3.1/V3_1_BIAS_EVALUATION_FULL.md",
+      "original_sha256": "5c1c295b39b575ae444995a4113a73b8fec3b87de2c2abe0cb46f3965bd85750",
+      "original_size_bytes": 49314,
+      "current_sha256": "834404e6bfe582f8d07cf4288b603eb2ba369e4b76b33cd63e4c3e9afe0365ea",
+      "current_size_bytes": 49322,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V3_1_LEARNING_CURVES.png",
+      "path": "reports/v3.1/figures/V3_1_LEARNING_CURVES.png",
+      "original_sha256": "972b7b2eb357e752e3f0602aba14e18e9d6b5bc669e18fc6ffe237b555ea02a1",
+      "original_size_bytes": 373917,
+      "current_sha256": "972b7b2eb357e752e3f0602aba14e18e9d6b5bc669e18fc6ffe237b555ea02a1",
+      "current_size_bytes": 373917,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V3_2_OPTIMIZER_VALUE.md",
+      "path": "reports/v3.2/V3_2_OPTIMIZER_VALUE.md",
+      "original_sha256": "402dd1cd20ab41107554bacde63b50209aa58ef1f1f19d71ad87e31caceb47ce",
+      "original_size_bytes": 7488,
+      "current_sha256": "a44d671d77381a6879c4f1e45cd15715caf7a5b094e5fa0465d6b8c478186cda",
+      "current_size_bytes": 7495,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V3_2_OPTIMIZER_VALUE.md",
+      "path": "reports/v3.2/V3_2_OPTIMIZER_VALUE_FULL.md",
+      "original_sha256": "5156d61c1a50669107fcc9b83dcc85d7545846f20cc5b4ba196fe73e668c40c2",
+      "original_size_bytes": 20462,
+      "current_sha256": "d1c6a1c0bb05ef966754b57ec5d10bf68fa9fdfbe9f5c916e6f8e3617b278d43",
+      "current_size_bytes": 20470,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V3_2_SEARCH_CURVES.png",
+      "path": "reports/v3.2/figures/V3_2_SEARCH_CURVES.png",
+      "original_sha256": "d4cbcab1b8ba325d44c91d22adcafb7f1559f6552d905244459a7d695b17110c",
+      "original_size_bytes": 422891,
+      "current_sha256": "d4cbcab1b8ba325d44c91d22adcafb7f1559f6552d905244459a7d695b17110c",
+      "current_size_bytes": 422891,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/V3_EVIDENCE.md",
+      "path": "reports/v3/V3_EVIDENCE.md",
+      "original_sha256": "121da1bf4429bb53253e82bc65dc32cba285d09bf0250e8580754a47847c9b5d",
+      "original_size_bytes": 7258,
+      "current_sha256": "121da1bf4429bb53253e82bc65dc32cba285d09bf0250e8580754a47847c9b5d",
+      "current_size_bytes": 7258,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/V3_PILOT.md",
+      "path": "reports/v3/V3_PILOT.md",
+      "original_sha256": "6649dd310650eef57c486a291e98f3f298b5eade342a2d036a49a0484d5f839f",
+      "original_size_bytes": 2409,
+      "current_sha256": "6649dd310650eef57c486a291e98f3f298b5eade342a2d036a49a0484d5f839f",
+      "current_size_bytes": 2409,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V3_RELATIONAL_PRIORS.md",
+      "path": "reports/v3/V3_RELATIONAL_PRIORS.md",
+      "original_sha256": "7322ed9f47cd139a825ed12b40a4df50e692c8e64fa554cbe825d5c3d19d9ebc",
+      "original_size_bytes": 6675,
+      "current_sha256": "bcf47166cdb238e51ee207a2774c96d39c2fcbdaaa777319d013076a7a1f850b",
+      "current_size_bytes": 6663,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/V3_SEARCH.md",
+      "path": "reports/v3/V3_SEARCH.md",
+      "original_sha256": "7486bfaa019e27ea76f2a62c2ea8abfd46630e89e9e22a91a01de01c3a898083",
+      "original_size_bytes": 6150,
+      "current_sha256": "583caffb9653c49950a5301c8b8a8e0410d4193a8115b17ca10fc29269e2abfc",
+      "current_size_bytes": 6161,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/figures/V3_MECHANISM_TRANSFER.png",
+      "path": "reports/v3/figures/V3_MECHANISM_TRANSFER.png",
+      "original_sha256": "274faad3565fe90edf4ce922da443793a7875222eb3e4e3175df712057fb118d",
+      "original_size_bytes": 109044,
+      "current_sha256": "274faad3565fe90edf4ce922da443793a7875222eb3e4e3175df712057fb118d",
+      "current_size_bytes": 109044,
+      "bytes_unchanged": true
+    },
+    {
+      "original_path": "reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md",
+      "path": "reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md",
+      "original_sha256": "a8bf35f53230b446c621fc7ded8627c6062945b010330114444ddefb38ed2369",
+      "original_size_bytes": 17581,
+      "current_sha256": "1fea80e3021a804e086c6e1353cabe11628755af0e84677c4f92d76e30644a98",
+      "current_size_bytes": 17599,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
+      "path": "reports/v4/evidence/V4_EVIDENCE_FILES.sha256",
+      "original_sha256": "82306e9a3199c57af4a75df08821308f50a2927c2a534aebffd71cf3f25c0015",
+      "original_size_bytes": 14421,
+      "current_sha256": "951a7f5953d1ee46ec733265dd59b6ffdaba2f3a4c782dd0304d3f9b30f634a6",
+      "current_size_bytes": 14413,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/scientific/V4_EVIDENCE_MANIFEST.json",
+      "path": "reports/v4/evidence/V4_EVIDENCE_MANIFEST.json",
+      "original_sha256": "1caffbffd6628af63d59b24576d3c07ce5d0abb6d005d0f2be06e7f133ff5720",
+      "original_size_bytes": 46652,
+      "current_sha256": "757638aca35aef1cfaa30041d08d559e76b3317f5502326011dfeb70d0779ea2",
+      "current_size_bytes": 53614,
+      "bytes_unchanged": false
+    },
+    {
+      "original_path": "reports/scientific/V4_EVIDENCE_MANIFEST.sha256",
+      "path": "reports/v4/evidence/V4_EVIDENCE_MANIFEST.sha256",
+      "original_sha256": "affc373ed212761374b73dc293684e48d012ec27c6bd22fb732669fdab2c846a",
+      "original_size_bytes": 111,
+      "current_sha256": "a54af280cf92363d6b1c36e8b6f1ec28f6d2bb3b8d0ddce10d5f175a1e3bbaa0",
+      "current_size_bytes": 112,
+      "bytes_unchanged": false
+    }
+  ]
+}

@@ -42,7 +42,7 @@ a zero standard deviation at that size does not establish absence of uncertainty
 
 ### Predictive performance
 
-![Selected V1 learning curves](../figures/V1_LEARNING_CURVES.png)
+![Selected V1 learning curves](figures/V1_LEARNING_CURVES.png)
 
 **Figure 1.** Mean official MNIST test accuracy for three selected representations.
 Error bars show standard deviation over three runs. At 60,000 examples all
@@ -100,6 +100,6 @@ not establish representation invention, domain transfer, or optimizer superiorit
 
 ## Supplementary record
 
-The [original experimental report](../FINAL_REPORT.md) retains all training-size
+The [original experimental report](FINAL_REPORT.md) retains all training-size
 results, learner settings, search stopping evidence, and reproducibility details.
 Historical execution guidance is in [Reproducibility](../../docs/REPRODUCIBILITY.md).

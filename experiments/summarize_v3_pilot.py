@@ -287,7 +287,7 @@ def main() -> None:
         "--json-output", type=Path, default=Path("results/v3_pilot_summary.json")
     )
     parser.add_argument(
-        "--markdown-output", type=Path, default=Path("reports/V3_PILOT.md")
+        "--markdown-output", type=Path, default=Path("reports/v3/V3_PILOT.md")
     )
     args = parser.parse_args()
     summary = summarize_pilot(args.archive, args.responses, args.failures)

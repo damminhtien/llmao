@@ -51,12 +51,12 @@ and the learning-curve extension were completed.
 
 ### Sample efficiency and learner dependence
 
-![Learning curves for frozen representations under the evaluated classifiers](../V3_1_LEARNING_CURVES.png)
+![Learning curves for frozen representations under the evaluated classifiers](figures/V3_1_LEARNING_CURVES.png)
 
 **Figure 1.** Learning curves from the frozen evaluation. Comparisons are
 conditional on the specified classifier, training sizes, and sampled examples.
 The complete numerical results and uncertainty definitions are in the
-[supplementary record](../V3_1_BIAS_EVALUATION.md#learning-curves-and-sample-efficiency).
+[supplementary record](V3_1_BIAS_EVALUATION_FULL.md#learning-curves-and-sample-efficiency).
 
 The three core V3 representations improved linear learning-curve area over
 30-dimensional zoning by 0.3299 to 0.3889, but trailed dimension-matched
@@ -131,6 +131,6 @@ It does not establish standalone superiority over matched HOG-PCA controls.
 
 ## Supplementary record
 
-The [full evaluation record](../V3_1_BIAS_EVALUATION.md) contains all classifier,
+The [full evaluation record](V3_1_BIAS_EVALUATION_FULL.md) contains all classifier,
 learning-curve, intervention, robustness, transfer, and paired statistical tables.
-The [predeclared protocol](../../V3_1_PROTOCOL.md) specifies the study design.
+The [predeclared protocol](../../docs/v3.1/V3_1_PROTOCOL.md) specifies the study design.

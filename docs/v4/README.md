@@ -1,7 +1,7 @@
 # V4 artifact locations
 
 V4 is a frozen exploratory research study. Start with the
-[scientific report](../../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md)
+[scientific report](../../reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md)
 and [reproducibility guide](../REPRODUCIBILITY.md#frozen-v4-exploratory-release).
 
 ## Repository layout
@@ -19,17 +19,18 @@ locations. This organization does not authorize another research run.
 
 ## Historical paths and independent audit
 
-All 25 moved files retain their exact bytes. The
-[location index](ARTIFACT_LOCATIONS.json) records each original path, current
-path, size, and SHA-256 hash. The current
-[evidence manifest](../../reports/scientific/V4_EVIDENCE_MANIFEST.json) uses
+The original 25 root files retain their exact bytes. The
+[release relocation index](ARTIFACT_LOCATIONS.json) records their original paths,
+current paths, sizes, and SHA-256 hashes. Later cross-version document moves are
+tracked in [`../VERSION_ARTIFACT_LOCATIONS.json`](../VERSION_ARTIFACT_LOCATIONS.json). The current
+[evidence manifest](../../reports/v4/evidence/V4_EVIDENCE_MANIFEST.json) uses
 `path` for the current checkout and `release_tag_path` for relocated files in
 the original release.
 
-Historical documents and contracts retain their embedded paths, relative links,
-source hashes, and commit pins as originally recorded. Resolve those references
-in the original checkout at `v4-exploratory-final`, or use the location index to
-find a moved document. Current path adapters do not make the current checkout
+The 25 release artifacts retain their original bytes. Historical documents and
+contracts retain their recorded paths, source hashes, and commit pins. Resolve
+those references in the original checkout at `v4-exploratory-final`; use the
+release index or the cross-version document index to find relocated files. Current path adapters do not make the current checkout
 satisfy historical source pins; their validators remain strict.
 
 From the repository root, verify every relocation without loading data or

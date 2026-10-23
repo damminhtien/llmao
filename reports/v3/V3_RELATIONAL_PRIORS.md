@@ -46,7 +46,7 @@ three training seeds, and 2,000 official-test images per external domain.
 
 ### Predictive performance and representation diversity
 
-![V3 spatial interventions and transfer](../figures/V3_MECHANISM_TRANSFER.png)
+![V3 spatial interventions and transfer](figures/V3_MECHANISM_TRANSFER.png)
 
 **Figure 1.** Left: original and event-location-reassigned accuracy on 2,000
 held-out MNIST images; intervention values are means over three intervention
@@ -127,7 +127,7 @@ scope remain limited.
 
 ## Supplementary record
 
-The [original evidence report](../V3_EVIDENCE.md) retains the complete finalist,
+The [original evidence report](V3_EVIDENCE.md) retains the complete finalist,
 intervention, transfer, and success-criterion tables. The
-[pilot record](../V3_PILOT.md) and [search record](../V3_SEARCH.md) document
+[pilot record](V3_PILOT.md) and [search record](V3_SEARCH.md) document
 proposal coverage and all retained archive cells.

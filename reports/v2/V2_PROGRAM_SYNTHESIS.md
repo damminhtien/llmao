@@ -44,7 +44,7 @@ were evaluated separately using MNIST training and validation data only.
 
 ### Search and augmentation
 
-![V2 augmentation controls and transfer](../figures/V2_AUGMENTATION_TRANSFER.png)
+![V2 augmentation controls and transfer](figures/V2_AUGMENTATION_TRANSFER.png)
 
 **Figure 1.** Left: post-search validation controls at two training sizes.
 Right: frozen spatial-cycle transfer with 5,000 training examples; error bars
@@ -119,6 +119,6 @@ It does not establish an order-sensitive mechanism or a universal handwriting bi
 
 ## Supplementary record
 
-The [original experimental report](../V2_PROGRAM_SYNTHESIS.md) retains every
+The [original experimental report](V2_PROGRAM_SYNTHESIS_FULL.md) retains every
 transfer table, candidate identity, dataset provenance record, transformation
 specification, and computational profile.

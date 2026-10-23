@@ -200,7 +200,7 @@ def _markdown(summary: dict[str, Any]) -> str:
 
 The frozen V2 references are `cycle_angle_hist` at 0.7180 validation accuracy
 with 500 examples and the post-search `raw + angle_hist` composition at 0.8525.
-See [`V2_PROGRAM_SYNTHESIS.md`](V2_PROGRAM_SYNTHESIS.md) for their protocols and
+See [`V2_PROGRAM_SYNTHESIS.md`](../v2/V2_PROGRAM_SYNTHESIS_FULL.md) for their protocols and
 limitations.
 
 ## Best candidate in each descriptor cell
@@ -250,7 +250,7 @@ def main() -> None:
         "--json-output", type=Path, default=Path("results/v3_search_summary.json")
     )
     parser.add_argument(
-        "--markdown-output", type=Path, default=Path("reports/V3_SEARCH.md")
+        "--markdown-output", type=Path, default=Path("reports/v3/V3_SEARCH.md")
     )
     args = parser.parse_args()
     finalists_path = args.finalists if args.finalists.exists() else None

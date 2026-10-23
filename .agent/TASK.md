@@ -1,14 +1,15 @@
-# Organize V4 repository artifacts
+# Organize versioned research documentation
 
-Move the 25 V4-prefixed root files into docs/v4, reports/v4, and configs/v4.
-Update current documentation, script defaults, and tests for the new paths.
-Preserve every moved artifact byte, source history, frozen results, scientific
-protocol contents, and the immutable final release tag. Historical embedded
-paths stay recorded as originally written and are audited at the release tag.
+Group V1, V2, V3, V3.1, V3.2, and V4 documents and reports into versioned
+`docs/` and `reports/` directories. Include root-level historical documents and
+versioned reports currently scattered under `reports/`, `reports/scientific/`,
+and `reports/figures/`.
 
-This is a repository layout cleanup. No model invocation, research search,
-scientific evaluation, official-test loading, optimizer redesign, or scientific
-criteria change is authorized.
+Keep `results/` data and manifests in place, preserve scientific content and
+historical versions, and record every relocated artifact's former path and
+hash. Update current links and report-generator output path literals only as
+needed for the new locations. Do not change experiment logic or scientific
+claims.
 
-Completion requires no V4-prefixed root files, valid current paths and hashes,
-passing focused deterministic checks, updated agent state, and an atomic commit.
+Complete with deterministic path/hash/link checks, graph update for path-only
+source edits, updated task state, and an atomic commit. No scientific runs.

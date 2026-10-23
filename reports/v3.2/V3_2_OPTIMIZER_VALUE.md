@@ -51,7 +51,7 @@ and characterized using the V3.1 evaluation approach.
 
 ### Search quality and feedback
 
-![Search trajectories and diagnostics for the matched optimizer study](../V3_2_SEARCH_CURVES.png)
+![Search trajectories and diagnostics for the matched optimizer study](figures/V3_2_SEARCH_CURVES.png)
 
 **Figure 1.** Best-so-far search trajectories and optimizer diagnostics. Curves
 are shown only over the candidate range reached by every included run for that
@@ -139,7 +139,7 @@ scientific discovery.
 
 ## Supplementary record
 
-The [original study record](../V3_2_OPTIMIZER_VALUE.md) retains all seed-level
+The [original study record](V3_2_OPTIMIZER_VALUE_FULL.md) retains all seed-level
 scores, intervals, proposal costs, threshold outcomes, incomplete-run statuses,
 and winner profiles. The [execution manifest](../../results/v32/manifest.json)
 documents the matched subset and retained observations.

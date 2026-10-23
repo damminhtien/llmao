@@ -8,12 +8,12 @@ command on `main` does not reproduce its historical experiment automatically.
 
 Search and evaluation write local artifacts. Preserve existing frozen results
 before rerunning commands, and follow the corresponding protocol and manifests.
-The V3.1 workflow is specified in [V3_1_PROTOCOL.md](../V3_1_PROTOCOL.md).
+The V3.1 workflow is specified in [V3_1_PROTOCOL.md](v3.1/V3_1_PROTOCOL.md).
 The V3/V3.1 architecture and V3.2 execution boundaries are documented in
-[ARCHITECTURE_V3_REFERENCE.md](../ARCHITECTURE_V3_REFERENCE.md) and its
-[study report](../reports/V3_2_OPTIMIZER_VALUE.md).
+[ARCHITECTURE_V3_REFERENCE.md](v3/ARCHITECTURE_V3_REFERENCE.md) and its
+[study report](../reports/v3.2/V3_2_OPTIMIZER_VALUE_FULL.md).
 The frozen V4 exploratory results and their limits are documented in the
-[V4 report](../reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md). The intended
+[V4 report](../reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md). The intended
 primary design remains in [ARCHITECTURE.md](../ARCHITECTURE.md),
 [`docs/v4/V4_PRIMARY_DESIGN.md`](../docs/v4/V4_PRIMARY_DESIGN.md), and its
 [revision-11 amendment](../docs/v4/V4_PRIMARY_DESIGN_V11.md); that primary campaign did
@@ -46,8 +46,8 @@ Verify the manifest and bundled artifacts at the current branch revision from
 the repository root:
 
 ```sh
-shasum -a 256 -c reports/scientific/V4_EVIDENCE_MANIFEST.sha256
-shasum -a 256 -c reports/scientific/V4_EVIDENCE_FILES.sha256
+shasum -a 256 -c reports/v4/evidence/V4_EVIDENCE_MANIFEST.sha256
+shasum -a 256 -c reports/v4/evidence/V4_EVIDENCE_FILES.sha256
 ```
 
 The included trajectory JSONL files and state snapshots support independent
@@ -116,7 +116,7 @@ Final evaluation verifies that the search archive still matches the frozen
 selection checksum. Run it before extending the search. Generated JSON/JSONL,
 feature-cache, and PNG files are written under `results/` and `cache/`; Git
 ignores these local artifacts. The final analysis is in
-[`reports/FINAL_REPORT.md`](../reports/FINAL_REPORT.md).
+[`reports/v1/FINAL_REPORT.md`](../reports/v1/FINAL_REPORT.md).
 
 ## Historical V2 typed program search
 
@@ -135,8 +135,8 @@ for each of 10 generations, using batches of at most four ASTs and up to 36
 refill batches per generation. Discovery rejects raw pixels and caps the feature
 width at 128; augmentation allows raw pixels and uses a 1,024-feature cap. Each
 track has its own candidate and LLM-response JSONL archives. See
-[`PLAN.md`](../PLAN.md) and
-[`ARCHITECTURE_V3_REFERENCE.md`](../ARCHITECTURE_V3_REFERENCE.md) for the V2
+[`docs/v3/PLAN.md`](v3/PLAN.md) and
+[`docs/v3/ARCHITECTURE_V3_REFERENCE.md`](v3/ARCHITECTURE_V3_REFERENCE.md) for the V2
 scope and post-search evaluation protocol.
 
 After both search tracks finish, freeze the raw-free discovery finalists before
@@ -157,7 +157,7 @@ python experiments/summarize_v2.py
 Transfer uses EMNIST Digits/Letters and KMNIST as handwriting domains, with
 Fashion-MNIST as a negative control. It reports the exact sampled test protocol
 and source checksums. The completed V2 run and its limits are summarized in
-[`reports/V2_PROGRAM_SYNTHESIS.md`](../reports/V2_PROGRAM_SYNTHESIS.md); MAP-Elites
+[`reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md`](../reports/v2/V2_PROGRAM_SYNTHESIS_FULL.md); MAP-Elites
 left several niches empty, sequence shuffles did not change finalist predictions,
 and Fashion-MNIST transfer prevents a handwriting-specific claim.
 

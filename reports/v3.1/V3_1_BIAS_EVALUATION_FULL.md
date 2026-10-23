@@ -98,7 +98,7 @@ AULC is the trapezoidal integral of mean accuracy over log training size; values
 | `zoning_30d` | `rbf_svm` | 3.1690 | 100: 0.6743 ± 0.0222, 250: 0.7615 ± 0.0126, 500: 0.7983 ± 0.0093, 1000: 0.8437 ± 0.0038, 2500: 0.8757 ± 0.0058, 5000: 0.8953 ± 0.0075 |
 | `zoning_30d` | `small_mlp` | 2.8391 | 100: 0.4392 ± 0.0861, 250: 0.6257 ± 0.0191, 500: 0.7265 ± 0.0101, 1000: 0.7973 ± 0.0066, 2500: 0.8522 ± 0.0092, 5000: 0.8755 ± 0.0078 |
 
-![Learning curves by probe](V3_1_LEARNING_CURVES.png)
+![Learning curves by probe](figures/V3_1_LEARNING_CURVES.png)
 
 
 ### Nonlinear probe gain

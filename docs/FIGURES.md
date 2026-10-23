@@ -63,11 +63,11 @@ experiment-design capability.
 The following figures belong to the scientific reports, where their sampling
 protocols and limitations are described.
 
-- [V1 learning curves](../reports/scientific/V1_OPERATOR_COMPOSITION.md#predictive-performance).
-- [V2 augmentation and transfer](../reports/scientific/V2_PROGRAM_SYNTHESIS.md#search-and-augmentation).
-- [V3 mechanism and transfer](../reports/scientific/V3_RELATIONAL_PRIORS.md#predictive-performance-and-representation-diversity).
-- [V3.1 learning curves](../reports/scientific/V3_1_BIAS_EVALUATION.md#sample-efficiency-and-learner-dependence).
-- [V3.2 search curves](../reports/scientific/V3_2_OPTIMIZER_VALUE.md#search-quality-and-feedback).
+- [V1 learning curves](../reports/v1/V1_OPERATOR_COMPOSITION.md#predictive-performance).
+- [V2 augmentation and transfer](../reports/v2/V2_PROGRAM_SYNTHESIS.md#search-and-augmentation).
+- [V3 mechanism and transfer](../reports/v3/V3_RELATIONAL_PRIORS.md#predictive-performance-and-representation-diversity).
+- [V3.1 learning curves](../reports/v3.1/V3_1_BIAS_EVALUATION.md#sample-efficiency-and-learner-dependence).
+- [V3.2 search curves](../reports/v3.2/V3_2_OPTIMIZER_VALUE.md#search-quality-and-feedback).
 
 ### Figure provenance
 

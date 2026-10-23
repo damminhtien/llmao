@@ -36,7 +36,15 @@
   `docs/v4/V4_PRIMARY_DESIGN.md`, `docs/v4/V4_PRIMARY_DESIGN_V11.md`
 - Phase checklist and experiment evidence: `TODO.md`, `reports/v4/V4_*_REPORT.md`, `reports/v4/V4_*_RESPONSE_PLAN.md`
 - Reproducibility: `docs/REPRODUCIBILITY.md`
-- Frozen V4 findings and integration: `reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`,
+- Frozen V4 findings and integration: `reports/v4/V4_EVOLVING_BIAS_LANGUAGE.md`,
   `docs/V4_MERGE_READINESS.md`
+- Versioned study documentation: `docs/VERSIONED_RESEARCH.md` and
+  `docs/VERSION_ARTIFACT_LOCATIONS.json`
+- V1 architecture: `docs/v1/ARCHITECTURE_V1.md`
+- V3/V3.1 historical design and protocols: `docs/v3/` and `docs/v3.1/`
+- Versioned study documentation: `docs/VERSIONED_RESEARCH.md` and
+  `docs/VERSION_ARTIFACT_LOCATIONS.json`
+- V1 documentation: `docs/v1/ARCHITECTURE_V1.md`
+- V3/V3.1 historical design and protocols: `docs/v3/`, `docs/v3.1/`
 - V4 artifact locations and historical-path mapping: `docs/v4/README.md`,
   `docs/v4/ARTIFACT_LOCATIONS.json`
