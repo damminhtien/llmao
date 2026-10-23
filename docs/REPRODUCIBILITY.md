@@ -30,12 +30,13 @@ artifacts, and primary-protocol revisions through `v4-primary-14`. Revision 14
 contains two incomplete discovery trajectories; there is no completed `G*`
 selection or fresh-search campaign.
 
-The current branch adds a documentation-only clarification after the tag. The
-updated manifest records the clarified report and documentation files as
-post-tag content; the tag and its original manifest remain unchanged. Protocols,
-source code, data, and historical run records were not edited. Do not use the
-primary launch commands below this section to resume V4; they remain historical
-protocol documentation.
+Current documentation adds the trajectory spotlight, E1–E4 synthesis, and
+[integration handoff](V4_MERGE_READINESS.md) after the tag. The updated manifest
+identifies post-tag documents; the tag and its original manifest remain
+unchanged. The editorial revisions preserve source code, protocols, data, and
+historical run records. The V4 launch procedures in the protocol and agent
+workflow remain historical execution documentation; they do not authorize
+resuming this frozen study.
 
 Verify the manifest and bundled artifacts at the current branch revision from
 the repository root:
@@ -45,6 +46,13 @@ shasum -a 256 -c reports/scientific/V4_EVIDENCE_MANIFEST.sha256
 shasum -a 256 -c reports/scientific/V4_EVIDENCE_FILES.sha256
 ```
 
+The included trajectory JSONL files and state snapshots support independent
+inspection of recorded scores, macro inventories, failure counts, and incomplete
+run status. They do not contain a complete replay bundle for every candidate.
+Seed 1101's 793 MB final manifest is hash-recorded as a local exclusion; seed
+1202 has no final manifest. The tag omits the full native worker workspaces and
+runtime caches. These exclusions limit replay beyond the preserved records.
+
 The MNIST source archives are public training inputs and are identified by
 their pinned SHA-256 values in the manifest; they are not duplicated in the
 release. The official test partition was not used. The report lists the
@@ -52,6 +60,23 @@ deterministic local checks run for closure. To inspect the exact original
 release files, read them at `v4-exploratory-final` with `git show`. Do not
 rerun E1–E4, launch E5, or treat the incomplete primary protocol as
 authorization for another search.
+
+The existing focused V4 checks use mocked proposal clients and synthetic
+fixtures. They passed 208 tests at closure and again during integration
+preparation on 2026-10-23. The following command performs local software
+verification without launching a research run:
+
+```sh
+.venv/bin/pytest --import-mode=importlib -q \
+  tests/optimizer_bench/test_e1.py \
+  tests/optimizer_bench/test_e2_macro_adoption_probe.py \
+  tests/optimizer_bench/test_e4.py \
+  tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py
+```
+
+Passing these checks does not resolve the documented E1 final-slot defect or
+establish scientific efficacy. See the report's correctness section and the
+integration handoff for the validation boundary.
 
 ## Development setup
 
@@ -67,7 +92,7 @@ Run the integrated test suite with `python -m pytest --import-mode=importlib`.
 The import mode allows the evaluation and optimizer suites to retain their
 historical test filenames without module-name collisions.
 
-## Reproduce the experiment
+## Historical V1 experiment
 
 The proposer uses the local Ollama model `qwen3.5:35b-mlx`. Start Ollama and
 install that model if it is not already available, then run the search and
@@ -89,7 +114,7 @@ feature-cache, and PNG files are written under `results/` and `cache/`; Git
 ignores these local artifacts. The final analysis is in
 [`reports/FINAL_REPORT.md`](../reports/FINAL_REPORT.md).
 
-## V2 typed program search
+## Historical V2 typed program search
 
 V2 adds a typed expression DSL, static validation, a raw-pixel-free discovery
 track, and a MAP-Elites archive. It keeps the V1 run as a separate baseline and
@@ -148,7 +173,8 @@ and Fashion-MNIST transfer prevents a handwriting-specific claim.
 - `experiments/` — baseline, search, finalist, evaluation, and plot entry points.
 - `reports/` — tracked research conclusions.
 - `tests/` — unit and integration tests.
-- `results/`, `cache/` — local generated artifacts; contents are ignored.
+- `results/`, `cache/` — local generated outputs, ignored by default; selected
+  frozen evidence is tracked explicitly, including the V4 manifest inventory.
 
 For V4, persistent run outputs, evidence, scratch, and the MNIST dataset cache
 belong under `results/v4/`. The evaluator can read the cache; the Codex worker

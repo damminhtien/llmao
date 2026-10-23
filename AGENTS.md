@@ -9,6 +9,9 @@
 ## Project invariants
 
 - `TODO.md` is the V4 phase checklist. `ARCHITECTURE.md`, `V4_PROTOCOL.md`, and `V4_PRIMARY_DESIGN.md` are the scientific sources of truth; do not duplicate their specifications here.
+- V4 is frozen as an exploratory study. Start with the final report and
+  `docs/V4_MERGE_READINESS.md`; incomplete milestones and worker launch
+  procedures are historical records and do not authorize new V4 runs.
 - Naming: V4 is the research study; use IDs such as `v4-primary-14` or
   “V4 primary-protocol revision 14” for protocol versions. Do not use V11/V14
   as separate study names.
@@ -29,7 +32,9 @@
 - Current task and continuation state: `.agent/TASK.md`, `.agent/PLAN.md`, `.agent/STATE.md`, `.agent/DECISIONS.md`
 - Long-running agent workflow: `docs/AGENT_WORKFLOW.md`
 - Research architecture and protocol:
-  `ARCHITECTURE.md`, `V4_ARTIFACT_STORAGE_ARCHITECTURE.md`, `V4_PROTOCOL.md`,
+  `ARCHITECTURE.md`, `docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md`, `V4_PROTOCOL.md`,
   `V4_PRIMARY_DESIGN.md`, `V4_PRIMARY_DESIGN_V11.md`
 - Phase checklist and experiment evidence: `TODO.md`, `V4_*_REPORT.md`, `V4_*_RESPONSE_PLAN.md`
 - Reproducibility: `docs/REPRODUCIBILITY.md`
+- Frozen V4 findings and integration: `reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md`,
+  `docs/V4_MERGE_READINESS.md`

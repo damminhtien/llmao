@@ -11,6 +11,12 @@ as historical protocol records and do not authorize further searches,
 evaluations, or official-test access. E1–E4 are not rerun or repaired as part
 of this closure.
 
+The final narrative leads with the two partial discovery trajectories and
+uses E1–E4 as complementary pilot diagnostics. Local integration checks and
+known correctness limitations are recorded in the
+[V4 integration handoff](docs/V4_MERGE_READINESS.md). Merge preparation is
+editorial and preserves all historical checklist statuses below.
+
 ## Phase 0 — Freeze previous work
 
 - [x] Create branch `v4-evolving-bias-language` from the current integrated

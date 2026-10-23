@@ -131,3 +131,18 @@ V4 names the research study. Primary protocol artifacts use the full IDs
 number does not name a separate research study or branch. The post-tag revision-
 14 trajectory summary is descriptive and does not upgrade either incomplete
 run to a completed primary result.
+
+
+## 2026-10-23 — Lead the V4 closeout with the two discovery spotlights
+
+Use the preserved primary-protocol revision-14 trajectories as V4's headline
+exploratory observations. E1–E4 provide complementary diagnostics in a separate
+frozen pilot language; they do not validate the spotlight macros or establish
+causal language utility. Preserve source, protocols, tests, data, historical
+artifacts, and the original final tag while preparing current documentation
+for integration. Run deterministic verification only.
+
+The baseline inventory's reports/README.md entry is a navigation index that
+was updated for V4. Record the current 85/86 baseline-hash result and verify the
+original index at its baseline commit. Keep the frozen baseline manifest and
+tag unchanged; do not repeat an unqualified 86/86 current-check claim.

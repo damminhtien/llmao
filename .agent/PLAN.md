@@ -1,12 +1,10 @@
-# V4 Naming Clarification Plan
+# V4 Spotlight and Integration Plan
 
-- [x] Archive the completed V4 closure task state.
-- [x] Verify the tag target and read the preserved revision-14 trajectory
-  records.
-- [x] Clarify study-versus-protocol terminology in current documentation.
-- [x] Add bounded, descriptive revision-14 trajectory observations to the
-  report.
-- [x] Refresh current-branch documentation hashes while preserving the original
-  tag snapshot.
-- [x] Inspect the diff, verify checksums, cross-check trajectory summaries, and
-  run `git diff --check`; commit the documentation clarification.
+- [x] Read live task state, report, evidence manifest, and branch state.
+- [x] Fetch origin/main and verify integration ancestry and tracked artifact scope.
+- [x] Reframe the final report around the two partial discovery trajectories.
+- [x] Align README, report index, and reproducibility guidance with that narrative.
+- [x] Write an integration handoff with verification and known limitations.
+- [x] Verify preserved hashes, trajectory summaries, links, and focused tests.
+- [x] Refresh post-tag documentation hashes and inspect the focused diff.
+- [x] Commit the explicit task-owned paths and verify the final clean state.

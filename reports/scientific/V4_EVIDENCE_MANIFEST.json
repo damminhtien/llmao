@@ -9,14 +9,14 @@
     {
       "included_in_release_tag": false,
       "path": "README.md",
-      "sha256": "34859a3bf8b6ba05c8018f1ad3c3bce009293ce678eee53db6d3b443166baf95",
-      "size_bytes": 18267
+      "sha256": "e54b5190d0c622e429d3ede6bcee491009990a49d37de48770b169458f837ae1",
+      "size_bytes": 21359
     },
     {
       "included_in_release_tag": false,
       "path": "TODO.md",
-      "sha256": "267cbd54da6146f7ee6a2e1c64c6dee26ab496c3170d2e2f612483ca5bbe7f6c",
-      "size_bytes": 43572
+      "sha256": "f771a3793620ea2f30ca178792434aa0405a646dc779ea1eda81b7a3f76372ef",
+      "size_bytes": 43915
     },
     {
       "included_in_release_tag": true,
@@ -51,14 +51,20 @@
     {
       "included_in_release_tag": false,
       "path": "docs/REPRODUCIBILITY.md",
-      "sha256": "32e33efa94e9b1c4bcaa88781a4e3d7c02670a5e98c8392fee221879f81dcf9d",
-      "size_bytes": 7669
+      "sha256": "0c5ed5a93dfab62dccceadb966a934608398b8435e8857633011dbd794394eed",
+      "size_bytes": 9015
     },
     {
       "included_in_release_tag": false,
       "path": "docs/V4_ARTIFACT_STORAGE_ARCHITECTURE.md",
       "sha256": "c5f4ce488c4940dc53844880192c1246ef9aeaee2db091ed2eefd3e50e901fc4",
       "size_bytes": 9406
+    },
+    {
+      "included_in_release_tag": false,
+      "path": "docs/V4_MERGE_READINESS.md",
+      "sha256": "7e11ba3f99e3840f8cecc75a0c79a458aa986e83befb31edc82bcd5420cfe134",
+      "size_bytes": 6155
     },
     {
       "included_in_release_tag": true,
@@ -81,14 +87,14 @@
     {
       "included_in_release_tag": false,
       "path": "reports/README.md",
-      "sha256": "07c4b50586d4155cf3203230c73ae0398d98e068c6129452976ea2e38dffe1df",
-      "size_bytes": 3162
+      "sha256": "0dd8cde7874a3f5108aedb03991c481ccaffc3f0fac6230286142f13468d84bf",
+      "size_bytes": 3404
     },
     {
       "included_in_release_tag": false,
       "path": "reports/scientific/V4_EVOLVING_BIAS_LANGUAGE.md",
-      "sha256": "459e361e3c49f7539e240d095952b5aadc09b7a0e885a3fa0763eed1917d5d65",
-      "size_bytes": 12556
+      "sha256": "e0363b727f50db7055d97c231e72311be18cfbcbabd9def7542a88b9adecdfb7",
+      "size_bytes": 17060
     },
     {
       "included_in_release_tag": true,
@@ -590,10 +596,10 @@
     }
   ],
   "checksum_index": {
-    "entries": 98,
+    "entries": 99,
     "note": "Covers every artifact listed above in this manifest revision, including documentation updated after the immutable release tag; the manifest and its sidecar are checked separately.",
     "path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
-    "sha256": "8908f5809e36cf2c1fb99f0b42c6e3d2656203a765df47d54777359d3aae1a08"
+    "sha256": "c2bd3f8444afa7317b8d01bfeaac249deece157c0d777af58f2a56d4286584a9"
   },
   "correctness_defect": {
     "behavior": "remaining_attempts // 2 gives a zero-sized batch when one attempt remains.",
@@ -622,13 +628,33 @@
     "validation_rows": 2000
   },
   "deterministic_verification": {
-    "baseline_manifest_hash_checks": "86/86",
+    "baseline_manifest_hash_checks": "85/86 current files; sole editorial navigation-index exception verified at the recorded baseline commit.",
     "e3_fitness_recomputation": "3/3 exact matches",
     "focused_test_command": ".venv/bin/pytest --import-mode=importlib -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py",
     "model_search_or_scoring_invoked_for_closure": false,
     "official_test_loader_invoked_for_closure": false,
     "preserved_input_hash_checks": "20/20",
-    "result": "208 passed in 7.85 seconds"
+    "result": "208 passed in 7.85 seconds",
+    "baseline_manifest_editorial_exception": {
+      "path": "reports/README.md",
+      "baseline_sha256": "b9746b34772a4f10e9c6388931aa260cddba8a707f8afea6fa7a056c45d7820e",
+      "current_sha256": "0dd8cde7874a3f5108aedb03991c481ccaffc3f0fac6230286142f13468d84bf",
+      "preserved_at_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679",
+      "reason": "Editorial navigation index updated to include V4. All 85 other baseline entries match; original index bytes verified at the recorded baseline commit."
+    },
+    "post_tag_integration_check": {
+      "date": "2026-10-23",
+      "documentation_base_commit": "1728646bb265b4eb30003af19d8ddcad5c2ab3e2",
+      "focused_test_command": ".venv/bin/pytest --import-mode=importlib -q tests/optimizer_bench/test_e1.py tests/optimizer_bench/test_e2_macro_adoption_probe.py tests/optimizer_bench/test_e4.py tests/unit/test_mnist_e1.py tests/unit/test_v4_*.py",
+      "focused_test_result": "208 passed in 6.94 seconds",
+      "original_tag_inventory_hash_checks": "98/98",
+      "origin_main_commit": "ea6e1d6d268a10bdafc2061c73fcb2c694be9679",
+      "origin_main_is_ancestor": true,
+      "merge_tree_conflicts": false,
+      "frozen_source_protocol_tests_and_result_artifacts_changed": false,
+      "model_research_search_scoring_or_official_test_loader_invoked": false,
+      "validation_scope": "Focused local software tests, static artifact reconciliation, hashes, links, and Git integration checks; no full repository suite or remote CI claim."
+    }
   },
   "excluded_local_artifacts": [
     {
@@ -646,7 +672,8 @@
     "The 25-run primary campaign specified by v4-primary-11 has no completed discovery table, G* selection, or fresh-search runs.",
     "Primary-protocol revision 14 has only the two incomplete discovery trajectories summarized above; neither reaches the candidate-AUC horizon or selects G*.",
     "Raw MNIST training archives are identified by hashes but excluded from the tag; official-test data was not accessed.",
-    "No evidence supports generalization, causal abstraction utility, improved search efficiency, or primary efficacy."
+    "No evidence supports generalization, causal abstraction utility, improved search efficiency, or primary efficacy.",
+    "The bundled spotlight records omit full native worker workspaces and complete per-candidate replay bundles; macro inventory alone does not establish invocation by a scored AST."
   ],
   "primary_campaign": {
     "discovery_1101": {
@@ -775,9 +802,10 @@
     "post_tag_documentation_update": {
       "base_tag": "v4-exploratory-final",
       "base_commit": "36ea8f5016007455e342d387ffda00bb64666f95",
-      "scope": "Terminology clarification and descriptive summary of preserved primary-protocol revision-14 trajectories.",
+      "scope": "Study/protocol naming, spotlight synthesis of the two preserved partial discovery trajectories with E1–E4 diagnostics, integration handoff, and correction of the baseline navigation-index hash exception.",
       "protocol_source_data_or_run_artifacts_changed": false,
-      "updated_document_paths_are_in_release_tag": false
+      "updated_document_paths_are_in_release_tag": false,
+      "date": "2026-10-23"
     }
   },
   "schema_version": 1,

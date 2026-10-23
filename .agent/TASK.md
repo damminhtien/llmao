@@ -1,11 +1,15 @@
-# V4 Protocol Naming and Release Documentation Clarification
+# Close V4 with a spotlight narrative and prepare integration
 
-Clarify that V4 names the research study while `v4-primary-N` names a
-primary-protocol revision within it. Update current documentation to foreground
-preserved partial trajectories under `v4-primary-14`, while preserving the
-existing release tag, scientific protocol files, and historical experiment
-artifacts.
+Present the frozen V4 study around its two preserved discovery trajectories,
+then use E1–E4 to explain representation quality, targeted expression, and
+observed search adoption. Make the current reading path consistent and prepare
+the branch for integration into main with an auditable local handoff.
 
-No model requests, search runs, scientific evaluations, official-test loading,
-protocol edits, historical run edits, or result-driven criteria changes are
-allowed.
+Preserve the immutable v4-exploratory-final tag, scientific protocols, source
+code, data, and historical artifacts. Run only deterministic local checks; no
+model request, research search, scoring, official-test loader, new campaign,
+or result-driven criteria change is authorized. Report correctness defects
+and missing evidence explicitly.
+
+Completion requires a coherent report and README, current evidence hashes,
+passing focused local verification, an integration handoff, and a clean commit.
