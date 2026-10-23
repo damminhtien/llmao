@@ -3,8 +3,8 @@
     {
       "path": "AGENTS.md",
       "included_in_release_tag": false,
-      "sha256": "87b738d958954ba7c29aa2e98ce719f673bbc1348af5c7d12842ca6a82ba423c",
-      "size_bytes": 3250
+      "sha256": "13ace7a71b467e57abe25d48e02c0861577637bf88a626916c02187435676640",
+      "size_bytes": 3474
     },
     {
       "included_in_release_tag": false,
@@ -266,8 +266,8 @@
     {
       "included_in_release_tag": false,
       "path": "reports/README.md",
-      "sha256": "604b54fecfde434e714bb95897bb4765e0a89fc1158315751c19f143d9b348f1",
-      "size_bytes": 3387
+      "sha256": "583dc0024babb0a6105eeabd136d459cfc4ee600defbe04ea496f110af55304a",
+      "size_bytes": 3488
     },
     {
       "included_in_release_tag": false,
@@ -921,10 +921,10 @@
     }
   ],
   "checksum_index": {
-    "entries": 99,
+    "entries": 133,
     "note": "Covers every artifact listed above in this manifest revision, including documentation updated after the immutable release tag; the manifest and its sidecar are checked separately.",
-    "path": "reports/scientific/V4_EVIDENCE_FILES.sha256",
-    "sha256": "34e7c5f38b4c69cf4ac80c1111bec8742e70ed2eb8de388c000ebbf30b85c6d6"
+    "path": "reports/v4/evidence/V4_EVIDENCE_FILES.sha256",
+    "sha256": "91fd5e9e617ef5e516c2116c880b20bb8da41f8b05b656c12b69649dfed9b349"
   },
   "correctness_defect": {
     "behavior": "remaining_attempts // 2 gives a zero-sized batch when one attempt remains.",

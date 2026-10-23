@@ -35,8 +35,8 @@
       "path": "docs/v3/ARCHITECTURE_V3_REFERENCE.md",
       "original_sha256": "5e6bf7d9435055a01958d26310bf7a31db75c854bbebd0115db9d9fdfb2ed131",
       "original_size_bytes": 33734,
-      "current_sha256": "0bf7333e0d915d0236c0036e0d597d9e6230b5b24187d93dffd1c141d16515bf",
-      "current_size_bytes": 33830,
+      "current_sha256": "491dede92f655ad368ed5cec0cfa56e230db9b871351e186f8c318d6be972807",
+      "current_size_bytes": 33840,
       "bytes_unchanged": false
     },
     {
@@ -215,7 +215,7 @@
       "path": "reports/v4/evidence/V4_EVIDENCE_FILES.sha256",
       "original_sha256": "82306e9a3199c57af4a75df08821308f50a2927c2a534aebffd71cf3f25c0015",
       "original_size_bytes": 14421,
-      "current_sha256": "951a7f5953d1ee46ec733265dd59b6ffdaba2f3a4c782dd0304d3f9b30f634a6",
+      "current_sha256": "91fd5e9e617ef5e516c2116c880b20bb8da41f8b05b656c12b69649dfed9b349",
       "current_size_bytes": 14413,
       "bytes_unchanged": false
     },
@@ -224,8 +224,8 @@
       "path": "reports/v4/evidence/V4_EVIDENCE_MANIFEST.json",
       "original_sha256": "1caffbffd6628af63d59b24576d3c07ce5d0abb6d005d0f2be06e7f133ff5720",
       "original_size_bytes": 46652,
-      "current_sha256": "757638aca35aef1cfaa30041d08d559e76b3317f5502326011dfeb70d0779ea2",
-      "current_size_bytes": 53614,
+      "current_sha256": "0f72343fd8760b18775ab3181875cf9e4070d2852e8a57dd19e367da725221df",
+      "current_size_bytes": 53616,
       "bytes_unchanged": false
     },
     {
@@ -233,7 +233,7 @@
       "path": "reports/v4/evidence/V4_EVIDENCE_MANIFEST.sha256",
       "original_sha256": "affc373ed212761374b73dc293684e48d012ec27c6bd22fb732669fdab2c846a",
       "original_size_bytes": 111,
-      "current_sha256": "a54af280cf92363d6b1c36e8b6f1ec28f6d2bb3b8d0ddce10d5f175a1e3bbaa0",
+      "current_sha256": "93d88097664d323dc71a5e170493c129823286e235ed8f06c08f74147f7409ab",
       "current_size_bytes": 112,
       "bytes_unchanged": false
     }

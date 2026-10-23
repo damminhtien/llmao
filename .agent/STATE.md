@@ -14,7 +14,7 @@ commit.
   scoring, statistical criteria, or scientific logic changed.
 - Updated the current V4 evidence manifest and checksum lists for the new report
   paths. The immutable tag remains unchanged.
-- Validation: 138 Markdown links checked; relocation map 26/26; current V4
+- Validation: 139 Markdown links checked; relocation map 26/26; current V4
   inventory 133/133; original V4 tag inventory 98/98; baseline remains 85/86
   with the documented `reports/README.md` exception. Six edited scripts parse.
 - `graphify update .` completed using code extraction only. The working graph
